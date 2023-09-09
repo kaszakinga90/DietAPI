@@ -37,7 +37,7 @@ obj/
 
 # Visual Studio 2017 auto generated files
 Generated\ Files/
-*.sln
+#*.sln
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
