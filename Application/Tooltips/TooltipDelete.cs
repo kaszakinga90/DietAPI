@@ -24,7 +24,7 @@ namespace Application.Tooltips
             }
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                var example = await _context.Tooltip.FindAsync(request.Id);
+                var example = await _context.Tooltips.FindAsync(request.Id);
 
                 _context.Remove(example);
 

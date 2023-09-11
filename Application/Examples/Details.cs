@@ -21,7 +21,7 @@ namespace Application.Examples
 
             public async Task<Example> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.Tooltip.FindAsync(request.Id);
+                return await _context.Example.FindAsync(request.Id);
             }
         }
     }

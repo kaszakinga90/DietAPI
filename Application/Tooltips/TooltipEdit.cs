@@ -30,7 +30,7 @@ namespace Application.Tooltips
 
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                var Tooltip = await _context.Tooltip.FindAsync(request.Tooltip.Id);
+                var Tooltip = await _context.Tooltips.FindAsync(request.Tooltip.Id);
                 _mapper.Map(request.Tooltip, Tooltip);
                 await _context.SaveChangesAsync();
             }
