@@ -12,7 +12,7 @@ namespace DietDB
         public static async Task SeedData(DietContext context)
         {
             // Sprawdzanie i dodawanie fałszywych danych dla Examples
-            if (!context.Examples.Any())
+            if (!context.Tooltip.Any())
             {
                 var examp = new List<Example>()
                 {
@@ -41,7 +41,7 @@ namespace DietDB
                         Age=28,
                     },
                 };
-                await context.Examples.AddRangeAsync(examp);
+                await context.Tooltip.AddRangeAsync(examp);
             }
 
             // Sprawdzanie i dodawanie danych dla MealTimes

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ModelsDB;
 using ModelsDB.Functionality;
+using ModelsDB.ManualPanel;
 
 namespace Application.Core
 {
@@ -12,6 +13,7 @@ namespace Application.Core
             CreateMap<DayWeek, DayWeek>();
             CreateMap<CategoryOfDiet, CategoryOfDiet>();
             CreateMap<SingleDiet, SingleDiet>();
+            CreateMap<Tooltip, Tooltip>();
         }
     }
 }

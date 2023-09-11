@@ -4,6 +4,7 @@ using Application.DayWeeks;
 using Application.Examples;
 using Application.MealTimes;
 using Application.SingleDiets;
+using Application.Tooltips;
 using DietDB;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,7 +27,8 @@ builder.Services.AddMediatR(cfg=>cfg.RegisterServicesFromAssemblies(
     typeof(DayWeekList.Handler).Assembly,
     typeof(CategoryOfDietList.Handler).Assembly,
     typeof(MealTimeList.Handler).Assembly,
-    typeof(SingleDietList.Handler).Assembly
+    typeof(SingleDietList.Handler).Assembly,
+    typeof(TooltipList.Handler).Assembly
     
     ));
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);

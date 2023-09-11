@@ -1,14 +1,20 @@
 ﻿using DietDB;
 using MediatR;
 using ModelsDB;
+using ModelsDB.ManualPanel;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Application.Examples
+namespace Application.Tooltips
 {
-    public class Create
+    public class TooltipCreate
     {
         public class Command : IRequest
         {
-            public Example Example { get; set; }
+            public Tooltip Tooltip { get; set; }
         }
         public class Hendler : IRequestHandler<Command>
         {
@@ -21,7 +27,7 @@ namespace Application.Examples
 
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                _context.Tooltip.Add(request.Example);
+                _context.Tooltips.Add(request.Tooltip);
 
                 await _context.SaveChangesAsync();
             }

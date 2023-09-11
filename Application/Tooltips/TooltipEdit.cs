@@ -2,19 +2,20 @@
 using DietDB;
 using MediatR;
 using ModelsDB;
+using ModelsDB.ManualPanel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Examples
+namespace Application.Tooltips
 {
-    public class Edit
+    public class TooltipEdit
     {
         public class Command : IRequest
         {
-            public Example Example { get; set; }
+            public Tooltip Tooltip { get; set; }
         }
         public class Handler : IRequestHandler<Command>
         {
@@ -29,8 +30,8 @@ namespace Application.Examples
 
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                var example=await _context.Tooltip.FindAsync(request.Example.Id);
-                _mapper.Map(request.Example, example);
+                var Tooltip = await _context.Tooltip.FindAsync(request.Tooltip.Id);
+                _mapper.Map(request.Tooltip, Tooltip);
                 await _context.SaveChangesAsync();
             }
         }
