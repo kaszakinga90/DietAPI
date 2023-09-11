@@ -1,9 +1,21 @@
+using Application.Articles;
+using Application.Carousels;
 using Application.CategoryOfDiets;
 using Application.Core;
 using Application.DayWeeks;
 using Application.Examples;
+using Application.Footers;
+using Application.LayoutCategories;
+using Application.LayoutPhotos;
+using Application.Links;
+using Application.MainNavbars;
 using Application.MealTimes;
+using Application.Newses;
 using Application.SingleDiets;
+using Application.SocialMedias;
+using Application.SubTabs;
+using Application.Tabs;
+using Application.Tags;
 using Application.Tooltips;
 using DietDB;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +40,19 @@ builder.Services.AddMediatR(cfg=>cfg.RegisterServicesFromAssemblies(
     typeof(CategoryOfDietList.Handler).Assembly,
     typeof(MealTimeList.Handler).Assembly,
     typeof(SingleDietList.Handler).Assembly,
-    typeof(TooltipList.Handler).Assembly
+    typeof(TooltipList.Handler).Assembly,
+    typeof(ArticleList.Handler).Assembly,
+    typeof(FooterList.Handler).Assembly,
+    typeof(LayoutCategoryList.Handler).Assembly,
+    typeof(LayoutPhotoList.Handler).Assembly,
+    typeof(LinkList.Handler).Assembly,
+    typeof(MainNavbarList.Handler).Assembly,
+    typeof(NewsList.Handler).Assembly,
+    typeof(SocialMediaList.Handler).Assembly,
+    typeof(SubTabList.Handler).Assembly,
+    typeof(TabList.Handler).Assembly,
+    typeof(TagList.Handler).Assembly,
+    typeof(CarouselList.Handler).Assembly
     
     ));
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
