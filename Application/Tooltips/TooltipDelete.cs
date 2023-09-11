@@ -1,9 +1,14 @@
 ﻿using DietDB;
 using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Application.Examples
+namespace Application.Tooltips
 {
-    public class Delete
+    public class TooltipDelete
     {
         public class Command : IRequest
         {
@@ -19,7 +24,7 @@ namespace Application.Examples
             }
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                var example=await _context.Tooltip.FindAsync(request.Id);
+                var example = await _context.Tooltip.FindAsync(request.Id);
 
                 _context.Remove(example);
 
