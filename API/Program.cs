@@ -1,5 +1,10 @@
+using Application.CategoryOfDiets;
+using Application.Core;
+using Application.DayWeeks;
+using Application.Examples;
+using Application.MealTimes;
+using Application.SingleDiets;
 using DietDB;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +20,17 @@ builder.Services.AddDbContext<DietContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 builder.Services.AddCors();
+
+builder.Services.AddMediatR(cfg=>cfg.RegisterServicesFromAssemblies(
+    typeof(ExampleList.Handler).Assembly,
+    typeof(DayWeekList.Handler).Assembly,
+    typeof(CategoryOfDietList.Handler).Assembly,
+    typeof(MealTimeList.Handler).Assembly,
+    typeof(SingleDietList.Handler).Assembly
+    
+    ));
+builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+
 
 var app = builder.Build();
 

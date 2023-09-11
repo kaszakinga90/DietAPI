@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ModelsDB.Functionality
 {
@@ -22,7 +17,7 @@ namespace ModelsDB.Functionality
         public int DayWeekId { get; set; }
         public DayWeek DayWeek { get; set; }
         public List<MealTime> MealTimes { get; set; }
-        public List<CategoryOfDiet> DietCategories { get; set; }
+        public List<CategoryOfDiet> DietCategories { get; set; }=new List<CategoryOfDiet>();
 
     }
 }
