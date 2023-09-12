@@ -1,14 +1,19 @@
 ﻿using DietDB;
 using MediatR;
-using ModelsDB;
+using ModelsDB.Layout;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Application.Examples
+namespace Application.LayoutPhotos
 {
-    public class Create
+    public class LayoutPhotoCreate
     {
         public class Command : IRequest
         {
-            public Example Example { get; set; }
+            public LayoutPhoto LayoutPhoto { get; set; }
         }
         public class Hendler : IRequestHandler<Command>
         {
@@ -21,7 +26,8 @@ namespace Application.Examples
 
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                _context.Examples.Add(request.Example);
+                _context.LayoutPhotos.Add(request.LayoutPhoto);
+
                 await _context.SaveChangesAsync();
             }
         }

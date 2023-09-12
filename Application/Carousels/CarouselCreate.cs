@@ -1,14 +1,20 @@
 ﻿using DietDB;
 using MediatR;
-using ModelsDB;
+using ModelsDB.Layout;
+using ModelsDB.ManualPanel;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Application.Examples
+namespace Application.Carousels
 {
-    public class Create
+    public class CarouselCreate
     {
         public class Command : IRequest
         {
-            public Example Example { get; set; }
+            public Carousel Carousel { get; set; }
         }
         public class Hendler : IRequestHandler<Command>
         {
@@ -21,7 +27,8 @@ namespace Application.Examples
 
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                _context.Examples.Add(request.Example);
+                _context.Carousels.Add(request.Carousel);
+
                 await _context.SaveChangesAsync();
             }
         }

@@ -1,28 +1,32 @@
 ﻿using DietDB;
 using MediatR;
+using ModelsDB.Layout;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Application.Examples
+namespace Application.Newses
 {
-    public class Delete
+    public class NewsCreate
     {
         public class Command : IRequest
         {
-            public int Id { get; set; }
+            public News News { get; set; }
         }
-        public class Handler : IRequestHandler<Command>
+        public class Hendler : IRequestHandler<Command>
         {
             private readonly DietContext _context;
 
-            public Handler(DietContext context)
+            public Hendler(DietContext context)
             {
                 _context = context;
             }
+
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                var example=await _context.Examples.FindAsync(request.Id);
-
-
-                _context.Remove(example);
+                _context.Newses.Add(request.News);
 
                 await _context.SaveChangesAsync();
             }

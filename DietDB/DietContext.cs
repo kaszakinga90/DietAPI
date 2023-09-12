@@ -12,6 +12,7 @@ namespace DietDB
         {
         }
 
+
         public DbSet<Example> Examples { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<CategoryOfDiet> CategoryOfDiet { get; set; }
@@ -45,9 +46,9 @@ namespace DietDB
         public DbSet<LayoutCategory> LayoutCategories { get; set; }
         public DbSet<LayoutPhoto> LayoutPhotos { get; set; }
         public DbSet<Link> Links { get; set; }
-        public DbSet<MainNavbar> Navbars { get; set; }
+        public DbSet<MainNavbar> MainNavbars { get; set; }
         public DbSet<News> Newses { get; set; }
-        public DbSet<SocialMedia> SocialMedia { get; set; }
+        public DbSet<SocialMedia> SocialMedias { get; set; }
         public DbSet<SubTab> SubTabs { get; set; }
         public DbSet<Tab> Tabs { get; set; }
         public DbSet<Tag> Tags { get; set; }

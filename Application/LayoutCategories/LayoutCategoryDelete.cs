@@ -1,9 +1,14 @@
 ﻿using DietDB;
 using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Application.Examples
+namespace Application.LayoutCategories
 {
-    public class Delete
+    public class LayoutCategoryDelete
     {
         public class Command : IRequest
         {
@@ -19,8 +24,7 @@ namespace Application.Examples
             }
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                var example=await _context.Examples.FindAsync(request.Id);
-
+                var example = await _context.LayoutCategories.FindAsync(request.Id);
 
                 _context.Remove(example);
 
