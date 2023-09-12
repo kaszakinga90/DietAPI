@@ -20,7 +20,7 @@ namespace Application.Examples
 
             public async Task<List<Example>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.Example.ToListAsync(cancellationToken);
+                return await _context.Examples.ToListAsync(cancellationToken);
             }
         }
     }

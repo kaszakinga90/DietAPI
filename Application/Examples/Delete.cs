@@ -19,7 +19,8 @@ namespace Application.Examples
             }
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                var example=await _context.Example.FindAsync(request.Id);
+                var example=await _context.Examples.FindAsync(request.Id);
+
 
                 _context.Remove(example);
 
