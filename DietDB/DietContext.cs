@@ -12,7 +12,7 @@ namespace DietDB
         {
         }
 
-        public DbSet<Example> Tooltip { get; set; }
+        public DbSet<Example> Examples { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<CategoryOfDiet> CategoryOfDiet { get; set; }
         public DbSet<Comment> Comments { get; set; }

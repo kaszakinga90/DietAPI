@@ -21,7 +21,7 @@ namespace Application.Examples
 
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                _context.Tooltip.Add(request.Example);
+                _context.Examples.Add(request.Example);
 
                 await _context.SaveChangesAsync();
             }
