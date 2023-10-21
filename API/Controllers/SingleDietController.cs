@@ -1,4 +1,4 @@
-﻿using Application.SingleDiets;
+﻿using Application.CQRS.SingleDiets;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB;
 using ModelsDB.Functionality;

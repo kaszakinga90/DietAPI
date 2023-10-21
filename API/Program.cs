@@ -1,66 +1,81 @@
-using Application.Articles;
-using Application.Carousels;
-using Application.CategoryOfDiets;
+using API.Middleware;
 using Application.Core;
-using Application.DayWeeks;
-using Application.Examples;
-using Application.Footers;
-using Application.LayoutCategories;
-using Application.LayoutPhotos;
-using Application.Links;
-using Application.MainNavbars;
-using Application.MealTimes;
-using Application.Newses;
-using Application.SingleDiets;
-using Application.SocialMedias;
-using Application.SubTabs;
-using Application.Tabs;
-using Application.Tags;
-using Application.Tooltips;
+using Application.CQRS.CategoryOfDiets;
+using Application.CQRS.DayWeeks;
+using Application.CQRS.Examples;
+using Application.CQRS.MealTimes;
+using Application.CQRS.Patients;
+using Application.CQRS.SingleDiets;
+using Application.CQRS.Tooltips;
 using DietDB;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Dodaje us³ugi do kontenera.
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+/// <summary>
+/// Dodaje kontrolery i konfiguruje opcje serializacji JSON.
+/// </summary>
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
+
+/// <summary>
+/// Konfiguruje Swagger/OpenAPI.
+/// </summary>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+/// <summary>
+/// Dodaje i konfiguruje bazê danych.
+/// </summary>
 builder.Services.AddDbContext<DietContext>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+/// <summary>
+/// Dodaje wsparcie dla CORS.
+/// </summary>
 builder.Services.AddCors();
 
-builder.Services.AddMediatR(cfg=>cfg.RegisterServicesFromAssemblies(
+/// <summary>
+/// Dodaje i konfiguruje MediatR.
+/// </summary>
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(ExampleList.Handler).Assembly,
     typeof(DayWeekList.Handler).Assembly,
     typeof(CategoryOfDietList.Handler).Assembly,
     typeof(MealTimeList.Handler).Assembly,
     typeof(SingleDietList.Handler).Assembly,
     typeof(TooltipList.Handler).Assembly,
-    typeof(ArticleList.Handler).Assembly,
-    typeof(FooterList.Handler).Assembly,
-    typeof(LayoutCategoryList.Handler).Assembly,
-    typeof(LayoutPhotoList.Handler).Assembly,
-    typeof(LinkList.Handler).Assembly,
-    typeof(MainNavbarList.Handler).Assembly,
-    typeof(NewsList.Handler).Assembly,
-    typeof(SocialMediaList.Handler).Assembly,
-    typeof(SubTabList.Handler).Assembly,
-    typeof(TabList.Handler).Assembly,
-    typeof(TagList.Handler).Assembly,
-    typeof(CarouselList.Handler).Assembly
-    
+    typeof(PatientList.Handler).Assembly
     ));
+
+/// <summary>
+/// Dodaje i konfiguruje AutoMapper.
+/// </summary>
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
+/// <summary>
+/// Dodaje wsparcie dla walidacji z FluentValidation.
+/// </summary>
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<Create>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+/// <summary>
+/// Konfiguruje potok ¿¹dañ HTTP.
+/// </summary>
+app.UseMiddleware<ExceptionMiddleware>();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -76,6 +91,9 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+/// <summary>
+/// Tworzy zakres dla us³ug i inicjuje bazê danych.
+/// </summary>
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 
@@ -90,6 +108,5 @@ catch (Exception ex)
     var logger = services.GetRequiredService<ILogger<Program>>();
     logger.LogError(ex, "An error occured during migration");
 }
-
 
 app.Run();

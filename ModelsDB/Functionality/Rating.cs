@@ -11,6 +11,5 @@ namespace ModelsDB
         public int Note { get; set; }
 
         public List<Dietician> Dieticians { get; set; }
-        public List<Patient> Patients { get; set; }
     }
 }

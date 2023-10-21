@@ -1,6 +1,7 @@
 ﻿using ModelsDB.Layout;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace ModelsDB
 {
@@ -16,10 +17,12 @@ namespace ModelsDB
         public string Street { get; set; }
         public string LocalNo { get; set; }
 
-        public Footer Footer { get; set; }
-        public List<User> Users { get; set; }
-        public int OfficeId { get; set; }
-        public Office Office { get; set; }
+        [JsonIgnore]
+        public List<Dietician> Dieticians { get; set; }
+        [JsonIgnore]
+        public List<Patient> Patients { get; set; }
+        [JsonIgnore]
+        public List<Office> Offices { get; set; }
 
     }
 }

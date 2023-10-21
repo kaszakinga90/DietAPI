@@ -1,4 +1,4 @@
-﻿using Application.Tooltips;
+﻿using Application.CQRS.Tooltips;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB;
 using ModelsDB.ManualPanel;

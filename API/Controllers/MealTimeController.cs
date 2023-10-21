@@ -1,4 +1,4 @@
-﻿using Application.MealTimes;
+﻿using Application.CQRS.MealTimes;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB;
 using ModelsDB.Functionality;

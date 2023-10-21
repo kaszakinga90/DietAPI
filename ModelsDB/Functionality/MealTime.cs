@@ -10,6 +10,6 @@ namespace ModelsDB.Functionality
         public int Id { get; set; }
         public string DishTime { get; set; }
 
-        public List<SingleDiet> SingleDiets { get; set; }
+        public List<MealTimeSingleDiet> MealTimeSingleDiets { get; set; }
     }
 }
