@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ModelsDB.Functionality;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.Metrics;
 
@@ -16,9 +17,9 @@ namespace ModelsDB
         public float Glycemic { get; set; }
         public string DishPhotoUrl { get; set; }
 
-        public List<FoodCatalog> FoodCatalogs { get; set; }
-        public List<Ingredient> Ingredients { get; set; }
-        public List<Measure> Measures { get; set; }
+        public List<DishFoodCatalog> DishFoodCatalogs { get; set; }
+        public List<DishIngredient> DishIngredients { get; set; }
+        public List<DishMeasure> DishMeasures { get; set; }
         public int RecipesId { get; set; }
         public Recipe Recipe { get; set; }
     }

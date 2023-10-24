@@ -1,4 +1,4 @@
-﻿using Application.CategoryOfDiets;
+﻿using Application.CQRS.CategoryOfDiets;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB.Functionality;
 

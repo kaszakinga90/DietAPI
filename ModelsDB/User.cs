@@ -1,12 +1,7 @@
-﻿using ModelsDB.Functionality;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace ModelsDB
+﻿namespace ModelsDB
 {
-    [Table("User")]
-    public class User : BaseModel
+    public class User:BaseModel
     {
-        //komentarz
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -17,6 +12,7 @@ namespace ModelsDB
         public bool isPatient { get; set; }
         public bool isDietician { get; set; }
         public bool isAdmin { get; set; }
+        public DateTime? BirthDate { get; set; }
 
 
         public Address Address { get; set; }

@@ -18,8 +18,6 @@ namespace ModelsDB.Layout
         public string Email { get; set; }
 
 
-        public Address Address { get; set; }
-        public int AddressId { get; set; }
         public List<Link> Links { get; set; }
         public List<SocialMedia> SocialMedia { get; set; }
 

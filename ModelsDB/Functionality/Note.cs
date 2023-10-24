@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ModelsDB.Functionality;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ModelsDB
@@ -12,9 +13,8 @@ namespace ModelsDB
         public string Description { get; set; }
         public bool isVisibleToPatient { get; set; }
 
-        public int UserId { get; set; }
-        public User User { get; set; }
-        public int PatientId { get; set; }
-        public Patient Patient { get; set; }
+        public int DieticianId { get; set; }
+        public List<DieticianNote> DieticianNotes { get; set; }
+        public List<NotePatient> NotePatients { get; set; }
     }
 }

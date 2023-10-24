@@ -13,10 +13,10 @@ namespace ModelsDB.Functionality
         public DateTime DateStart { get; set; }
         public DateTime DateEnd { get; set; }
 
-        public List<Diet> Diets { get; set; }
+        public List<DietSingleDiet> DietSingleDiets { get; set; }
         public int DayWeekId { get; set; }
         public DayWeek DayWeek { get; set; }
-        public List<MealTime> MealTimes { get; set; }
+        public List<MealTimeSingleDiet> MealTimeSingleDiets { get; set; }
         public List<CategoryOfDiet> DietCategories { get; set; }=new List<CategoryOfDiet>();
 
     }

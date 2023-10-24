@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ModelsDB.Functionality;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ModelsDB
@@ -12,7 +13,6 @@ namespace ModelsDB
         public float Weith { get; set; }
         public DateTime MeasureTime { get; set; }
 
-        public int PatientCardId { get; set; }
-        public PatientCard PatientCard { get; set; }
+        public List<PatientCardSurvey> PatientCardSurveys { get; set; }
     }
 }
