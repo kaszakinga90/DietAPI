@@ -30,13 +30,8 @@ namespace Application.CQRS.Tooltips
 
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-<<<<<<< HEAD:Application/CQRS/Tooltips/TooltipEdit.cs
                 var Tooltip = await _context.Tooltips.FindAsync(request.Tooltip.Id);
                 _mapper.Map(request.Tooltip, Tooltip);
-=======
-                var example=await _context.Examples.FindAsync(request.Example.Id);
-                _mapper.Map(request.Example, example);
->>>>>>> 6d047e7594153c95fdeecf218c13172cd7de5b09:Application/Examples/Edit.cs
                 await _context.SaveChangesAsync();
             }
         }

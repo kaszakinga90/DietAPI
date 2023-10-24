@@ -21,12 +21,8 @@ namespace Application.CQRS.SingleDiets
 
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-<<<<<<< HEAD:Application/CQRS/SingleDiets/SingleDietCreate.cs
                 _context.SingleDiet.Add(request.SingleDiet);
 
-=======
-                _context.Examples.Add(request.Example);
->>>>>>> 6d047e7594153c95fdeecf218c13172cd7de5b09:Application/Examples/Create.cs
                 await _context.SaveChangesAsync();
             }
         }

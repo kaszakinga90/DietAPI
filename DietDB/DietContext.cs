@@ -18,15 +18,11 @@ namespace DietDB
         public DietContext(DbContextOptions options) : base(options)
         {
         }
-<<<<<<< HEAD
         #region DbSet
         /// <summary>
         /// Pobiera lub ustawia kolekcję przykładów w bazie danych.
         /// </summary>
-=======
 
-
->>>>>>> 6d047e7594153c95fdeecf218c13172cd7de5b09
         public DbSet<Example> Examples { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<CategoryOfDiet> CategoryOfDiet { get; set; }

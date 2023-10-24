@@ -24,12 +24,7 @@ namespace Application.CQRS.Tooltips
             }
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-<<<<<<< HEAD:Application/CQRS/Tooltips/TooltipDelete.cs
                 var example = await _context.Tooltips.FindAsync(request.Id);
-=======
-                var example=await _context.Examples.FindAsync(request.Id);
-
->>>>>>> 6d047e7594153c95fdeecf218c13172cd7de5b09:Application/Examples/Delete.cs
 
                 _context.Remove(example);
 

@@ -11,7 +11,6 @@ namespace DietDB
     {
         public static async Task SeedData(DietContext context)
         {
-<<<<<<< HEAD
             #region Address
             // Checking and adding fake addresses
             if (!context.Addresses.Any())
@@ -109,40 +108,6 @@ namespace DietDB
             LocalNo = "4J"
         },
     };
-=======
-            // Sprawdzanie i dodawanie fałszywych danych dla Examples
-            if (!context.Examples.Any())
-            {
-                var examp = new List<Example>()
-                {
-                    new Example
-                    {
-                        Name="Arek",
-                        Description="Jakis opis1",
-                        Age=22,
-                    },
-                    new Example
-                    {
-                        Name="Iwona",
-                        Description="Jakis opis2",
-                        Age=18,
-                    },
-                    new Example
-                    {
-                        Name="Marcin",
-                        Description="Jakis opis3",
-                        Age=44,
-                    },
-                    new Example
-                    {
-                        Name="Kamila",
-                        Description="Jakis opis4",
-                        Age=28,
-                    },
-                };
-                await context.Examples.AddRangeAsync(examp);
-            }
->>>>>>> 6d047e7594153c95fdeecf218c13172cd7de5b09
 
                 await context.Addresses.AddRangeAsync(addresses);
             }
