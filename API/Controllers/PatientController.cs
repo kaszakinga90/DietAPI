@@ -1,11 +1,9 @@
-﻿using Application.CQRS;
-using Application.CQRS.Examples;
+﻿using Application.Core;
 using Application.CQRS.PatientDTOs;
 using Application.CQRS.Patients;
 using Application.DTOs.MessagesDTO;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB;
-using ModelsDB.Functionality;
 
 namespace API.Controllers
 {
@@ -72,5 +70,23 @@ namespace API.Controllers
 
             return HandleResult(await Mediator.Send(new PatientEdit.Command { Patient = patient }));
         }
+
+        /// <summary>
+        /// Pobiera listę wiadomości dla pacjenta o podanym ID.
+        /// </summary>
+        /// <param name="patientId">ID pacjenta.</param>
+        /// <returns>Lista wiadomości dla pacjenta.</returns>
+        [HttpGet("{patientId}/messages")]
+        public async Task<ActionResult<PagedList<MessageToPatientDTO>>> GetMessagesForPatient(int patientId, [FromQuery]PagingParams param)
+        {
+            var result = await Mediator.Send(new PatientMessageList.Query { PatientId = patientId, Params = param });
+
+            if (result.IsSucces)
+            {
+                return Ok(result.Value);
+            }
+            return BadRequest(result.Error);
+        }
+
     }
 }

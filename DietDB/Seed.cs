@@ -684,31 +684,37 @@ namespace DietDB
         {
             Title = "Pytanie o dietę 1",
             Description = "Mam pytanie odnośnie ilości węglowodanów w diecie.",
-            DieticianId = 1
-        },
+            DieticianId = 1,
+            PatientId=1
+
+    },
         new MessageToDietician
         {
             Title = "Kwestia alergii",
             Description = "Czy produkt X jest odpowiedni dla osoby z alergią na orzechy?",
-            DieticianId = 2
+            DieticianId = 2,
+            PatientId=1
         },
         new MessageToDietician
         {
             Title = "Porada dla sportowca",
             Description = "Jakie produkty zalecasz dla aktywnych fizycznie osób?",
-            DieticianId = 3
+            DieticianId = 3,
+            PatientId=3
         },
         new MessageToDietician
         {
             Title = "Suplementacja",
             Description = "Czy warto suplementować witaminę D w okresie zimowym?",
-            DieticianId = 1
+            DieticianId = 1,
+            PatientId=2
         },
         new MessageToDietician
         {
             Title = "Pytanie o jadłospis",
             Description = "Czy możesz mi pomóc skomponować jadłospis na nadchodzący tydzień?",
-            DieticianId = 2
+            DieticianId = 2,
+            PatientId=2
         }
     };
 
@@ -726,31 +732,36 @@ namespace DietDB
         {
             Title = "Konsultacja dietetyczna",
             Description = "Witaj! Zapraszam na konsultację dietetyczną w przyszłym tygodniu. Daj mi znać, kiedy Ci pasuje.",
-            PatientId = 1
+            PatientId = 1,
+            DieticianId=1
         },
         new MessageToPatient
         {
             Title = "Zmiana planu dietetycznego",
             Description = "Witam! Zaktualizowałem Twój plan dietetyczny. Sprawdź go w aplikacji i daj mi znać, czy wszystko jest jasne.",
-            PatientId = 1
+            PatientId = 1,
+            DieticianId=3
         },
         new MessageToPatient
         {
             Title = "Przypomnienie o wizycie",
             Description = "Przypominam o jutrzejszej wizycie. Jeśli nie możesz przyjść, daj mi znać jak najszybciej.",
-            PatientId = 2
+            PatientId = 2,
+            DieticianId=1
         },
         new MessageToPatient
         {
             Title = "Wyniki badań",
             Description = "Twoje wyniki badań są już dostępne. Zalecam omówienie ich podczas najbliższej wizyty.",
-            PatientId = 2
+            PatientId = 2,
+            DieticianId=2
         },
         new MessageToPatient
         {
             Title = "Zalecenia po wizycie",
             Description = "Witaj! Po naszej ostatniej wizycie przygotowałem kilka zaleceń. Sprawdź je w aplikacji i postępuj zgodnie z nimi.",
-            PatientId = 3
+            PatientId = 3,
+            DieticianId=2
         },
     };
 

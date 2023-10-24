@@ -14,5 +14,7 @@ namespace ModelsDB.Functionality
 
         public Patient Patient { get; set; }
         public int PatientId { get; set; }
+        public Dietician Dietician { get; set; }
+        public int DieticianId { get; set; }
     }
 }

@@ -17,5 +17,6 @@ namespace ModelsDB
         public List<Diet> Diets { get; set; }
         public List<DieticianNote> DieticianNotes { get; set; }
         public List<MessageToDietician> MessageToDieticians { get; set; }
+        public List<MessageToPatient> MessageToPatients { get; set; }
     }
 }

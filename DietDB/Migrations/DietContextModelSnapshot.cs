@@ -801,6 +801,9 @@ namespace DietDB.Migrations
                     b.Property<int>("DieticianId")
                         .HasColumnType("int");
 
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
@@ -829,6 +832,8 @@ namespace DietDB.Migrations
 
                     b.HasIndex("DieticianId");
 
+                    b.HasIndex("PatientId");
+
                     b.ToTable("MessageToDieticians");
                 });
 
@@ -842,6 +847,9 @@ namespace DietDB.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DieticianId")
+                        .HasColumnType("int");
 
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
@@ -871,6 +879,8 @@ namespace DietDB.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DieticianId");
 
                     b.HasIndex("PatientId");
 
@@ -2803,16 +2813,32 @@ namespace DietDB.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ModelsDB.Patient", "Patient")
+                        .WithMany("MessageToDieticians")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Dietician");
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.MessageToPatient", b =>
                 {
+                    b.HasOne("ModelsDB.Dietician", "Dietician")
+                        .WithMany("MessageToPatients")
+                        .HasForeignKey("DieticianId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ModelsDB.Patient", "Patient")
                         .WithMany("MessageToPatients")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Dietician");
 
                     b.Navigation("Patient");
                 });
@@ -3182,6 +3208,8 @@ namespace DietDB.Migrations
 
                     b.Navigation("MessageToDieticians");
 
+                    b.Navigation("MessageToPatients");
+
                     b.Navigation("Notes");
 
                     b.Navigation("Visits");
@@ -3316,6 +3344,8 @@ namespace DietDB.Migrations
                     b.Navigation("Dieticians");
 
                     b.Navigation("MessagePatients");
+
+                    b.Navigation("MessageToDieticians");
 
                     b.Navigation("MessageToPatients");
 

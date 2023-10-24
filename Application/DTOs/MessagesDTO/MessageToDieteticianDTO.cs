@@ -1,4 +1,6 @@
-﻿namespace Application.DTOs.MessagesDTO
+﻿using ModelsDB;
+
+namespace Application.DTOs.MessagesDTO
 {
     public class MessageToDieteticianDTO
     {
@@ -6,5 +8,6 @@
         public string Title { get; set; }
         public string Description { get; set; }
         public int DieticianId { get; set; }
+        public int PatientId { get; set; }
     }
 }

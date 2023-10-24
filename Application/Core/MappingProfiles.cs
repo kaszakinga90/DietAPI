@@ -27,10 +27,14 @@ namespace Application.Core
             // Mapowania pomiędzy DTO a modelami.
             CreateMap<DayWeekDTO, DayWeek>();
             CreateMap<DayWeek, DayWeekDTO>();
-            CreateMap<Message, MessageToPatientDTO>();
-            CreateMap<MessageToPatientDTO, Message>().ReverseMap();
-            CreateMap<MessageToPatient, MessageToPatientDTO>();
             CreateMap<MessageToDieteticianDTO, MessageToDietician>();
+            CreateMap<Message, MessageToPatientDTO>();
+
+            CreateMap<MessageToPatient, MessageToPatientDTO>()
+                .ForMember(dest => dest.DieticianName, opt => opt.MapFrom(src => src.Dietician.FirstName + " " + src.Dietician.LastName))
+                .ReverseMap();
+
+            CreateMap<MessageToPatientDTO, Message>().ReverseMap();
 
             // Skomplikowane mapowanie z niestandardową logiką dla pacjenta.
             CreateMap<Patient, PatientDTO>()

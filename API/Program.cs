@@ -2,7 +2,6 @@ using API.Middleware;
 using Application.Core;
 using Application.CQRS.CategoryOfDiets;
 using Application.CQRS.DayWeeks;
-using Application.CQRS.Examples;
 using Application.CQRS.MealTimes;
 using Application.CQRS.Patients;
 using Application.CQRS.SingleDiets;
@@ -11,7 +10,6 @@ using DietDB;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -50,7 +48,7 @@ builder.Services.AddCors();
 /// Dodaje i konfiguruje MediatR.
 /// </summary>
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
-    typeof(ExampleList.Handler).Assembly,
+    //typeof(ExampleList.Handler).Assembly,
     typeof(DayWeekList.Handler).Assembly,
     typeof(CategoryOfDietList.Handler).Assembly,
     typeof(MealTimeList.Handler).Assembly,
@@ -68,7 +66,7 @@ builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 /// Dodaje wsparcie dla walidacji z FluentValidation.
 /// </summary>
 builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddValidatorsFromAssemblyContaining<Create>();
+//builder.Services.AddValidatorsFromAssemblyContaining<Create>();
 
 var app = builder.Build();
 
