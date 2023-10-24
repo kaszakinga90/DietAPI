@@ -81,11 +81,7 @@ namespace API.Controllers
         {
             var result = await Mediator.Send(new PatientMessageList.Query { PatientId = patientId, Params = param });
 
-            if (result.IsSucces)
-            {
-                return Ok(result.Value);
-            }
-            return BadRequest(result.Error);
+           return HandlePagedResult(result);
         }
 
     }
