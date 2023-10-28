@@ -23,8 +23,8 @@ namespace DietDB.Migrations
                     LocalNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -43,8 +43,8 @@ namespace DietDB.Migrations
                     CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -63,8 +63,8 @@ namespace DietDB.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -84,8 +84,8 @@ namespace DietDB.Migrations
                     PhotoURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -104,8 +104,8 @@ namespace DietDB.Migrations
                     Day = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -130,8 +130,8 @@ namespace DietDB.Migrations
                     RecipesId = table.Column<int>(type: "int", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -167,8 +167,8 @@ namespace DietDB.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -192,8 +192,8 @@ namespace DietDB.Migrations
                     Quantity = table.Column<float>(type: "real", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -213,8 +213,8 @@ namespace DietDB.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -234,8 +234,8 @@ namespace DietDB.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -254,8 +254,8 @@ namespace DietDB.Migrations
                     DishTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -274,8 +274,8 @@ namespace DietDB.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -295,8 +295,8 @@ namespace DietDB.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -316,8 +316,8 @@ namespace DietDB.Migrations
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -349,8 +349,8 @@ namespace DietDB.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -371,8 +371,8 @@ namespace DietDB.Migrations
                     MeasureTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -390,8 +390,8 @@ namespace DietDB.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -410,8 +410,8 @@ namespace DietDB.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -430,8 +430,8 @@ namespace DietDB.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -439,27 +439,6 @@ namespace DietDB.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Term", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tooltip",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    isActive = table.Column<bool>(type: "bit", nullable: false),
-                    dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tooltip", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -471,8 +450,8 @@ namespace DietDB.Migrations
                     AddressId = table.Column<int>(type: "int", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -498,8 +477,8 @@ namespace DietDB.Migrations
                     CategoryTypeId = table.Column<int>(type: "int", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -528,8 +507,8 @@ namespace DietDB.Migrations
                     DayWeekId = table.Column<int>(type: "int", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -555,8 +534,8 @@ namespace DietDB.Migrations
                     DishId = table.Column<int>(type: "int", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -607,8 +586,8 @@ namespace DietDB.Migrations
                     LayoutCategoryId = table.Column<int>(type: "int", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -634,8 +613,8 @@ namespace DietDB.Migrations
                     LayoutCategoryId = table.Column<int>(type: "int", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -663,8 +642,8 @@ namespace DietDB.Migrations
                     LayoutCategoryId = table.Column<int>(type: "int", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -695,8 +674,8 @@ namespace DietDB.Migrations
                     LayoutCategoryId = table.Column<int>(type: "int", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -769,8 +748,8 @@ namespace DietDB.Migrations
                     SexId = table.Column<int>(type: "int", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -797,8 +776,8 @@ namespace DietDB.Migrations
                     FileCategoryId = table.Column<int>(type: "int", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -831,8 +810,8 @@ namespace DietDB.Migrations
                     ContentId = table.Column<int>(type: "int", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -986,8 +965,8 @@ namespace DietDB.Migrations
                     FooterId = table.Column<int>(type: "int", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -1020,8 +999,8 @@ namespace DietDB.Migrations
                     TabId = table.Column<int>(type: "int", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -1101,8 +1080,8 @@ namespace DietDB.Migrations
                     SexId = table.Column<int>(type: "int", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -1174,8 +1153,8 @@ namespace DietDB.Migrations
                     PatientId = table.Column<int>(type: "int", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -1201,8 +1180,8 @@ namespace DietDB.Migrations
                     PatientCardId = table.Column<int>(type: "int", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -1234,8 +1213,8 @@ namespace DietDB.Migrations
                     PatientId = table.Column<int>(type: "int", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -1285,8 +1264,8 @@ namespace DietDB.Migrations
                     TestEqualId = table.Column<int>(type: "int", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -1315,8 +1294,8 @@ namespace DietDB.Migrations
                     DieticianId = table.Column<int>(type: "int", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -1348,8 +1327,8 @@ namespace DietDB.Migrations
                     DieticianId = table.Column<int>(type: "int", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -1448,8 +1427,8 @@ namespace DietDB.Migrations
                     DieticianId = table.Column<int>(type: "int", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -1475,8 +1454,8 @@ namespace DietDB.Migrations
                     DieticianId = table.Column<int>(type: "int", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -1501,10 +1480,12 @@ namespace DietDB.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DieticianId = table.Column<int>(type: "int", nullable: false),
                     PatientId = table.Column<int>(type: "int", nullable: false),
+                    IsRead = table.Column<bool>(type: "bit", nullable: false),
+                    ReadDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -1536,10 +1517,12 @@ namespace DietDB.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PatientId = table.Column<int>(type: "int", nullable: false),
                     DieticianId = table.Column<int>(type: "int", nullable: false),
+                    IsRead = table.Column<bool>(type: "bit", nullable: false),
+                    ReadDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -1574,8 +1557,8 @@ namespace DietDB.Migrations
                     PatientId = table.Column<int>(type: "int", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -1609,8 +1592,8 @@ namespace DietDB.Migrations
                     PatientId = table.Column<int>(type: "int", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -2169,9 +2152,6 @@ namespace DietDB.Migrations
 
             migrationBuilder.DropTable(
                 name: "SubTab");
-
-            migrationBuilder.DropTable(
-                name: "Tooltip");
 
             migrationBuilder.DropTable(
                 name: "Visit");

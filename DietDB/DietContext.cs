@@ -3,6 +3,7 @@ using ModelsDB;
 using ModelsDB.Functionality;
 using ModelsDB.Layout;
 using ModelsDB.ManualPanel;
+using System.Diagnostics;
 
 namespace DietDB
 {
@@ -67,7 +68,6 @@ namespace DietDB
         public DbSet<Document> Documents { get; set; }
         public DbSet<FileCategory> FileCategories { get; set; }
         public DbSet<Manual> Manuals { get; set; }
-        public DbSet<Tooltip> Tooltips { get; set; }
         public DbSet<Sex> Sex { get; set; }
         public DbSet<MessagePatient> MessagePatients { get; set; }
         public DbSet<MessageToDietician> MessageToDieticians { get; set; }
@@ -279,6 +279,11 @@ namespace DietDB
 
         }
         #endregion
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.LogTo(item => Debug.WriteLine(item));
+            base.OnConfiguring(optionsBuilder);
+        }
     }
 
 }

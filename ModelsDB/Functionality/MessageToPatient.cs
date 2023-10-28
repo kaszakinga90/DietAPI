@@ -16,5 +16,7 @@ namespace ModelsDB.Functionality
         public int PatientId { get; set; }
         public Dietician Dietician { get; set; }
         public int DieticianId { get; set; }
+        public bool IsRead { get; set; }
+        public DateTime? ReadDate { get; set; }
     }
 }

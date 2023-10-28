@@ -6,4 +6,7 @@
     public int DieticianId { get; set; }
     public int PatientId { get; set; }
     public string DieticianName { get; set; }
+    public bool IsRead { get; set; }
+    public DateTime? ReadDate { get; set; }
+    public DateTime dateAdded { get; set; } = DateTime.Now;
 }
