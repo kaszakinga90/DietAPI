@@ -22,7 +22,6 @@ namespace Application.Core
             CreateMap<Example, Example>();
             CreateMap<CategoryOfDiet, CategoryOfDiet>();
             CreateMap<SingleDiet, SingleDiet>();
-            CreateMap<Tooltip, Tooltip>();
 
             // Mapowania pomiędzy DTO a modelami.
             CreateMap<DayWeekDTO, DayWeek>();

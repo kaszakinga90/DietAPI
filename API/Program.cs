@@ -5,9 +5,7 @@ using Application.CQRS.DayWeeks;
 using Application.CQRS.MealTimes;
 using Application.CQRS.Patients;
 using Application.CQRS.SingleDiets;
-using Application.CQRS.Tooltips;
 using DietDB;
-using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
@@ -53,7 +51,6 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(CategoryOfDietList.Handler).Assembly,
     typeof(MealTimeList.Handler).Assembly,
     typeof(SingleDietList.Handler).Assembly,
-    typeof(TooltipList.Handler).Assembly,
     typeof(PatientList.Handler).Assembly
     ));
 

@@ -156,10 +156,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -205,10 +205,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -252,10 +252,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -318,10 +318,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -379,10 +379,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -436,10 +436,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -501,10 +501,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -540,10 +540,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -577,10 +577,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -749,10 +749,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -801,8 +801,14 @@ namespace DietDB.Migrations
                     b.Property<int>("DieticianId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("ReadDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -810,10 +816,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -851,8 +857,14 @@ namespace DietDB.Migrations
                     b.Property<int>("DieticianId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("ReadDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -860,10 +872,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -944,10 +956,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -983,10 +995,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -1020,10 +1032,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -1069,10 +1081,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -1129,10 +1141,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -1172,10 +1184,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -1214,10 +1226,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -1259,10 +1271,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -1299,10 +1311,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -1339,10 +1351,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -1385,10 +1397,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -1426,10 +1438,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -1469,10 +1481,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -1515,10 +1527,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -1562,10 +1574,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -1601,10 +1613,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -1638,10 +1650,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -1675,10 +1687,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -1715,10 +1727,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -1758,10 +1770,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -1802,10 +1814,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -1847,10 +1859,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -1874,46 +1886,6 @@ namespace DietDB.Migrations
                     b.ToTable("Manual");
                 });
 
-            modelBuilder.Entity("ModelsDB.ManualPanel.Tooltip", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("dateAdded")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("dateDeleted")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("dateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("isActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("whoAdded")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("whoDeleted")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("whoUpdated")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tooltip");
-                });
-
             modelBuilder.Entity("ModelsDB.Measure", b =>
                 {
                     b.Property<int>("Id")
@@ -1928,10 +1900,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -1968,10 +1940,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -2014,10 +1986,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -2073,10 +2045,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -2139,10 +2111,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -2191,10 +2163,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -2233,10 +2205,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -2275,10 +2247,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -2315,10 +2287,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -2369,10 +2341,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")
@@ -2412,10 +2384,10 @@ namespace DietDB.Migrations
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateDeleted")
+                    b.Property<DateTime?>("dateDeleted")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateUpdated")
+                    b.Property<DateTime?>("dateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActive")

@@ -4,7 +4,9 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Application.CQRS.PatientDTOs
 {
@@ -36,7 +38,10 @@ namespace Application.CQRS.PatientDTOs
                         Description = m.Description,
                         DieticianId = m.DieticianId,
                         PatientId = m.PatientId,
-                        DieticianName = m.Dietician.FirstName + " " + m.Dietician.LastName
+                        DieticianName = m.Dietician.FirstName + " " + m.Dietician.LastName,
+                        dateAdded=m.dateAdded,
+                        ReadDate=m.ReadDate,
+                        IsRead=m.IsRead
                     })
                     .AsQueryable();
                 return Result<PagedList<MessageToPatientDTO>>.Success(
