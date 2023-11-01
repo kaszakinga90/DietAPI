@@ -1,4 +1,6 @@
-﻿namespace ModelsDB
+﻿using ModelsDB.Functionality;
+
+namespace ModelsDB
 {
     public class User:BaseModel
     {
@@ -8,11 +10,13 @@
         public string Email { get; set; }
         public string Password { get; set; }
         public string Phone { get; set; }
-        public string PhotoUrl { get; set; }
         public bool isPatient { get; set; }
         public bool isDietician { get; set; }
         public bool isAdmin { get; set; }
         public DateTime? BirthDate { get; set; }
+        public string PublicId { get; set; }
+        public string PictureUrl { get; set; }
+
 
 
         public Address Address { get; set; }

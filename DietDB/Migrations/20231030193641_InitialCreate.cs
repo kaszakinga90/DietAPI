@@ -149,7 +149,9 @@ namespace DietDB.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Age = table.Column<int>(type: "int", nullable: false)
+                    Age = table.Column<int>(type: "int", nullable: false),
+                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1090,11 +1092,12 @@ namespace DietDB.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isPatient = table.Column<bool>(type: "bit", nullable: false),
                     isDietician = table.Column<bool>(type: "bit", nullable: false),
                     isAdmin = table.Column<bool>(type: "bit", nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AddressId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -1223,11 +1226,12 @@ namespace DietDB.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isPatient = table.Column<bool>(type: "bit", nullable: false),
                     isDietician = table.Column<bool>(type: "bit", nullable: false),
                     isAdmin = table.Column<bool>(type: "bit", nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AddressId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using ModelsDB;
 
-public class PatientDTO
+public class PatientGetDTO
 {
     public int Id { get; set; }
     public string FirstName { get; set; }
@@ -14,6 +14,7 @@ public class PatientDTO
     public bool isAdmin { get; set; }
     public DateTime? BirthDate { get; set; }
     public IFormFile File { get; set; }
+    public string PictureUrl { get; set; }
 
     public Address Address { get; set; }
     public int AddressId { get; set; }

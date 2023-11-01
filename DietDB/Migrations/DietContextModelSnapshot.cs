@@ -309,7 +309,10 @@ namespace DietDB.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhotoUrl")
+                    b.Property<string>("PictureUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublicId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RatingId")
@@ -474,6 +477,12 @@ namespace DietDB.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PictureUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublicId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -2102,7 +2111,10 @@ namespace DietDB.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhotoUrl")
+                    b.Property<string>("PictureUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublicId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("SexId")

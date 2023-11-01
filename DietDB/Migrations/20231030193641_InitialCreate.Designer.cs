@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietDB.Migrations
 {
     [DbContext(typeof(DietContext))]
-    [Migration("20231027094620_InitialCreate")]
+    [Migration("20231030193641_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -311,7 +311,10 @@ namespace DietDB.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhotoUrl")
+                    b.Property<string>("PictureUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublicId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RatingId")
@@ -476,6 +479,12 @@ namespace DietDB.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PictureUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublicId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -2104,7 +2113,10 @@ namespace DietDB.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhotoUrl")
+                    b.Property<string>("PictureUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublicId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("SexId")
