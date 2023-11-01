@@ -2,6 +2,8 @@
 using Application.CQRS.PatientDTOs;
 using Application.CQRS.Patients;
 using Application.DTOs.MessagesDTO;
+using Application.Services;
+using DietDB;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB;
 
@@ -12,6 +14,15 @@ namespace API.Controllers
     /// </summary>
     public class PatientController : BaseApiController
     {
+        private readonly ImageService _imageService;
+        private readonly DietContext _context;
+
+        public PatientController(ImageService imageService, DietContext context)
+        {
+            _imageService = imageService;
+            _context = context;
+        }
+
         /// <summary>
         /// Pobiera listę wszystkich pacjentów.
         /// </summary>
@@ -28,7 +39,7 @@ namespace API.Controllers
         /// <param name="id">ID pacjenta.</param>
         /// <returns>Szczegóły pacjenta.</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<PatientDTO>> GetPatient(int id)
+        public async Task<ActionResult<PatientGetDTO>> GetPatient(int id)
         {
             return await Mediator.Send(new PatientDetails.Query { Id = id });
         }
@@ -41,8 +52,8 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreatePatient(Patient Patient)
         {
-            await Mediator.Send(new PatientCreate.Command { Patient = Patient });
-            return Ok();
+            return HandleResult(await Mediator.Send(new PatientCreate.Command { Patient = Patient }));
+            
         }
 
         /// <summary>
@@ -64,9 +75,23 @@ namespace API.Controllers
         /// <param name="patient">Nowe dane pacjenta.</param>
         /// <returns>Status operacji.</returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditPatient(int id, PatientDTO patient)
+        public async Task<IActionResult> EditPatient(int id, [FromForm] PatientDTO patient)
         {
             patient.Id = id;
+            var patientUpdate=await _context.Patients.FindAsync(patient.Id);
+
+            if(patient.File != null)
+            {
+                var imageResult=await _imageService.AddImageAsync(patient.File);
+
+                if(imageResult.Error != null)
+                    return BadRequest(new ProblemDetails { Title = imageResult.Error.Message });
+
+                if(!string.IsNullOrEmpty(patientUpdate.PublicId)) await _imageService.DeleteImageAsync(patientUpdate.PublicId);
+
+                patientUpdate.PictureUrl=imageResult.SecureUrl.ToString();
+                patientUpdate.PublicId=imageResult.PublicId;
+            }
 
             return HandleResult(await Mediator.Send(new PatientEdit.Command { Patient = patient }));
         }

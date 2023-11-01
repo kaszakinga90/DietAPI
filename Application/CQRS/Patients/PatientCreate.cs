@@ -1,4 +1,5 @@
-﻿using DietDB;
+﻿using Application.Core;
+using DietDB;
 using MediatR;
 using ModelsDB;
 using System;
@@ -17,7 +18,7 @@ namespace Application.CQRS.Patients
         /// <summary>
         /// Reprezentuje komendę służącą do tworzenia nowego pacjenta.
         /// </summary>
-        public class Command : IRequest
+        public class Command : IRequest<PatientUpdateDTO<Unit>>
         {
             /// <summary>
             /// Pobiera lub ustawia model pacjenta, który ma zostać dodany do bazy danych.
@@ -28,7 +29,7 @@ namespace Application.CQRS.Patients
         /// <summary>
         /// Obsługuje proces dodawania nowego pacjenta do bazy danych.
         /// </summary>
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, PatientUpdateDTO<Unit>>
         {
             private readonly DietContext _context;
 
@@ -46,10 +47,15 @@ namespace Application.CQRS.Patients
             /// </summary>
             /// <param name="request">Komenda do przetworzenia.</param>
             /// <param name="cancellationToken">Token anulowania operacji.</param>
-            public async Task Handle(Command request, CancellationToken cancellationToken)
+            public async Task<PatientUpdateDTO<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 _context.Patients.Add(request.Patient);
-                await _context.SaveChangesAsync();
+
+                var result = await _context.SaveChangesAsync() > 0;
+
+                if (!result) return PatientUpdateDTO<Unit>.Failure("Nie udalo sie zapisac example");
+
+                return PatientUpdateDTO<Unit>.Success(Unit.Value);
             }
         }
     }
