@@ -1,12 +1,14 @@
 ﻿using Application.CQRS.Examples;
+using Application.DTOs.ExampleDTO;
+using Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB;
+using Serilog;
 
 namespace API.Controllers
 {
     public class ExampleController : BaseApiController
     {
-
         //[HttpGet]
         //public async Task<IActionResult> GetExamples()
         //{

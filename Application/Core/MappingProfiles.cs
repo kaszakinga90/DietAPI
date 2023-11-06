@@ -38,7 +38,10 @@ namespace Application.Core
             CreateMap<MessageToDTO, MessageTo>().ReverseMap();
 
             // Skomplikowane mapowanie z niestandardową logiką dla pacjenta.
-            CreateMap<Patient, PatientDTO>()
+            CreateMap<Patient, PatientGetDTO>()
+                .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate.HasValue ? src.BirthDate.Value.Date : (DateTime?)null))
+                .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageToPatients));
+            CreateMap<PatientDTO, Patient>();CreateMap<Patient, PatientDTO>()
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate.HasValue ? src.BirthDate.Value.Date : (DateTime?)null))
                 .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageTo));
             CreateMap<PatientDTO, Patient>();

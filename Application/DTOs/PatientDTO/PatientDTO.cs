@@ -1,4 +1,4 @@
-﻿using ModelsDB;
+using ModelsDB;
 
 namespace Application.DTOs.PatientDTO
 {

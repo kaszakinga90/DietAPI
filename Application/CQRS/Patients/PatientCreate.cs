@@ -1,4 +1,4 @@
-﻿using DietDB;
+using DietDB;
 using MediatR;
 using ModelsDB;
 

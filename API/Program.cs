@@ -7,9 +7,11 @@ using Application.CQRS.Dieticians;
 using Application.CQRS.MealTimes;
 using Application.CQRS.Patients;
 using Application.CQRS.SingleDiets;
+using Application.Services;
 using DietDB;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -62,6 +64,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
 /// Dodaje i konfiguruje AutoMapper.
 /// </summary>
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+builder.Services.AddScoped<ImageService>();
 
 /// <summary>
 /// Dodaje wsparcie dla walidacji z FluentValidation.
@@ -95,6 +98,11 @@ app.MapControllers();
 /// </summary>
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateLogger();
+
 
 try
 {

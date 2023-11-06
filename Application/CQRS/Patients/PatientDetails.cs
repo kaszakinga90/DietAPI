@@ -14,7 +14,7 @@ namespace Application.CQRS.Patients
         /// <summary>
         /// Reprezentuje zapytanie do pobrania szczegółów pacjenta na podstawie identyfikatora.
         /// </summary>
-        public class Query : IRequest<PatientDTO>
+        public class Query : IRequest<PatientGetDTO>
         {
             /// <summary>
             /// Pobiera lub ustawia identyfikator pacjenta, którego szczegóły mają zostać pobrane.
@@ -25,7 +25,7 @@ namespace Application.CQRS.Patients
         /// <summary>
         /// Obsługuje proces pobierania szczegółów pacjenta z bazy danych.
         /// </summary>
-        public class Handler : IRequestHandler<Query, PatientDTO>
+        public class Handler : IRequestHandler<Query, PatientGetDTO>
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
@@ -47,14 +47,14 @@ namespace Application.CQRS.Patients
             /// <param name="request">Zapytanie do przetworzenia.</param>
             /// <param name="cancellationToken">Token anulowania operacji.</param>
             /// <returns>Zwraca szczegóły pacjenta w postaci obiektu <see cref="PatientDTO"/>.</returns>
-            public async Task<PatientDTO> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<PatientGetDTO> Handle(Query request, CancellationToken cancellationToken)
             {
                 var patient = await _context.PatientsDb
                                                 .Include(p => p.Address)
                                                 .Include(p => p.MessageTo)
                                                 .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-                return _mapper.Map<PatientDTO>(patient);
+                return _mapper.Map<PatientGetDTO>(patient);
             }
         }
     }

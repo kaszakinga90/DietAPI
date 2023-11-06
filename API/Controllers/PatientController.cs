@@ -1,4 +1,4 @@
-﻿using Application.Core;
+using Application.Core;
 using Application.CQRS.Patients;
 using Application.DTOs.PatientDTO;
 using Microsoft.AspNetCore.Mvc;
