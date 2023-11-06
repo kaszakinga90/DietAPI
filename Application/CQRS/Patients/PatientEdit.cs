@@ -1,4 +1,6 @@
 ﻿using Application.Core;
+using Application.DTOs.DieticianDTO;
+using Application.DTOs.PatientDTO;
 using AutoMapper;
 using DietDB;
 using FluentValidation;
@@ -15,7 +17,7 @@ namespace Application.CQRS.Patients
         /// <summary>
         /// Reprezentuje polecenie do edycji informacji o pacjencie.
         /// </summary>
-        public class Command : IRequest<PatientUpdateDTO<Unit>>
+        public class Command : IRequest<Result<PatientDTO>>
         {
             /// <summary>
             /// Pobiera lub ustawia informacje o pacjencie do edycji.
@@ -26,7 +28,7 @@ namespace Application.CQRS.Patients
         /// <summary>
         /// Walidator do sprawdzania poprawności danych pacjenta przed ich edycją.
         /// </summary>
-        public class CommandValidator : AbstractValidator<PatientUpdateDTO>
+        public class CommandValidator : AbstractValidator<PatientDTO>
         {
             /// <summary>
             /// Inicjalizuje walidator i definiuje reguły walidacji.
@@ -40,7 +42,7 @@ namespace Application.CQRS.Patients
         /// <summary>
         /// Obsługuje proces edycji informacji o pacjencie w bazie danych.
         /// </summary>
-        public class Handler : IRequestHandler<Command, PatientUpdateDTO<Unit>>
+        public class Handler : IRequestHandler<Command, Result<PatientDTO>>
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
@@ -61,16 +63,33 @@ namespace Application.CQRS.Patients
             /// </summary>
             /// <param name="request">Polecenie do przetworzenia.</param>
             /// <param name="cancellationToken">Token anulowania operacji.</param>
-            /// <returns>Zwraca wynik operacji edycji w postaci obiektu <see cref="PatientUpdateDTO{Unit}"/>.</returns>
-            public async Task<PatientUpdateDTO<Unit>> Handle(Command request, CancellationToken cancellationToken)
+            /// <returns>Zwraca wynik operacji edycji w postaci obiektu <see cref="PatientDTO"/>.</returns>
+            public async Task<Result<PatientDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var patient = await _context.Patients.FindAsync(request.Patient.Id);
-                if (patient == null) return null;
-                _mapper.Map(request.Patient, patient);
-                var result = await _context.SaveChangesAsync() > 0;
-                if (!result) return PatientUpdateDTO<Unit>.Failure("Edycja pacjent nie powiodla sie");
+                var patient = await _context.PatientsDb.FindAsync(new object[] { request.Patient.Id }, cancellationToken);
+                if (patient == null)
+                {
+                    return Result<PatientDTO>.Failure("Pacjent o podanym ID nie został znaleziony.");
+                }
 
-                return PatientUpdateDTO<Unit>.Success(Unit.Value);
+                _mapper.Map(request.Patient, patient);
+
+                try
+                {
+                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    if (!result)
+                    {
+                        return Result<PatientDTO>.Failure("Edycja pacjenta nie powiodła się.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Logowanie błędu ex
+                    return Result<PatientDTO>.Failure("Wystąpił błąd podczas edycji pacjenta.");
+                }
+
+                var updatedPatient = _mapper.Map<PatientDTO>(patient);
+                return Result<PatientDTO>.Success(updatedPatient);
             }
         }
     }

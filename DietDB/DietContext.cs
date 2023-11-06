@@ -24,54 +24,56 @@ namespace DietDB
         /// Pobiera lub ustawia kolekcję przykładów w bazie danych.
         /// </summary>
 
-        public DbSet<Example> Examples { get; set; }
-        public DbSet<Address> Addresses { get; set; }
-        public DbSet<CategoryOfDiet> CategoryOfDiet { get; set; }
-        public DbSet<Comment> Comments { get; set; }
-        public DbSet<DayWeek> DayWeek { get; set; }
-        public DbSet<Diet> Diets { get; set; }
-        public DbSet<Dietician> Dieticians { get; set; }
-        public DbSet<Diploma> Diplomas { get; set; }
-        public DbSet<Dish> Dishes { get; set; }
-        public DbSet<FoodCatalog> FoodCatalogs { get; set; }
-        public DbSet<Ingredient> Ingridients { get; set; }
-        public DbSet<MealTime> MealTime { get; set; }
-        public DbSet<Measure> Measures { get; set; }
-        public DbSet<Message> Messages { get; set; }
-        public DbSet<Note> Notes { get; set; }
-        public DbSet<Office> Offices { get; set; }
-        public DbSet<Patient> Patients { get; set; }
-        public DbSet<PatientCard> PatientCards { get; set; }
-        public DbSet<Rating> Rating { get; set; }
-        public DbSet<Recipe> Recipes { get; set; }
-        public DbSet<SingleDiet> SingleDiet { get; set; }
-        public DbSet<SingleTestEqual> SingleTestEqual { get; set; }
-        public DbSet<Status> Status { get; set; }
-        public DbSet<Survey> Surveys { get; set; }
-        public DbSet<Term> Terms { get; set; }
-        public DbSet<TestEqual> TestEquals { get; set; }
-        public DbSet<Visit> Visits { get; set; }
-        public DbSet<Article> Articles { get; set; }
-        public DbSet<Carousel> Carousels { get; set; }
-        public DbSet<Footer> Footers { get; set; }
-        public DbSet<LayoutCategory> LayoutCategories { get; set; }
-        public DbSet<LayoutPhoto> LayoutPhotos { get; set; }
-        public DbSet<Link> Links { get; set; }
-        public DbSet<MainNavbar> Navbars { get; set; }
-        public DbSet<News> Newses { get; set; }
-        public DbSet<SocialMedia> SocialMedia { get; set; }
-        public DbSet<SubTab> SubTabs { get; set; }
-        public DbSet<Tab> Tabs { get; set; }
-        public DbSet<Tag> Tags { get; set; }
-        public DbSet<CategoryType> CategoryTypes { get; set; }
-        public DbSet<Content> Contents { get; set; }
-        public DbSet<Document> Documents { get; set; }
-        public DbSet<FileCategory> FileCategories { get; set; }
-        public DbSet<Manual> Manuals { get; set; }
-        public DbSet<Sex> Sex { get; set; }
-        public DbSet<MessagePatient> MessagePatients { get; set; }
-        public DbSet<MessageToDietician> MessageToDieticians { get; set; }
-        public DbSet<MessageToPatient> MessageToPatients { get; set; }
+        public DbSet<Example> ExamplesDb { get; set; }
+        public DbSet<Address> AddressesDb { get; set; }
+        public DbSet<CategoryOfDiet> CategoryOfDietsDb { get; set; }
+        public DbSet<Comment> CommentsDb { get; set; }
+        public DbSet<DayWeek> DayWeeksDb { get; set; }
+        public DbSet<Diet> DietsDb { get; set; }
+        public DbSet<Dietician> DieticiansDb { get; set; }
+        public DbSet<Diploma> DiplomasDb { get; set; }
+        public DbSet<Dish> DishesDb { get; set; }
+        public DbSet<FoodCatalog> FoodCatalogsDb { get; set; }
+        public DbSet<Ingredient> IngridientsDb { get; set; }
+        public DbSet<MealTime> MealTimesDb { get; set; }
+        public DbSet<Measure> MeasuresDb { get; set; }
+        public DbSet<Note> NotesDb { get; set; }
+        public DbSet<Office> OfficesDb { get; set; }
+        public DbSet<Patient> PatientsDb { get; set; }
+        public DbSet<PatientCard> PatientCardsDb { get; set; }
+        public DbSet<Rating> RatingsDb { get; set; }
+        public DbSet<Recipe> RecipesDb { get; set; }
+        public DbSet<SingleDiet> SingleDietsDb { get; set; }
+        public DbSet<SingleTestEqual> SingleTestEqualsDb { get; set; }
+        public DbSet<Status> StatusesDb { get; set; }
+        public DbSet<Survey> SurveysDb { get; set; }
+        public DbSet<Term> TermsDb { get; set; }
+        public DbSet<TestEqual> TestEqualsDb { get; set; }
+        public DbSet<Visit> VisitsDb { get; set; }
+        public DbSet<Article> ArticlesDb { get; set; }
+        public DbSet<Carousel> CarouselsDb { get; set; }
+        public DbSet<Footer> FootersDb { get; set; }
+        public DbSet<LayoutCategory> LayoutCategoriesDb { get; set; }
+        public DbSet<LayoutPhoto> LayoutPhotosDb { get; set; }
+        public DbSet<Link> LinksDb { get; set; }
+        public DbSet<MainNavbar> NavbarsDb { get; set; }
+        public DbSet<News> NewsesDb { get; set; }
+        public DbSet<SocialMedia> SocialMediaDb { get; set; }
+        public DbSet<SubTab> SubTabsDb { get; set; }
+        public DbSet<Tab> TabsDb { get; set; }
+        public DbSet<Tag> TagsDb { get; set; }
+        public DbSet<CategoryType> CategoryTypesDb { get; set; }
+        public DbSet<Content> ContentsDb { get; set; }
+        public DbSet<Document> DocumentsDb { get; set; }
+        public DbSet<FileCategory> FileCategoriesDb { get; set; }
+        public DbSet<Manual> ManualsDb { get; set; }
+        public DbSet<Sex> SexesDb { get; set; }
+        public DbSet<MessagePatient> MessagePatientsDb { get; set; }
+        public DbSet<MessageTo> MessageToDb { get; set; }
+        public DbSet<Admin> AdminsDb { get; set; }
+        public DbSet<MessageAdmin> MessageAdminsDb { get; set; }
+        public DbSet<MessageDietetician> MessageDieteticiansDb { get; set; }
+        public DbSet<DieticianPatient> DieticianPatientsDb { get; set; }
 
         #endregion
 
@@ -82,57 +84,74 @@ namespace DietDB
         /// <param name="modelBuilder">Konstruktor modelu bazy danych.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Mapuje encję pacjenta do odpowiedniej tabeli w bazie danych.
-            modelBuilder.Entity<Patient>().ToTable("Patients");
-
-            // Mapuje encję dietetyka do odpowiedniej tabeli w bazie danych.
-            modelBuilder.Entity<Dietician>().ToTable("Dieticians");
+            // Mapowanie encji i ustawienia relacji między nimi, np.:
+            // Mapuje encję Patient do odpowiedniej tabeli w bazie danych.
+            modelBuilder.Entity<Patient>().ToTable("PatientsDb");
+            modelBuilder.Entity<Dietician>().ToTable("DieticiansDb");
+            modelBuilder.Entity<Admin>().ToTable("AdminsDb");
 
             //**************************************************************************************************
 
+            // Definiuje klucze podstawowe, relacje i inne konfiguracje dla pozostałych encji, np.
+
             // Definiuje klucz podstawowy dla encji MessagePatient.
             modelBuilder.Entity<MessagePatient>()
-                .HasKey(mp => new { mp.MessageId, mp.PatientId });
+                .HasKey(mp => new { mp.MessageToId, mp.PatientId });
 
-            // Ustawia relacje jeden-do-wielu pomiędzy Message i MessagePatient.
+            // Ustawia relacje jeden-do-wielu pomiędzy MessageToDb i MessagePatient.
             modelBuilder.Entity<MessagePatient>()
-                .HasOne(mp => mp.Message)
-                .WithMany(m => m.MessageToPatients) // Upewnij się, że Message ma kolekcję MessagePatients
-                .HasForeignKey(mp => mp.MessageId);
+                .HasOne(mp => mp.MessageTo)
+                .WithMany(m => m.MessagePatient) // Sprawdzenie, czy MessageToDb ma kolekcję MessagePatientsDb
+                .HasForeignKey(mp => mp.MessageToId);
 
-            // Ustawia relacje jeden-do-wielu pomiędzy Patient i MessagePatient.
             modelBuilder.Entity<MessagePatient>()
                 .HasOne(mp => mp.Patient)
-                .WithMany(p => p.MessagePatients) // Upewnij się, że Patient ma kolekcję MessagePatients
+                .WithMany(p => p.MessagePatients)  
                 .HasForeignKey(mp => mp.PatientId);
 
             //**************************************************************************************************
 
-            modelBuilder.Entity<DieticianMessage>()
-                .HasKey(mp => new { mp.MessageId, mp.DieticianId });
+            modelBuilder.Entity<MessageDietetician>()
+                .HasKey(mp => new { mp.MessageToId, mp.DieticianId });
 
-            modelBuilder.Entity<DieticianMessage>()
-                .HasOne(mp => mp.Message)
-                .WithMany(m => m.MessageDieticians) // Upewnij się, że Message ma kolekcję MessagePatients
-                .HasForeignKey(mp => mp.MessageId);
+            modelBuilder.Entity<MessageDietetician>()
+                .HasOne(mp => mp.MessageTo)
+                .WithMany(m => m.MessageDieticians)
+                .HasForeignKey(mp => mp.MessageToId);
 
-            modelBuilder.Entity<DieticianMessage>()
+            modelBuilder.Entity<MessageDietetician>()
                 .HasOne(mp => mp.Dietician)
-                .WithMany(p => p.MessageDieticians) // Upewnij się, że Patient ma kolekcję MessagePatients
+                .WithMany(p => p.MessageDieticians)  
                 .HasForeignKey(mp => mp.DieticianId);
 
             //**************************************************************************************************
+
+            modelBuilder.Entity<MessageAdmin>()
+                .HasKey(mp => new { mp.MessageToId, mp.AdminId });
+
+            modelBuilder.Entity<MessageAdmin>()
+                .HasOne(mp => mp.MessageTo)
+                .WithMany(m => m.MessageAdmin)
+                .HasForeignKey(mp => mp.MessageToId);
+
+            modelBuilder.Entity<MessageAdmin>()
+                .HasOne(mp => mp.Admin)
+                .WithMany(p => p.MessageAdmins)
+                .HasForeignKey(mp => mp.AdminId);
+
+            //**************************************************************************************************
+
             modelBuilder.Entity<DieticianNote>()
                 .HasKey(mp => new { mp.NoteId, mp.DieticianId });
 
             modelBuilder.Entity<DieticianNote>()
                 .HasOne(mp => mp.Note)
-                .WithMany(m => m.DieticianNotes) // Upewnij się, że Message ma kolekcję MessagePatients
+                .WithMany(m => m.DieticianNotes)
                 .HasForeignKey(mp => mp.NoteId);
 
             modelBuilder.Entity<DieticianNote>()
                 .HasOne(mp => mp.Dietician)
-                .WithMany(p => p.DieticianNotes) // Upewnij się, że Patient ma kolekcję MessagePatients
+                .WithMany(p => p.DieticianNotes)  
                 .HasForeignKey(mp => mp.DieticianId);
 
             //**************************************************************************************************
@@ -141,12 +160,12 @@ namespace DietDB
 
             modelBuilder.Entity<DieticianPatient>()
                 .HasOne(mp => mp.Dietician)
-                .WithMany(m => m.DieticianPatients) // Upewnij się, że Message ma kolekcję MessagePatients
+                .WithMany(m => m.DieticianPatients)
                 .HasForeignKey(mp => mp.DieticianId);
 
             modelBuilder.Entity<DieticianPatient>()
                 .HasOne(mp => mp.Patient)
-                .WithMany(p => p.DieticianPatients) // Upewnij się, że Patient ma kolekcję MessagePatients
+                .WithMany(p => p.DieticianPatients)  
                 .HasForeignKey(mp => mp.PatientId);
             
             //**************************************************************************************************
@@ -155,12 +174,12 @@ namespace DietDB
 
             modelBuilder.Entity<DieticianOffice>()
                 .HasOne(mp => mp.Dietician)
-                .WithMany(m => m.DieticianOffices) // Upewnij się, że Message ma kolekcję MessagePatients
+                .WithMany(m => m.DieticianOffices)
                 .HasForeignKey(mp => mp.DieticianId);
 
             modelBuilder.Entity<DieticianOffice>()
                 .HasOne(mp => mp.Office)
-                .WithMany(p => p.DieticianOffices) // Upewnij się, że Patient ma kolekcję MessagePatients
+                .WithMany(p => p.DieticianOffices)  
                 .HasForeignKey(mp => mp.OfficeId);
             
             //**************************************************************************************************
@@ -169,12 +188,12 @@ namespace DietDB
 
             modelBuilder.Entity<DietPatient>()
                 .HasOne(mp => mp.Patient)
-                .WithMany(m => m.DietPatients) // Upewnij się, że Message ma kolekcję MessagePatients
+                .WithMany(m => m.DietPatients)
                 .HasForeignKey(mp => mp.PatientId);
 
             modelBuilder.Entity<DietPatient>()
                 .HasOne(mp => mp.Diet)
-                .WithMany(p => p.DietPatients) // Upewnij się, że Patient ma kolekcję MessagePatients
+                .WithMany(p => p.DietPatients)  
                 .HasForeignKey(mp => mp.DietId);
             
             //**************************************************************************************************
@@ -183,12 +202,12 @@ namespace DietDB
 
             modelBuilder.Entity<DietSingleDiet>()
                 .HasOne(mp => mp.SingleDiet)
-                .WithMany(m => m.DietSingleDiets) // Upewnij się, że Message ma kolekcję MessagePatients
+                .WithMany(m => m.DietSingleDiets)
                 .HasForeignKey(mp => mp.SingleDietId);
 
             modelBuilder.Entity<DietSingleDiet>()
                 .HasOne(mp => mp.Diet)
-                .WithMany(p => p.DietSingleDiets) // Upewnij się, że Patient ma kolekcję MessagePatients
+                .WithMany(p => p.DietSingleDiets)  
                 .HasForeignKey(mp => mp.DietId);
             
             //**************************************************************************************************
@@ -197,12 +216,12 @@ namespace DietDB
 
             modelBuilder.Entity<DishFoodCatalog>()
                 .HasOne(mp => mp.Dish)
-                .WithMany(m => m.DishFoodCatalogs) // Upewnij się, że Message ma kolekcję MessagePatients
+                .WithMany(m => m.DishFoodCatalogs)
                 .HasForeignKey(mp => mp.DishId);
 
             modelBuilder.Entity<DishFoodCatalog>()
                 .HasOne(mp => mp.FoodCatalog)
-                .WithMany(p => p.DishFoodCatalogs) // Upewnij się, że Patient ma kolekcję MessagePatients
+                .WithMany(p => p.DishFoodCatalogs)  
                 .HasForeignKey(mp => mp.FoodCatalogId);
             
             //**************************************************************************************************
@@ -211,12 +230,12 @@ namespace DietDB
 
             modelBuilder.Entity<DishIngredient>()
                 .HasOne(mp => mp.Dish)
-                .WithMany(m => m.DishIngredients) // Upewnij się, że Message ma kolekcję MessagePatients
+                .WithMany(m => m.DishIngredients)
                 .HasForeignKey(mp => mp.DishId);
 
             modelBuilder.Entity<DishIngredient>()
                 .HasOne(mp => mp.Ingredient)
-                .WithMany(p => p.DishIngredients) // Upewnij się, że Patient ma kolekcję MessagePatients
+                .WithMany(p => p.DishIngredients)  
                 .HasForeignKey(mp => mp.IngredientId);
             
             //**************************************************************************************************
@@ -225,12 +244,12 @@ namespace DietDB
 
             modelBuilder.Entity<DishMeasure>()
                 .HasOne(mp => mp.Dish)
-                .WithMany(m => m.DishMeasures) // Upewnij się, że Message ma kolekcję MessagePatients
+                .WithMany(m => m.DishMeasures)
                 .HasForeignKey(mp => mp.DishId);
 
             modelBuilder.Entity<DishMeasure>()
                 .HasOne(mp => mp.Measure)
-                .WithMany(p => p.DishMeasures) // Upewnij się, że Patient ma kolekcję MessagePatients
+                .WithMany(p => p.DishMeasures)  
                 .HasForeignKey(mp => mp.MeasureId);
             
             //**************************************************************************************************
@@ -239,12 +258,12 @@ namespace DietDB
 
             modelBuilder.Entity<MealTimeSingleDiet>()
                 .HasOne(mp => mp.MealTime)
-                .WithMany(m => m.MealTimeSingleDiets) // Upewnij się, że Message ma kolekcję MessagePatients
+                .WithMany(m => m.MealTimeSingleDiets)
                 .HasForeignKey(mp => mp.MealTimeId);
 
             modelBuilder.Entity<MealTimeSingleDiet>()
                 .HasOne(mp => mp.SingleDiet)
-                .WithMany(p => p.MealTimeSingleDiets) // Upewnij się, że Patient ma kolekcję MessagePatients
+                .WithMany(p => p.MealTimeSingleDiets)  
                 .HasForeignKey(mp => mp.SingleDietId);
             
             //**************************************************************************************************
@@ -253,12 +272,12 @@ namespace DietDB
 
             modelBuilder.Entity<NotePatient>()
                 .HasOne(mp => mp.Patient)
-                .WithMany(m => m.NotePatients) // Upewnij się, że Message ma kolekcję MessagePatients
+                .WithMany(m => m.NotePatients)
                 .HasForeignKey(mp => mp.PatientId);
 
             modelBuilder.Entity<NotePatient>()
                 .HasOne(mp => mp.Note)
-                .WithMany(p => p.NotePatients) // Upewnij się, że Patient ma kolekcję MessagePatients
+                .WithMany(p => p.NotePatients)  
                 .HasForeignKey(mp => mp.NoteId);
             
             //**************************************************************************************************
@@ -267,12 +286,12 @@ namespace DietDB
 
             modelBuilder.Entity<PatientCardSurvey>()
                 .HasOne(mp => mp.PatientCard)
-                .WithMany(m => m.PatientCardSurveys) // Upewnij się, że Message ma kolekcję MessagePatients
+                .WithMany(m => m.PatientCardSurveys)
                 .HasForeignKey(mp => mp.PatientCardId);
 
             modelBuilder.Entity<PatientCardSurvey>()
                 .HasOne(mp => mp.Survey)
-                .WithMany(p => p.PatientCardSurveys) // Upewnij się, że Patient ma kolekcję MessagePatients
+                .WithMany(p => p.PatientCardSurveys)  
                 .HasForeignKey(mp => mp.SurveyId);
             
 
@@ -281,6 +300,7 @@ namespace DietDB
         #endregion
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            // Konfiguracja dodatkowych opcji DbContext, np. logowania zapytań SQL.
             optionsBuilder.LogTo(item => Debug.WriteLine(item));
             base.OnConfiguring(optionsBuilder);
         }

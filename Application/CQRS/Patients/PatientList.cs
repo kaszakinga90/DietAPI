@@ -39,7 +39,7 @@ namespace Application.CQRS.Patients
             /// <returns>Zwraca listę pacjentów.</returns>
             public async Task<List<Patient>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.Patients
+                return await _context.PatientsDb
                     .Include(p => p.Address)
                     .ToListAsync(cancellationToken);
             }

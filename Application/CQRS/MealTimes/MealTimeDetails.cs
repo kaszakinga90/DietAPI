@@ -22,7 +22,7 @@ namespace Application.CQRS.MealTimes
 
             public async Task<MealTime> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.MealTime.FindAsync(request.Id);
+                return await _context.MealTimesDb.FindAsync(request.Id);
             }
         }
     }

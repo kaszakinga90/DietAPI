@@ -21,7 +21,7 @@ namespace Application.CQRS.SingleDiets
 
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                _context.SingleDiet.Add(request.SingleDiet);
+                _context.SingleDietsDb.Add(request.SingleDiet);
 
                 await _context.SaveChangesAsync();
             }

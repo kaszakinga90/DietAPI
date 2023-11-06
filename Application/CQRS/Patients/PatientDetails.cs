@@ -1,16 +1,10 @@
-﻿using AutoMapper;
+﻿using Application.DTOs.PatientDTO;
+using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using ModelsDB;
-using ModelsDB.Functionality;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Application.CQRS.PatientDTOs
+namespace Application.CQRS.Patients
 {
     /// <summary>
     /// Zawiera klasy służące do pobierania szczegółów pacjenta na podstawie jego identyfikatora.
@@ -55,9 +49,9 @@ namespace Application.CQRS.PatientDTOs
             /// <returns>Zwraca szczegóły pacjenta w postaci obiektu <see cref="PatientDTO"/>.</returns>
             public async Task<PatientGetDTO> Handle(Query request, CancellationToken cancellationToken)
             {
-                var patient = await _context.Patients
+                var patient = await _context.PatientsDb
                                                 .Include(p => p.Address)
-                                                .Include(p => p.MessageToPatients)
+                                                .Include(p => p.MessageTo)
                                                 .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
                 return _mapper.Map<PatientGetDTO>(patient);

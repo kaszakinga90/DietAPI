@@ -21,7 +21,7 @@ namespace Application.CQRS.CategoryOfDiets
 
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                _context.CategoryOfDiet.Add(request.CategoryOfDiet);
+                _context.CategoryOfDietsDb.Add(request.CategoryOfDiet);
 
                 await _context.SaveChangesAsync();
             }

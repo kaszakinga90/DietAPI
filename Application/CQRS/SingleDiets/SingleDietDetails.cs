@@ -23,7 +23,7 @@ namespace Application.CQRS.SingleDiets
 
             public async Task<SingleDiet> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.SingleDiet
+                return await _context.SingleDietsDb
                        .Include(a => a.DayWeek)
                        .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
             }

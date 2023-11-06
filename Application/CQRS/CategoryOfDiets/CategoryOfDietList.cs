@@ -20,7 +20,7 @@ namespace Application.CQRS.CategoryOfDiets
 
             public async Task<List<CategoryOfDiet>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.CategoryOfDiet.ToListAsync(cancellationToken);
+                return await _context.CategoryOfDietsDb.ToListAsync(cancellationToken);
             }
         }
     }

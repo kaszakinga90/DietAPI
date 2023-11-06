@@ -26,7 +26,7 @@ namespace Application.CQRS.SingleDiets
 
             public async Task<List<SingleDiet>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var singleList = await _context.SingleDiet
+                var singleList = await _context.SingleDietsDb
                     .Include(a => a.DayWeek)
                     .ToListAsync(cancellationToken);
 

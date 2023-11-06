@@ -24,7 +24,7 @@ namespace Application.CQRS.CategoryOfDiets
 
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                var CategoryOfDiet = await _context.CategoryOfDiet.FindAsync(request.CategoryOfDiet.Id);
+                var CategoryOfDiet = await _context.CategoryOfDietsDb.FindAsync(request.CategoryOfDiet.Id);
                 _mapper.Map(request.CategoryOfDiet, CategoryOfDiet);
                 await _context.SaveChangesAsync();
             }
