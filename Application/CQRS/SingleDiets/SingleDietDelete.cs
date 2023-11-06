@@ -19,7 +19,7 @@ namespace Application.CQRS.SingleDiets
             }
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                var example = await _context.SingleDiet.FindAsync(request.Id);
+                var example = await _context.SingleDietsDb.FindAsync(request.Id);
 
                 _context.Remove(example);
 

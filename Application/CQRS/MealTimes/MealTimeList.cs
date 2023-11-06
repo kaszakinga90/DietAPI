@@ -20,7 +20,7 @@ namespace Application.CQRS.MealTimes
 
             public async Task<List<MealTime>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.MealTime.ToListAsync(cancellationToken);
+                return await _context.MealTimesDb.ToListAsync(cancellationToken);
             }
         }
     }

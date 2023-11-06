@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietDB.Migrations
 {
     [DbContext(typeof(DietContext))]
-    [Migration("20231027094620_InitialCreate")]
+    [Migration("20231101190444_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -355,7 +355,7 @@ namespace DietDB.Migrations
 
                     b.HasIndex("RatingId");
 
-                    b.ToTable("Dieticians", (string)null);
+                    b.ToTable("DieticiansDb", (string)null);
                 });
 
             modelBuilder.Entity("ModelsDB.Diploma", b =>
@@ -480,7 +480,7 @@ namespace DietDB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Examples");
+                    b.ToTable("ExamplesDb");
                 });
 
             modelBuilder.Entity("ModelsDB.FoodCatalog", b =>
@@ -528,7 +528,7 @@ namespace DietDB.Migrations
                     b.ToTable("FoodCatalog");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.CategoryOfDiet", b =>
+            modelBuilder.Entity("ModelsDB.Functionality.CategoryOfDietsDb", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -562,10 +562,10 @@ namespace DietDB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CategoryOfDiet");
+                    b.ToTable("CategoryOfDietsDb");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.DayWeek", b =>
+            modelBuilder.Entity("ModelsDB.Functionality.DayWeeksDb", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -599,7 +599,7 @@ namespace DietDB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DayWeek");
+                    b.ToTable("DayWeeksDb");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.DieticianMessage", b =>
@@ -647,7 +647,7 @@ namespace DietDB.Migrations
                     b.ToTable("DieticianOffice");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.DieticianPatient", b =>
+            modelBuilder.Entity("ModelsDB.Functionality.DieticianPatientsDb", b =>
                 {
                     b.Property<int>("DieticianId")
                         .HasColumnType("int");
@@ -659,7 +659,7 @@ namespace DietDB.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("DieticianPatient");
+                    b.ToTable("DieticianPatientsDb");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.DietPatient", b =>
@@ -737,7 +737,7 @@ namespace DietDB.Migrations
                     b.ToTable("DishMeasure");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.MealTime", b =>
+            modelBuilder.Entity("ModelsDB.Functionality.MealTimesDb", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -771,7 +771,7 @@ namespace DietDB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MealTime");
+                    b.ToTable("MealTimesDb");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.MealTimeSingleDiet", b =>
@@ -789,7 +789,7 @@ namespace DietDB.Migrations
                     b.ToTable("MealTimeSingleDiet");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.MessageToDietician", b =>
+            modelBuilder.Entity("ModelsDB.Functionality.MessageToDb", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -842,7 +842,7 @@ namespace DietDB.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("MessageToDieticians");
+                    b.ToTable("MessageTos");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.MessageToPatient", b =>
@@ -916,7 +916,7 @@ namespace DietDB.Migrations
                     b.ToTable("PatientCardSurvey");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.Sex", b =>
+            modelBuilder.Entity("ModelsDB.Functionality.SexesDb", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -929,10 +929,10 @@ namespace DietDB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sex");
+                    b.ToTable("SexesDb");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.SingleDiet", b =>
+            modelBuilder.Entity("ModelsDB.Functionality.SingleDietsDb", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -980,10 +980,10 @@ namespace DietDB.Migrations
 
                     b.HasIndex("DayWeekId");
 
-                    b.ToTable("SingleDiet");
+                    b.ToTable("SingleDietsDb");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.Status", b =>
+            modelBuilder.Entity("ModelsDB.Functionality.StatusesDb", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1017,7 +1017,7 @@ namespace DietDB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Status");
+                    b.ToTable("StatusesDb");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.Term", b =>
@@ -1506,7 +1506,7 @@ namespace DietDB.Migrations
                     b.ToTable("News");
                 });
 
-            modelBuilder.Entity("ModelsDB.Layout.SocialMedia", b =>
+            modelBuilder.Entity("ModelsDB.Layout.SocialMediaDb", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1553,7 +1553,7 @@ namespace DietDB.Migrations
 
                     b.HasIndex("LinkId");
 
-                    b.ToTable("SocialMedia");
+                    b.ToTable("SocialMediaDb");
                 });
 
             modelBuilder.Entity("ModelsDB.Layout.SubTab", b =>
@@ -2148,7 +2148,7 @@ namespace DietDB.Migrations
 
                     b.HasIndex("SexId");
 
-                    b.ToTable("Patients", (string)null);
+                    b.ToTable("PatientsDb", (string)null);
                 });
 
             modelBuilder.Entity("ModelsDB.PatientCard", b =>
@@ -2190,7 +2190,7 @@ namespace DietDB.Migrations
                     b.ToTable("PatientCard");
                 });
 
-            modelBuilder.Entity("ModelsDB.Rating", b =>
+            modelBuilder.Entity("ModelsDB.RatingsDb", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -2229,7 +2229,7 @@ namespace DietDB.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("Rating");
+                    b.ToTable("RatingsDb");
                 });
 
             modelBuilder.Entity("ModelsDB.Recipe", b =>
@@ -2275,7 +2275,7 @@ namespace DietDB.Migrations
                     b.ToTable("Recipe");
                 });
 
-            modelBuilder.Entity("ModelsDB.SingleTestEqual", b =>
+            modelBuilder.Entity("ModelsDB.SingleTestEqualsDb", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -2320,7 +2320,7 @@ namespace DietDB.Migrations
 
                     b.HasIndex("TestEqualId");
 
-                    b.ToTable("SingleTestEqual");
+                    b.ToTable("SingleTestEqualsDb");
                 });
 
             modelBuilder.Entity("ModelsDB.Survey", b =>
@@ -2460,13 +2460,13 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("CategoryOfDietSingleDiet", b =>
                 {
-                    b.HasOne("ModelsDB.Functionality.CategoryOfDiet", null)
+                    b.HasOne("ModelsDB.Functionality.CategoryOfDietsDb", null)
                         .WithMany()
                         .HasForeignKey("DietCategoriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ModelsDB.Functionality.SingleDiet", null)
+                    b.HasOne("ModelsDB.Functionality.SingleDietsDb", null)
                         .WithMany()
                         .HasForeignKey("SingleDietsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2512,7 +2512,7 @@ namespace DietDB.Migrations
                         .IsRequired();
 
                     b.HasOne("ModelsDB.Patient", "Patient")
-                        .WithMany("MessagePatients")
+                        .WithMany("MessagePatientsDb")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2525,11 +2525,11 @@ namespace DietDB.Migrations
             modelBuilder.Entity("ModelsDB.Comment", b =>
                 {
                     b.HasOne("ModelsDB.Dietician", "Dietician")
-                        .WithMany("Comments")
+                        .WithMany("CommentsDb")
                         .HasForeignKey("DieticianId");
 
                     b.HasOne("ModelsDB.Patient", "Patient")
-                        .WithMany("Comments")
+                        .WithMany("CommentsDb")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2542,7 +2542,7 @@ namespace DietDB.Migrations
             modelBuilder.Entity("ModelsDB.Diet", b =>
                 {
                     b.HasOne("ModelsDB.Dietician", "Dietician")
-                        .WithMany("Diets")
+                        .WithMany("DietsDb")
                         .HasForeignKey("DieticianId");
 
                     b.Navigation("Dietician");
@@ -2551,30 +2551,30 @@ namespace DietDB.Migrations
             modelBuilder.Entity("ModelsDB.Dietician", b =>
                 {
                     b.HasOne("ModelsDB.Address", "Address")
-                        .WithMany("Dieticians")
+                        .WithMany("DieticiansDb")
                         .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ModelsDB.Patient", null)
-                        .WithMany("Dieticians")
+                        .WithMany("DieticiansDb")
                         .HasForeignKey("PatientId");
 
-                    b.HasOne("ModelsDB.Rating", "Rating")
-                        .WithMany("Dieticians")
+                    b.HasOne("ModelsDB.RatingsDb", "RatingsDb")
+                        .WithMany("DieticiansDb")
                         .HasForeignKey("RatingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Address");
 
-                    b.Navigation("Rating");
+                    b.Navigation("RatingsDb");
                 });
 
             modelBuilder.Entity("ModelsDB.Diploma", b =>
                 {
                     b.HasOne("ModelsDB.Dietician", "Dietician")
-                        .WithMany("Diplomas")
+                        .WithMany("DiplomasDb")
                         .HasForeignKey("DieticianId");
 
                     b.Navigation("Dietician");
@@ -2583,7 +2583,7 @@ namespace DietDB.Migrations
             modelBuilder.Entity("ModelsDB.FoodCatalog", b =>
                 {
                     b.HasOne("ModelsDB.Dietician", "Dietician")
-                        .WithMany("FoodCatalogs")
+                        .WithMany("FoodCatalogsDb")
                         .HasForeignKey("DieticianId");
 
                     b.Navigation("Dietician");
@@ -2646,7 +2646,7 @@ namespace DietDB.Migrations
                     b.Navigation("Office");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.DieticianPatient", b =>
+            modelBuilder.Entity("ModelsDB.Functionality.DieticianPatientsDb", b =>
                 {
                     b.HasOne("ModelsDB.Dietician", "Dietician")
                         .WithMany("DieticianPatients")
@@ -2692,7 +2692,7 @@ namespace DietDB.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ModelsDB.Functionality.SingleDiet", "SingleDiet")
+                    b.HasOne("ModelsDB.Functionality.SingleDietsDb", "SingleDietsDb")
                         .WithMany("DietSingleDiets")
                         .HasForeignKey("SingleDietId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2700,7 +2700,7 @@ namespace DietDB.Migrations
 
                     b.Navigation("Diet");
 
-                    b.Navigation("SingleDiet");
+                    b.Navigation("SingleDietsDb");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.DishFoodCatalog", b =>
@@ -2762,33 +2762,33 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Functionality.MealTimeSingleDiet", b =>
                 {
-                    b.HasOne("ModelsDB.Functionality.MealTime", "MealTime")
+                    b.HasOne("ModelsDB.Functionality.MealTimesDb", "MealTimesDb")
                         .WithMany("MealTimeSingleDiets")
                         .HasForeignKey("MealTimeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ModelsDB.Functionality.SingleDiet", "SingleDiet")
+                    b.HasOne("ModelsDB.Functionality.SingleDietsDb", "SingleDietsDb")
                         .WithMany("MealTimeSingleDiets")
                         .HasForeignKey("SingleDietId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("MealTime");
+                    b.Navigation("MealTimesDb");
 
-                    b.Navigation("SingleDiet");
+                    b.Navigation("SingleDietsDb");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.MessageToDietician", b =>
+            modelBuilder.Entity("ModelsDB.Functionality.MessageToDb", b =>
                 {
                     b.HasOne("ModelsDB.Dietician", "Dietician")
-                        .WithMany("MessageToDieticians")
+                        .WithMany("MessageTos")
                         .HasForeignKey("DieticianId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ModelsDB.Patient", "Patient")
-                        .WithMany("MessageToDieticians")
+                        .WithMany("MessageTos")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2836,39 +2836,39 @@ namespace DietDB.Migrations
                     b.Navigation("Survey");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.SingleDiet", b =>
+            modelBuilder.Entity("ModelsDB.Functionality.SingleDietsDb", b =>
                 {
-                    b.HasOne("ModelsDB.Functionality.DayWeek", "DayWeek")
+                    b.HasOne("ModelsDB.Functionality.DayWeeksDb", "DayWeeksDb")
                         .WithMany("SingleDiets")
                         .HasForeignKey("DayWeekId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("DayWeek");
+                    b.Navigation("DayWeeksDb");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.Visit", b =>
                 {
                     b.HasOne("ModelsDB.Dietician", "Dietician")
-                        .WithMany("Visits")
+                        .WithMany("VisitsDb")
                         .HasForeignKey("DieticianId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ModelsDB.Patient", "Patient")
-                        .WithMany("Visits")
+                        .WithMany("VisitsDb")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ModelsDB.Functionality.Status", "Status")
-                        .WithMany("Visits")
+                    b.HasOne("ModelsDB.Functionality.StatusesDb", "StatusesDb")
+                        .WithMany("VisitsDb")
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ModelsDB.Functionality.Term", "Term")
-                        .WithMany("Visits")
+                        .WithMany("VisitsDb")
                         .HasForeignKey("TermId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2877,7 +2877,7 @@ namespace DietDB.Migrations
 
                     b.Navigation("Patient");
 
-                    b.Navigation("Status");
+                    b.Navigation("StatusesDb");
 
                     b.Navigation("Term");
                 });
@@ -2907,13 +2907,13 @@ namespace DietDB.Migrations
             modelBuilder.Entity("ModelsDB.Layout.Link", b =>
                 {
                     b.HasOne("ModelsDB.Layout.Footer", "Footer")
-                        .WithMany("Links")
+                        .WithMany("LinksDb")
                         .HasForeignKey("FooterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ModelsDB.Layout.LayoutCategory", "LayoutCategory")
-                        .WithMany("Links")
+                        .WithMany("LinksDb")
                         .HasForeignKey("LayoutCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2934,10 +2934,10 @@ namespace DietDB.Migrations
                     b.Navigation("LayoutCategory");
                 });
 
-            modelBuilder.Entity("ModelsDB.Layout.SocialMedia", b =>
+            modelBuilder.Entity("ModelsDB.Layout.SocialMediaDb", b =>
                 {
                     b.HasOne("ModelsDB.Layout.Footer", "Footer")
-                        .WithMany("SocialMedia")
+                        .WithMany("SocialMediaDb")
                         .HasForeignKey("FooterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2962,7 +2962,7 @@ namespace DietDB.Migrations
                         .IsRequired();
 
                     b.HasOne("ModelsDB.Layout.Tab", "Tab")
-                        .WithMany("SubTabs")
+                        .WithMany("SubTabsDb")
                         .HasForeignKey("TabId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2975,7 +2975,7 @@ namespace DietDB.Migrations
             modelBuilder.Entity("ModelsDB.ManualPanel.Document", b =>
                 {
                     b.HasOne("ModelsDB.ManualPanel.Content", "Content")
-                        .WithMany("Documents")
+                        .WithMany("DocumentsDb")
                         .HasForeignKey("ContentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2994,7 +2994,7 @@ namespace DietDB.Migrations
             modelBuilder.Entity("ModelsDB.ManualPanel.FileCategory", b =>
                 {
                     b.HasOne("ModelsDB.ManualPanel.CategoryType", "CategoryType")
-                        .WithMany("FileCategories")
+                        .WithMany("FileCategoriesDb")
                         .HasForeignKey("CategoryTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -3005,13 +3005,13 @@ namespace DietDB.Migrations
             modelBuilder.Entity("ModelsDB.ManualPanel.Manual", b =>
                 {
                     b.HasOne("ModelsDB.ManualPanel.Content", "Content")
-                        .WithMany("Manuals")
+                        .WithMany("ManualsDb")
                         .HasForeignKey("ContentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ModelsDB.ManualPanel.FileCategory", "FileCategory")
-                        .WithMany("Manuals")
+                        .WithMany("ManualsDb")
                         .HasForeignKey("FileCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -3024,13 +3024,13 @@ namespace DietDB.Migrations
             modelBuilder.Entity("ModelsDB.Note", b =>
                 {
                     b.HasOne("ModelsDB.Dietician", null)
-                        .WithMany("Notes")
+                        .WithMany("NotesDb")
                         .HasForeignKey("DieticianId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ModelsDB.Patient", null)
-                        .WithMany("Notes")
+                        .WithMany("NotesDb")
                         .HasForeignKey("PatientId");
                 });
 
@@ -3056,7 +3056,7 @@ namespace DietDB.Migrations
             modelBuilder.Entity("ModelsDB.Office", b =>
                 {
                     b.HasOne("ModelsDB.Address", "Address")
-                        .WithMany("Offices")
+                        .WithMany("OfficesDb")
                         .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -3067,19 +3067,19 @@ namespace DietDB.Migrations
             modelBuilder.Entity("ModelsDB.Patient", b =>
                 {
                     b.HasOne("ModelsDB.Address", "Address")
-                        .WithMany("Patients")
+                        .WithMany("PatientsDb")
                         .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ModelsDB.PatientCard", "PatientCard")
-                        .WithMany("Patients")
+                        .WithMany("PatientsDb")
                         .HasForeignKey("PatientCardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ModelsDB.Functionality.Sex", null)
-                        .WithMany("Patients")
+                    b.HasOne("ModelsDB.Functionality.SexesDb", null)
+                        .WithMany("PatientsDb")
                         .HasForeignKey("SexId");
 
                     b.Navigation("Address");
@@ -3089,16 +3089,16 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.PatientCard", b =>
                 {
-                    b.HasOne("ModelsDB.Functionality.Sex", "Sex")
+                    b.HasOne("ModelsDB.Functionality.SexesDb", "SexesDb")
                         .WithMany()
                         .HasForeignKey("SexId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Sex");
+                    b.Navigation("SexesDb");
                 });
 
-            modelBuilder.Entity("ModelsDB.Rating", b =>
+            modelBuilder.Entity("ModelsDB.RatingsDb", b =>
                 {
                     b.HasOne("ModelsDB.Patient", null)
                         .WithMany("Ratings")
@@ -3116,10 +3116,10 @@ namespace DietDB.Migrations
                     b.Navigation("Dish");
                 });
 
-            modelBuilder.Entity("ModelsDB.SingleTestEqual", b =>
+            modelBuilder.Entity("ModelsDB.SingleTestEqualsDb", b =>
                 {
                     b.HasOne("ModelsDB.TestEqual", "TestEqual")
-                        .WithMany("SingleTestEqual")
+                        .WithMany("SingleTestEqualsDb")
                         .HasForeignKey("TestEqualId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -3130,7 +3130,7 @@ namespace DietDB.Migrations
             modelBuilder.Entity("ModelsDB.TestEqual", b =>
                 {
                     b.HasOne("ModelsDB.PatientCard", "PatientCard")
-                        .WithMany("TestEquals")
+                        .WithMany("TestEqualsDb")
                         .HasForeignKey("PatientCardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -3148,11 +3148,11 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Address", b =>
                 {
-                    b.Navigation("Dieticians");
+                    b.Navigation("DieticiansDb");
 
-                    b.Navigation("Offices");
+                    b.Navigation("OfficesDb");
 
-                    b.Navigation("Patients");
+                    b.Navigation("PatientsDb");
                 });
 
             modelBuilder.Entity("ModelsDB.Diet", b =>
@@ -3164,7 +3164,7 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Dietician", b =>
                 {
-                    b.Navigation("Comments");
+                    b.Navigation("CommentsDb");
 
                     b.Navigation("DieticianNotes");
 
@@ -3172,21 +3172,21 @@ namespace DietDB.Migrations
 
                     b.Navigation("DieticianPatients");
 
-                    b.Navigation("Diets");
+                    b.Navigation("DietsDb");
 
-                    b.Navigation("Diplomas");
+                    b.Navigation("DiplomasDb");
 
-                    b.Navigation("FoodCatalogs");
+                    b.Navigation("FoodCatalogsDb");
 
                     b.Navigation("MessageDieticians");
 
-                    b.Navigation("MessageToDieticians");
+                    b.Navigation("MessageTos");
 
                     b.Navigation("MessageToPatients");
 
-                    b.Navigation("Notes");
+                    b.Navigation("NotesDb");
 
-                    b.Navigation("Visits");
+                    b.Navigation("VisitsDb");
                 });
 
             modelBuilder.Entity("ModelsDB.Dish", b =>
@@ -3205,36 +3205,36 @@ namespace DietDB.Migrations
                     b.Navigation("DishFoodCatalogs");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.DayWeek", b =>
+            modelBuilder.Entity("ModelsDB.Functionality.DayWeeksDb", b =>
                 {
                     b.Navigation("SingleDiets");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.MealTime", b =>
+            modelBuilder.Entity("ModelsDB.Functionality.MealTimesDb", b =>
                 {
                     b.Navigation("MealTimeSingleDiets");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.Sex", b =>
+            modelBuilder.Entity("ModelsDB.Functionality.SexesDb", b =>
                 {
-                    b.Navigation("Patients");
+                    b.Navigation("PatientsDb");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.SingleDiet", b =>
+            modelBuilder.Entity("ModelsDB.Functionality.SingleDietsDb", b =>
                 {
                     b.Navigation("DietSingleDiets");
 
                     b.Navigation("MealTimeSingleDiets");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.Status", b =>
+            modelBuilder.Entity("ModelsDB.Functionality.StatusesDb", b =>
                 {
-                    b.Navigation("Visits");
+                    b.Navigation("VisitsDb");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.Term", b =>
                 {
-                    b.Navigation("Visits");
+                    b.Navigation("VisitsDb");
                 });
 
             modelBuilder.Entity("ModelsDB.Ingredient", b =>
@@ -3244,14 +3244,14 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Layout.Footer", b =>
                 {
-                    b.Navigation("Links");
+                    b.Navigation("LinksDb");
 
-                    b.Navigation("SocialMedia");
+                    b.Navigation("SocialMediaDb");
                 });
 
             modelBuilder.Entity("ModelsDB.Layout.LayoutCategory", b =>
                 {
-                    b.Navigation("Links");
+                    b.Navigation("LinksDb");
 
                     b.Navigation("MainNavbar");
                 });
@@ -3263,24 +3263,24 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Layout.Tab", b =>
                 {
-                    b.Navigation("SubTabs");
+                    b.Navigation("SubTabsDb");
                 });
 
             modelBuilder.Entity("ModelsDB.ManualPanel.CategoryType", b =>
                 {
-                    b.Navigation("FileCategories");
+                    b.Navigation("FileCategoriesDb");
                 });
 
             modelBuilder.Entity("ModelsDB.ManualPanel.Content", b =>
                 {
-                    b.Navigation("Documents");
+                    b.Navigation("DocumentsDb");
 
-                    b.Navigation("Manuals");
+                    b.Navigation("ManualsDb");
                 });
 
             modelBuilder.Entity("ModelsDB.ManualPanel.FileCategory", b =>
                 {
-                    b.Navigation("Manuals");
+                    b.Navigation("ManualsDb");
                 });
 
             modelBuilder.Entity("ModelsDB.Measure", b =>
@@ -3309,41 +3309,41 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Patient", b =>
                 {
-                    b.Navigation("Comments");
+                    b.Navigation("CommentsDb");
 
                     b.Navigation("DietPatients");
 
                     b.Navigation("DieticianPatients");
 
-                    b.Navigation("Dieticians");
+                    b.Navigation("DieticiansDb");
 
-                    b.Navigation("MessagePatients");
+                    b.Navigation("MessagePatientsDb");
 
-                    b.Navigation("MessageToDieticians");
+                    b.Navigation("MessageTos");
 
                     b.Navigation("MessageToPatients");
 
                     b.Navigation("NotePatients");
 
-                    b.Navigation("Notes");
+                    b.Navigation("NotesDb");
 
                     b.Navigation("Ratings");
 
-                    b.Navigation("Visits");
+                    b.Navigation("VisitsDb");
                 });
 
             modelBuilder.Entity("ModelsDB.PatientCard", b =>
                 {
                     b.Navigation("PatientCardSurveys");
 
-                    b.Navigation("Patients");
+                    b.Navigation("PatientsDb");
 
-                    b.Navigation("TestEquals");
+                    b.Navigation("TestEqualsDb");
                 });
 
-            modelBuilder.Entity("ModelsDB.Rating", b =>
+            modelBuilder.Entity("ModelsDB.RatingsDb", b =>
                 {
-                    b.Navigation("Dieticians");
+                    b.Navigation("DieticiansDb");
                 });
 
             modelBuilder.Entity("ModelsDB.Survey", b =>
@@ -3353,7 +3353,7 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.TestEqual", b =>
                 {
-                    b.Navigation("SingleTestEqual");
+                    b.Navigation("SingleTestEqualsDb");
                 });
 #pragma warning restore 612, 618
         }

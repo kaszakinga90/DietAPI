@@ -1,24 +1,18 @@
 ﻿using Application.Core;
 using DietDB;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Xml;
 
-namespace Application.CQRS.PatientDTOs
+namespace Application.CQRS.Patients
 {
     public class PatientMessageList
     {
-        public class Query : IRequest<Result<PagedList<MessageToPatientDTO>>>
+        public class Query : IRequest<Result<PagedList<MessageToDTO>>>
         {
             public int PatientId { get; set; }
             public PagingParams Params { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Result<PagedList<MessageToPatientDTO>>>
+        public class Handler : IRequestHandler<Query, Result<PagedList<MessageToDTO>>>
         {
             private readonly DietContext _context;
 
@@ -27,11 +21,11 @@ namespace Application.CQRS.PatientDTOs
                 _context = context;
             }
 
-            public async Task<Result<PagedList<MessageToPatientDTO>>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<PagedList<MessageToDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var patientMessagesList = _context.MessageToPatients
+                var patientMessagesList = _context.MessageToDb
                     .Where(m => m.PatientId == request.PatientId)
-                    .Select(m => new MessageToPatientDTO
+                    .Select(m => new MessageToDTO
                     {
                         Id = m.Id,
                         Title = m.Title,
@@ -39,13 +33,15 @@ namespace Application.CQRS.PatientDTOs
                         DieticianId = m.DieticianId,
                         PatientId = m.PatientId,
                         DieticianName = m.Dietician.FirstName + " " + m.Dietician.LastName,
+                        AdminName = m.Admin.FirstName + " " + m.Admin.LastName,
+                        PatientName = m.Patient.FirstName + " " + m.Patient.LastName,
                         dateAdded=m.dateAdded,
                         ReadDate=m.ReadDate,
                         IsRead=m.IsRead
                     })
                     .AsQueryable();
-                return Result<PagedList<MessageToPatientDTO>>.Success(
-                    await PagedList<MessageToPatientDTO>.CreateAsync(patientMessagesList, request.Params.PageNumber, request.Params.PageSize)
+                return Result<PagedList<MessageToDTO>>.Success(
+                    await PagedList<MessageToDTO>.CreateAsync(patientMessagesList, request.Params.PageNumber, request.Params.PageSize)
                     );
             }
         }

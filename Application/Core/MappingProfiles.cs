@@ -1,10 +1,10 @@
-﻿using Application.DTOs.DayWeekDTO;
-using Application.DTOs.MessagesDTO;
+﻿using Application.DTOs.AdminDTO;
+using Application.DTOs.DayWeekDTO;
+using Application.DTOs.DieticianDTO;
+using Application.DTOs.PatientDTO;
 using AutoMapper;
 using ModelsDB;
 using ModelsDB.Functionality;
-using ModelsDB.Layout;
-using ModelsDB.ManualPanel;
 
 namespace Application.Core
 {
@@ -26,20 +26,34 @@ namespace Application.Core
             // Mapowania pomiędzy DTO a modelami.
             CreateMap<DayWeekDTO, DayWeek>();
             CreateMap<DayWeek, DayWeekDTO>();
-            CreateMap<MessageToDieteticianDTO, MessageToDietician>();
-            CreateMap<Message, MessageToPatientDTO>();
+            CreateMap<MessageToDTO, MessageTo>();
+            CreateMap<MessageTo, MessageToDTO>();
 
-            CreateMap<MessageToPatient, MessageToPatientDTO>()
+            CreateMap<MessageTo, MessageToDTO>()
                 .ForMember(dest => dest.DieticianName, opt => opt.MapFrom(src => src.Dietician.FirstName + " " + src.Dietician.LastName))
+                .ForMember(dest => dest.AdminName, opt => opt.MapFrom(src => src.Admin.FirstName + " " + src.Admin.LastName))
+                .ForMember(dest => dest.PatientName, opt => opt.MapFrom(src => src.Patient.FirstName + " " + src.Patient.LastName))
                 .ReverseMap();
 
-            CreateMap<MessageToPatientDTO, Message>().ReverseMap();
+            CreateMap<MessageToDTO, MessageTo>().ReverseMap();
 
             // Skomplikowane mapowanie z niestandardową logiką dla pacjenta.
             CreateMap<Patient, PatientDTO>()
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate.HasValue ? src.BirthDate.Value.Date : (DateTime?)null))
-                .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageToPatients));
+                .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageTo));
             CreateMap<PatientDTO, Patient>();
+
+            // Skomplikowane mapowanie z niestandardową logiką dla admina.
+            CreateMap<Admin, AdminDTO>()
+                .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate.HasValue ? src.BirthDate.Value.Date : (DateTime?)null))
+                .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageTo));
+            CreateMap<AdminDTO, Admin>();
+
+            // Skomplikowane mapowanie z niestandardową logiką dla admina.
+            CreateMap<Dietician, DieticianDTO>()
+                .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate.HasValue ? src.BirthDate.Value.Date : (DateTime?)null))
+                .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageTo));
+            CreateMap<DieticianDTO, Dietician>();
         }
     }
 }

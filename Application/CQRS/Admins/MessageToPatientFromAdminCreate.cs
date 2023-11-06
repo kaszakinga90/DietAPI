@@ -1,35 +1,28 @@
-﻿using Application.DTOs.MessagesDTO;
-using AutoMapper;
+﻿using AutoMapper;
 using DietDB;
 using MediatR;
-using ModelsDB;
 using ModelsDB.Functionality;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Application.CQRS.Patients
+namespace Application.CQRS.Admins
 {
     /// <summary>
-    /// Zawiera klasy do tworzenia wiadomości skierowanych do dietetyka.
+    /// Zawiera klasy do tworzenia wiadomości skierowanych do pacjenta od admina.
     /// </summary>
-    public class MessageToDieteticianCreate
+    public class MessageToPatientFromAdminCreate
     {
         /// <summary>
-        /// Reprezentuje komendę służącą do tworzenia wiadomości dla dietetyka.
+        /// Reprezentuje komendę służącą do tworzenia wiadomości dla pacjenta.
         /// </summary>
         public class Command : IRequest
         {
             /// <summary>
-            /// Pobiera lub ustawia DTO wiadomości skierowanej do dietetyka.
+            /// Pobiera lub ustawia DTO wiadomości skierowanej do pacjenta.
             /// </summary>
-            public MessageToDieteticianDTO MessageDTO { get; set; }
+            public MessageToDTO MessageDTO { get; set; }
         }
 
         /// <summary>
-        /// Obsługuje proces tworzenia wiadomości dla dietetyka.
+        /// Obsługuje proces tworzenia wiadomości dla pacjenta.
         /// </summary>
         public class Handler : IRequestHandler<Command>
         {
@@ -39,7 +32,7 @@ namespace Application.CQRS.Patients
             /// <summary>
             /// Inicjuje nową instancję klasy <see cref="Handler"/> z podanym kontekstem i maperem.
             /// </summary>
-            /// <param name="context">Kontekst bazy danych do obsługi wiadomości dla dietetyków.</param>
+            /// <param name="context">Kontekst bazy danych do obsługi wiadomości dla pacjentów.</param>
             /// <param name="mapper">Obiekt służący do mapowania obiektów.</param>
             public Handler(DietContext context, IMapper mapper)
             {
@@ -48,23 +41,23 @@ namespace Application.CQRS.Patients
             }
 
             /// <summary>
-            /// Przetwarza komendę tworzenia wiadomości dla dietetyka.
+            /// Przetwarza komendę tworzenia wiadomości dla pacjenta.
             /// </summary>
             /// <param name="request">Komenda do przetworzenia.</param>
             /// <param name="cancellationToken">Token anulowania operacji.</param>
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                var message = _mapper.Map<MessageToDietician>(request.MessageDTO);
+                var message = _mapper.Map<MessageTo>(request.MessageDTO);
 
                 // Przypisuj wiadomość do pacjenta
-                var dietetician = await _context.Dieticians.FindAsync(request.MessageDTO.DieticianId);
-                if (dietetician == null)
+                var patient = await _context.PatientsDb.FindAsync(request.MessageDTO.PatientId);
+                if (patient == null)
                 {
-                    // Rzuć błąd jeśli dietetyk nie został znaleziony
-                    throw new Exception("Dietetyk nie został znaleziony");
+                    // Rzuć błąd jeśli pacjent nie został znaleziony
+                    throw new Exception("Pacjent nie został znaleziony");
                 }
 
-                _context.MessageToDieticians.Add(message);
+                _context.MessageToDb.Add(message);
                 await _context.SaveChangesAsync();
             }
         }

@@ -24,7 +24,7 @@ namespace Application.CQRS.SingleDiets
 
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                var SingleDiet = await _context.SingleDiet.FindAsync(request.SingleDiet.Id);
+                var SingleDiet = await _context.SingleDietsDb.FindAsync(request.SingleDiet.Id);
                 _mapper.Map(request.SingleDiet, SingleDiet);
                 await _context.SaveChangesAsync();
             }

@@ -1,11 +1,6 @@
 ﻿using DietDB;
 using MediatR;
 using ModelsDB;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.CQRS.Patients
 {
@@ -48,7 +43,7 @@ namespace Application.CQRS.Patients
             /// <param name="cancellationToken">Token anulowania operacji.</param>
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                _context.Patients.Add(request.Patient);
+                _context.PatientsDb.Add(request.Patient);
                 await _context.SaveChangesAsync();
             }
         }

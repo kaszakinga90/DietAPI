@@ -23,7 +23,7 @@ namespace Application.CQRS.CategoryOfDiets
 
             public async Task<CategoryOfDiet> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.CategoryOfDiet.FindAsync(request.Id);
+                return await _context.CategoryOfDietsDb.FindAsync(request.Id);
             }
         }
     }

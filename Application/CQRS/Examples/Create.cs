@@ -31,7 +31,7 @@ namespace Application.CQRS.Examples
 
             public async Task<PatientUpdateDTO<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                _context.Examples.Add(request.Example);
+                _context.ExamplesDb.Add(request.Example);
 
                 var result=await _context.SaveChangesAsync()>0;
 

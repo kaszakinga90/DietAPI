@@ -1,7 +1,6 @@
 ﻿using Application.Core;
-using Application.CQRS.PatientDTOs;
 using Application.CQRS.Patients;
-using Application.DTOs.MessagesDTO;
+using Application.DTOs.PatientDTO;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB;
 
@@ -37,7 +36,7 @@ namespace API.Controllers
         /// Tworzy nowego pacjenta.
         /// </summary>
         /// <param name="Patient">Dane pacjenta do utworzenia.</param>
-        /// <returns>Status operacji.</returns>
+        /// <returns>StatusesDb operacji.</returns>
         [HttpPost]
         public async Task<IActionResult> CreatePatient(Patient Patient)
         {
@@ -49,11 +48,11 @@ namespace API.Controllers
         /// Wysyła wiadomość do dietetyka.
         /// </summary>
         /// <param name="message">Wiadomość dla dietetyka.</param>
-        /// <returns>Status operacji.</returns>
+        /// <returns>StatusesDb operacji.</returns>
         [HttpPost("message")]
-        public async Task<IActionResult> MessageToDietetician(MessageToDieteticianDTO message)
+        public async Task<IActionResult> MessageToDietetician(MessageToDTO message)
         {
-            await Mediator.Send(new MessageToDieteticianCreate.Command { MessageDTO = message });
+            await Mediator.Send(new MessageToDieteticianFromPatientCreate.Command { MessageDTO = message });
             return Ok();
         }
 
@@ -62,7 +61,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="id">ID pacjenta.</param>
         /// <param name="patient">Nowe dane pacjenta.</param>
-        /// <returns>Status operacji.</returns>
+        /// <returns>StatusesDb operacji.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> EditPatient(int id, PatientDTO patient)
         {
@@ -77,7 +76,7 @@ namespace API.Controllers
         /// <param name="patientId">ID pacjenta.</param>
         /// <returns>Lista wiadomości dla pacjenta.</returns>
         [HttpGet("{patientId}/messages")]
-        public async Task<ActionResult<PagedList<MessageToPatientDTO>>> GetMessagesForPatient(int patientId, [FromQuery]PagingParams param)
+        public async Task<ActionResult<PagedList<MessageToDTO>>> GetMessagesForPatient(int patientId, [FromQuery]PagingParams param)
         {
             var result = await Mediator.Send(new PatientMessageList.Query { PatientId = patientId, Params = param });
 

@@ -24,7 +24,7 @@ namespace Application.CQRS.CategoryOfDiets
             }
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                var categoryOfDiet = await _context.CategoryOfDiet.FindAsync(request.Id);
+                var categoryOfDiet = await _context.CategoryOfDietsDb.FindAsync(request.Id);
 
                 _context.Remove(categoryOfDiet);
 

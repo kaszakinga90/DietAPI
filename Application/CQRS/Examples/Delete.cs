@@ -20,7 +20,7 @@ namespace Application.CQRS.Examples
             }
             public async Task<PatientUpdateDTO<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var example = await _context.Examples.FindAsync(request.Id);
+                var example = await _context.ExamplesDb.FindAsync(request.Id);
                 if (example == null) return null;
 
                 _context.Remove(example);

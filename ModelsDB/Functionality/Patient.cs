@@ -1,5 +1,4 @@
 ﻿using ModelsDB.Functionality;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ModelsDB
 {
@@ -12,11 +11,14 @@ namespace ModelsDB
         public List<Comment> Comments { get; set; }
         public List<Rating> Ratings { get; set; }
         public List<Visit> Visits { get; set; }
-        public List<MessagePatient> MessagePatients { get; set; }
-        public List<DieticianPatient> DieticianPatients { get; set; }
         public List<DietPatient> DietPatients { get; set; }
         public List<NotePatient> NotePatients { get; set; }
-        public List<MessageToPatient> MessageToPatients { get; set; }
-        public List<MessageToDietician> MessageToDieticians { get; set; }
+
+        //lista odzwierc. jeden pacjent może mieć wiele dietetyków
+        // jeden dietetyk może mieć wiele pacjentów
+        public List<DieticianPatient> DieticianPatients { get; set; }
+
+        public List<MessageTo> MessageTo { get; set; }
+        public List<MessagePatient> MessagePatients { get; set; }
     }
 }

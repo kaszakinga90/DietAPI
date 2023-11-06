@@ -22,7 +22,7 @@ namespace Application.CQRS.Examples
 
             public async Task<PatientUpdateDTO<List<Example>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return PatientUpdateDTO<List<Example>>.Success(await _context.Examples.ToListAsync(cancellationToken));
+                return PatientUpdateDTO<List<Example>>.Success(await _context.ExamplesDb.ToListAsync(cancellationToken));
             }
         }
     }

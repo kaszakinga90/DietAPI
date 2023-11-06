@@ -28,7 +28,7 @@ namespace Application.CQRS.DayWeekDTOs
 
             public async Task<DayWeekDTO> Handle(Query request, CancellationToken cancellationToken)
             {
-                var dayWeek = await _context.DayWeek.SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken); ;
+                var dayWeek = await _context.DayWeeksDb.SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken); ;
                 return _mapper.Map<DayWeekDTO>(dayWeek);
             }
         }
