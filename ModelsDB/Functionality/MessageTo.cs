@@ -10,11 +10,11 @@
         public string Title { get; set; }
         public string Description { get; set; }
         public Admin Admin { get; set; }
-        public int AdminId { get; set; }
+        public int? AdminId { get; set; } = null;
         public Patient Patient { get; set; }
-        public int PatientId { get; set; }
+        public int? PatientId { get; set; } = null;
         public Dietician Dietician { get; set; }
-        public int DieticianId { get; set; }
+        public int? DieticianId { get; set; } = null;
         public bool IsRead { get; set; }
         public DateTime? ReadDate { get; set; }
 

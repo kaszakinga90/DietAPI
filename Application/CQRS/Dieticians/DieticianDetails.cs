@@ -14,7 +14,7 @@ namespace Application.CQRS.Dieticians
         /// <summary>
         /// Reprezentuje zapytanie do pobrania szczegółów dietetyka na podstawie identyfikatora.
         /// </summary>
-        public class Query : IRequest<DieticianDTO>
+        public class Query : IRequest<DieticianGetDTO>
         {
             /// <summary>
             /// Pobiera lub ustawia identyfikator dietetyka, którego szczegóły mają zostać pobrane.
@@ -25,7 +25,7 @@ namespace Application.CQRS.Dieticians
         /// <summary>
         /// Obsługuje proces pobierania szczegółów dietetyka z bazy danych.
         /// </summary>
-        public class Handler : IRequestHandler<Query, DieticianDTO>
+        public class Handler : IRequestHandler<Query, DieticianGetDTO>
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
@@ -46,15 +46,15 @@ namespace Application.CQRS.Dieticians
             /// </summary>
             /// <param name="request">Zapytanie do przetworzenia.</param>
             /// <param name="cancellationToken">Token anulowania operacji.</param>
-            /// <returns>Zwraca szczegóły dietetyka w postaci obiektu <see cref="PatientDTO"/>.</returns>
-            public async Task<DieticianDTO> Handle(Query request, CancellationToken cancellationToken)
+            /// <returns>Zwraca szczegóły dietetyka w postaci obiektu <see cref="DieticianGetDTO"/>.</returns>
+            public async Task<DieticianGetDTO> Handle(Query request, CancellationToken cancellationToken)
             {
                 var dietician = await _context.DieticiansDb
                                                 .Include(p => p.Address)
                                                 .Include(p => p.MessageTo)
                                                 .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-                return _mapper.Map<DieticianDTO>(dietician);
+                return _mapper.Map<DieticianGetDTO>(dietician);
             }
         }
     }

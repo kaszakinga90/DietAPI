@@ -1,11 +1,11 @@
 ﻿using Application.Core;
 using Application.DTOs.AdminDTO;
-using Application.DTOs.DieticianDTO;
+using Application.Services;
 using AutoMapper;
 using DietDB;
 using FluentValidation;
 using MediatR;
-using ModelsDB;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.CQRS.Admins
 {
@@ -23,12 +23,13 @@ namespace Application.CQRS.Admins
             /// Pobiera lub ustawia informacje o adminie do edycji.
             /// </summary>
             public AdminDTO Admin { get; set; }
+            public IFormFile File { get; set; }
         }
 
         /// <summary>
         /// Walidator do sprawdzania poprawności danych admina przed ich edycją.
         /// </summary>
-        public class CommandValidator : AbstractValidator<AdminUpdateDTO>
+        public class CommandValidator : AbstractValidator<AdminDTO>
         {
             /// <summary>
             /// Inicjalizuje walidator i definiuje reguły walidacji.
@@ -46,16 +47,18 @@ namespace Application.CQRS.Admins
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
+            private readonly ImageService _imageService;
 
             /// <summary>
             /// Inicjuje nową instancję klasy <see cref="Handler"/> z podanym kontekstem bazy danych i maperem.
             /// </summary>
             /// <param name="context">Kontekst bazy danych do obsługi adminów.</param>
             /// <param name="mapper">Maper służący do mapowania obiektów.</param>
-            public Handler(DietContext context, IMapper mapper)
+            public Handler(DietContext context, IMapper mapper, ImageService imageService)
             {
                 _context = context;
                 _mapper = mapper;
+                _imageService = imageService;
             }
 
             /// <summary>
@@ -74,6 +77,25 @@ namespace Application.CQRS.Admins
 
                 _mapper.Map(request.Admin, admin);
 
+                // Obsługa obrazu
+                if (request.File != null)
+                {
+                    var imageResult = await _imageService.AddImageAsync(request.File);
+                    if (imageResult.Error != null)
+                    {
+                        // Logowanie błędu i zwrócenie informacji o błędzie
+                        return Result<AdminDTO>.Failure(imageResult.Error.Message);
+                    }
+
+                    if (!string.IsNullOrEmpty(admin.PublicId))
+                    {
+                        await _imageService.DeleteImageAsync(admin.PublicId);
+                    }
+
+                    admin.PictureUrl = imageResult.SecureUrl.ToString();
+                    admin.PublicId = imageResult.PublicId;
+                }
+
                 try
                 {
                     var result = await _context.SaveChangesAsync(cancellationToken) > 0;
@@ -88,8 +110,9 @@ namespace Application.CQRS.Admins
                     return Result<AdminDTO>.Failure("Wystąpił błąd podczas edycji admina.");
                 }
 
-                var updatedAdmin = _mapper.Map<AdminDTO>(admin);
-                return Result<AdminDTO>.Success(updatedAdmin);
+                //var updatedAdmin = _mapper.Map<AdminDTO>(admin);
+                //return Result<AdminDTO>.Success(updatedAdmin);
+                return Result<AdminDTO>.Success(_mapper.Map<AdminDTO>(admin));
             }
         }
     }

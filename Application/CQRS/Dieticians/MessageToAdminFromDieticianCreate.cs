@@ -2,11 +2,6 @@
 using DietDB;
 using MediatR;
 using ModelsDB.Functionality;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.CQRS.Dieticians
 {
@@ -24,6 +19,7 @@ namespace Application.CQRS.Dieticians
             /// Pobiera lub ustawia DTO wiadomości skierowanej do admina.
             /// </summary>
             public MessageToDTO MessageDTO { get; set; }
+            public int DieticianId { get; set; }
         }
 
         /// <summary>
@@ -52,10 +48,19 @@ namespace Application.CQRS.Dieticians
             /// <param name="cancellationToken">Token anulowania operacji.</param>
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
+                if (!request.MessageDTO.AdminId.HasValue)
+                {
+                    throw new ArgumentException("ID admina jest wymagane");
+                }
+
                 var message = _mapper.Map<MessageTo>(request.MessageDTO);
 
+                // Ustawienie ID dietetyka dla wiadomości
+                message.DieticianId = request.DieticianId;
+                message.PatientId = null;
+
                 // Przypisuj wiadomość do admina
-                var admin = await _context.AdminsDb.FindAsync(request.MessageDTO.AdminId);
+                var admin = await _context.AdminsDb.FindAsync(request.MessageDTO.AdminId.Value);
                 if (admin == null)
                 {
                     // Rzuć błąd jeśli admin nie został znaleziony

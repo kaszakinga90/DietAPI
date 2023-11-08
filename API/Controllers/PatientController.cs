@@ -1,6 +1,8 @@
 using Application.Core;
 using Application.CQRS.Patients;
 using Application.DTOs.PatientDTO;
+using Application.Services;
+using DietDB;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB;
 
@@ -11,6 +13,15 @@ namespace API.Controllers
     /// </summary>
     public class PatientController : BaseApiController
     {
+        private readonly ImageService _imageService;
+        private readonly DietContext _context;
+
+        public PatientController(ImageService imageService, DietContext context)
+        {
+            _imageService = imageService;
+            _context = context;
+        }
+
         /// <summary>
         /// Pobiera listę wszystkich pacjentów.
         /// </summary>
@@ -27,7 +38,7 @@ namespace API.Controllers
         /// <param name="id">ID pacjenta.</param>
         /// <returns>Szczegóły pacjenta.</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<PatientDTO>> GetPatient(int id)
+        public async Task<ActionResult<PatientGetDTO>> GetPatient(int id)
         {
             return await Mediator.Send(new PatientDetails.Query { Id = id });
         }
@@ -45,29 +56,44 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Wysyła wiadomość do dietetyka.
-        /// </summary>
-        /// <param name="message">Wiadomość dla dietetyka.</param>
-        /// <returns>StatusesDb operacji.</returns>
-        [HttpPost("message")]
-        public async Task<IActionResult> MessageToDietetician(MessageToDTO message)
-        {
-            await Mediator.Send(new MessageToDieteticianFromPatientCreate.Command { MessageDTO = message });
-            return Ok();
-        }
-
-        /// <summary>
         /// Aktualizuje dane pacjenta.
         /// </summary>
         /// <param name="id">ID pacjenta.</param>
         /// <param name="patient">Nowe dane pacjenta.</param>
         /// <returns>StatusesDb operacji.</returns>
-        [HttpPut("{id}")]
-        public async Task<IActionResult> EditPatient(int id, PatientDTO patient)
-        {
-            patient.Id = id;
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> EditPatient(int id, [FromForm] PatientDTO patient)
+        //{
+        //    patient.Id = id;
+        //    var patientUpdate = await _context.PatientsDb.FindAsync(patient.Id);
 
-            return HandleResult(await Mediator.Send(new PatientEdit.Command { Patient = patient }));
+        //    if (patient.File != null)
+        //    {
+        //        var imageResult = await _imageService.AddImageAsync(patient.File);
+
+        //        if (imageResult.Error != null)
+        //            return BadRequest(new ProblemDetails { Title = imageResult.Error.Message });
+
+        //        if (!string.IsNullOrEmpty(patientUpdate.PublicId)) await _imageService.DeleteImageAsync(patientUpdate.PublicId);
+
+        //        patientUpdate.PictureUrl = imageResult.SecureUrl.ToString();
+        //        patientUpdate.PublicId = imageResult.PublicId;
+        //    }
+
+        //    return HandleResult(await Mediator.Send(new PatientEdit.Command { Patient = patient }));
+        //}
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditPatient(int id, [FromForm] PatientDTO patientDTO, [FromForm] IFormFile file)
+        {
+            var command = new PatientEdit.Command
+            {
+                Patient = patientDTO,
+                File = file
+            };
+            command.Patient.Id = id;
+
+            return HandleResult(await Mediator.Send(command));
         }
 
         /// <summary>
@@ -76,11 +102,35 @@ namespace API.Controllers
         /// <param name="patientId">ID pacjenta.</param>
         /// <returns>Lista wiadomości dla pacjenta.</returns>
         [HttpGet("{patientId}/messages")]
-        public async Task<ActionResult<PagedList<MessageToDTO>>> GetMessagesForPatient(int patientId, [FromQuery]PagingParams param)
+        public async Task<ActionResult<PagedList<MessageToDTO>>> GetMessagesForPatient(int patientId, [FromQuery] PagingParams param)
         {
             var result = await Mediator.Send(new PatientMessageList.Query { PatientId = patientId, Params = param });
 
-           return HandlePagedResult(result);
+            return HandlePagedResult(result);
+        }
+
+        /// <summary>
+        /// Wysyła wiadomość do dietetyka.
+        /// </summary>
+        /// <param name="message">Wiadomość dla dietetyka.</param>
+        /// <returns>Status operacji.</returns>
+        [HttpPost("{patientId}/messageToDietician")]
+        public async Task<IActionResult> MessageToDietetician(int patientId, MessageToDTO message)
+        {
+            await Mediator.Send(new MessageToDieteticianFromPatientCreate.Command { MessageDTO = message, PatientId = patientId });
+            return Ok();
+        }
+
+        /// <summary>
+        /// Wysyła wiadomość do admina.
+        /// </summary>
+        /// <param name="message">Wiadomość dla admina.</param>
+        /// <returns>Status operacji.</returns>
+        [HttpPost("{patientId}/messageToAdmin")]
+        public async Task<IActionResult> MessageToAdmin(int patientId, MessageToDTO message)
+        {
+            await Mediator.Send(new MessageToAdminFromPatientCreate.Command { MessageDTO = message, PatientId = patientId });
+            return Ok();
         }
 
     }
