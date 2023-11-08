@@ -19,6 +19,7 @@ namespace Application.CQRS.Admins
             /// Pobiera lub ustawia DTO wiadomości skierowanej do pacjenta.
             /// </summary>
             public MessageToDTO MessageDTO { get; set; }
+            public int AdminId { get; set; }
         }
 
         /// <summary>
@@ -47,13 +48,21 @@ namespace Application.CQRS.Admins
             /// <param name="cancellationToken">Token anulowania operacji.</param>
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
+                if (!request.MessageDTO.PatientId.HasValue)
+                {
+                    throw new ArgumentException("ID pacjenta jest wymagane");
+                }
+
                 var message = _mapper.Map<MessageTo>(request.MessageDTO);
 
+                // Ustawienie ID admina dla wiadomości
+                message.AdminId = request.AdminId;
+                message.DieticianId = null;
+
                 // Przypisuj wiadomość do pacjenta
-                var patient = await _context.PatientsDb.FindAsync(request.MessageDTO.PatientId);
+                var patient = await _context.PatientsDb.FindAsync(request.MessageDTO.PatientId.Value);
                 if (patient == null)
                 {
-                    // Rzuć błąd jeśli pacjent nie został znaleziony
                     throw new Exception("Pacjent nie został znaleziony");
                 }
 

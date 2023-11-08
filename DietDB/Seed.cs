@@ -394,64 +394,64 @@ namespace DietDB
             if (!context.SingleDietsDb.Any())
             {
                 var singleDiets = new List<SingleDiet>()
-    {
-        new SingleDiet
-        {
-            MealTimeHour = 8,
-            MealTimeMinute = 0,
-            DateStart = DateTime.Now,
-            DateEnd = DateTime.Now.AddDays(7),
-            DayWeekId = 1  // Poniedziałek
-        },
-        new SingleDiet
-        {
-            MealTimeHour = 12,
-            MealTimeMinute = 30,
-            DateStart = DateTime.Now,
-            DateEnd = DateTime.Now.AddDays(7),
-            DayWeekId = 2  // Wtorek
-        },
-        new SingleDiet
-        {
-            MealTimeHour = 14,
-            MealTimeMinute = 15,
-            DateStart = DateTime.Now,
-            DateEnd = DateTime.Now.AddDays(7),
-            DayWeekId = 3  // Środa
-        },
-        new SingleDiet
-        {
-            MealTimeHour = 19,
-            MealTimeMinute = 45,
-            DateStart = DateTime.Now,
-            DateEnd = DateTime.Now.AddDays(7),
-            DayWeekId = 4  // Czwartek
-        },
-        new SingleDiet
-        {
-            MealTimeHour = 9,
-            MealTimeMinute = 0,
-            DateStart = DateTime.Now,
-            DateEnd = DateTime.Now.AddDays(7),
-            DayWeekId = 5  // Piątek
-        },
-        new SingleDiet
-        {
-            MealTimeHour = 12,
-            MealTimeMinute = 15,
-            DateStart = DateTime.Now,
-            DateEnd = DateTime.Now.AddDays(7),
-            DayWeekId = 6  // Sobota
-        },
-        new SingleDiet
-        {
-            MealTimeHour = 10,
-            MealTimeMinute = 30,
-            DateStart = DateTime.Now,
-            DateEnd = DateTime.Now.AddDays(7),
-            DayWeekId = 7  // Niedziela
-        },
-    };
+                {
+                    new SingleDiet
+                    {
+                        MealTimeHour = 8,
+                        MealTimeMinute = 0,
+                        DateStart = DateTime.Now,
+                        DateEnd = DateTime.Now.AddDays(7),
+                        DayWeekId = 1  // Poniedziałek
+                    },
+                    new SingleDiet
+                    {
+                        MealTimeHour = 12,
+                        MealTimeMinute = 30,
+                        DateStart = DateTime.Now,
+                        DateEnd = DateTime.Now.AddDays(7),
+                        DayWeekId = 2  // Wtorek
+                    },
+                    new SingleDiet
+                    {
+                        MealTimeHour = 14,
+                        MealTimeMinute = 15,
+                        DateStart = DateTime.Now,
+                        DateEnd = DateTime.Now.AddDays(7),
+                        DayWeekId = 3  // Środa
+                    },
+                    new SingleDiet
+                    {
+                        MealTimeHour = 19,
+                        MealTimeMinute = 45,
+                        DateStart = DateTime.Now,
+                        DateEnd = DateTime.Now.AddDays(7),
+                        DayWeekId = 4  // Czwartek
+                    },
+                    new SingleDiet
+                    {
+                        MealTimeHour = 9,
+                        MealTimeMinute = 0,
+                        DateStart = DateTime.Now,
+                        DateEnd = DateTime.Now.AddDays(7),
+                        DayWeekId = 5  // Piątek
+                    },
+                    new SingleDiet
+                    {
+                        MealTimeHour = 12,
+                        MealTimeMinute = 15,
+                        DateStart = DateTime.Now,
+                        DateEnd = DateTime.Now.AddDays(7),
+                        DayWeekId = 6  // Sobota
+                    },
+                    new SingleDiet
+                    {
+                        MealTimeHour = 10,
+                        MealTimeMinute = 30,
+                        DateStart = DateTime.Now,
+                        DateEnd = DateTime.Now.AddDays(7),
+                        DayWeekId = 7  // Niedziela
+                    },
+                };
 
                 await context.SingleDietsDb.AddRangeAsync(singleDiets);
                 await context.SaveChangesAsync();
@@ -462,50 +462,50 @@ namespace DietDB
             if (!context.DieticiansDb.Any())
             {
                 var dieticians = new List<Dietician>()
-    {
-        new Dietician
-        {
-            FirstName = "Anna",
-            LastName = "Nowak",
-            Email = "anna.nowak1@example.com",
-            Password = "password123",
-            Phone = "987654321",
-            isPatient = false,
-            isDietician = true,
-            isAdmin = false,
-            BirthDate = new DateTime(1985, 2, 2),
-            AddressId = 1,
-            RatingId = 1
-        },
-        new Dietician
-        {
-            FirstName = "Marek",
-            LastName = "Kowalski",
-            Email = "marek.kowalski@example.com",
-            Password = "password123",
-            Phone = "987654322",
-            isPatient = false,
-            isDietician = true,
-            isAdmin = false,
-            BirthDate = new DateTime(1984, 3, 3),
-            AddressId = 2,
-            RatingId = 2
-        },
-        new Dietician
-        {
-            FirstName = "Oliwia",
-            LastName = "Wiśniewska",
-            Email = "oliwia.wisniewska@example.com",
-            Password = "password123",
-            Phone = "987654330",
-            isPatient = false,
-            isDietician = true,
-            isAdmin = false,
-            BirthDate = new DateTime(1990, 10, 10),
-            AddressId = 10,
-            RatingId = 5
-        }
-    };
+                {
+                    new Dietician
+                    {
+                        FirstName = "Anna",
+                        LastName = "Nowak",
+                        Email = "anna.nowak1@example.com",
+                        Password = "password123",
+                        Phone = "987654321",
+                        isPatient = false,
+                        isDietician = true,
+                        isAdmin = false,
+                        BirthDate = new DateTime(1985, 2, 2),
+                        AddressId = 1,
+                        RatingId = 1
+                    },
+                    new Dietician
+                    {
+                        FirstName = "Marek",
+                        LastName = "Kowalski",
+                        Email = "marek.kowalski@example.com",
+                        Password = "password123",
+                        Phone = "987654322",
+                        isPatient = false,
+                        isDietician = true,
+                        isAdmin = false,
+                        BirthDate = new DateTime(1984, 3, 3),
+                        AddressId = 2,
+                        RatingId = 2
+                    },
+                    new Dietician
+                    {
+                        FirstName = "Oliwia",
+                        LastName = "Wiśniewska",
+                        Email = "oliwia.wisniewska@example.com",
+                        Password = "password123",
+                        Phone = "987654330",
+                        isPatient = false,
+                        isDietician = true,
+                        isAdmin = false,
+                        BirthDate = new DateTime(1990, 10, 10),
+                        AddressId = 10,
+                        RatingId = 5
+                    }
+                };
 
                 await context.DieticiansDb.AddRangeAsync(dieticians);
             }
@@ -515,33 +515,33 @@ namespace DietDB
             if (!context.PatientCardsDb.Any())
             {
                 var patientCards = new List<PatientCard>()
-    {
-        new PatientCard
-        {
+                {
+                    new PatientCard
+                    {
 
-            SexId = 1
-        },
-        new PatientCard
-        {
+                        SexId = 1
+                    },
+                    new PatientCard
+                    {
 
-            SexId = 2
-        },
-        new PatientCard
-        {
+                        SexId = 2
+                    },
+                    new PatientCard
+                    {
 
-            SexId = 1
-        },
-        new PatientCard
-        {
+                        SexId = 1
+                    },
+                    new PatientCard
+                    {
 
-            SexId = 2
-        },
-        new PatientCard
-        {
+                        SexId = 2
+                    },
+                    new PatientCard
+                    {
 
-            SexId = 2
-        }
-    };
+                        SexId = 2
+                    }
+                };
 
                 await context.PatientCardsDb.AddRangeAsync(patientCards);
             }
@@ -551,80 +551,80 @@ namespace DietDB
             if (!context.PatientsDb.Any())
             {
                 var pacjenci = new List<Patient>()
-    {
-        new Patient
-        {
-            FirstName = "Tomasz",
-            LastName = "Zieliński",
-            Email = "tomasz.zielinski@example.com",
-            Password = "haslo123",
-            Phone = "500600700",
-            isPatient = true,
-            isDietician = false,
-            isAdmin = false,
-            BirthDate = new DateTime(1985, 6, 15),
-            AddressId = 1,
-            PatientCardId = 1,
-            // Poniższe listy zostały już wypełnione i są dostępne.
-            Notes = new List<Note>(),
-            Dieticians = new List<Dietician>(),
-            Comments = new List<Comment>(),
-            Ratings = new List<Rating>(),
-            Visits = new List<Visit>(),
-            MessagePatients = new List<MessagePatient>(),
-            DieticianPatients = new List<DieticianPatient>(),
-            DietPatients = new List<DietPatient>(),
-            NotePatients = new List<NotePatient>()
-        },
-        new Patient
-        {
-            FirstName = "Aleksandra",
-            LastName = "Nowak",
-            Email = "aleksandra.nowak@example.com",
-            Password = "haslo123",
-            Phone = "501601701",
-            isPatient = true,
-            isDietician = false,
-            isAdmin = false,
-            BirthDate = new DateTime(1990, 2, 20),
-            AddressId = 2,
-            PatientCardId = 2,
-            // Poniższe listy zostały już wypełnione i są dostępne.
-            Notes = new List<Note>(),
-            Dieticians = new List<Dietician>(),
-            Comments = new List<Comment>(),
-            Ratings = new List<Rating>(),
-            Visits = new List<Visit>(),
-            MessagePatients = new List<MessagePatient>(),
-            DieticianPatients = new List<DieticianPatient>(),
-            DietPatients = new List<DietPatient>(),
-            NotePatients = new List<NotePatient>()
-        },
-        new Patient
-        {
-            FirstName = "Piotr",
-            LastName = "Kowal",
-            Email = "piotr.kowal@example.com",
-            Password = "haslo123",
-            Phone = "502602702",
-            isPatient = true,
-            isDietician = false,
-            isAdmin = false,
-            BirthDate = new DateTime(1988, 5, 5),
-            AddressId = 3,
-            PatientCardId = 3,
-            // Poniższe listy zostały już wypełnione i są dostępne.
-            Notes = new List<Note>(),
-            Dieticians = new List<Dietician>(),
-            Comments = new List<Comment>(),
-            Ratings = new List<Rating>(),
-            Visits = new List<Visit>(),
-            MessagePatients = new List<MessagePatient>(),
-            DieticianPatients = new List<DieticianPatient>(),
-            DietPatients = new List<DietPatient>(),
-            NotePatients = new List<NotePatient>()
-        }
-    };
+                {
+                    new Patient
+                    {
+                        FirstName = "Tomasz",
+                        LastName = "Zieliński",
+                        Email = "tomasz.zielinski@example.com",
+                        Password = "haslo123",
+                        Phone = "500600700",
+                        isPatient = true,
+                        isDietician = false,
+                        isAdmin = false,
+                        BirthDate = new DateTime(1985, 6, 15),
+                        AddressId = 1,
+                        PatientCardId = 1,
+                        // Poniższe listy zostały już wypełnione i są dostępne.
+                        Notes = new List<Note>(),
+                        Dieticians = new List<Dietician>(),
+                        Comments = new List<Comment>(),
+                        Ratings = new List<Rating>(),
+                        Visits = new List<Visit>(),
+                        MessagePatients = new List<MessagePatient>(),
+                        DieticianPatients = new List<DieticianPatient>(),
+                        DietPatients = new List<DietPatient>(),
+                        NotePatients = new List<NotePatient>()
+                    },
+                    new Patient
+                    {
+                        FirstName = "Aleksandra",
+                        LastName = "Nowak",
+                        Email = "aleksandra.nowak@example.com",
+                        Password = "haslo123",
+                        Phone = "501601701",
+                        isPatient = true,
+                        isDietician = false,
+                        isAdmin = false,
+                        BirthDate = new DateTime(1990, 2, 20),
+                        AddressId = 2,
+                        PatientCardId = 2,
+                        // Poniższe listy zostały już wypełnione i są dostępne.
+                        Notes = new List<Note>(),
+                        Dieticians = new List<Dietician>(),
+                        Comments = new List<Comment>(),
+                        Ratings = new List<Rating>(),
+                        Visits = new List<Visit>(),
+                        MessagePatients = new List<MessagePatient>(),
+                        DieticianPatients = new List<DieticianPatient>(),
+                        DietPatients = new List<DietPatient>(),
+                        NotePatients = new List<NotePatient>()
+                    },
+                    new Patient
+                    {
+                        FirstName = "Piotr",
+                        LastName = "Kowal",
+                        Email = "piotr.kowal@example.com",
+                        Password = "haslo123",
+                        Phone = "502602702",
+                        isPatient = true,
+                        isDietician = false,
+                        isAdmin = false,
+                        BirthDate = new DateTime(1988, 5, 5),
+                        AddressId = 3,
+                        PatientCardId = 3,
+                        // Poniższe listy zostały już wypełnione i są dostępne.
+                        Notes = new List<Note>(),
+                        Dieticians = new List<Dietician>(),
+                        Comments = new List<Comment>(),
+                        Ratings = new List<Rating>(),
+                        Visits = new List<Visit>(),
+                        MessagePatients = new List<MessagePatient>(),
+                        DieticianPatients = new List<DieticianPatient>(),
+                        DietPatients = new List<DietPatient>(),
+                        NotePatients = new List<NotePatient>()
+                    }
+                };
 
                 await context.PatientsDb.AddRangeAsync(pacjenci);
             }
@@ -634,42 +634,40 @@ namespace DietDB
             {
                 var admins = new List<Admin>()
 
-{
-    new Admin
-    {
-        FirstName = "Jan",
-        LastName = "Kowalski",
-        Email = "jan.kowalski@example.com",
-        Password = "securepassword1",
-        Phone = "500100200",
-        PhotoUrl = "http://example.com/photo1.jpg",
-        isPatient = false,
-        isDietician = false,
-        isAdmin = true,
-        BirthDate = new DateTime(1980, 1, 1),
-        AddressId = 1,
-        Notes = new List<Note>(),
-        MessageTo = new List<MessageTo>(),
-        MessageAdmins = new List<MessageAdmin>()
-    },
-    new Admin
-    {
-        FirstName = "Ewa",
-        LastName = "Nowak",
-        Email = "ewa.nowak@example.com",
-        Password = "securepassword2",
-        Phone = "500100201",
-        PhotoUrl = "http://example.com/photo2.jpg",
-        isPatient = false,
-        isDietician = false,
-        isAdmin = true,
-        BirthDate = new DateTime(1982, 5, 10),
-        AddressId = 2,
-        Notes = new List<Note>(),
-        MessageTo = new List<MessageTo>(),
-        MessageAdmins = new List<MessageAdmin>()
-    },
-};
+            {
+                new Admin
+                {
+                    FirstName = "Jan",
+                    LastName = "Kowalski",
+                    Email = "jan.kowalski@example.com",
+                    Password = "securepassword1",
+                    Phone = "500100200",
+                    isPatient = false,
+                    isDietician = false,
+                    isAdmin = true,
+                    BirthDate = new DateTime(1980, 1, 1),
+                    AddressId = 1,
+                    Notes = new List<Note>(),
+                    MessageTo = new List<MessageTo>(),
+                    MessageAdmins = new List<MessageAdmin>()
+                },
+                new Admin
+                {
+                    FirstName = "Ewa",
+                    LastName = "Nowak",
+                    Email = "ewa.nowak@example.com",
+                    Password = "securepassword2",
+                    Phone = "500100201",
+                    isPatient = false,
+                    isDietician = false,
+                    isAdmin = true,
+                    BirthDate = new DateTime(1982, 5, 10),
+                    AddressId = 2,
+                    Notes = new List<Note>(),
+                    MessageTo = new List<MessageTo>(),
+                    MessageAdmins = new List<MessageAdmin>()
+                },
+            };
 
                 await context.AdminsDb.AddRangeAsync(admins);
             }
@@ -677,65 +675,65 @@ namespace DietDB
 
             //********************DANE Z KLUCZAMI KLUCZY OBCYCH****************************************
             #region MessagesToDietician
-            // Sprawdzanie i dodawanie testowych wiadomości do dietetyka
-            if (!context.MessageToDb.Any())
-            {
-                var messages = new List<MessageTo>()
-    {
-        new MessageTo
-        {
-            Title = "Pytanie o dietę 1",
-            Description = "Mam pytanie odnośnie ilości węglowodanów w diecie.",
-            DieticianId = 1,
-            PatientId=1,
-            IsRead = false,
-            ReadDate = null,
-            dateAdded = DateTime.Now
-        },
-        new MessageTo
-        {
-            Title = "Kwestia alergii",
-            Description = "Czy produkt X jest odpowiedni dla osoby z alergią na orzechy?",
-            DieticianId = 2,
-            PatientId=1,
-            IsRead = false,
-            ReadDate = null,
-            dateAdded = DateTime.Now
-        },
-        new MessageTo
-        {
-            Title = "Porada dla sportowca",
-            Description = "Jakie produkty zalecasz dla aktywnych fizycznie osób?",
-            DieticianId = 3,
-            PatientId=3,
-            IsRead = false,
-            ReadDate = null,
-            dateAdded = DateTime.Now
-        },
-        new MessageTo
-        {
-            Title = "Suplementacja",
-            Description = "Czy warto suplementować witaminę D w okresie zimowym?",
-            DieticianId = 1,
-            PatientId=2,
-            IsRead = false,
-            ReadDate = null,
-            dateAdded = DateTime.Now
-        },
-        new MessageTo
-        {
-            Title = "Pytanie o jadłospis",
-            Description = "Czy możesz mi pomóc skomponować jadłospis na nadchodzący tydzień?",
-            DieticianId = 2,
-            PatientId=2,
-            IsRead = false,
-            ReadDate = null,
-            dateAdded = DateTime.Now
-        }
-    };
+            //Sprawdzanie i dodawanie testowych wiadomości do dietetyka
+            //if (!context.MessageToDb.Any())
+            //{
+            //    var messages = new List<MessageTo>()
+            //{
+            //    new MessageTo
+            //    {
+            //        Title = "Pytanie o dietę 1",
+            //        Description = "Mam pytanie odnośnie ilości węglowodanów w diecie.",
+            //        DieticianId = 1,
+            //        PatientId=1,
+            //        IsRead = false,
+            //        ReadDate = null,
+            //        dateAdded = DateTime.Now
+            //    },
+            //    new MessageTo
+            //    {
+            //        Title = "Kwestia alergii",
+            //        Description = "Czy produkt X jest odpowiedni dla osoby z alergią na orzechy?",
+            //        DieticianId = 2,
+            //        PatientId=1,
+            //        IsRead = false,
+            //        ReadDate = null,
+            //        dateAdded = DateTime.Now
+            //    },
+            //    new MessageTo
+            //    {
+            //        Title = "Porada dla sportowca",
+            //        Description = "Jakie produkty zalecasz dla aktywnych fizycznie osób?",
+            //        DieticianId = 3,
+            //        PatientId=3,
+            //        IsRead = false,
+            //        ReadDate = null,
+            //        dateAdded = DateTime.Now
+            //    },
+            //    new MessageTo
+            //    {
+            //        Title = "Suplementacja",
+            //        Description = "Czy warto suplementować witaminę D w okresie zimowym?",
+            //        DieticianId = 1,
+            //        PatientId=2,
+            //        IsRead = false,
+            //        ReadDate = null,
+            //        dateAdded = DateTime.Now
+            //    },
+            //    new MessageTo
+            //    {
+            //        Title = "Pytanie o jadłospis",
+            //        Description = "Czy możesz mi pomóc skomponować jadłospis na nadchodzący tydzień?",
+            //        DieticianId = 2,
+            //        PatientId=2,
+            //        IsRead = false,
+            //        ReadDate = null,
+            //        dateAdded = DateTime.Now
+            //    }
+            //};
 
-                await context.MessageToDb.AddRangeAsync(messages);
-            }
+            //    await context.MessageToDb.AddRangeAsync(messages);
+            //}
             #endregion
             #region MessageToPatient
 
@@ -743,100 +741,106 @@ namespace DietDB
             if (!context.MessageToDb.Any())
             {
                 var messagesToPatients = new List<MessageTo>()
-    {
-        new MessageTo
-        {
-            Title = "Konsultacja dietetyczna",
-            Description = "Witaj! Zapraszam na konsultację dietetyczną w przyszłym tygodniu. Daj mi znać, kiedy Ci pasuje.",
-            PatientId = 1,
-            DieticianId=1,
-            IsRead = false,
-            ReadDate = null,
-            dateAdded = DateTime.Now
-        },
-        new MessageTo
-        {
-            Title = "Zmiana planu dietetycznego",
-            Description = "Witam! Zaktualizowałem Twój plan dietetyczny. Sprawdź go w aplikacji i daj mi znać, czy wszystko jest jasne.",
-            PatientId = 1,
-            DieticianId=3,
-            IsRead = false,
-            ReadDate = null,
-            dateAdded = DateTime.Now
-        },
-        new MessageTo
-        {
-            Title = "Przypomnienie o wizycie",
-            Description = "Przypominam o jutrzejszej wizycie. Jeśli nie możesz przyjść, daj mi znać jak najszybciej.",
-            PatientId = 2,
-            DieticianId=1,
-            IsRead = false,
-            ReadDate = null,
-            dateAdded = DateTime.Now
-        },
-        new MessageTo
-        {
-            Title = "Wyniki badań",
-            Description = "Twoje wyniki badań są już dostępne. Zalecam omówienie ich podczas najbliższej wizyty.",
-            PatientId = 2,
-            DieticianId=2,
-            IsRead = false,
-            ReadDate = null,
-            dateAdded = DateTime.Now
-        },
-        new MessageTo
-        {
-            Title = "Zalecenia po wizycie",
-            Description = "Witaj! Po naszej ostatniej wizycie przygotowałem kilka zaleceń. Sprawdź je w aplikacji i postępuj zgodnie z nimi.",
-            PatientId = 3,
-            DieticianId=2,
-            IsRead = false,
-            ReadDate = null,
-            dateAdded = DateTime.Now
-        },
-    };
+            {
+                new MessageTo
+                {
+                    Title = "Konsultacja dietetyczna",
+                    Description = "Witaj! Zapraszam na konsultację dietetyczną w przyszłym tygodniu. Daj mi znać, kiedy Ci pasuje.",
+                    PatientId = 1,
+                    AdminId=1,
+                    isActive = true,
+                    IsRead = false,
+                    ReadDate = null,
+                    dateAdded = DateTime.Now
+                },
+                new MessageTo
+                {
+                    Title = "Zmiana planu dietetycznego",
+                    Description = "Witam! Zaktualizowałem Twój plan dietetyczny. Sprawdź go w aplikacji i daj mi znać, czy wszystko jest jasne.",
+                    PatientId = 1,
+                    AdminId=2,
+                    isActive = true,
+                    IsRead = false,
+                    ReadDate = null,
+                    dateAdded = DateTime.Now
+                },
+                new MessageTo
+                {
+                    Title = "Przypomnienie o wizycie",
+                    Description = "Przypominam o jutrzejszej wizycie. Jeśli nie możesz przyjść, daj mi znać jak najszybciej.",
+                    PatientId = 2,
+                    AdminId=1,
+                    isActive = true,
+                    IsRead = false,
+                    ReadDate = null,
+                    dateAdded = DateTime.Now
+                },
+                new MessageTo
+                {
+                    Title = "Wyniki badań",
+                    Description = "Twoje wyniki badań są już dostępne. Zalecam omówienie ich podczas najbliższej wizyty.",
+                    PatientId = 2,
+                    AdminId=2,
+                    isActive = true,
+                    IsRead = false,
+                    ReadDate = null,
+                    dateAdded = DateTime.Now
+                },
+                new MessageTo
+                {
+                    Title = "Zalecenia po wizycie",
+                    Description = "Witaj! Po naszej ostatniej wizycie przygotowałem kilka zaleceń. Sprawdź je w aplikacji i postępuj zgodnie z nimi.",
+                    PatientId = 3,
+                    AdminId=2,
+                    isActive = true,
+                    IsRead = false,
+                    ReadDate = null,
+                    dateAdded = DateTime.Now
+                },
+            };
 
                 await context.MessageToDb.AddRangeAsync(messagesToPatients);
             }
 
             #endregion
-            #region MessagesToAdmin
-            if (!context.MessageToDb.Any())
-            {
-                var messagesToAdmins = new List<MessageTo>()
-    {
-        new MessageTo
-        {
-            Title = "Zgłoszenie problemu technicznego",
-            Description = "Witaj! Napotkaliśmy problem z funkcją wysyłania wiadomości w aplikacji. Prosimy o szybką interwencję.",
-            AdminId = 1,
-            IsRead = false,
-            ReadDate = null,
-            dateAdded = DateTime.Now
-        },
-        new MessageTo
-        {
-            Title = "Aktualizacja polityki prywatności",
-            Description = "Witaj! Przesyłam aktualizację polityki prywatności. Proszę o jej przejrzenie i zatwierdzenie.",
-            AdminId = 2,
-            IsRead = false,
-            ReadDate = null,
-            dateAdded = DateTime.Now
-        },
-        new MessageTo
-        {
-            Title = "Propozycja współpracy",
-            Description = "Dzień dobry! Mamy propozycję współpracy, która może być interesująca dla naszej platformy. Proszę o kontakt.",
-            AdminId = 1,
-            IsRead = false,
-            ReadDate = null,
-            dateAdded = DateTime.Now
-        },
-    };
 
-                await context.MessageToDb.AddRangeAsync(messagesToAdmins);
-            }
-            #endregion
+            //#region MessagesToAdmin
+            //if (!context.MessageToDb.Any())
+            //{
+            //    var messagesToAdmins = new List<MessageTo>()
+            //{
+            //    new MessageTo
+            //    {
+            //        Title = "Zgłoszenie problemu technicznego",
+            //        Description = "Witaj! Napotkaliśmy problem z funkcją wysyłania wiadomości w aplikacji. Prosimy o szybką interwencję.",
+            //        AdminId = 1,
+            //        IsRead = false,
+            //        ReadDate = null,
+            //        dateAdded = DateTime.Now
+            //    },
+            //    new MessageTo
+            //    {
+            //        Title = "Aktualizacja polityki prywatności",
+            //        Description = "Witaj! Przesyłam aktualizację polityki prywatności. Proszę o jej przejrzenie i zatwierdzenie.",
+            //        AdminId = 2,
+            //        IsRead = false,
+            //        ReadDate = null,
+            //        dateAdded = DateTime.Now
+            //    },
+            //    new MessageTo
+            //    {
+            //        Title = "Propozycja współpracy",
+            //        Description = "Dzień dobry! Mamy propozycję współpracy, która może być interesująca dla naszej platformy. Proszę o kontakt.",
+            //        AdminId = 1,
+            //        IsRead = false,
+            //        ReadDate = null,
+            //        dateAdded = DateTime.Now
+            //    },
+            //};
+
+            //    await context.MessageToDb.AddRangeAsync(messagesToAdmins);
+            //}
+            //#endregion
 
             // Zapisanie zmian w bazie danych
             await context.SaveChangesAsync();

@@ -19,6 +19,7 @@ namespace Application.CQRS.Patients
             /// Pobiera lub ustawia DTO wiadomości skierowanej do dietetyka.
             /// </summary>
             public MessageToDTO MessageDTO { get; set; }
+            public int PatientId { get; set; }
         }
 
         /// <summary>
@@ -47,13 +48,21 @@ namespace Application.CQRS.Patients
             /// <param name="cancellationToken">Token anulowania operacji.</param>
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
+                if (!request.MessageDTO.DieticianId.HasValue)
+                {
+                    throw new ArgumentException("ID dietetyka jest wymagane");
+                }
+
                 var message = _mapper.Map<MessageTo>(request.MessageDTO);
 
+                // Ustawienie ID pacjenta dla wiadomości
+                message.PatientId = request.PatientId;
+                message.AdminId = null;
+
                 // Przypisuj wiadomość do dietetyka
-                var dietetician = await _context.DieticiansDb.FindAsync(request.MessageDTO.DieticianId);
+                var dietetician = await _context.DieticiansDb.FindAsync(request.MessageDTO.DieticianId.Value);
                 if (dietetician == null)
                 {
-                    // Rzuć błąd jeśli dietetyk nie został znaleziony
                     throw new Exception("Dietetyk nie został znaleziony");
                 }
 

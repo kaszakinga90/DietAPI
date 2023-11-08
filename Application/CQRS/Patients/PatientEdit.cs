@@ -1,11 +1,11 @@
 ﻿using Application.Core;
-using Application.DTOs.DieticianDTO;
 using Application.DTOs.PatientDTO;
+using Application.Services;
 using AutoMapper;
 using DietDB;
 using FluentValidation;
 using MediatR;
-using ModelsDB;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.CQRS.Patients
 {
@@ -23,6 +23,7 @@ namespace Application.CQRS.Patients
             /// Pobiera lub ustawia informacje o pacjencie do edycji.
             /// </summary>
             public PatientDTO Patient { get; set; }
+            public IFormFile File { get; set; }
         }
 
         /// <summary>
@@ -46,16 +47,18 @@ namespace Application.CQRS.Patients
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
+            private readonly ImageService _imageService;
 
             /// <summary>
             /// Inicjuje nową instancję klasy <see cref="Handler"/> z podanym kontekstem bazy danych i maperem.
             /// </summary>
             /// <param name="context">Kontekst bazy danych do obsługi pacjentów.</param>
             /// <param name="mapper">Maper służący do mapowania obiektów.</param>
-            public Handler(DietContext context, IMapper mapper)
+            public Handler(DietContext context, IMapper mapper, ImageService imageService)
             {
                 _context = context;
                 _mapper = mapper;
+                _imageService = imageService;
             }
 
             /// <summary>
@@ -74,6 +77,25 @@ namespace Application.CQRS.Patients
 
                 _mapper.Map(request.Patient, patient);
 
+                // Obsługa obrazu
+                if (request.File != null)
+                {
+                    var imageResult = await _imageService.AddImageAsync(request.File);
+                    if (imageResult.Error != null)
+                    {
+                        // Logowanie błędu i zwrócenie informacji o błędzie
+                        return Result<PatientDTO>.Failure(imageResult.Error.Message);
+                    }
+
+                    if (!string.IsNullOrEmpty(patient.PublicId))
+                    {
+                        await _imageService.DeleteImageAsync(patient.PublicId);
+                    }
+
+                    patient.PictureUrl = imageResult.SecureUrl.ToString();
+                    patient.PublicId = imageResult.PublicId;
+                }
+
                 try
                 {
                     var result = await _context.SaveChangesAsync(cancellationToken) > 0;
@@ -88,8 +110,11 @@ namespace Application.CQRS.Patients
                     return Result<PatientDTO>.Failure("Wystąpił błąd podczas edycji pacjenta.");
                 }
 
-                var updatedPatient = _mapper.Map<PatientDTO>(patient);
-                return Result<PatientDTO>.Success(updatedPatient);
+
+
+                //var updatedPatient = _mapper.Map<PatientDTO>(patient);
+                //return Result<PatientDTO>.Success(updatedPatient);
+                return Result<PatientDTO>.Success(_mapper.Map<PatientDTO>(patient));
             }
         }
     }

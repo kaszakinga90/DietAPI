@@ -1,6 +1,8 @@
 ﻿using Application.Core;
 using Application.CQRS.Admins;
 using Application.DTOs.AdminDTO;
+using Application.Services;
+using DietDB;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB;
 
@@ -11,6 +13,15 @@ namespace API.Controllers
     /// </summary>
     public class AdminController : BaseApiController
     {
+        private readonly ImageService _imageService;
+        private readonly DietContext _context;
+
+        public AdminController(ImageService imageService, DietContext context)
+        {
+            _imageService = imageService;
+            _context = context;
+        }
+
         /// <summary>
         /// Pobiera listę wszystkich adminów.
         /// </summary>
@@ -27,7 +38,7 @@ namespace API.Controllers
         /// <param name="id">ID admina.</param>
         /// <returns>Szczegóły admina.</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<AdminDTO>> GetAdmin(int id)
+        public async Task<ActionResult<AdminGetDTO>> GetAdmin(int id)
         {
             return await Mediator.Send(new AdminDetails.Query { Id = id });
         }
@@ -36,7 +47,7 @@ namespace API.Controllers
         /// Tworzy nowego admina.
         /// </summary>
         /// <param name="Admin">Dane admina do utworzenia.</param>
-        /// <returns>StatusesDb operacji.</returns>
+        /// <returns>Status operacji.</returns>
         [HttpPost]
         public async Task<IActionResult> CreateAdmin(Admin Admin)
         {
@@ -49,13 +60,18 @@ namespace API.Controllers
         /// </summary>
         /// <param name="id">ID admina.</param>
         /// <param name="admin">Nowe dane admina.</param>
-        /// <returns>StatusesDb operacji.</returns>
+        /// <returns>Status operacji.</returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditAdmin(int id, AdminDTO admin)
+        public async Task<IActionResult> EditAdmin(int id, [FromForm] AdminDTO adminDTO, [FromForm] IFormFile file)
         {
-            admin.Id = id;
+            var command = new AdminEdit.Command
+            {
+                Admin = adminDTO,
+                File = file
+            };
+            command.Admin.Id = id;
 
-            return HandleResult(await Mediator.Send(new AdminEdit.Command { Admin = admin }));
+            return HandleResult(await Mediator.Send(command));
         }
 
         /// <summary>
@@ -71,16 +87,15 @@ namespace API.Controllers
             return HandlePagedResult(result);
         }
 
-
         /// <summary>
         /// Wysyła wiadomość do dietetyka.
         /// </summary>
         /// <param name="message">Wiadomość dla dietetyka.</param>
-        /// <returns>StatusesDb operacji.</returns>
-        [HttpPost("message")]
-        public async Task<IActionResult> MessageToDietetician(MessageToDTO message)
+        /// <returns>Status operacji.</returns>
+        [HttpPost("{adminId}/messageToDietician")]
+        public async Task<IActionResult> MessageToDietetician(int adminId, MessageToDTO message)
         {
-            await Mediator.Send(new MessageToDieteticianFromAdminCreate.Command { MessageDTO = message });
+            await Mediator.Send(new MessageToDieteticianFromAdminCreate.Command { MessageDTO = message, AdminId = adminId });
             return Ok();
         }
 
@@ -88,11 +103,11 @@ namespace API.Controllers
         /// Wysyła wiadomość do pacjenta.
         /// </summary>
         /// <param name="message">Wiadomość dla pacjenta.</param>
-        /// <returns>StatusesDb operacji.</returns>
-        [HttpPost("message")]
-        public async Task<IActionResult> MessageToPatient(MessageToDTO message)
+        /// <returns>Status operacji.</returns>
+        [HttpPost("{adminId}/messageToPatient")]
+        public async Task<IActionResult> MessageToPatient(int adminId, MessageToDTO message)
         {
-            await Mediator.Send(new MessageToPatientFromAdminCreate.Command { MessageDTO = message });
+            await Mediator.Send(new MessageToPatientFromAdminCreate.Command { MessageDTO = message, AdminId = adminId });
             return Ok();
         }
     }

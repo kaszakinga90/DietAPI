@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietDB.Migrations
 {
     [DbContext(typeof(DietContext))]
-    [Migration("20231030193641_InitialCreate")]
+    [Migration("20231107182447_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -116,13 +116,34 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("MessagePatient", b =>
                 {
-                    b.Property<int>("MessageId")
+                    b.Property<int>("MessageToId")
                         .HasColumnType("int");
 
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
 
-                    b.HasKey("MessageId", "PatientId");
+                    b.Property<DateTime>("dateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("dateDeleted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("dateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("whoAdded")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("whoDeleted")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("whoUpdated")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MessageToId", "PatientId");
 
                     b.HasIndex("PatientId");
 
@@ -179,6 +200,78 @@ namespace DietDB.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Address");
+                });
+
+            modelBuilder.Entity("ModelsDB.Admin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("BirthDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PictureUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("dateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("dateDeleted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("dateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("isAdmin")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("isDietician")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("isPatient")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("whoAdded")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("whoDeleted")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("whoUpdated")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
+
+                    b.ToTable("AdminsDb", (string)null);
                 });
 
             modelBuilder.Entity("ModelsDB.Comment", b =>
@@ -358,7 +451,7 @@ namespace DietDB.Migrations
 
                     b.HasIndex("RatingId");
 
-                    b.ToTable("Dieticians", (string)null);
+                    b.ToTable("DieticiansDb", (string)null);
                 });
 
             modelBuilder.Entity("ModelsDB.Diploma", b =>
@@ -489,7 +582,7 @@ namespace DietDB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Examples");
+                    b.ToTable("ExamplesDb");
                 });
 
             modelBuilder.Entity("ModelsDB.FoodCatalog", b =>
@@ -611,21 +704,6 @@ namespace DietDB.Migrations
                     b.ToTable("DayWeek");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.DieticianMessage", b =>
-                {
-                    b.Property<int>("MessageId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DieticianId")
-                        .HasColumnType("int");
-
-                    b.HasKey("MessageId", "DieticianId");
-
-                    b.HasIndex("DieticianId");
-
-                    b.ToTable("DieticianMessage");
-                });
-
             modelBuilder.Entity("ModelsDB.Functionality.DieticianNote", b =>
                 {
                     b.Property<int>("NoteId")
@@ -668,7 +746,7 @@ namespace DietDB.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("DieticianPatient");
+                    b.ToTable("DieticianPatientsDb");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.DietPatient", b =>
@@ -798,31 +876,13 @@ namespace DietDB.Migrations
                     b.ToTable("MealTimeSingleDiet");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.MessageToDietician", b =>
+            modelBuilder.Entity("ModelsDB.Functionality.MessageAdmin", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("MessageToId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DieticianId")
+                    b.Property<int>("AdminId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsRead")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("PatientId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ReadDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
@@ -845,16 +905,50 @@ namespace DietDB.Migrations
                     b.Property<string>("whoUpdated")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("MessageToId", "AdminId");
 
-                    b.HasIndex("DieticianId");
+                    b.HasIndex("AdminId");
 
-                    b.HasIndex("PatientId");
-
-                    b.ToTable("MessageToDieticians");
+                    b.ToTable("MessageAdmin");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.MessageToPatient", b =>
+            modelBuilder.Entity("ModelsDB.Functionality.MessageDietetician", b =>
+                {
+                    b.Property<int>("MessageToId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DieticianId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("dateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("dateDeleted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("dateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("whoAdded")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("whoDeleted")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("whoUpdated")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MessageToId", "DieticianId");
+
+                    b.HasIndex("DieticianId");
+
+                    b.ToTable("MessageDietetician");
+                });
+
+            modelBuilder.Entity("ModelsDB.Functionality.MessageTo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -862,16 +956,19 @@ namespace DietDB.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("AdminId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DieticianId")
+                    b.Property<int?>("DieticianId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsRead")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PatientId")
+                    b.Property<int?>("PatientId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("ReadDate")
@@ -903,11 +1000,13 @@ namespace DietDB.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AdminId");
+
                     b.HasIndex("DieticianId");
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("MessageToPatients");
+                    b.ToTable("MessageToDb");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.PatientCardSurvey", b =>
@@ -1934,46 +2033,6 @@ namespace DietDB.Migrations
                     b.ToTable("Measure");
                 });
 
-            modelBuilder.Entity("ModelsDB.Message", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("dateAdded")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("dateDeleted")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("dateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("isActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("whoAdded")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("whoDeleted")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("whoUpdated")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Message");
-                });
-
             modelBuilder.Entity("ModelsDB.Note", b =>
                 {
                     b.Property<int>("Id")
@@ -1981,6 +2040,9 @@ namespace DietDB.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("AdminId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -2019,6 +2081,8 @@ namespace DietDB.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AdminId");
 
                     b.HasIndex("DieticianId");
 
@@ -2160,7 +2224,7 @@ namespace DietDB.Migrations
 
                     b.HasIndex("SexId");
 
-                    b.ToTable("Patients", (string)null);
+                    b.ToTable("PatientsDb", (string)null);
                 });
 
             modelBuilder.Entity("ModelsDB.PatientCard", b =>
@@ -2517,9 +2581,9 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("MessagePatient", b =>
                 {
-                    b.HasOne("ModelsDB.Message", "Message")
-                        .WithMany("MessageToPatients")
-                        .HasForeignKey("MessageId")
+                    b.HasOne("ModelsDB.Functionality.MessageTo", "MessageTo")
+                        .WithMany("MessagePatient")
+                        .HasForeignKey("MessageToId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -2529,9 +2593,20 @@ namespace DietDB.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Message");
+                    b.Navigation("MessageTo");
 
                     b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("ModelsDB.Admin", b =>
+                {
+                    b.HasOne("ModelsDB.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("ModelsDB.Comment", b =>
@@ -2599,25 +2674,6 @@ namespace DietDB.Migrations
                         .HasForeignKey("DieticianId");
 
                     b.Navigation("Dietician");
-                });
-
-            modelBuilder.Entity("ModelsDB.Functionality.DieticianMessage", b =>
-                {
-                    b.HasOne("ModelsDB.Dietician", "Dietician")
-                        .WithMany("MessageDieticians")
-                        .HasForeignKey("DieticianId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ModelsDB.Message", "Message")
-                        .WithMany("MessageDieticians")
-                        .HasForeignKey("MessageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Dietician");
-
-                    b.Navigation("Message");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.DieticianNote", b =>
@@ -2791,38 +2847,59 @@ namespace DietDB.Migrations
                     b.Navigation("SingleDiet");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.MessageToDietician", b =>
+            modelBuilder.Entity("ModelsDB.Functionality.MessageAdmin", b =>
+                {
+                    b.HasOne("ModelsDB.Admin", "Admin")
+                        .WithMany("MessageAdmins")
+                        .HasForeignKey("AdminId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ModelsDB.Functionality.MessageTo", "MessageTo")
+                        .WithMany("MessageAdmin")
+                        .HasForeignKey("MessageToId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Admin");
+
+                    b.Navigation("MessageTo");
+                });
+
+            modelBuilder.Entity("ModelsDB.Functionality.MessageDietetician", b =>
                 {
                     b.HasOne("ModelsDB.Dietician", "Dietician")
-                        .WithMany("MessageToDieticians")
+                        .WithMany("MessageDieticians")
                         .HasForeignKey("DieticianId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ModelsDB.Patient", "Patient")
-                        .WithMany("MessageToDieticians")
-                        .HasForeignKey("PatientId")
+                    b.HasOne("ModelsDB.Functionality.MessageTo", "MessageTo")
+                        .WithMany("MessageDieticians")
+                        .HasForeignKey("MessageToId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Dietician");
 
-                    b.Navigation("Patient");
+                    b.Navigation("MessageTo");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.MessageToPatient", b =>
+            modelBuilder.Entity("ModelsDB.Functionality.MessageTo", b =>
                 {
+                    b.HasOne("ModelsDB.Admin", "Admin")
+                        .WithMany("MessageTo")
+                        .HasForeignKey("AdminId");
+
                     b.HasOne("ModelsDB.Dietician", "Dietician")
-                        .WithMany("MessageToPatients")
-                        .HasForeignKey("DieticianId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("MessageTo")
+                        .HasForeignKey("DieticianId");
 
                     b.HasOne("ModelsDB.Patient", "Patient")
-                        .WithMany("MessageToPatients")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("MessageTo")
+                        .HasForeignKey("PatientId");
+
+                    b.Navigation("Admin");
 
                     b.Navigation("Dietician");
 
@@ -3035,6 +3112,10 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Note", b =>
                 {
+                    b.HasOne("ModelsDB.Admin", null)
+                        .WithMany("Notes")
+                        .HasForeignKey("AdminId");
+
                     b.HasOne("ModelsDB.Dietician", null)
                         .WithMany("Notes")
                         .HasForeignKey("DieticianId")
@@ -3167,6 +3248,15 @@ namespace DietDB.Migrations
                     b.Navigation("Patients");
                 });
 
+            modelBuilder.Entity("ModelsDB.Admin", b =>
+                {
+                    b.Navigation("MessageAdmins");
+
+                    b.Navigation("MessageTo");
+
+                    b.Navigation("Notes");
+                });
+
             modelBuilder.Entity("ModelsDB.Diet", b =>
                 {
                     b.Navigation("DietPatients");
@@ -3192,9 +3282,7 @@ namespace DietDB.Migrations
 
                     b.Navigation("MessageDieticians");
 
-                    b.Navigation("MessageToDieticians");
-
-                    b.Navigation("MessageToPatients");
+                    b.Navigation("MessageTo");
 
                     b.Navigation("Notes");
 
@@ -3225,6 +3313,15 @@ namespace DietDB.Migrations
             modelBuilder.Entity("ModelsDB.Functionality.MealTime", b =>
                 {
                     b.Navigation("MealTimeSingleDiets");
+                });
+
+            modelBuilder.Entity("ModelsDB.Functionality.MessageTo", b =>
+                {
+                    b.Navigation("MessageAdmin");
+
+                    b.Navigation("MessageDieticians");
+
+                    b.Navigation("MessagePatient");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.Sex", b =>
@@ -3300,13 +3397,6 @@ namespace DietDB.Migrations
                     b.Navigation("DishMeasures");
                 });
 
-            modelBuilder.Entity("ModelsDB.Message", b =>
-                {
-                    b.Navigation("MessageDieticians");
-
-                    b.Navigation("MessageToPatients");
-                });
-
             modelBuilder.Entity("ModelsDB.Note", b =>
                 {
                     b.Navigation("DieticianNotes");
@@ -3331,9 +3421,7 @@ namespace DietDB.Migrations
 
                     b.Navigation("MessagePatients");
 
-                    b.Navigation("MessageToDieticians");
-
-                    b.Navigation("MessageToPatients");
+                    b.Navigation("MessageTo");
 
                     b.Navigation("NotePatients");
 

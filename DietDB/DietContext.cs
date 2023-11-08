@@ -109,6 +109,7 @@ namespace DietDB
                 .WithMany(p => p.MessagePatients)  
                 .HasForeignKey(mp => mp.PatientId);
 
+
             //**************************************************************************************************
 
             modelBuilder.Entity<MessageDietetician>()

@@ -19,5 +19,5 @@ public class PatientGetDTO
     public Address Address { get; set; }
     public int AddressId { get; set; }
 
-    public List<MessageToPatientDTO> Messages { get; set; }
+    public List<MessageToDTO> Messages { get; set; }
 }

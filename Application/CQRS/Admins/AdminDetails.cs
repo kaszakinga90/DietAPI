@@ -14,7 +14,7 @@ namespace Application.CQRS.Admins
         /// <summary>
         /// Reprezentuje zapytanie do pobrania szczegółów admina na podstawie identyfikatora.
         /// </summary>
-        public class Query : IRequest<AdminDTO>
+        public class Query : IRequest<AdminGetDTO>
         {
             /// <summary>
             /// Pobiera lub ustawia identyfikator admina, którego szczegóły mają zostać pobrane.
@@ -25,7 +25,7 @@ namespace Application.CQRS.Admins
         /// <summary>
         /// Obsługuje proces pobierania szczegółów admina z bazy danych.
         /// </summary>
-        public class Handler : IRequestHandler<Query, AdminDTO>
+        public class Handler : IRequestHandler<Query, AdminGetDTO>
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
@@ -46,15 +46,15 @@ namespace Application.CQRS.Admins
             /// </summary>
             /// <param name="request">Zapytanie do przetworzenia.</param>
             /// <param name="cancellationToken">Token anulowania operacji.</param>
-            /// <returns>Zwraca szczegóły admina w postaci obiektu <see cref="AdminDTO"/>.</returns>
-            public async Task<AdminDTO> Handle(Query request, CancellationToken cancellationToken)
+            /// <returns>Zwraca szczegóły admina w postaci obiektu <see cref="AdminGetDTO"/>.</returns>
+            public async Task<AdminGetDTO> Handle(Query request, CancellationToken cancellationToken)
             {
                 var admin = await _context.AdminsDb
                                                 .Include(a => a.Address)
                                                 .Include(a => a.MessageTo)
                                                 .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-                return _mapper.Map<AdminDTO>(admin);
+                return _mapper.Map<AdminGetDTO>(admin);
             }
         }
     }

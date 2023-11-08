@@ -46,7 +46,7 @@ namespace Application.CQRS.Patients
             /// </summary>
             /// <param name="request">Zapytanie do przetworzenia.</param>
             /// <param name="cancellationToken">Token anulowania operacji.</param>
-            /// <returns>Zwraca szczegóły pacjenta w postaci obiektu <see cref="PatientDTO"/>.</returns>
+            /// <returns>Zwraca szczegóły pacjenta w postaci obiektu <see cref="PatientGetDTO"/>.</returns>
             public async Task<PatientGetDTO> Handle(Query request, CancellationToken cancellationToken)
             {
                 var patient = await _context.PatientsDb

@@ -1,9 +1,9 @@
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using ModelsDB;
 
-namespace Application.DTOs.PatientDTO
+namespace Application.DTOs.DieticianDTO
 {
-    public class PatientDTO
+    public class DieticianGetDTO
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -11,15 +11,15 @@ namespace Application.DTOs.PatientDTO
         public string Email { get; set; }
         public string Password { get; set; }
         public string Phone { get; set; }
-        public string PhotoUrl { get; set; }
         public bool isPatient { get; set; }
         public bool isDietician { get; set; }
         public bool isAdmin { get; set; }
         public DateTime? BirthDate { get; set; }
+        public IFormFile File { get; set; }
+        public string PictureUrl { get; set; }
 
         public Address Address { get; set; }
         public int AddressId { get; set; }
-        public IFormFile File { get; set; }
 
         public List<MessageToDTO> Messages { get; set; }
     }
