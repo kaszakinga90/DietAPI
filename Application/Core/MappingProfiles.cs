@@ -19,7 +19,6 @@ namespace Application.Core
         public MappingProfiles()
         {
             // Mapowania dla tych samych typów (dla pełnej konfiguracji).
-            CreateMap<Example, Example>();
             CreateMap<CategoryOfDiet, CategoryOfDiet>();
             CreateMap<SingleDiet, SingleDiet>();
 

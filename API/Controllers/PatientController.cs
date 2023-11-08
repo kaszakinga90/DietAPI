@@ -27,6 +27,7 @@ namespace API.Controllers
         /// </summary>
         /// <returns>Lista pacjentów.</returns>
         [HttpGet]
+        [Route("all")]
         public async Task<ActionResult<List<Patient>>> GetPatients()
         {
             return await Mediator.Send(new PatientList.Query());

@@ -27,6 +27,7 @@ namespace API.Controllers
         /// </summary>
         /// <returns>Lista dietetyków.</returns>
         [HttpGet]
+        [Route("all")]
         public async Task<ActionResult<List<Dietician>>> GetDieticians()
         {
             return await Mediator.Send(new DieticianList.Query());
