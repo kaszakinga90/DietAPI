@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ModelsDB;
+﻿using ModelsDB;
 using ModelsDB.Functionality;
 using Microsoft.EntityFrameworkCore;
 
@@ -674,66 +671,72 @@ namespace DietDB
             #endregion
 
             //********************DANE Z KLUCZAMI KLUCZY OBCYCH****************************************
+
             #region MessagesToDietician
             //Sprawdzanie i dodawanie testowych wiadomości do dietetyka
-            //if (!context.MessageToDb.Any())
-            //{
-            //    var messages = new List<MessageTo>()
-            //{
-            //    new MessageTo
-            //    {
-            //        Title = "Pytanie o dietę 1",
-            //        Description = "Mam pytanie odnośnie ilości węglowodanów w diecie.",
-            //        DieticianId = 1,
-            //        PatientId=1,
-            //        IsRead = false,
-            //        ReadDate = null,
-            //        dateAdded = DateTime.Now
-            //    },
-            //    new MessageTo
-            //    {
-            //        Title = "Kwestia alergii",
-            //        Description = "Czy produkt X jest odpowiedni dla osoby z alergią na orzechy?",
-            //        DieticianId = 2,
-            //        PatientId=1,
-            //        IsRead = false,
-            //        ReadDate = null,
-            //        dateAdded = DateTime.Now
-            //    },
-            //    new MessageTo
-            //    {
-            //        Title = "Porada dla sportowca",
-            //        Description = "Jakie produkty zalecasz dla aktywnych fizycznie osób?",
-            //        DieticianId = 3,
-            //        PatientId=3,
-            //        IsRead = false,
-            //        ReadDate = null,
-            //        dateAdded = DateTime.Now
-            //    },
-            //    new MessageTo
-            //    {
-            //        Title = "Suplementacja",
-            //        Description = "Czy warto suplementować witaminę D w okresie zimowym?",
-            //        DieticianId = 1,
-            //        PatientId=2,
-            //        IsRead = false,
-            //        ReadDate = null,
-            //        dateAdded = DateTime.Now
-            //    },
-            //    new MessageTo
-            //    {
-            //        Title = "Pytanie o jadłospis",
-            //        Description = "Czy możesz mi pomóc skomponować jadłospis na nadchodzący tydzień?",
-            //        DieticianId = 2,
-            //        PatientId=2,
-            //        IsRead = false,
-            //        ReadDate = null,
-            //        dateAdded = DateTime.Now
-            //    }
-            //};
+            if (!context.MessageToDb.Any())
+            {
+                var messages = new List<MessageTo>()
+            {
+                new MessageTo
+                {
+                    Title = "Pytanie o dietę 1",
+                    Description = "Mam pytanie odnośnie ilości węglowodanów w diecie.",
+                    DieticianId = 1,
+                    PatientId=1,
+                    IsRead = false,
+                    ReadDate = null,
+                    isActive = true,
+                    dateAdded = DateTime.Now
+                },
+                new MessageTo
+                {
+                    Title = "Kwestia alergii",
+                    Description = "Czy produkt X jest odpowiedni dla osoby z alergią na orzechy?",
+                    DieticianId = 2,
+                    PatientId=1,
+                    IsRead = false,
+                    ReadDate = null,
+                    isActive = true,
+                    dateAdded = DateTime.Now
+                },
+                new MessageTo
+                {
+                    Title = "Porada dla sportowca",
+                    Description = "Jakie produkty zalecasz dla aktywnych fizycznie osób?",
+                    DieticianId = 3,
+                    PatientId=3,
+                    IsRead = false,
+                    ReadDate = null,
+                    isActive = true,
+                    dateAdded = DateTime.Now
+                },
+                new MessageTo
+                {
+                    Title = "Suplementacja",
+                    Description = "Czy warto suplementować witaminę D w okresie zimowym?",
+                    DieticianId = 1,
+                    PatientId=2,
+                    IsRead = false,
+                    ReadDate = null,
+                    isActive = true,
+                    dateAdded = DateTime.Now
+                },
+                new MessageTo
+                {
+                    Title = "Pytanie o jadłospis",
+                    Description = "Czy możesz mi pomóc skomponować jadłospis na nadchodzący tydzień?",
+                    DieticianId = 2,
+                    PatientId=2,
+                    IsRead = false,
+                    ReadDate = null,
+                    isActive = true,
+                    dateAdded = DateTime.Now
+                }
+            };
 
-            //    await context.MessageToDb.AddRangeAsync(messages);
-            //}
+                await context.MessageToDb.AddRangeAsync(messages);
+            }
             #endregion
             #region MessageToPatient
 
@@ -803,44 +806,49 @@ namespace DietDB
             }
 
             #endregion
+            #region MessagesToAdmin
+            if (!context.MessageToDb.Any())
+            {
+                var messagesToAdmins = new List<MessageTo>()
+            {
+                new MessageTo
+                {
+                    Title = "Zgłoszenie problemu technicznego",
+                    Description = "Witaj! Napotkaliśmy problem z funkcją wysyłania wiadomości w aplikacji. Prosimy o szybką interwencję.",
+                    AdminId = 1,
+                    DieticianId = 2,
+                    isActive = true,
+                    IsRead = false,
+                    ReadDate = null,
+                    dateAdded = DateTime.Now
+                },
+                new MessageTo
+                {
+                    Title = "Aktualizacja polityki prywatności",
+                    Description = "Witaj! Przesyłam aktualizację polityki prywatności. Proszę o jej przejrzenie i zatwierdzenie.",
+                    AdminId = 2,
+                    DieticianId = 3,
+                    isActive = true,
+                    IsRead = false,
+                    ReadDate = null,
+                    dateAdded = DateTime.Now
+                },
+                new MessageTo
+                {
+                    Title = "Propozycja współpracy",
+                    Description = "Dzień dobry! Mamy propozycję współpracy, która może być interesująca dla naszej platformy. Proszę o kontakt.",
+                    AdminId = 1,
+                    DieticianId = 1,
+                    isActive = true,
+                    IsRead = false,
+                    ReadDate = null,
+                    dateAdded = DateTime.Now
+                },
+            };
 
-            //#region MessagesToAdmin
-            //if (!context.MessageToDb.Any())
-            //{
-            //    var messagesToAdmins = new List<MessageTo>()
-            //{
-            //    new MessageTo
-            //    {
-            //        Title = "Zgłoszenie problemu technicznego",
-            //        Description = "Witaj! Napotkaliśmy problem z funkcją wysyłania wiadomości w aplikacji. Prosimy o szybką interwencję.",
-            //        AdminId = 1,
-            //        IsRead = false,
-            //        ReadDate = null,
-            //        dateAdded = DateTime.Now
-            //    },
-            //    new MessageTo
-            //    {
-            //        Title = "Aktualizacja polityki prywatności",
-            //        Description = "Witaj! Przesyłam aktualizację polityki prywatności. Proszę o jej przejrzenie i zatwierdzenie.",
-            //        AdminId = 2,
-            //        IsRead = false,
-            //        ReadDate = null,
-            //        dateAdded = DateTime.Now
-            //    },
-            //    new MessageTo
-            //    {
-            //        Title = "Propozycja współpracy",
-            //        Description = "Dzień dobry! Mamy propozycję współpracy, która może być interesująca dla naszej platformy. Proszę o kontakt.",
-            //        AdminId = 1,
-            //        IsRead = false,
-            //        ReadDate = null,
-            //        dateAdded = DateTime.Now
-            //    },
-            //};
-
-            //    await context.MessageToDb.AddRangeAsync(messagesToAdmins);
-            //}
-            //#endregion
+                await context.MessageToDb.AddRangeAsync(messagesToAdmins);
+            }
+            #endregion
 
             // Zapisanie zmian w bazie danych
             await context.SaveChangesAsync();
