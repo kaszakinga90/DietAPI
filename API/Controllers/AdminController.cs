@@ -27,6 +27,7 @@ namespace API.Controllers
         /// </summary>
         /// <returns>Lista adminów.</returns>
         [HttpGet]
+        [Route("all")]
         public async Task<ActionResult<List<Admin>>> GetAdmins()
         {
             return await Mediator.Send(new AdminList.Query());

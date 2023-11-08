@@ -24,7 +24,6 @@ namespace DietDB
         /// Pobiera lub ustawia kolekcję przykładów w bazie danych.
         /// </summary>
 
-        public DbSet<Example> ExamplesDb { get; set; }
         public DbSet<Address> AddressesDb { get; set; }
         public DbSet<CategoryOfDiet> CategoryOfDietsDb { get; set; }
         public DbSet<Comment> CommentsDb { get; set; }
