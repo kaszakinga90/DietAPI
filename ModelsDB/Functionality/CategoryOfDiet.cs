@@ -9,7 +9,5 @@ namespace ModelsDB.Functionality
         [Key]
         public int Id { get; set; }
         public string CategoryName { get; set; }
-
-        public List<SingleDiet> SingleDiets { get; set; }
     }
 }

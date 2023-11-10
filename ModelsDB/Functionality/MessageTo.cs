@@ -18,9 +18,5 @@
         public bool IsRead { get; set; }
         public DateTime? ReadDate { get; set; }
 
-        public List<MessageDietetician> MessageDieticians { get; set; }
-        public List<MessagePatient> MessagePatient { get; set; }
-        public List<MessageAdmin> MessageAdmin { get; set; }
-
     }
 }
