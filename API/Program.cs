@@ -6,7 +6,6 @@ using Application.CQRS.DayWeeks;
 using Application.CQRS.Dieticians;
 using Application.CQRS.MealTimes;
 using Application.CQRS.Patients;
-using Application.CQRS.SingleDiets;
 using Application.Services;
 using DietDB;
 using FluentValidation.AspNetCore;
@@ -54,7 +53,6 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(DayWeekList.Handler).Assembly,
     typeof(CategoryOfDietList.Handler).Assembly,
     typeof(MealTimeList.Handler).Assembly,
-    typeof(SingleDietList.Handler).Assembly,
     typeof(PatientList.Handler).Assembly,
     typeof(AdminList.Handler).Assembly,
     typeof(DieticianList.Handler).Assembly

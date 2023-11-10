@@ -7,9 +7,9 @@ namespace Application.CQRS.MealTimes
 {
     public class MealTimeList
     {
-        public class Query : IRequest<List<MealTime>> { }
+        public class Query : IRequest<List<MealTimeToXYAxis>> { }
 
-        public class Handler : IRequestHandler<Query, List<MealTime>>
+        public class Handler : IRequestHandler<Query, List<MealTimeToXYAxis>>
         {
             private readonly DietContext _context;
 
@@ -18,7 +18,7 @@ namespace Application.CQRS.MealTimes
                 _context = context;
             }
 
-            public async Task<List<MealTime>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<MealTimeToXYAxis>> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _context.MealTimesDb.ToListAsync(cancellationToken);
             }

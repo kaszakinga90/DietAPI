@@ -142,23 +142,6 @@ namespace DietDB.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExamplesDb",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Age = table.Column<int>(type: "int", nullable: false),
-                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ExamplesDb", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Footer",
                 columns: table => new
                 {
@@ -245,26 +228,6 @@ namespace DietDB.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LayoutPhoto", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MealTime",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DishTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    isActive = table.Column<bool>(type: "bit", nullable: false),
-                    dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MealTime", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -508,36 +471,6 @@ namespace DietDB.Migrations
                         name: "FK_FileCategory_CategoryType_CategoryTypeId",
                         column: x => x.CategoryTypeId,
                         principalTable: "CategoryType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SingleDiet",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    MealTimeHour = table.Column<int>(type: "int", nullable: false),
-                    MealTimeMinute = table.Column<int>(type: "int", nullable: false),
-                    DateStart = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DayWeekId = table.Column<int>(type: "int", nullable: false),
-                    isActive = table.Column<bool>(type: "bit", nullable: false),
-                    dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SingleDiet", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SingleDiet_DayWeek_DayWeekId",
-                        column: x => x.DayWeekId,
-                        principalTable: "DayWeek",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -852,54 +785,6 @@ namespace DietDB.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CategoryOfDietSingleDiet",
-                columns: table => new
-                {
-                    DietCategoriesId = table.Column<int>(type: "int", nullable: false),
-                    SingleDietsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CategoryOfDietSingleDiet", x => new { x.DietCategoriesId, x.SingleDietsId });
-                    table.ForeignKey(
-                        name: "FK_CategoryOfDietSingleDiet_CategoryOfDiet_DietCategoriesId",
-                        column: x => x.DietCategoriesId,
-                        principalTable: "CategoryOfDiet",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CategoryOfDietSingleDiet_SingleDiet_SingleDietsId",
-                        column: x => x.SingleDietsId,
-                        principalTable: "SingleDiet",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MealTimeSingleDiet",
-                columns: table => new
-                {
-                    MealTimeId = table.Column<int>(type: "int", nullable: false),
-                    SingleDietId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MealTimeSingleDiet", x => new { x.MealTimeId, x.SingleDietId });
-                    table.ForeignKey(
-                        name: "FK_MealTimeSingleDiet_MealTime_MealTimeId",
-                        column: x => x.MealTimeId,
-                        principalTable: "MealTime",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_MealTimeSingleDiet_SingleDiet_SingleDietId",
-                        column: x => x.SingleDietId,
-                        principalTable: "SingleDiet",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ArticleLayoutPhoto",
                 columns: table => new
                 {
@@ -1003,7 +888,7 @@ namespace DietDB.Migrations
                         column: x => x.LinkId,
                         principalTable: "Link",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1319,6 +1204,9 @@ namespace DietDB.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PatientId = table.Column<int>(type: "int", nullable: false),
                     DieteticianId = table.Column<int>(type: "int", nullable: false),
                     DieticianId = table.Column<int>(type: "int", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
@@ -1337,6 +1225,12 @@ namespace DietDB.Migrations
                         column: x => x.DieticianId,
                         principalTable: "DieticiansDb",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Diet_PatientsDb_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "PatientsDb",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1573,51 +1467,64 @@ namespace DietDB.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DietPatient",
+                name: "MealSchedulesDb",
                 columns: table => new
                 {
-                    PatientId = table.Column<int>(type: "int", nullable: false),
-                    DietId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DietId = table.Column<int>(type: "int", nullable: false),
+                    MealId = table.Column<int>(type: "int", nullable: false),
+                    MealTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DishId = table.Column<int>(type: "int", nullable: true),
+                    isActive = table.Column<bool>(type: "bit", nullable: false),
+                    dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DietPatient", x => new { x.PatientId, x.DietId });
+                    table.PrimaryKey("PK_MealSchedulesDb", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DietPatient_Diet_DietId",
+                        name: "FK_MealSchedulesDb_Diet_DietId",
                         column: x => x.DietId,
                         principalTable: "Diet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DietPatient_PatientsDb_PatientId",
-                        column: x => x.PatientId,
-                        principalTable: "PatientsDb",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_MealSchedulesDb_Dish_DishId",
+                        column: x => x.DishId,
+                        principalTable: "Dish",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "DietSingleDiet",
+                name: "MealTimeToXYAxis",
                 columns: table => new
                 {
-                    DietId = table.Column<int>(type: "int", nullable: false),
-                    SingleDietId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MealTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DietId = table.Column<int>(type: "int", nullable: true),
+                    isActive = table.Column<bool>(type: "bit", nullable: false),
+                    dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DietSingleDiet", x => new { x.SingleDietId, x.DietId });
+                    table.PrimaryKey("PK_MealTimeToXYAxis", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DietSingleDiet_Diet_DietId",
+                        name: "FK_MealTimeToXYAxis_Diet_DietId",
                         column: x => x.DietId,
                         principalTable: "Diet",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DietSingleDiet_SingleDiet_SingleDietId",
-                        column: x => x.SingleDietId,
-                        principalTable: "SingleDiet",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -1640,99 +1547,6 @@ namespace DietDB.Migrations
                         name: "FK_DishFoodCatalog_FoodCatalog_FoodCatalogId",
                         column: x => x.FoodCatalogId,
                         principalTable: "FoodCatalog",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MessageAdmin",
-                columns: table => new
-                {
-                    AdminId = table.Column<int>(type: "int", nullable: false),
-                    MessageToId = table.Column<int>(type: "int", nullable: false),
-                    isActive = table.Column<bool>(type: "bit", nullable: false),
-                    dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MessageAdmin", x => new { x.MessageToId, x.AdminId });
-                    table.ForeignKey(
-                        name: "FK_MessageAdmin_AdminsDb_AdminId",
-                        column: x => x.AdminId,
-                        principalTable: "AdminsDb",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_MessageAdmin_MessageToDb_MessageToId",
-                        column: x => x.MessageToId,
-                        principalTable: "MessageToDb",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MessageDietetician",
-                columns: table => new
-                {
-                    DieticianId = table.Column<int>(type: "int", nullable: false),
-                    MessageToId = table.Column<int>(type: "int", nullable: false),
-                    isActive = table.Column<bool>(type: "bit", nullable: false),
-                    dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MessageDietetician", x => new { x.MessageToId, x.DieticianId });
-                    table.ForeignKey(
-                        name: "FK_MessageDietetician_DieticiansDb_DieticianId",
-                        column: x => x.DieticianId,
-                        principalTable: "DieticiansDb",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_MessageDietetician_MessageToDb_MessageToId",
-                        column: x => x.MessageToId,
-                        principalTable: "MessageToDb",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MessagePatient",
-                columns: table => new
-                {
-                    PatientId = table.Column<int>(type: "int", nullable: false),
-                    MessageToId = table.Column<int>(type: "int", nullable: false),
-                    isActive = table.Column<bool>(type: "bit", nullable: false),
-                    dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MessagePatient", x => new { x.MessageToId, x.PatientId });
-                    table.ForeignKey(
-                        name: "FK_MessagePatient_MessageToDb_MessageToId",
-                        column: x => x.MessageToId,
-                        principalTable: "MessageToDb",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_MessagePatient_PatientsDb_PatientId",
-                        column: x => x.PatientId,
-                        principalTable: "PatientsDb",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -1816,11 +1630,6 @@ namespace DietDB.Migrations
                 column: "PhotosId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CategoryOfDietSingleDiet_SingleDietsId",
-                table: "CategoryOfDietSingleDiet",
-                column: "SingleDietsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Comment_DieticianId",
                 table: "Comment",
                 column: "DieticianId");
@@ -1834,6 +1643,11 @@ namespace DietDB.Migrations
                 name: "IX_Diet_DieticianId",
                 table: "Diet",
                 column: "DieticianId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Diet_PatientId",
+                table: "Diet",
+                column: "PatientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DieticianNote_DieticianId",
@@ -1864,16 +1678,6 @@ namespace DietDB.Migrations
                 name: "IX_DieticiansDb_RatingId",
                 table: "DieticiansDb",
                 column: "RatingId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DietPatient_DietId",
-                table: "DietPatient",
-                column: "DietId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DietSingleDiet_DietId",
-                table: "DietSingleDiet",
-                column: "DietId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Diploma_DieticianId",
@@ -1946,24 +1750,19 @@ namespace DietDB.Migrations
                 column: "FileCategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MealTimeSingleDiet_SingleDietId",
-                table: "MealTimeSingleDiet",
-                column: "SingleDietId");
+                name: "IX_MealSchedulesDb_DietId",
+                table: "MealSchedulesDb",
+                column: "DietId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MessageAdmin_AdminId",
-                table: "MessageAdmin",
-                column: "AdminId");
+                name: "IX_MealSchedulesDb_DishId",
+                table: "MealSchedulesDb",
+                column: "DishId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MessageDietetician_DieticianId",
-                table: "MessageDietetician",
-                column: "DieticianId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MessagePatient_PatientId",
-                table: "MessagePatient",
-                column: "PatientId");
+                name: "IX_MealTimeToXYAxis_DietId",
+                table: "MealTimeToXYAxis",
+                column: "DietId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MessageToDb_AdminId",
@@ -2048,11 +1847,6 @@ namespace DietDB.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_SingleDiet_DayWeekId",
-                table: "SingleDiet",
-                column: "DayWeekId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_SingleTestEqual_TestEqualId",
                 table: "SingleTestEqual",
                 column: "TestEqualId");
@@ -2121,10 +1915,13 @@ namespace DietDB.Migrations
                 name: "CarouselLayoutPhoto");
 
             migrationBuilder.DropTable(
-                name: "CategoryOfDietSingleDiet");
+                name: "CategoryOfDiet");
 
             migrationBuilder.DropTable(
                 name: "Comment");
+
+            migrationBuilder.DropTable(
+                name: "DayWeek");
 
             migrationBuilder.DropTable(
                 name: "DieticianNote");
@@ -2134,12 +1931,6 @@ namespace DietDB.Migrations
 
             migrationBuilder.DropTable(
                 name: "DieticianPatientsDb");
-
-            migrationBuilder.DropTable(
-                name: "DietPatient");
-
-            migrationBuilder.DropTable(
-                name: "DietSingleDiet");
 
             migrationBuilder.DropTable(
                 name: "Diploma");
@@ -2157,9 +1948,6 @@ namespace DietDB.Migrations
                 name: "Document");
 
             migrationBuilder.DropTable(
-                name: "ExamplesDb");
-
-            migrationBuilder.DropTable(
                 name: "LayoutPhotoNews");
 
             migrationBuilder.DropTable(
@@ -2169,16 +1957,13 @@ namespace DietDB.Migrations
                 name: "Manual");
 
             migrationBuilder.DropTable(
-                name: "MealTimeSingleDiet");
+                name: "MealSchedulesDb");
 
             migrationBuilder.DropTable(
-                name: "MessageAdmin");
+                name: "MealTimeToXYAxis");
 
             migrationBuilder.DropTable(
-                name: "MessageDietetician");
-
-            migrationBuilder.DropTable(
-                name: "MessagePatient");
+                name: "MessageToDb");
 
             migrationBuilder.DropTable(
                 name: "NotePatient");
@@ -2211,13 +1996,7 @@ namespace DietDB.Migrations
                 name: "Carousel");
 
             migrationBuilder.DropTable(
-                name: "CategoryOfDiet");
-
-            migrationBuilder.DropTable(
                 name: "Office");
-
-            migrationBuilder.DropTable(
-                name: "Diet");
 
             migrationBuilder.DropTable(
                 name: "FoodCatalog");
@@ -2244,13 +2023,7 @@ namespace DietDB.Migrations
                 name: "FileCategory");
 
             migrationBuilder.DropTable(
-                name: "MealTime");
-
-            migrationBuilder.DropTable(
-                name: "SingleDiet");
-
-            migrationBuilder.DropTable(
-                name: "MessageToDb");
+                name: "Diet");
 
             migrationBuilder.DropTable(
                 name: "Note");
@@ -2278,9 +2051,6 @@ namespace DietDB.Migrations
 
             migrationBuilder.DropTable(
                 name: "CategoryType");
-
-            migrationBuilder.DropTable(
-                name: "DayWeek");
 
             migrationBuilder.DropTable(
                 name: "AdminsDb");

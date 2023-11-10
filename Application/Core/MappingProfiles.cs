@@ -20,7 +20,6 @@ namespace Application.Core
         {
             // Mapowania dla tych samych typów (dla pełnej konfiguracji).
             CreateMap<CategoryOfDiet, CategoryOfDiet>();
-            CreateMap<SingleDiet, SingleDiet>();
 
             // Mapowania pomiędzy DTO a modelami.
             CreateMap<DayWeekDTO, DayWeek>();
@@ -81,6 +80,14 @@ namespace Application.Core
 
             CreateMap<DieticianDTO, Dietician>();
 
+
+            CreateMap<Diet, DietDTO>()
+                .ForMember(dest => dest.MealTimesToXYAxisDTO, opt => opt.MapFrom(src => src.MealTimesToXYAxis));
+
+            CreateMap<DietDTO, Diet>();
+
+            CreateMap<Diet, DietGetDTO>()
+                .ForMember(dest => dest.MealTimesToXYAxisDTO, opt => opt.MapFrom(src => src.MealTimesToXYAxis));
 
         }
     }

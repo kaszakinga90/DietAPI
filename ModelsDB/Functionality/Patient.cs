@@ -11,7 +11,7 @@ namespace ModelsDB
         public List<Comment> Comments { get; set; }
         public List<Rating> Ratings { get; set; }
         public List<Visit> Visits { get; set; }
-        public List<DietPatient> DietPatients { get; set; }
+        //public List<DietPatient> DietPatients { get; set; }
         public List<NotePatient> NotePatients { get; set; }
 
         //lista odzwierc. jeden pacjent może mieć wiele dietetyków
@@ -19,6 +19,8 @@ namespace ModelsDB
         public List<DieticianPatient> DieticianPatients { get; set; }
 
         public List<MessageTo> MessageTo { get; set; }
-        public List<MessagePatient> MessagePatients { get; set; }
+        public List<Diet> Diets { get; set; }
+
+
     }
 }

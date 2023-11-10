@@ -17,6 +17,5 @@ namespace ModelsDB
         // jeden dietetyk może mieć wiele pacjentów
         public List<DieticianPatient> DieticianPatients { get; set; }
         public List<MessageTo> MessageTo { get; set; }
-        public List<MessageDietetician> MessageDieticians { get; set; }
     }
 }

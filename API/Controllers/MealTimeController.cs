@@ -8,12 +8,12 @@ namespace API.Controllers
     public class MealTimeController : BaseApiController
     {
         [HttpGet]
-        public async Task<ActionResult<List<MealTime>>> GetMealTimes()
+        public async Task<ActionResult<List<MealTimeToXYAxis>>> GetMealTimes()
         {
             return await Mediator.Send(new MealTimeList.Query());
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<MealTime>> GetMealTime(int id)
+        public async Task<ActionResult<MealTimeToXYAxis>> GetMealTime(int id)
         {
             return await Mediator.Send(new MealTimeDetails.Query { Id = id });
         }

@@ -22,5 +22,7 @@ namespace ModelsDB
         public List<DishMeasure> DishMeasures { get; set; }
         public int RecipesId { get; set; }
         public Recipe Recipe { get; set; }
+
+        public List<MealSchedule> MealSchedules { get; set; }
     }
 }

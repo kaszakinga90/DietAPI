@@ -194,13 +194,13 @@ namespace DietDB
             // Sprawdzanie i dodawanie testowych danych dla MealTimes
             if (!context.MealTimesDb.Any())
             {
-                var mealTimes = new List<MealTime>()
+                var mealTimes = new List<MealTimeToXYAxis>()
                 {
-                    new MealTime { DishTime = "Śniadanie" },
-                    new MealTime { DishTime = "Drugie śniadanie" },
-                    new MealTime { DishTime = "Obiad" },
-                    new MealTime { DishTime = "Podwieczorek" },
-                    new MealTime { DishTime = "Kolacja" },
+                    new MealTimeToXYAxis { Name = "Śniadanie", MealTime = new DateTime(2023, 11, 10) },
+                    new MealTimeToXYAxis { Name = "Drugie śniadanie", MealTime = new DateTime(2023, 11, 11) },
+                    new MealTimeToXYAxis { Name = "Obiad", MealTime = new DateTime(2023, 11, 12) },
+                    new MealTimeToXYAxis { Name = "Podwieczorek", MealTime = new DateTime(2023, 11, 13) },
+                    new MealTimeToXYAxis { Name = "Kolacja", MealTime = new DateTime(2023, 11, 14) },
                 };
                 await context.MealTimesDb.AddRangeAsync(mealTimes);
             }
@@ -385,75 +385,6 @@ namespace DietDB
             #endregion
 
             //********************DANE Z KLUCZAMI OBCYMI****************************************
-
-            #region SingleDiet
-            // Sprawdzanie i dodawanie testowych rekordów dla SingleDietsDb
-            if (!context.SingleDietsDb.Any())
-            {
-                var singleDiets = new List<SingleDiet>()
-                {
-                    new SingleDiet
-                    {
-                        MealTimeHour = 8,
-                        MealTimeMinute = 0,
-                        DateStart = DateTime.Now,
-                        DateEnd = DateTime.Now.AddDays(7),
-                        DayWeekId = 1  // Poniedziałek
-                    },
-                    new SingleDiet
-                    {
-                        MealTimeHour = 12,
-                        MealTimeMinute = 30,
-                        DateStart = DateTime.Now,
-                        DateEnd = DateTime.Now.AddDays(7),
-                        DayWeekId = 2  // Wtorek
-                    },
-                    new SingleDiet
-                    {
-                        MealTimeHour = 14,
-                        MealTimeMinute = 15,
-                        DateStart = DateTime.Now,
-                        DateEnd = DateTime.Now.AddDays(7),
-                        DayWeekId = 3  // Środa
-                    },
-                    new SingleDiet
-                    {
-                        MealTimeHour = 19,
-                        MealTimeMinute = 45,
-                        DateStart = DateTime.Now,
-                        DateEnd = DateTime.Now.AddDays(7),
-                        DayWeekId = 4  // Czwartek
-                    },
-                    new SingleDiet
-                    {
-                        MealTimeHour = 9,
-                        MealTimeMinute = 0,
-                        DateStart = DateTime.Now,
-                        DateEnd = DateTime.Now.AddDays(7),
-                        DayWeekId = 5  // Piątek
-                    },
-                    new SingleDiet
-                    {
-                        MealTimeHour = 12,
-                        MealTimeMinute = 15,
-                        DateStart = DateTime.Now,
-                        DateEnd = DateTime.Now.AddDays(7),
-                        DayWeekId = 6  // Sobota
-                    },
-                    new SingleDiet
-                    {
-                        MealTimeHour = 10,
-                        MealTimeMinute = 30,
-                        DateStart = DateTime.Now,
-                        DateEnd = DateTime.Now.AddDays(7),
-                        DayWeekId = 7  // Niedziela
-                    },
-                };
-
-                await context.SingleDietsDb.AddRangeAsync(singleDiets);
-                await context.SaveChangesAsync();
-            }
-            #endregion
             #region Dietician
             // Sprawdzanie i dodawanie testowych rekordów dla Dietician
             if (!context.DieticiansDb.Any())
@@ -568,9 +499,8 @@ namespace DietDB
                         Comments = new List<Comment>(),
                         Ratings = new List<Rating>(),
                         Visits = new List<Visit>(),
-                        MessagePatients = new List<MessagePatient>(),
                         DieticianPatients = new List<DieticianPatient>(),
-                        DietPatients = new List<DietPatient>(),
+                        //DietPatients = new List<DietPatient>(),
                         NotePatients = new List<NotePatient>()
                     },
                     new Patient
@@ -592,9 +522,8 @@ namespace DietDB
                         Comments = new List<Comment>(),
                         Ratings = new List<Rating>(),
                         Visits = new List<Visit>(),
-                        MessagePatients = new List<MessagePatient>(),
                         DieticianPatients = new List<DieticianPatient>(),
-                        DietPatients = new List<DietPatient>(),
+                        //DietPatients = new List<DietPatient>(),
                         NotePatients = new List<NotePatient>()
                     },
                     new Patient
@@ -616,9 +545,8 @@ namespace DietDB
                         Comments = new List<Comment>(),
                         Ratings = new List<Rating>(),
                         Visits = new List<Visit>(),
-                        MessagePatients = new List<MessagePatient>(),
                         DieticianPatients = new List<DieticianPatient>(),
-                        DietPatients = new List<DietPatient>(),
+                        //DietPatients = new List<DietPatient>(),
                         NotePatients = new List<NotePatient>()
                     }
                 };
@@ -645,8 +573,7 @@ namespace DietDB
                     BirthDate = new DateTime(1980, 1, 1),
                     AddressId = 1,
                     Notes = new List<Note>(),
-                    MessageTo = new List<MessageTo>(),
-                    MessageAdmins = new List<MessageAdmin>()
+                    MessageTo = new List<MessageTo>()
                 },
                 new Admin
                 {
@@ -661,8 +588,7 @@ namespace DietDB
                     BirthDate = new DateTime(1982, 5, 10),
                     AddressId = 2,
                     Notes = new List<Note>(),
-                    MessageTo = new List<MessageTo>(),
-                    MessageAdmins = new List<MessageAdmin>()
+                    MessageTo = new List<MessageTo>()
                 },
             };
 
