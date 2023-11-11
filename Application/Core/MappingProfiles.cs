@@ -1,6 +1,7 @@
 ﻿using Application.DTOs.AdminDTO;
 using Application.DTOs.DayWeekDTO;
 using Application.DTOs.DieticianDTO;
+using Application.DTOs.MealTimeToXYAxisDTO;
 using Application.DTOs.PatientDTO;
 using AutoMapper;
 using ModelsDB;
@@ -81,14 +82,18 @@ namespace Application.Core
             CreateMap<DieticianDTO, Dietician>();
 
 
+            
+
+            //CreateMap<Diet, DietGetDTO>()
+            //    .ForMember(dest => dest.MealTimesToXYAxisDTO, opt => opt.MapFrom(src => src.MealTimesToXYAxis));
+
+
             CreateMap<Diet, DietDTO>()
                 .ForMember(dest => dest.MealTimesToXYAxisDTO, opt => opt.MapFrom(src => src.MealTimesToXYAxis));
 
-            CreateMap<DietDTO, Diet>();
-
-            CreateMap<Diet, DietGetDTO>()
-                .ForMember(dest => dest.MealTimesToXYAxisDTO, opt => opt.MapFrom(src => src.MealTimesToXYAxis));
-
+            CreateMap<DietDTO, Diet>()
+                .ForMember(dest => dest.MealTimesToXYAxis, opt => opt.MapFrom(src => src.MealTimesToXYAxisDTO));
+            CreateMap<MealTimeToXYAxisDTO, MealTimeToXYAxis>();
         }
     }
 }

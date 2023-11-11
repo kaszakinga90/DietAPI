@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietDB.Migrations
 {
     [DbContext(typeof(DietContext))]
-    [Migration("20231110170051_InitialCreate")]
+    [Migration("20231111111804_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -287,9 +287,6 @@ namespace DietDB.Migrations
                     b.Property<int>("DieteticianId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DieticianId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
@@ -325,7 +322,7 @@ namespace DietDB.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DieticianId");
+                    b.HasIndex("DieteticianId");
 
                     b.HasIndex("PatientId");
 
@@ -2418,7 +2415,9 @@ namespace DietDB.Migrations
                 {
                     b.HasOne("ModelsDB.Dietician", "Dietician")
                         .WithMany("Diets")
-                        .HasForeignKey("DieticianId");
+                        .HasForeignKey("DieteticianId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ModelsDB.Patient", "Patient")
                         .WithMany("Diets")
@@ -2605,9 +2604,11 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Functionality.MealTimeToXYAxis", b =>
                 {
-                    b.HasOne("ModelsDB.Diet", null)
+                    b.HasOne("ModelsDB.Diet", "Diet")
                         .WithMany("MealTimesToXYAxis")
                         .HasForeignKey("DietId");
+
+                    b.Navigation("Diet");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.MessageTo", b =>

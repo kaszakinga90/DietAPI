@@ -285,9 +285,6 @@ namespace DietDB.Migrations
                     b.Property<int>("DieteticianId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DieticianId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
@@ -323,7 +320,7 @@ namespace DietDB.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DieticianId");
+                    b.HasIndex("DieteticianId");
 
                     b.HasIndex("PatientId");
 
@@ -2416,7 +2413,9 @@ namespace DietDB.Migrations
                 {
                     b.HasOne("ModelsDB.Dietician", "Dietician")
                         .WithMany("Diets")
-                        .HasForeignKey("DieticianId");
+                        .HasForeignKey("DieteticianId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ModelsDB.Patient", "Patient")
                         .WithMany("Diets")
