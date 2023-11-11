@@ -82,18 +82,34 @@ namespace Application.Core
             CreateMap<DieticianDTO, Dietician>();
 
 
-            
+            CreateMap<MealTimeToXYAxisDTO, MealTimeToXYAxis>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+            //CreateMap<MealTimeToXYAxisDTO, MealTimeToXYAxis>()
+            //    .ForMember(dest => dest.Id, opt => opt.Ignore()) // Ignoruje Id przy mapowaniu
+            //    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+            //    .ForMember(dest => dest.MealTime, opt => opt.MapFrom(src => src.MealTime))
+            //    .ForMember(dest => dest.DietId, opt => opt.MapFrom(src => src.DietId));
+
 
             //CreateMap<Diet, DietGetDTO>()
             //    .ForMember(dest => dest.MealTimesToXYAxisDTO, opt => opt.MapFrom(src => src.MealTimesToXYAxis));
 
 
-            CreateMap<Diet, DietDTO>()
-                .ForMember(dest => dest.MealTimesToXYAxisDTO, opt => opt.MapFrom(src => src.MealTimesToXYAxis));
 
+            CreateMap<Diet, DietDTO>();
+            //CreateMap<Diet, DietDTO>()
+            //    .ForMember(dest => dest.MealTimesToXYAxisDTO, opt => opt.MapFrom(src => src.MealTimesToXYAxis));
+
+
+            //CreateMap<DietDTO, Diet>();
             CreateMap<DietDTO, Diet>()
                 .ForMember(dest => dest.MealTimesToXYAxis, opt => opt.MapFrom(src => src.MealTimesToXYAxisDTO));
-            CreateMap<MealTimeToXYAxisDTO, MealTimeToXYAxis>();
+
+
+
+
+            
         }
     }
 }

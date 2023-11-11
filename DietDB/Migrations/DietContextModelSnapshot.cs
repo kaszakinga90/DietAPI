@@ -2602,11 +2602,9 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Functionality.MealTimeToXYAxis", b =>
                 {
-                    b.HasOne("ModelsDB.Diet", "Diet")
+                    b.HasOne("ModelsDB.Diet", null)
                         .WithMany("MealTimesToXYAxis")
                         .HasForeignKey("DietId");
-
-                    b.Navigation("Diet");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.MessageTo", b =>
