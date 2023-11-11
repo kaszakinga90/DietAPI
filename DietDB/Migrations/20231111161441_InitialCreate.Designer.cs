@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietDB.Migrations
 {
     [DbContext(typeof(DietContext))]
-    [Migration("20231111111804_InitialCreate")]
+    [Migration("20231111161441_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -2604,11 +2604,9 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Functionality.MealTimeToXYAxis", b =>
                 {
-                    b.HasOne("ModelsDB.Diet", "Diet")
+                    b.HasOne("ModelsDB.Diet", null)
                         .WithMany("MealTimesToXYAxis")
                         .HasForeignKey("DietId");
-
-                    b.Navigation("Diet");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.MessageTo", b =>

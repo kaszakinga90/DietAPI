@@ -52,16 +52,15 @@ namespace Application.CQRS.Diets
                 {
                     foreach (var mealTime in diet.MealTimesToXYAxis)
                     {
-                        mealTime.DietId = diet.Id;
-                        _context.MealTimesDb.Add(mealTime);
+                        if (mealTime.Id == 0) // Tylko jeśli Id nie jest ustawione
+                        {
+                            mealTime.DietId = diet.Id;
+                            _context.MealTimesDb.Add(mealTime);
+                        }
                     }
 
-                    await _context.SaveChangesAsync();
                 }
-                else
-                {
-                    // Logika w przypadku pustej listy MealTimesToXYAxis
-                }
+                await _context.SaveChangesAsync();
             }
         }
     }
