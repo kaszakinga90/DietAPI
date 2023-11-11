@@ -1208,7 +1208,6 @@ namespace DietDB.Migrations
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PatientId = table.Column<int>(type: "int", nullable: false),
                     DieteticianId = table.Column<int>(type: "int", nullable: false),
-                    DieticianId = table.Column<int>(type: "int", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
                     dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -1221,16 +1220,17 @@ namespace DietDB.Migrations
                 {
                     table.PrimaryKey("PK_Diet", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Diet_DieticiansDb_DieticianId",
-                        column: x => x.DieticianId,
+                        name: "FK_Diet_DieticiansDb_DieteticianId",
+                        column: x => x.DieteticianId,
                         principalTable: "DieticiansDb",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Diet_PatientsDb_PatientId",
                         column: x => x.PatientId,
                         principalTable: "PatientsDb",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1640,9 +1640,9 @@ namespace DietDB.Migrations
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Diet_DieticianId",
+                name: "IX_Diet_DieteticianId",
                 table: "Diet",
-                column: "DieticianId");
+                column: "DieteticianId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Diet_PatientId",

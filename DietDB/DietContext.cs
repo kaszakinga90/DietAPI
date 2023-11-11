@@ -143,6 +143,11 @@ namespace DietDB
             //    .WithMany(p => p.DietPatients)  
             //    .HasForeignKey(mp => mp.DietId);
 
+            modelBuilder.Entity<Diet>()
+                .HasOne(d => d.Dietician) // Diet ma jeden Dietician
+                .WithMany(di => di.Diets) // Dietician ma wiele Diet
+                .HasForeignKey(d => d.DieteticianId); // Klucz obcy w Diet to DieteticianId
+
             //**************************************************************************************************
 
             modelBuilder.Entity<DishFoodCatalog>()

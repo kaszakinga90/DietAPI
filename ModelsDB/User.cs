@@ -1,9 +1,10 @@
-﻿using ModelsDB.Functionality;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ModelsDB
 {
     public class User:BaseModel
     {
+        [Key]
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

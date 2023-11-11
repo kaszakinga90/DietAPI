@@ -2,11 +2,6 @@
 using DietDB;
 using MediatR;
 using ModelsDB;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.CQRS.Diets
 {
@@ -52,6 +47,21 @@ namespace Application.CQRS.Diets
 
                 _context.DietsDb.Add(diet);
                 await _context.SaveChangesAsync();
+
+                if (diet.MealTimesToXYAxis != null && diet.MealTimesToXYAxis.Any())
+                {
+                    foreach (var mealTime in diet.MealTimesToXYAxis)
+                    {
+                        mealTime.DietId = diet.Id;
+                        _context.MealTimesDb.Add(mealTime);
+                    }
+
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    // Logika w przypadku pustej listy MealTimesToXYAxis
+                }
             }
         }
     }
