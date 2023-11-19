@@ -1,6 +1,9 @@
 ﻿using Application.DTOs.AdminDTO;
 using Application.DTOs.DayWeekDTO;
+using Application.DTOs.DieteticianPatientDTO;
 using Application.DTOs.DieticianDTO;
+using Application.DTOs.DishDTO;
+using Application.DTOs.MealScheduleDTO;
 using Application.DTOs.MealTimeToXYAxisDTO;
 using Application.DTOs.PatientDTO;
 using AutoMapper;
@@ -47,8 +50,11 @@ namespace Application.Core
             
             CreateMap<PatientDTO, Patient>();
 
+            CreateMap<PatientEditDataDTO, Patient>();
+            CreateMap<Patient, PatientEditDataDTO>();
+
             // Skomplikowane mapowanie z niestandardową logiką dla admina.
-            
+
             //CreateMap<Admin, AdminDTO>()
             //    .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate.HasValue ? src.BirthDate.Value.Date : (DateTime?)null))
             //    .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageTo));
@@ -98,6 +104,7 @@ namespace Application.Core
 
 
             CreateMap<Diet, DietDTO>();
+            
             //CreateMap<Diet, DietDTO>()
             //    .ForMember(dest => dest.MealTimesToXYAxisDTO, opt => opt.MapFrom(src => src.MealTimesToXYAxis));
 
@@ -106,10 +113,23 @@ namespace Application.Core
             CreateMap<DietDTO, Diet>()
                 .ForMember(dest => dest.MealTimesToXYAxis, opt => opt.MapFrom(src => src.MealTimesToXYAxisDTO));
 
+            CreateMap<Diet, DietGetDTO>()
+                .ForMember(dest => dest.DieteticanName, opt => opt.MapFrom(src => src.Dietician.FirstName + " " + src.Dietician.LastName))
+                .ForMember(dest => dest.PatientName, opt => opt.MapFrom(src => src.Patient.FirstName + " " + src.Patient.LastName))
+                .ReverseMap();
 
+            CreateMap<MealSchedule, MealScheduleGetDTO>()
+                .ForMember(dest => dest.DishName, opt => opt.MapFrom(src => src.Dish.Name));
+            CreateMap<MealScheduleGetDTO, MealSchedule>();
 
+            CreateMap<Dish, DishDTO>();
+            CreateMap<DishDTO, Dish>();
 
-            
+            CreateMap<MealScheduleEditDTO, MealSchedule>();
+            CreateMap<MealSchedule, MealScheduleEditDTO>();
+
+            CreateMap<DieticianPatient, DieteticianPatientDTO>();
+            CreateMap<DieteticianPatientDTO, DieticianPatient>();
         }
     }
 }

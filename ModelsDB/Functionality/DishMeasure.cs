@@ -8,10 +8,11 @@ namespace ModelsDB.Functionality
 {
     public class DishMeasure
     {
-        public int DishId { get; set; }
-        public Dish Dish { get; set; }
+        public int Id { get; set; }
+        //public int DishId { get; set; }
+        //public Dish Dish { get; set; }
 
-        public int MeasureId { get; set; }
-        public Measure Measure { get; set; }
+        //public int MeasureId { get; set; }
+        //public Measure Measure { get; set; }
     }
 }

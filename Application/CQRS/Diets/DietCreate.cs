@@ -1,30 +1,23 @@
-﻿using AutoMapper;
+﻿using Application.DTOs.MealTimeToXYAxisDTO;
+using AutoMapper;
 using DietDB;
 using MediatR;
 using ModelsDB;
+using ModelsDB.Functionality;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Application.CQRS.Diets
 {
-    // TODO
-    /// <summary>
-    /// Zawiera klasy służące do tworzenia nowej w bazie danych.
-    /// </summary>
     public class DietCreate
     {
-        /// <summary>
-        /// Reprezentuje komendę służącą do tworzenia nowego dietetyka.
-        /// </summary>
         public class Command : IRequest
         {
-            /// <summary>
-            /// Pobiera lub ustawia model dietetyka, który ma zostać dodany do bazy danych.
-            /// </summary>
             public DietDTO DietDTO { get; set; }
         }
 
-        /// <summary>
-        /// Obsługuje proces dodawania nowego dietetyka do bazy danych.
-        /// </summary>
         public class Handler : IRequestHandler<Command>
         {
             private readonly DietContext _context;
@@ -36,31 +29,54 @@ namespace Application.CQRS.Diets
                 _mapper = mapper;
             }
 
-            /// <summary>
-            /// Przetwarza komendę tworzenia nowego dietetyka w bazie danych.
-            /// </summary>
-            /// <param name="request">Komenda do przetworzenia.</param>
-            /// <param name="cancellationToken">Token anulowania operacji.</param>
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
                 var diet = _mapper.Map<Diet>(request.DietDTO);
 
                 _context.DietsDb.Add(diet);
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
 
                 if (diet.MealTimesToXYAxis != null && diet.MealTimesToXYAxis.Any())
                 {
                     foreach (var mealTime in diet.MealTimesToXYAxis)
                     {
-                        if (mealTime.Id == 0) // Tylko jeśli Id nie jest ustawione
+                        if (mealTime.Id == 0)
                         {
                             mealTime.DietId = diet.Id;
                             _context.MealTimesDb.Add(mealTime);
                         }
                     }
-
+                    await _context.SaveChangesAsync(cancellationToken);
                 }
-                await _context.SaveChangesAsync();
+
+                await AddMealSchedules(diet, request.DietDTO.MealTimesToXYAxisDTO, cancellationToken);
+
+            }
+
+            private async Task AddMealSchedules(Diet diet, List<MealTimeToXYAxisDTO> mealTimesDto, CancellationToken cancellationToken)
+            {
+                var startDate = diet.StartDate;
+                var endDate = diet.EndDate;
+
+                for (var date = startDate; date <= endDate; date = date.AddDays(1))
+                {
+                    foreach (var mealTimeDto in mealTimesDto)
+                    {
+                        var mealTime = TimeSpan.Parse(mealTimeDto.MealTime);
+                        var dateTime = new DateTime(date.Year, date.Month, date.Day, mealTime.Hours, mealTime.Minutes, mealTime.Seconds);
+
+                        var mealSchedule = new MealSchedule
+                        {
+                            DietId = diet.Id,
+                            DishId = 4,
+                            MealTime = dateTime
+                        };
+
+                        _context.MealSchedulesDb.Add(mealSchedule);
+                    }
+                }
+
+                await _context.SaveChangesAsync(cancellationToken);
             }
         }
     }

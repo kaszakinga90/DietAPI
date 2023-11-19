@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Application.Core
+﻿namespace Application.Core
 {
     public class PagingParams
     {
@@ -12,7 +6,7 @@ namespace Application.Core
         public int PageNumber { get; set; } = 1;
 
 
-        private int _pageSize=2;
+        private int _pageSize=10;
 
         public int PageSize
         {

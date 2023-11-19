@@ -1,5 +1,7 @@
 using Application.Core;
+using Application.CQRS.MealSchedules;
 using Application.CQRS.Patients;
+using Application.DTOs.MealScheduleDTO;
 using Application.DTOs.PatientDTO;
 using Application.Services;
 using DietDB;
@@ -96,12 +98,18 @@ namespace API.Controllers
 
             return HandleResult(await Mediator.Send(command));
         }
+        [HttpPut("{id}/editdata")]
+        public async Task<IActionResult> EditPatientData(int id, PatientEditDataDTO patient)
+        {
+            var command = new PatientEditData.Command
+            {
+                PatientEditData = patient,
+            };
+            command.PatientEditData.Id = id;
 
-        /// <summary>
-        /// Pobiera listę wiadomości dla pacjenta o podanym ID.
-        /// </summary>
-        /// <param name="patientId">ID pacjenta.</param>
-        /// <returns>Lista wiadomości dla pacjenta.</returns>
+            return HandleResult(await Mediator.Send(command));
+        }
+
         [HttpGet("{patientId}/messages")]
         public async Task<ActionResult<PagedList<MessageToDTO>>> GetMessagesForPatient(int patientId, [FromQuery] PagingParams param)
         {

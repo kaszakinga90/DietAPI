@@ -201,46 +201,46 @@ namespace DietDB
 
             //**************************************************************************************************
 
-            modelBuilder.Entity<DishFoodCatalog>()
-                .HasKey(mp => new { mp.DishId, mp.FoodCatalogId });
+            //modelBuilder.Entity<DishFoodCatalog>()
+            //    .HasKey(mp => new { mp.DishId, mp.FoodCatalogId });
 
-            modelBuilder.Entity<DishFoodCatalog>()
-                .HasOne(mp => mp.Dish)
-                .WithMany(m => m.DishFoodCatalogs)
-                .HasForeignKey(mp => mp.DishId);
+            //modelBuilder.Entity<DishFoodCatalog>()
+            //    .HasOne(mp => mp.Dish)
+            //    .WithMany(m => m.DishFoodCatalogs)
+            //    .HasForeignKey(mp => mp.DishId);
 
-            modelBuilder.Entity<DishFoodCatalog>()
-                .HasOne(mp => mp.FoodCatalog)
-                .WithMany(p => p.DishFoodCatalogs)  
-                .HasForeignKey(mp => mp.FoodCatalogId);
+            //modelBuilder.Entity<DishFoodCatalog>()
+            //    .HasOne(mp => mp.FoodCatalog)
+            //    .WithMany(p => p.DishFoodCatalogs)  
+            //    .HasForeignKey(mp => mp.FoodCatalogId);
             
             //**************************************************************************************************
-            modelBuilder.Entity<DishIngredient>()
-                .HasKey(mp => new { mp.DishId, mp.IngredientId });
+            //modelBuilder.Entity<DishIngredient>()
+            //    .HasKey(mp => new { mp.DishId, mp.IngredientId });
 
-            modelBuilder.Entity<DishIngredient>()
-                .HasOne(mp => mp.Dish)
-                .WithMany(m => m.DishIngredients)
-                .HasForeignKey(mp => mp.DishId);
+            //modelBuilder.Entity<DishIngredient>()
+            //    .HasOne(mp => mp.Dish)
+            //    .WithMany(m => m.DishIngredients)
+            //    .HasForeignKey(mp => mp.DishId);
 
-            modelBuilder.Entity<DishIngredient>()
-                .HasOne(mp => mp.Ingredient)
-                .WithMany(p => p.DishIngredients)  
-                .HasForeignKey(mp => mp.IngredientId);
+            //modelBuilder.Entity<DishIngredient>()
+            //    .HasOne(mp => mp.Ingredient)
+            //    .WithMany(p => p.DishIngredients)  
+            //    .HasForeignKey(mp => mp.IngredientId);
             
             //**************************************************************************************************
-            modelBuilder.Entity<DishMeasure>()
-                .HasKey(mp => new { mp.DishId, mp.MeasureId });
+            //modelBuilder.Entity<DishMeasure>()
+            //    .HasKey(mp => new { mp.DishId, mp.MeasureId });
 
-            modelBuilder.Entity<DishMeasure>()
-                .HasOne(mp => mp.Dish)
-                .WithMany(m => m.DishMeasures)
-                .HasForeignKey(mp => mp.DishId);
+            //modelBuilder.Entity<DishMeasure>()
+            //    .HasOne(mp => mp.Dish)
+            //    .WithMany(m => m.DishMeasures)
+            //    .HasForeignKey(mp => mp.DishId);
 
-            modelBuilder.Entity<DishMeasure>()
-                .HasOne(mp => mp.Measure)
-                .WithMany(p => p.DishMeasures)  
-                .HasForeignKey(mp => mp.MeasureId);
+            //modelBuilder.Entity<DishMeasure>()
+            //    .HasOne(mp => mp.Measure)
+            //    .WithMany(p => p.DishMeasures)  
+            //    .HasForeignKey(mp => mp.MeasureId);
             
             //**************************************************************************************************
             

@@ -14,6 +14,7 @@ namespace ModelsDB
         public DateTime EndDate { get; set; }
         public int PatientId { get; set; }
         public Patient Patient { get; set; }
+        public int numberOfMeals { get; set; }
         public List<MealSchedule> MealSchedules { get; set; }
         public List<MealTimeToXYAxis> MealTimesToXYAxis { get; set; }
 
