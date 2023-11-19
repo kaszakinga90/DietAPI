@@ -20,7 +20,7 @@ namespace ModelsDB
 
         public List<MessageTo> MessageTo { get; set; }
         public List<Diet> Diets { get; set; }
-
+        public List<TestEqual> TestEquals { get; set; }
 
     }
 }
