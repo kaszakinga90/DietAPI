@@ -205,57 +205,23 @@ namespace DietDB
                 await context.MealTimesDb.AddRangeAsync(mealTimes);
             }
             #endregion
+
             #region Measure
             // Sprawdzanie i dodawanie testowych jednostek miary
             if (!context.MeasuresDb.Any())
             {
                 var measures = new List<Measure>()
-    {
-        new Measure
-        {
-            Name = "Kilogram"
-        },
-        new Measure
-        {
-            Name = "Gram"
-        },
-        new Measure
-        {
-            Name = "Litr"
-        },
-        new Measure
-        {
-            Name = "Mililitr"
-        },
-        new Measure
-        {
-            Name = "Sztuka"
-        },
-        new Measure
-        {
-            Name = "Łyżka"
-        },
-        new Measure
-        {
-            Name = "Łyżeczka"
-        },
-        new Measure
-        {
-            Name = "Szklanka"
-        },
-        new Measure
-        {
-            Name = "Opakowanie"
-        },
-        new Measure
-        {
-            Name = "Kostka"
-        }
-    };
+                {
+                    new Measure { Symbol = "Piece", Description = "Each" },
+                    new Measure { Symbol = "Cup", Description = "Cup" },
+                    new Measure { Symbol = "Teaspoon", Description = "Teaspoon" },
+                    new Measure { Symbol = "Tablespoon", Description = "Tablespoon" },
+                    new Measure { Symbol = "Ounce", Description = "Ounce" },
+                };
 
                 await context.MeasuresDb.AddRangeAsync(measures);
                 await context.SaveChangesAsync();
-            }
+            }   
             #endregion
             #region Rating
             // Sprawdzanie i dodawanie testowych ocen
@@ -384,7 +350,201 @@ namespace DietDB
             }
             #endregion
 
+            #region Unit
+            // Sprawdzanie i dodawanie testowych rekordów dla Unit
+            if (!context.UnitsDb.Any())
+            {
+                var units = new List<Unit>()
+                {
+                    new Unit { Symbol = "g", Description = "gram" },
+                    new Unit { Symbol = "mg", Description = "miligram" },
+                    new Unit { Symbol = "kcal", Description = "kalorie" },
+                    new Unit { Symbol = "IU", Description = "jednostka międzynarodowa" },
+                    new Unit { Symbol = "Âµg", Description = "mikrogram" },
+                    new Unit { Symbol = "kJ", Description = "kilojoule" },
+                    new Unit { Symbol = "kg", Description = "kilogram" },
+                    new Unit { Symbol = "ml", Description = "mililitr" },
+                    new Unit { Symbol = "l", Description = "litr" }
+                };
+                await context.UnitsDb.AddRangeAsync(units);
+                await context.SaveChangesAsync();
+            }
+            #endregion
+
             //********************DANE Z KLUCZAMI OBCYMI****************************************
+
+            #region Nutrient
+            // Sprawdzanie i dodawanie testowych rekordów dla Nutrient
+            if (!context.NutrientsDb.Any())
+            {
+                var nutrients = new List<Nutrient>()
+                {
+                    new Nutrient { NutritionixId = 301, NamePL = "Wapń", NameEN = "Calcium, Ca", IsMacronutrient = false, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 205, NamePL = "Węglowodany", NameEN = "Carbohydrate, by difference", IsMacronutrient = true, IsMicronutrient = false, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 601, NamePL = "Cholesterol", NameEN = "Cholesterol", IsMacronutrient = false, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 208, NamePL = "Energia", NameEN = "Energy", IsMacronutrient = true, IsMicronutrient = false, UnitId = context.UnitsDb.Single(u => u.Symbol == "kcal").Id },
+                    new Nutrient { NutritionixId = 606, NamePL = "Kwasy tłuszczowe nasycone", NameEN = "Fatty acids, total saturated", IsMacronutrient = false, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 204, NamePL = "Tłuszcze", NameEN = "Total lipid (fat)", IsMacronutrient = true, IsMicronutrient = false, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 605, NamePL = "Kwasy tłuszczowe trans", NameEN = "Fatty acids, total trans", IsMacronutrient = false, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 303, NamePL = "Żelazo", NameEN = "Iron, Fe", IsMacronutrient = false, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 291, NamePL = "Błonnik", NameEN = "Fiber, total dietary", IsMacronutrient = false, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 306, NamePL = "Potas", NameEN = "Potassium, K", IsMacronutrient = false, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 307, NamePL = "Sód", NameEN = "Sodium, Na", IsMacronutrient = false, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 203, NamePL = "Białko", NameEN = "Protein", IsMacronutrient = true, IsMicronutrient = false, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 269, NamePL = "Cukry", NameEN = "Sugars, total", IsMacronutrient = false, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 539, NamePL = "Cukry dodane", NameEN = "Sugars, added", IsMacronutrient = false, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 324, NamePL = "Witamina D", NameEN = "Vitamin D", IsMacronutrient = false, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "IU").Id },
+                    new Nutrient { NutritionixId = 299, NamePL = "Alkohol cukrowy", NameEN = "Sugar Alcohol", IsMacronutrient = false, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 1001, NamePL = "Erytrytol", NameEN = "Erythritol", IsMacronutrient = true, IsMicronutrient = false, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 1006, NamePL = "Aluloza", NameEN = "Allulose", IsMacronutrient = true, IsMicronutrient = false, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 1002, NamePL = "Gliceryna", NameEN = "Glycerin", IsMacronutrient = true, IsMicronutrient = false, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 290, NamePL = "Ksylitol", NameEN = "Xylitol", IsMacronutrient = true, IsMicronutrient = false, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 261, NamePL = "Sorbitol", NameEN = "Sorbitol",IsMacronutrient = true, IsMicronutrient = false, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 260, NamePL = "Mannitol", NameEN = "Mannitol",IsMacronutrient = true, IsMicronutrient = false, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 1003, NamePL = "Maltitol", NameEN = "Maltitol",IsMacronutrient = true, IsMicronutrient = false, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 1004, NamePL = "Izomaltoza", NameEN = "Isomalt", IsMacronutrient = true, IsMicronutrient = false, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 1005, NamePL = "Laktytol", NameEN = "Lactitol", IsMacronutrient = true, IsMicronutrient = false, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 513, NamePL = "Alanina", NameEN = "Alanine", IsMacronutrient = true, IsMicronutrient = false, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 221, NamePL = "Alkohol etylowy", NameEN = "Alcohol, ethyl", IsMacronutrient = true, IsMicronutrient = false, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 511, NamePL = "Arginina", NameEN = "Arginine", IsMacronutrient = true, IsMicronutrient = false, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 207, NamePL = "Popiół", NameEN = "Ash", IsMacronutrient = true, IsMicronutrient = false, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 514, NamePL = "Kwas asparaginowy", NameEN = "Aspartic acid", IsMacronutrient = true, IsMicronutrient = false, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 454, NamePL = "Betaina", NameEN = "Betaine", IsMacronutrient = false, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 262, NamePL = "Kofeina", NameEN = "Caffeine", IsMacronutrient = false, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 639, NamePL = "Kampesterol", NameEN = "Campesterol", IsMacronutrient = false, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 322, NamePL = "Karoten alfa", NameEN = "Carotene, alpha", IsMacronutrient = false, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "Âµg").Id },
+                    new Nutrient { NutritionixId = 321, NamePL = "Karoten beta", NameEN = "Carotene, beta", IsMacronutrient = false, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "Âµg").Id },
+                    new Nutrient { NutritionixId = 326, NamePL = "Witamina D3 (cholekalcyferol)", NameEN = "Vitamin D3 (cholecalciferol)", IsMacronutrient = false, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "Âµg").Id },
+                    new Nutrient { NutritionixId = 421, NamePL = "Cholina, ogółem", NameEN = "Choline, total", IsMacronutrient = false, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 334, NamePL = "Kryptoksantyna beta", NameEN = "Cryptoxanthin, beta", IsMacronutrient = false, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "Âµg").Id },
+                    new Nutrient { NutritionixId = 312, NamePL = "Miedź, Cu", NameEN = "Copper, Cu", IsMacronutrient = false, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 507, NamePL = "Cysteina", NameEN = "Cystine", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 268, NamePL = "Energia", NameEN = "Energy", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "kJ").Id },
+                    new Nutrient { NutritionixId = 325, NamePL = "Witamina D2 (ergokalcyferol)", NameEN = "Vitamin D2 (ergocalciferol)", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "Âµg").Id },
+                    new Nutrient { NutritionixId = 610, NamePL = "10:00", NameEN = "10:00", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 611, NamePL = "12:00", NameEN = "12:00", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 696, NamePL = "13:00", NameEN = "13:00", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 612, NamePL = "14:00", NameEN = "14:00", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 625, NamePL = "14:01", NameEN = "14:01", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 652, NamePL = "15:00", NameEN = "15:00", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 697, NamePL = "15:01", NameEN = "15:01", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 613, NamePL = "16:00", NameEN = "16:00", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 626, NamePL = "16:1 undifferentiated", NameEN = "16:1 undifferentiated", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 673, NamePL = "16:1 c", NameEN = "16:1 c", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 662, NamePL = "16:1 t", NameEN = "16:1 t", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 653, NamePL = "17:00", NameEN = "17:00", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 687, NamePL = "17:01", NameEN = "17:01", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 614, NamePL = "18:00", NameEN = "18:00", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 617, NamePL = "18:1 undifferentiated", NameEN = "18:1 undifferentiated", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 674, NamePL = "18:1 c", NameEN = "18:1 c", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 663, NamePL = "18:1 t", NameEN = "18:1 t", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 859, NamePL = "18:1-11t (18:1t n-7)", NameEN = "18:1-11t (18:1t n-7)", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 618, NamePL = "18:2 undifferentiated", NameEN = "18:2 undifferentiated", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 670, NamePL = "18:2 CLAs", NameEN = "18:2 CLAs", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 675, NamePL = "18:2 n-6 c,c", NameEN = "18:2 n-6 c,c", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 669, NamePL = "18:2 t,t", NameEN = "18:2 t,t", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 619, NamePL = "18:3 undifferentiated", NameEN = "18:3 undifferentiated", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 851, NamePL = "18:3 n-3 c,c,c (ALA)", NameEN = "18:3 n-3 c,c,c (ALA)", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 685, NamePL = "18:3 n-6 c,c,c", NameEN = "18:3 n-6 c,c,c", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 627, NamePL = "18:04", NameEN = "18:04", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 615, NamePL = "20:00", NameEN = "20:00", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 628, NamePL = "20:01", NameEN = "20:01", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 672, NamePL = "20:2 n-6 c,c", NameEN = "20:2 n-6 c,c", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 689, NamePL = "20:3 undifferentiated", NameEN = "20:3 undifferentiated", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 852, NamePL = "20:3 n-3", NameEN = "20:3 n-3", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 853, NamePL = "20:3 n-6", NameEN = "20:3 n-6", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 620, NamePL = "20:4 undifferentiated", NameEN = "20:4 undifferentiated", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 855, NamePL = "20:4 n-6", NameEN = "20:4 n-6", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 629, NamePL = "20:5 n-3 (EPA)", NameEN = "20:5 n-3 (EPA)", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 857, NamePL = "21:05", NameEN = "21:05", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 624, NamePL = "22:00", NameEN = "22:00", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 630, NamePL = "22:1 undifferentiated", NameEN = "22:1 undifferentiated", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 858, NamePL = "22:04", NameEN = "22:04", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 631, NamePL = "22:5 n-3 (DPA)", NameEN = "22:5 n-3 (DPA)", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 621, NamePL = "22:6 n-3 (DHA)", NameEN = "22:6 n-3 (DHA)", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 654, NamePL = "24:00:00", NameEN = "24:00:00", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 671, NamePL = "24:1 c", NameEN = "24:1 c", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 607, NamePL = "4:00", NameEN = "4:00", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 608, NamePL = "6:00", NameEN = "6:00", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 609, NamePL = "8:00", NameEN = "8:00", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 645, NamePL = "Kwasy tłuszczowe jednonienasycone", NameEN = "Fatty acids, total monounsaturated", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 646, NamePL = "Kwasy tłuszczowe wielonienasycone", NameEN = "Fatty acids, total polyunsaturated", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 693, NamePL = "Kwasy tłuszczowe trans-monoenoic", NameEN = "Fatty acids, total trans-monoenoic", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 695, NamePL = "Kwasy tłuszczowe trans-polyenoic", NameEN = "Fatty acids, total trans-polyenoic", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 313, NamePL = "Fluor, F", NameEN = "Fluoride, F", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "Âµg").Id },
+                    new Nutrient { NutritionixId = 417, NamePL = "Kwas foliowy, ogółem", NameEN = "Folate, total", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "Âµg").Id },
+                    new Nutrient { NutritionixId = 431, NamePL = "Kwas foliowy", NameEN = "Folic acid", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "Âµg").Id },
+                    new Nutrient { NutritionixId = 435, NamePL = "Kwas foliowy, DFE", NameEN = "Folate, DFE", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "Âµg").Id },
+                    new Nutrient { NutritionixId = 432, NamePL = "Kwas foliowy, food", NameEN = "Folate, food", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "Âµg").Id },
+                    new Nutrient { NutritionixId = 212, NamePL = "Fruktoza", NameEN = "Fructose", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 287, NamePL = "Galaktoza", NameEN = "Galactose", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 515, NamePL = "Kwas glutaminowy", NameEN = "Glutamic acid", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 211, NamePL = "Glukoza (dekstroza)", NameEN = "Glucose (dextrose)", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 516, NamePL = "Glicyna", NameEN = "Glycine", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 512, NamePL = "Histydyna", NameEN = "Histidine", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 521, NamePL = "Hydroksyprolina", NameEN = "Hydroxyproline", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 503, NamePL = "Izoleucyna", NameEN = "Isoleucine", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 213, NamePL = "Laktoza", NameEN = "Lactose", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 504, NamePL = "Leucyna", NameEN = "Leucine", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 338, NamePL = "Luteina + zeaksantyna", NameEN = "Lutein + zeaxanthin", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "Âµg").Id },
+                    new Nutrient { NutritionixId = 337, NamePL = "Lycopene", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "Âµg").Id },
+                    new Nutrient { NutritionixId = 505, NamePL = "Lizyna", NameEN = "Lysine", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 214, NamePL = "Maltoza", NameEN = "Maltose", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 506, NamePL = "Metionina", NameEN = "Methionine", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 304, NamePL = "Magnez, Mg", NameEN = "Magnesium, Mg", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 428, NamePL = "Menachinon-4", NameEN = "Menaquinone-4", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "Âµg").Id },
+                    new Nutrient { NutritionixId = 315, NamePL = "Mangan, Mn", NameEN = "Manganese, Mn", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 406, NamePL = "Niacyna", NameEN = "Niacin", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 573, NamePL = "Witamina E, dodana", NameEN = "Vitamin E, added", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 578, NamePL = "Witamina B-12, dodana", NameEN = "Vitamin B-12, added", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "Âµg").Id },
+                    new Nutrient { NutritionixId = 257, NamePL = "Dostosowany białko", NameEN = "Adjusted Protein", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 664, NamePL = "22:1 t", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 676, NamePL = "22:1 c", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 856, NamePL = "18:3i", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 665, NamePL = "18:2 t not further defined", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 666, NamePL = "18:2 i", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 305, NamePL = "Fosfor, P", NameEN = "Phosphorus, P", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 410, NamePL = "Kwas pantotenowy", NameEN = "Pantothenic acid", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 508, NamePL = "Fenyloalanina", NameEN = "Phenylalanine", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 636, NamePL = "Fitosterole", NameEN = "Phytosterols", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 517, NamePL = "Prolina", NameEN = "Proline", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 319, NamePL = "Retinol", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "Âµg").Id },
+                    new Nutrient { NutritionixId = 405, NamePL = "Ryboflawina", NameEN = "Riboflavin", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 317, NamePL = "Selen, Se", NameEN = "Selenium, Se", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "Âµg").Id },
+                    new Nutrient { NutritionixId = 518, NamePL = "Seryna", NameEN = "Serine", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 641, NamePL = "Beta-sitosterol", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 209, NamePL = "Skrobia", NameEN = "Starch", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 638, NamePL = "Stigmasterol", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 210, NamePL = "Sukroza", NameEN = "Sucrose", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 263, NamePL = "Teobromina", NameEN = "Theobromine", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 404, NamePL = "Tiamina", NameEN = "Thiamin", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 502, NamePL = "Treonia", NameEN = "Threonine", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 323, NamePL = "Witamina E (alfa-tokoferol)", NameEN = "Vitamin E (alpha-tocopherol)", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 341, NamePL = "Tokoferol, beta", NameEN = "Tocopherol, beta", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 343, NamePL = "Tokoferol, delta", NameEN = "Tocopherol, delta", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 342, NamePL = "Tokoferol, gamma", NameEN = "Tocopherol, gamma", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 501, NamePL = "Tryptofan", NameEN = "Tryptophan", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 509, NamePL = "Tyrozyna", NameEN = "Tyrosine", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 510, NamePL = "Walina", NameEN = "Valine", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 318, NamePL = "Witamina A, IU", NameEN = "Vitamin A, IU", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "IU").Id },
+                    new Nutrient { NutritionixId = 320, NamePL = "Witamina A, RAE", NameEN = "Vitamin A, RAE", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "Âµg").Id },
+                    new Nutrient { NutritionixId = 418, NamePL = "Witamina B-12", NameEN = "Vitamin B-12", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "Âµg").Id },
+                    new Nutrient { NutritionixId = 415, NamePL = "Witamina B-6", NameEN = "Vitamin B-6", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 401, NamePL = "Witamina C, kwas askorbinowy", NameEN = "Vitamin C, total ascorbic acid", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 328, NamePL = "Witamina D (D2 + D3)", NameEN = "Vitamin D (D2 + D3)", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "Âµg").Id },
+                    new Nutrient { NutritionixId = 430, NamePL = "Witamina K (filochinon)", NameEN = "Vitamin K (phylloquinone)", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "Âµg").Id },
+                    new Nutrient { NutritionixId = 429, NamePL = "Dihydrofilochinon", NameEN = "Dihydrophylloquinone", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "Âµg").Id },
+                    new Nutrient { NutritionixId = 255, NamePL = "Woda", NameEN = "Water", IsMacronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "g").Id },
+                    new Nutrient { NutritionixId = 309, NamePL = "Cynk, Zn", NameEN = "Zinc, Zn", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 344, NamePL = "Tokoferol, alfa", NameEN = "Tocotrienol, alpha", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 345, NamePL = "Tokoferol, beta", NameEN = "Tocotrienol, beta", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 346, NamePL = "Tokoferol, gamma", NameEN = "Tocotrienol, gamma", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id },
+                    new Nutrient { NutritionixId = 347, NamePL = "Tokoferol, delta", NameEN = "Tocotrienol, delta", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id }
+                };
+                await context.NutrientsDb.AddRangeAsync(nutrients);
+                await context.SaveChangesAsync();
+            }
+            #endregion
             #region Dietician
             // Sprawdzanie i dodawanie testowych rekordów dla Dietician
             if (!context.DieticiansDb.Any())
@@ -774,6 +934,42 @@ namespace DietDB
 
                 await context.MessageToDb.AddRangeAsync(messagesToAdmins);
             }
+            #endregion
+
+            // TODO: do wprowadzenia na podst skryptu z bazy
+            #region Ingredients
+            //if (!context.IngredientsDb.Any())
+            //{
+            //    var ingredients = new List<Ingredient>()
+            //{
+            //    new Ingredient
+            //        {
+            //            NamePL = "Jajko",
+            //            NameEN = "Egg",
+            //            Calories = 70.0f,
+            //            ServingQuantity = 1.0f,
+            //            MeasureId = 1, // TODO: Replace with the appropriate measure ID
+            //            Weight = 50.0f,
+            //            UnitId = 2, // TODO: Replace with the appropriate unit ID
+            //            GlycemicIndex = 10,
+            //            PublicId = "123",
+            //            PictureUrl = "https://example.com/egg.jpg",
+            //            Nutrients = new List<IngredientNutrient>
+            //            {
+            //                new IngredientNutrient
+            //                {
+            //                    NutrientId = 1, // TODO: Replace with the appropriate nutrient ID
+            //                    NutrientValue = 5.0f
+            //                },
+            //                // Add more nutrients as needed
+            //            }
+            //        },
+            //        // Add more ingredients as needed
+
+            //};
+
+            //    await context.IngredientsDb.AddRangeAsync(ingredients);
+            //}
             #endregion
 
             // Zapisanie zmian w bazie danych

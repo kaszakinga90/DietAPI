@@ -4,6 +4,7 @@ using DietDB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietDB.Migrations
 {
     [DbContext(typeof(DietContext))]
-    partial class DietContextModelSnapshot : ModelSnapshot
+    [Migration("20231117121419_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -309,9 +311,6 @@ namespace DietDB.Migrations
                     b.Property<bool>("isActive")
                         .HasColumnType("bit");
 
-                    b.Property<int>("numberOfMeals")
-                        .HasColumnType("int");
-
                     b.Property<string>("whoAdded")
                         .HasColumnType("nvarchar(max)");
 
@@ -468,8 +467,26 @@ namespace DietDB.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<float>("Calories")
+                        .HasColumnType("real");
+
+                    b.Property<string>("DishPhotoUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("Glycemic")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Macronutrient")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Micronutrient")
+                        .HasColumnType("real");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RecipesId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
@@ -663,16 +680,13 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Functionality.DishFoodCatalog", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("DishId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("FoodCatalogId")
+                    b.Property<int>("FoodCatalogId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("DishId", "FoodCatalogId");
 
                     b.HasIndex("FoodCatalogId");
 
@@ -681,16 +695,13 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Functionality.DishIngredient", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("DishId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("IngredientId")
+                    b.Property<int>("IngredientId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("DishId", "IngredientId");
 
                     b.HasIndex("IngredientId");
 
@@ -699,16 +710,13 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Functionality.DishMeasure", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("DishId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("MeasureId")
+                    b.Property<int>("MeasureId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("DishId", "MeasureId");
 
                     b.HasIndex("MeasureId");
 
@@ -768,7 +776,10 @@ namespace DietDB.Migrations
                     b.Property<int>("DietId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DishId")
+                    b.Property<int?>("DishId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MealId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("MealTime")
@@ -2312,7 +2323,8 @@ namespace DietDB.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DishId");
+                    b.HasIndex("DishId")
+                        .IsUnique();
 
                     b.ToTable("Recipe");
                 });
@@ -2677,23 +2689,59 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Functionality.DishFoodCatalog", b =>
                 {
-                    b.HasOne("ModelsDB.FoodCatalog", null)
+                    b.HasOne("ModelsDB.Dish", "Dish")
                         .WithMany("DishFoodCatalogs")
-                        .HasForeignKey("FoodCatalogId");
+                        .HasForeignKey("DishId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ModelsDB.FoodCatalog", "FoodCatalog")
+                        .WithMany("DishFoodCatalogs")
+                        .HasForeignKey("FoodCatalogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Dish");
+
+                    b.Navigation("FoodCatalog");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.DishIngredient", b =>
                 {
-                    b.HasOne("ModelsDB.Ingredient", null)
+                    b.HasOne("ModelsDB.Dish", "Dish")
                         .WithMany("DishIngredients")
-                        .HasForeignKey("IngredientId");
+                        .HasForeignKey("DishId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ModelsDB.Ingredient", "Ingredient")
+                        .WithMany("DishIngredients")
+                        .HasForeignKey("IngredientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Dish");
+
+                    b.Navigation("Ingredient");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.DishMeasure", b =>
                 {
-                    b.HasOne("ModelsDB.Measure", null)
+                    b.HasOne("ModelsDB.Dish", "Dish")
                         .WithMany("DishMeasures")
-                        .HasForeignKey("MeasureId");
+                        .HasForeignKey("DishId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ModelsDB.Measure", "Measure")
+                        .WithMany("DishMeasures")
+                        .HasForeignKey("MeasureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Dish");
+
+                    b.Navigation("Measure");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.IngredientNutrient", b =>
@@ -2725,9 +2773,7 @@ namespace DietDB.Migrations
 
                     b.HasOne("ModelsDB.Dish", "Dish")
                         .WithMany("MealSchedules")
-                        .HasForeignKey("DishId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DishId");
 
                     b.Navigation("Diet");
 
@@ -3076,8 +3122,8 @@ namespace DietDB.Migrations
             modelBuilder.Entity("ModelsDB.Recipe", b =>
                 {
                     b.HasOne("ModelsDB.Dish", "Dish")
-                        .WithMany()
-                        .HasForeignKey("DishId")
+                        .WithOne("Recipe")
+                        .HasForeignKey("ModelsDB.Recipe", "DishId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -3162,7 +3208,15 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Dish", b =>
                 {
+                    b.Navigation("DishFoodCatalogs");
+
+                    b.Navigation("DishIngredients");
+
+                    b.Navigation("DishMeasures");
+
                     b.Navigation("MealSchedules");
+
+                    b.Navigation("Recipe");
                 });
 
             modelBuilder.Entity("ModelsDB.FoodCatalog", b =>

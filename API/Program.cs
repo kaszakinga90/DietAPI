@@ -6,6 +6,7 @@ using Application.CQRS.DayWeeks;
 using Application.CQRS.Dieticians;
 using Application.CQRS.Dishes;
 using Application.CQRS.MealSchedules;
+using Application.CQRS.Ingredients;
 using Application.CQRS.MealTimes;
 using Application.CQRS.Patients;
 using Application.Services;
@@ -17,7 +18,7 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Dodaje us³ugi do kontenera.
+// Dodaje usÂ³ugi do kontenera.
 
 /// <summary>
 /// Dodaje kontrolery i konfiguruje opcje serializacji JSON.
@@ -35,7 +36,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 /// <summary>
-/// Dodaje i konfiguruje bazê danych.
+/// Dodaje i konfiguruje bazÃª danych.
 /// </summary>
 builder.Services.AddDbContext<DietContext>(opt =>
 {
@@ -59,7 +60,8 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(AdminList.Handler).Assembly,
     typeof(DieticianList.Handler).Assembly,
     typeof(DishesList.Handler).Assembly,
-    typeof(MealSheduleList.Handler).Assembly
+    typeof(MealSheduleList.Handler).Assembly,
+    typeof(IngredientList.Handler).Assembly
     ));
 
 /// <summary>
@@ -77,7 +79,7 @@ builder.Services.AddFluentValidationAutoValidation();
 var app = builder.Build();
 
 /// <summary>
-/// Konfiguruje potok ¿¹dañ HTTP.
+/// Konfiguruje potok Â¿Â¹daÃ± HTTP.
 /// </summary>
 app.UseMiddleware<ExceptionMiddleware>();
 if (app.Environment.IsDevelopment())
@@ -96,7 +98,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 /// <summary>
-/// Tworzy zakres dla us³ug i inicjuje bazê danych.
+/// Tworzy zakres dla usÂ³ug i inicjuje bazÃª danych.
 /// </summary>
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
@@ -117,5 +119,6 @@ catch (Exception ex)
     var logger = services.GetRequiredService<ILogger<Program>>();
     logger.LogError(ex, "An error occured during migration");
 }
+
 
 app.Run();

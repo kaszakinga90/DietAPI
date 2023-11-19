@@ -1,4 +1,4 @@
-﻿namespace ModelsDB
+﻿namespace ModelsDB.Functionality
 {
     public class NotePatient
     {
