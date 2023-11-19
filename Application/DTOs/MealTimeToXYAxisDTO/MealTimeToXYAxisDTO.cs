@@ -4,10 +4,13 @@ namespace Application.DTOs.MealTimeToXYAxisDTO
 {
     public class MealTimeToXYAxisDTO
     {
-        //public int Id { get; set; }
         public string Name { get; set; }
-        public DateTime MealTime { get; set; }
+        public string MealTime { get; set; } // Przechowuj czas jako string
         public int? DietId { get; set; }
-        //public Diet Diet { get; set; }
+
+        public TimeSpan GetMealTimeSpan()
+        {
+            return TimeSpan.Parse(MealTime);
+        }
     }
 }

@@ -4,6 +4,8 @@ using Application.CQRS.Admins;
 using Application.CQRS.CategoryOfDiets;
 using Application.CQRS.DayWeeks;
 using Application.CQRS.Dieticians;
+using Application.CQRS.Dishes;
+using Application.CQRS.MealSchedules;
 using Application.CQRS.MealTimes;
 using Application.CQRS.Patients;
 using Application.Services;
@@ -55,7 +57,9 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(MealTimeList.Handler).Assembly,
     typeof(PatientList.Handler).Assembly,
     typeof(AdminList.Handler).Assembly,
-    typeof(DieticianList.Handler).Assembly
+    typeof(DieticianList.Handler).Assembly,
+    typeof(DishesList.Handler).Assembly,
+    typeof(MealSheduleList.Handler).Assembly
     ));
 
 /// <summary>
