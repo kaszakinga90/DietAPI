@@ -4,6 +4,7 @@ using Application.CQRS.Admins;
 using Application.CQRS.CategoryOfDiets;
 using Application.CQRS.DayWeeks;
 using Application.CQRS.Dieticians;
+using Application.CQRS.Ingredients;
 using Application.CQRS.MealTimes;
 using Application.CQRS.Patients;
 using Application.Services;
@@ -55,7 +56,8 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(MealTimeList.Handler).Assembly,
     typeof(PatientList.Handler).Assembly,
     typeof(AdminList.Handler).Assembly,
-    typeof(DieticianList.Handler).Assembly
+    typeof(DieticianList.Handler).Assembly,
+    typeof(IngredientList.Handler).Assembly
     ));
 
 /// <summary>
@@ -113,5 +115,6 @@ catch (Exception ex)
     var logger = services.GetRequiredService<ILogger<Program>>();
     logger.LogError(ex, "An error occured during migration");
 }
+
 
 app.Run();
