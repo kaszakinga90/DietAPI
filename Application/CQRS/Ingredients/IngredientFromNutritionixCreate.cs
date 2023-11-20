@@ -36,14 +36,29 @@ namespace Application.CQRS.Ingredients
                 {
                     foreach (var nutrientDTO in request.IngredientDTO.NutrientsDTO)
                     {
-                        var nutrient = _mapper.Map<IngredientNutrient>(nutrientDTO);
-                        nutrient.IngredientId = ingredient.Id;
-                        _context.IngredientNutrientsDb.Add(nutrient);
+                        var existingNutrient = await _context.IngredientNutrientsDb
+                            .FindAsync(ingredient.Id, nutrientDTO.NutrientId);
+
+                        if (existingNutrient != null)
+                        {
+                            // Aktualizuj istniejącą encję
+                            _context.Entry(existingNutrient).CurrentValues.SetValues(nutrientDTO);
+                            await _context.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            // Dodaj nową encję
+                            var newNutrient = _mapper.Map<IngredientNutrient>(nutrientDTO);
+                            newNutrient.IngredientId = ingredient.Id;
+                            _context.IngredientNutrientsDb.Add(newNutrient);
+                            await _context.SaveChangesAsync();
+                        }
                     }
 
                     await _context.SaveChangesAsync();
                 }
             }
+
         }
     }
 }

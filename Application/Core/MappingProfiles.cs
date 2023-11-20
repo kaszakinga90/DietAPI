@@ -137,15 +137,16 @@ namespace Application.Core
                 .ForMember(dest => dest.Measure, opt => opt.Ignore())
                 .ForMember(dest => dest.Unit, opt => opt.Ignore())
                 .ForMember(dest => dest.Nutrients, opt => opt.Ignore())
-                .ForMember(dest => dest.DishIngredients, opt => opt.Ignore()); 
+                .ForMember(dest => dest.DishIngredients, opt => opt.Ignore());
 
             CreateMap<NutrientDTO, Nutrient>()
-                .ForMember(dest => dest.Unit, opt => opt.Ignore())
-                .ForMember(dest => dest.Ingredients, opt => opt.Ignore());
+            .ForMember(dest => dest.Unit, opt => opt.Ignore())
+            .ForMember(dest => dest.Ingredients, opt => opt.Ignore());
 
             CreateMap<IngredientNutrientDTO, IngredientNutrient>()
-                .ForMember(dest => dest.Ingredient, opt => opt.Ignore()) 
-                .ForMember(dest => dest.Nutrient, opt => opt.Ignore());
+                .ForMember(dest => dest.Ingredient, opt => opt.Ignore())
+                .ForMember(dest => dest.Nutrient, opt => opt.Ignore())
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
 
         }
     }
