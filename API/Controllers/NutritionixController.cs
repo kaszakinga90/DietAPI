@@ -109,7 +109,7 @@ namespace API.Controllers
                                                         .GetProperty("value")
                                                         .GetSingle(),
                                         ServingQuantity = element.GetProperty("serving_qty").GetSingle(),
-                                        MeasureId = null, // TODO: po kliknięciu konkretnego produktu  należy wysłać zap do bazy aby sprawdzic i przypisac odpowiednią jednostkę
+                                        MeasureId = 1, // TODO: po kliknięciu konkretnego produktu  należy wysłać zap do bazy aby sprawdzic i przypisac odpowiednią jednostkę
                                         MeasureNameFromJSON = measureName,
                                         Weight = element.GetProperty("serving_weight_grams").GetSingle(),
                                         UnitId = 1,
