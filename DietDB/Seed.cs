@@ -944,7 +944,7 @@ namespace DietDB
             ////{
             ////    new Ingredient
             ////        {
-            ////            NamePL = "Jajko",
+            ////            Name = "Jajko",
             ////            NameEN = "Egg",
             ////            Calories = 70.0f,
             ////            ServingQuantity = 1.0f,

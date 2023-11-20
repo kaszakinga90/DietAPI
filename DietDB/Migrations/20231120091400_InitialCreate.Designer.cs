@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietDB.Migrations
 {
     [DbContext(typeof(DietContext))]
-    [Migration("20231119161703_InitialCreate")]
+    [Migration("20231120091400_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1200,10 +1200,10 @@ namespace DietDB.Migrations
                     b.Property<int>("MeasureId")
                         .HasColumnType("int");
 
-                    b.Property<string>("NameEN")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NamePL")
+                    b.Property<string>("NameEN")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PictureUrl")

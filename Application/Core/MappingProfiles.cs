@@ -3,8 +3,10 @@ using Application.DTOs.DayWeekDTO;
 using Application.DTOs.DieteticianPatientDTO;
 using Application.DTOs.DieticianDTO;
 using Application.DTOs.DishDTO;
+using Application.DTOs.IngredientDTO;
 using Application.DTOs.MealScheduleDTO;
 using Application.DTOs.MealTimeToXYAxisDTO;
+using Application.DTOs.NutrientDTO;
 using Application.DTOs.PatientDTO;
 using AutoMapper;
 using ModelsDB;
@@ -130,6 +132,21 @@ namespace Application.Core
 
             CreateMap<DieticianPatient, DieteticianPatientDTO>();
             CreateMap<DieteticianPatientDTO, DieticianPatient>();
+
+            CreateMap<IngredientDTO, Ingredient>()
+                .ForMember(dest => dest.Measure, opt => opt.Ignore())
+                .ForMember(dest => dest.Unit, opt => opt.Ignore())
+                .ForMember(dest => dest.Nutrients, opt => opt.Ignore())
+                .ForMember(dest => dest.DishIngredients, opt => opt.Ignore()); 
+
+            CreateMap<NutrientDTO, Nutrient>()
+                .ForMember(dest => dest.Unit, opt => opt.Ignore())
+                .ForMember(dest => dest.Ingredients, opt => opt.Ignore());
+
+            CreateMap<IngredientNutrientDTO, IngredientNutrient>()
+                .ForMember(dest => dest.Ingredient, opt => opt.Ignore()) 
+                .ForMember(dest => dest.Nutrient, opt => opt.Ignore());
+
         }
     }
 }

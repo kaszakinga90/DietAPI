@@ -1198,10 +1198,10 @@ namespace DietDB.Migrations
                     b.Property<int>("MeasureId")
                         .HasColumnType("int");
 
-                    b.Property<string>("NameEN")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NamePL")
+                    b.Property<string>("NameEN")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PictureUrl")
