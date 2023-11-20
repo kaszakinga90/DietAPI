@@ -3,6 +3,8 @@ using Application.DTOs.IngredientDTO;
 using Application.Services;
 using DietDB;
 using Microsoft.AspNetCore.Mvc;
+using ModelsDB;
+using ModelsDB.Functionality;
 using System.Text.Json;
 
 namespace API.Controllers
@@ -27,8 +29,8 @@ namespace API.Controllers
             try
             {
                 string apiUrl = "https://trackapi.nutritionix.com/v2/search/instant";
-                string appIdNutritionix = "a9a046a7";
-                string appKeyNutritionix = "6b04ebbeff3b64533972f54009f93549";
+                string appIdNutritionix = "724e67dc";
+                string appKeyNutritionix = "774b737e8771633bb04f37ce0abf814b";
 
                 var units = _context.UnitsDb.ToDictionary(u => u.Symbol, u => u.Id);
                 var measures = _context.MeasuresDb.ToDictionary(m => m.Symbol, m => m.Id);
@@ -56,48 +58,48 @@ namespace API.Controllers
                                 {
                                     var measureName = element.GetProperty("serving_unit").GetString();
 
-                                    ////Sprawdzenie, czy jednostka miary istnieje w kolekcji wcześniej pobranych jednostek miary
-                                    //if (measures.TryGetValue(measureName, out var measureId))
-                                    //{
-                                    //    // Jednostka miary istnieje, możemy użyć jej identyfikatora
-                                    //}
-                                    //else
-                                    //{
-                                    //    var newMeasure = new Measure
-                                    //    {
-                                    //        Symbol = measureName,
-                                    //    };
+                                    //Sprawdzenie, czy jednostka miary istnieje w kolekcji wcześniej pobranych jednostek miary
+                                    if (measures.TryGetValue(measureName, out var measureId))
+                                    {
+                                        // Jednostka miary istnieje, możemy użyć jej identyfikatora
+                                    }
+                                    else
+                                    {
+                                        var newMeasure = new Measure
+                                        {
+                                            Symbol = measureName,
+                                        };
 
-                                    //    _context.MeasuresDb.Add(newMeasure);
-                                    //    await _context.SaveChangesAsync();
+                                        _context.MeasuresDb.Add(newMeasure);
+                                        await _context.SaveChangesAsync();
 
-                                    //    // Pobierz identyfikator nowo dodanej jednostki miary
-                                    //    measureId = newMeasure.Id;
+                                        // Pobierz identyfikator nowo dodanej jednostki miary
+                                        measureId = newMeasure.Id;
 
-                                    //    measures.Add(measureName, measureId);
-                                    //}
+                                        measures.Add(measureName, measureId);
+                                    }
 
                                     // Sprawdzenie, czy jednostka istnieje w kolekcji wcześniej pobranych jednostek
-                                    //if (units.TryGetValue("g", out var unitId))
-                                    //{
-                                    //    // Jednostka istnieje, możemy użyć jej identyfikatora
-                                    //}
-                                    //else
-                                    //{
-                                    //    // Jednostka nie istnieje, dodaj ją do bazy danych
-                                    //    var newUnit = new Unit
-                                    //    {
-                                    //        Symbol = "g",
-                                    //    };
+                                    if (units.TryGetValue("g", out var unitId))
+                                    {
+                                        // Jednostka istnieje, możemy użyć jej identyfikatora
+                                    }
+                                    else
+                                    {
+                                        // Jednostka nie istnieje, dodaj ją do bazy danych
+                                        var newUnit = new Unit
+                                        {
+                                            Symbol = "g",
+                                        };
 
-                                    //    _context.UnitsDb.Add(newUnit);
-                                    //    await _context.SaveChangesAsync();
+                                        _context.UnitsDb.Add(newUnit);
+                                        await _context.SaveChangesAsync();
 
-                                    //    // Pobierz identyfikator nowo dodanej jednostki miary
-                                    //    unitId = newUnit.Id;
+                                        // Pobierz identyfikator nowo dodanej jednostki miary
+                                        unitId = newUnit.Id;
 
-                                    //    units.Add(newUnit.Symbol, unitId);
-                                    //}
+                                        units.Add(newUnit.Symbol, unitId);
+                                    }
 
                                     var ingredientDTO = new IngredientDTO
                                     {
@@ -109,14 +111,14 @@ namespace API.Controllers
                                                         .GetProperty("value")
                                                         .GetSingle(),
                                         ServingQuantity = element.GetProperty("serving_qty").GetSingle(),
-                                        MeasureId = 1, // TODO: po kliknięciu konkretnego produktu  należy wysłać zap do bazy aby sprawdzic i przypisac odpowiednią jednostkę
+                                        MeasureId = measureId,
                                         MeasureNameFromJSON = measureName,
                                         Weight = element.GetProperty("serving_weight_grams").GetSingle(),
-                                        UnitId = 1,
+                                        UnitId = unitId,
                                         PictureUrl = element.GetProperty("photo").GetProperty("thumb").GetString(),
                                     };
 
-                                    ingredientDTO.LoadNutrientsLazy(element.GetProperty("full_nutrients"));
+                                    ingredientDTO.LoadNutrientsLazy(element.GetProperty("full_nutrients"), _context);
                                     ingredientDTOs.Add(ingredientDTO);
                                 }
 
@@ -153,19 +155,29 @@ namespace API.Controllers
 
     public static class IngredientDTOExtensions
     {
-        public static void LoadNutrientsLazy(this IngredientDTO ingredientDTO, JsonElement nutrientsArray)
+        public static void LoadNutrientsLazy(this IngredientDTO ingredientDTO, JsonElement nutrientsArray, DietContext context)
         {
             var nutrientsDTOList = new List<IngredientNutrientDTO>();
+            var nutrientDictionary = context.NutrientsDb.ToDictionary(n => n.NutritionixId);
 
             foreach (var nutrientElement in nutrientsArray.EnumerateArray())
             {
                 var attrId = nutrientElement.GetProperty("attr_id").GetInt32();
-                var nutrientDTO = new IngredientNutrientDTO
+
+                if (nutrientDictionary.TryGetValue(attrId, out var existingNutrient))
                 {
-                    NutrientId = attrId,
-                    NutrientValue = nutrientElement.GetProperty("value").GetSingle()
-                };
-                nutrientsDTOList.Add(nutrientDTO);
+                    var nutrientDTO = new IngredientNutrientDTO
+                    {
+                        NutrientId = existingNutrient.Id,
+                        NutrientValue = nutrientElement.GetProperty("value").GetSingle()
+                    };
+                    nutrientsDTOList.Add(nutrientDTO);
+                }
+                else
+                {
+                    Console.WriteLine("OOOOPS..!  Chyba nie ma takiego składnika (Nutrition)");
+                    // TODO:  ??? Jeśli nutrient o danym NutritionixId nie istnieje w lokalnym słowniku,
+                }
             }
 
             if (ingredientDTO.NutrientsDTO == null)
@@ -182,3 +194,4 @@ namespace API.Controllers
         }
     }
 }
+ 
