@@ -684,7 +684,7 @@ namespace DietDB.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NamePL = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NameEN = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Calories = table.Column<float>(type: "real", nullable: false),
                     ServingQuantity = table.Column<float>(type: "real", nullable: true),
