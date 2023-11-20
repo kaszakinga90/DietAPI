@@ -1,7 +1,7 @@
 ﻿
     public class IngredientNutrientDTO
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         public int IngredientId { get; set; }
 

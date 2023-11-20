@@ -288,8 +288,7 @@ namespace DietDB
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Konfiguracja dodatkowych opcji DbContext, np. logowania zapytań SQL.
-            optionsBuilder.LogTo(item => Debug.WriteLine(item))
-                .EnableSensitiveDataLogging();
+            optionsBuilder.LogTo(item => Debug.WriteLine(item));
             base.OnConfiguring(optionsBuilder);
         }
     }
