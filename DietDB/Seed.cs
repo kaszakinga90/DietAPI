@@ -937,40 +937,40 @@ namespace DietDB
             #endregion
 
             // TODO: do wprowadzenia na podst skryptu z bazy
-            #region Ingredients
-            //if (!context.IngredientsDb.Any())
-            //{
-            //    var ingredients = new List<Ingredient>()
-            //{
-            //    new Ingredient
-            //        {
-            //            NamePL = "Jajko",
-            //            NameEN = "Egg",
-            //            Calories = 70.0f,
-            //            ServingQuantity = 1.0f,
-            //            MeasureId = 1, // TODO: Replace with the appropriate measure ID
-            //            Weight = 50.0f,
-            //            UnitId = 2, // TODO: Replace with the appropriate unit ID
-            //            GlycemicIndex = 10,
-            //            PublicId = "123",
-            //            PictureUrl = "https://example.com/egg.jpg",
-            //            Nutrients = new List<IngredientNutrient>
-            //            {
-            //                new IngredientNutrient
-            //                {
-            //                    NutrientId = 1, // TODO: Replace with the appropriate nutrient ID
-            //                    NutrientValue = 5.0f
-            //                },
-            //                // Add more nutrients as needed
-            //            }
-            //        },
-            //        // Add more ingredients as needed
+            //#region Ingredients
+            ////if (!context.IngredientsDb.Any())
+            ////{
+            ////    var ingredients = new List<Ingredient>()
+            ////{
+            ////    new Ingredient
+            ////        {
+            ////            NamePL = "Jajko",
+            ////            NameEN = "Egg",
+            ////            Calories = 70.0f,
+            ////            ServingQuantity = 1.0f,
+            ////            MeasureId = 1, // TODO: Replace with the appropriate measure ID
+            ////            Weight = 50.0f,
+            ////            UnitId = 2, // TODO: Replace with the appropriate unit ID
+            ////            GlycemicIndex = 10,
+            ////            PublicId = "123",
+            ////            PictureUrl = "https://example.com/egg.jpg",
+            ////            Nutrients = new List<IngredientNutrient>
+            ////            {
+            ////                new IngredientNutrient
+            ////                {
+            ////                    NutrientId = 1, // TODO: Replace with the appropriate nutrient ID
+            ////                    NutrientValue = 5.0f
+            ////                },
+            ////                // Add more nutrients as needed
+            ////            }
+            ////        },
+            ////        // Add more ingredients as needed
 
-            //};
+            ////};
 
-            //    await context.IngredientsDb.AddRangeAsync(ingredients);
-            //}
-            #endregion
+            ////    await context.IngredientsDb.AddRangeAsync(ingredients);
+            ////}
+            //#endregion
 
             // Zapisanie zmian w bazie danych
             await context.SaveChangesAsync();

@@ -439,8 +439,8 @@ namespace API.Controllers
         #endregion
 
 
-        [HttpGet]
-        [Route("product")]
+        [HttpGet("{productName}")]
+        //[Route("product")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetProductWithNutrients(string productName)
@@ -448,8 +448,8 @@ namespace API.Controllers
             try
             {
                 string apiUrl = "https://trackapi.nutritionix.com/v2/search/instant";
-                string appIdNutritionix = "724e67dc";
-                string appKeyNutritionix = "565e6bbd31c2cffa185129aae250fb84";
+                string appIdNutritionix = "a9a046a7";
+                string appKeyNutritionix = "6b04ebbeff3b64533972f54009f93549";
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -457,11 +457,11 @@ namespace API.Controllers
                     client.DefaultRequestHeaders.Add("x-app-id", appIdNutritionix);
                     client.DefaultRequestHeaders.Add("x-app-key", appKeyNutritionix);
 
-                    HttpResponseMessage response1 = await client.GetAsync($"{apiUrl}?query={productName}&self=false&branded=true&branded_food_name_only=false&common=true&common_general=true&common_grocery=true&common_restaurant=true&locale=pl_PL&detailed=true&claims=false&taxonomy=false");
+                    HttpResponseMessage response = await client.GetAsync($"{apiUrl}?query={productName}&self=false&branded=true&branded_food_name_only=false&common=true&common_general=true&common_grocery=true&common_restaurant=true&locale=pl_PL&detailed=true&claims=false&taxonomy=false");
 
-                    if (response1.IsSuccessStatusCode)
+                    if (response.IsSuccessStatusCode)
                     {
-                        using (Stream responseStream = await response1.Content.ReadAsStreamAsync())
+                        using (Stream responseStream = await response.Content.ReadAsStreamAsync())
                         using (JsonDocument doc = await JsonDocument.ParseAsync(responseStream))
                         {
                             var root = doc.RootElement;
@@ -483,29 +483,16 @@ namespace API.Controllers
                                                         .FirstOrDefault(nutrient => nutrient.GetProperty("attr_id").GetInt32() == 208)
                                                         .GetProperty("value")
                                                         .GetSingle(),
-                                        ServingQuantity = element.GetProperty("serving_qty").GetSingle(),                       
+                                        ServingQuantity = element.GetProperty("serving_qty").GetSingle(),
                                         MeasureId = null, // TODO: po kliknięciu konkretnego produktu  należy wysłać zap do bazy aby sprawdzic i przypisac odpowiednią jednostkę
                                         MeasureNameFromJSON = measureName,
                                         Weight = element.GetProperty("serving_weight_grams").GetSingle(),
-                                        //UnitId = null,  // TODO: po kliknięciu konkretnego produktu  należy wysłać zap do bazy aby sprawdzic i przypisac odpowiednią jednostkę - tutaj "g"
-                                        UnitId = 1,  
+                                        UnitId = 1,
                                         PictureUrl = element.GetProperty("photo").GetProperty("thumb").GetString(),
                                     };
 
                                     ingredientDTO.LoadNutrientsLazy(element.GetProperty("full_nutrients"));
                                     ingredientDTOs.Add(ingredientDTO);
-
-                                    foreach (var ingr in ingredientDTOs)
-                                    {
-                                        Console.WriteLine($"Ingredient: {ingr.Name}, Calories: {ingr.Calories}");
-
-                                        foreach (var nutrientDTO in ingredientDTO.NutrientsDTO)
-                                        {
-                                            Console.WriteLine($"  NutrientId: {nutrientDTO.NutrientId}, NutrientValue: {nutrientDTO.NutrientValue}");
-                                        }
-                                    }
-
-                                    
                                 }
 
                                 return Ok(ingredientDTOs);
@@ -514,7 +501,7 @@ namespace API.Controllers
                     }
                     else
                     {
-                        Console.WriteLine($"Błąd: {response1.StatusCode} - {response1.ReasonPhrase}");
+                        Console.WriteLine($"Błąd: {response.StatusCode} - {response.ReasonPhrase}");
                     }
                 }
             }
@@ -523,8 +510,10 @@ namespace API.Controllers
                 Console.WriteLine($"Błąd podczas pobierania danych: {ex.Message}");
             }
 
-            return Ok();
+            // Zwróć pustą listę, jeśli nie znaleziono produktów lub wystąpił błąd
+            return Ok(new List<IngredientDTO>());
         }
+
 
 
         /// <summary>
