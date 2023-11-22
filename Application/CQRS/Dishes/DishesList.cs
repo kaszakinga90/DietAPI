@@ -1,6 +1,5 @@
 ﻿using Application.Core;
 using Application.DTOs.DishDTO;
-using Application.DTOs.MealScheduleDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

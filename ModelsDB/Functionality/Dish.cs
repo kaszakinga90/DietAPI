@@ -1,7 +1,6 @@
 ﻿using ModelsDB.Functionality;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.Metrics;
 
 namespace ModelsDB
 {
@@ -23,6 +22,6 @@ namespace ModelsDB
         //public int RecipesId { get; set; }
         //public Recipe Recipe { get; set; }
 
-        public List<MealSchedule> MealSchedules { get; set; }
+        public List<MealTimeToXYAxis> MealTimes { get; set; }
     }
 }

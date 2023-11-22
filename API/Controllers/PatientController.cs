@@ -1,7 +1,5 @@
 using Application.Core;
-using Application.CQRS.MealSchedules;
 using Application.CQRS.Patients;
-using Application.DTOs.MealScheduleDTO;
 using Application.DTOs.PatientDTO;
 using Application.Services;
 using DietDB;
