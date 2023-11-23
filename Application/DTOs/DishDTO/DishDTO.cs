@@ -6,6 +6,7 @@ namespace Application.DTOs.DishDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<MealSchedule> MealSchedules { get; set; }
+        // TODO: czy tu nie będzie na DTO?
+        public List<MealTimeToXYAxis> MealTimesToXYAxis { get; set; }
     }
 }

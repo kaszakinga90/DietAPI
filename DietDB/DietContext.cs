@@ -69,13 +69,15 @@ namespace DietDB
         public DbSet<MessageTo> MessageToDb { get; set; }
         public DbSet<Admin> AdminsDb { get; set; }
         public DbSet<DieticianPatient> DieticianPatientsDb { get; set; }
-        public DbSet<MealSchedule> MealSchedulesDb { get; set; }
         public DbSet<Nutrient> NutrientsDb { get; set; }
         public DbSet<IngredientNutrient> IngredientNutrientsDb { get; set; }
         public DbSet<Ingredient> IngredientsDb { get; set; }
         public DbSet<Unit> UnitsDb { get; set; }
         public DbSet<Specialization> SpecializationsDb { get; set; }
         public DbSet<DieticianSpecialization> DieticianSpecialization { get; set; }
+
+        public DbSet<Meal> MealsDb { get; set; }
+
 
         #endregion
 

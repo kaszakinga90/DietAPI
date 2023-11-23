@@ -5,7 +5,6 @@ using Application.DTOs.DieticianDTO;
 using Application.DTOs.DiplomaDTO;
 using Application.DTOs.DishDTO;
 using Application.DTOs.IngredientDTO;
-using Application.DTOs.MealScheduleDTO;
 using Application.DTOs.MealTimeToXYAxisDTO;
 using Application.DTOs.NutrientDTO;
 using Application.DTOs.PatientDTO;
@@ -92,8 +91,8 @@ namespace Application.Core
             CreateMap<DieticianDTO, Dietician>();
 
 
-            CreateMap<MealTimeToXYAxisDTO, MealTimeToXYAxis>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore());
+            CreateMap<MealTimeToXYAxisDTO, MealTimeToXYAxis>();
+            CreateMap<MealTimeToXYAxis, MealTimeToXYAxisDTO>();
 
             //CreateMap<MealTimeToXYAxisDTO, MealTimeToXYAxis>()
             //    .ForMember(dest => dest.Id, opt => opt.Ignore()) // Ignoruje Id przy mapowaniu
@@ -122,15 +121,8 @@ namespace Application.Core
                 .ForMember(dest => dest.PatientName, opt => opt.MapFrom(src => src.Patient.FirstName + " " + src.Patient.LastName))
                 .ReverseMap();
 
-            CreateMap<MealSchedule, MealScheduleGetDTO>()
-                .ForMember(dest => dest.DishName, opt => opt.MapFrom(src => src.Dish.Name));
-            CreateMap<MealScheduleGetDTO, MealSchedule>();
-
             CreateMap<Dish, DishDTO>();
             CreateMap<DishDTO, Dish>();
-
-            CreateMap<MealScheduleEditDTO, MealSchedule>();
-            CreateMap<MealSchedule, MealScheduleEditDTO>();
 
             CreateMap<DieticianPatient, DieteticianPatientDTO>();
             CreateMap<DieteticianPatientDTO, DieticianPatient>();

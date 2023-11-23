@@ -1,7 +1,5 @@
 ﻿using Application.CQRS.DieticiansPatients;
-using Application.CQRS.MealSchedules;
 using Application.DTOs.DieteticianPatientDTO;
-using Application.DTOs.MealScheduleDTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
