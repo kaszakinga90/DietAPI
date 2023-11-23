@@ -255,6 +255,19 @@ namespace DietDB.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SpecializationsDb",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SpecializationName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SpecializationsDb", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Status",
                 columns: table => new
                 {
@@ -419,6 +432,7 @@ namespace DietDB.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    OfficeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AddressId = table.Column<int>(type: "int", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -1174,6 +1188,7 @@ namespace DietDB.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    AboutMe = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RatingId = table.Column<int>(type: "int", nullable: false),
                     PatientId = table.Column<int>(type: "int", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
@@ -1368,15 +1383,40 @@ namespace DietDB.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DieticianSpecialization",
+                columns: table => new
+                {
+                    DieticianId = table.Column<int>(type: "int", nullable: false),
+                    SpecializationId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DieticianSpecialization", x => new { x.DieticianId, x.SpecializationId });
+                    table.ForeignKey(
+                        name: "FK_DieticianSpecialization_DieticiansDb_DieticianId",
+                        column: x => x.DieticianId,
+                        principalTable: "DieticiansDb",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_DieticianSpecialization_SpecializationsDb_SpecializationId",
+                        column: x => x.SpecializationId,
+                        principalTable: "SpecializationsDb",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Diploma",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PhotoDiplomaUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhotoDiplomaLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DieteticianId = table.Column<int>(type: "int", nullable: false),
-                    DieticianId = table.Column<int>(type: "int", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DieticianId = table.Column<int>(type: "int", nullable: false),
+                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
                     dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -1392,7 +1432,8 @@ namespace DietDB.Migrations
                         name: "FK_Diploma_DieticiansDb_DieticianId",
                         column: x => x.DieticianId,
                         principalTable: "DieticiansDb",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1760,6 +1801,11 @@ namespace DietDB.Migrations
                 column: "RatingId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DieticianSpecialization_SpecializationId",
+                table: "DieticianSpecialization",
+                column: "SpecializationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Diploma_DieticianId",
                 table: "Diploma",
                 column: "DieticianId");
@@ -2033,6 +2079,9 @@ namespace DietDB.Migrations
                 name: "DieticianPatientsDb");
 
             migrationBuilder.DropTable(
+                name: "DieticianSpecialization");
+
+            migrationBuilder.DropTable(
                 name: "Diploma");
 
             migrationBuilder.DropTable(
@@ -2100,6 +2149,9 @@ namespace DietDB.Migrations
 
             migrationBuilder.DropTable(
                 name: "Office");
+
+            migrationBuilder.DropTable(
+                name: "SpecializationsDb");
 
             migrationBuilder.DropTable(
                 name: "FoodCatalog");

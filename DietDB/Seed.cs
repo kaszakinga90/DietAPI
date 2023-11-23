@@ -370,6 +370,37 @@ namespace DietDB
                 await context.SaveChangesAsync();
             }
             #endregion
+            #region Specialization
+            // Dodawanie danych dla specjalizacji dietetycznych w SpecializationsDb
+            if (!context.SpecializationsDb.Any())
+            {
+                var specializations = new List<Specialization>()
+    {
+        new Specialization { SpecializationName = "Dietetyka kliniczna" },
+        new Specialization { SpecializationName = "Dietetyka sportowa" },
+        new Specialization { SpecializationName = "Dietetyka dziecięca" },
+        new Specialization { SpecializationName = "Dietetyka w cukrzycy" },
+        new Specialization { SpecializationName = "Dietetyka w chorobach serca" },
+        new Specialization { SpecializationName = "Dietetyka w chorobach nerek" },
+        new Specialization { SpecializationName = "Dietetyka w chorobach przewodu pokarmowego" },
+        new Specialization { SpecializationName = "Dietetyka onkologiczna" },
+        new Specialization { SpecializationName = "Dietetyka geriatryczna" },
+        new Specialization { SpecializationName = "Dietetyka w zaburzeniach odżywiania" },
+        new Specialization { SpecializationName = "Dietetyka wegetariańska" },
+        new Specialization { SpecializationName = "Dietetyka wegańska" },
+        new Specialization { SpecializationName = "Dietetyka w alergiach pokarmowych" },
+        new Specialization { SpecializationName = "Dietetyka w nietolerancjach pokarmowych" },
+        new Specialization { SpecializationName = "Dietetyka w chorobach autoimmunologicznych" },
+        new Specialization { SpecializationName = "Dietetyka w zaburzeniach metabolicznych" },
+        new Specialization { SpecializationName = "Dietetyka w menopauzie" },
+        new Specialization { SpecializationName = "Dietetyka w ciąży i laktacji" },
+        new Specialization { SpecializationName = "Dietetyka w zdrowiu psychicznym" },
+        new Specialization { SpecializationName = "Dietetyka w geriatrii" }
+    };
+                await context.SpecializationsDb.AddRangeAsync(specializations);
+            }
+            #endregion
+
 
             //********************DANE Z KLUCZAMI OBCYMI****************************************
 

@@ -74,6 +74,8 @@ namespace DietDB
         public DbSet<IngredientNutrient> IngredientNutrientsDb { get; set; }
         public DbSet<Ingredient> IngredientsDb { get; set; }
         public DbSet<Unit> UnitsDb { get; set; }
+        public DbSet<Specialization> SpecializationsDb { get; set; }
+        public DbSet<DieticianSpecialization> DieticianSpecialization { get; set; }
 
         #endregion
 
@@ -282,6 +284,25 @@ namespace DietDB
             //    .HasOne(mp => mp.Diet)
             //    .WithMany(p => p.DietPatients)  
             //    .HasForeignKey(mp => mp.DietId);
+
+            // ---------------------------------------------------------------------------------------- //
+
+            modelBuilder.Entity<DieticianSpecialization>()
+                .HasKey(np => new { np.DieticianId, np.SpecializationId });
+
+            modelBuilder.Entity<DieticianSpecialization>()
+                .HasOne(np => np.Dietician)
+                .WithMany(p => p.DieticianSpecializations)
+                .HasForeignKey(np => np.DieticianId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<DieticianSpecialization>()
+                .HasOne(np => np.Specialization)
+                .WithMany(n => n.DieticianSpecializations)
+                .HasForeignKey(np => np.SpecializationId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // ---------------------------------------------------------------------------------------- //
 
         }
         #endregion

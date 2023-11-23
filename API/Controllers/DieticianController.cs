@@ -1,6 +1,10 @@
 ﻿using Application.Core;
 using Application.CQRS.Dieticians;
+using Application.CQRS.Diplomas;
+using Application.CQRS.Patients;
 using Application.DTOs.DieticianDTO;
+using Application.DTOs.DiplomaDTO;
+using Application.DTOs.PatientDTO;
 using Application.Services;
 using DietDB;
 using Microsoft.AspNetCore.Mvc;
@@ -112,5 +116,22 @@ namespace API.Controllers
             await Mediator.Send(new MessageToPatientFromDieticianCreate.Command { MessageDTO = message, DieticianId = dieticianId });
             return Ok();
         }
+
+        [HttpPost("diploma")]
+        public async Task<IActionResult> CreateDiploma([FromForm] DiplomaPostDTO diplomaDto, [FromForm] IFormFile file)
+        {
+            var command = new CreateDiploma.Command
+            {
+                DiplomaDTO = diplomaDto,
+                File = file,
+            };
+
+            await Mediator.Send(command);
+
+            return Ok(); 
+        }
+
+
+
     }
 }
