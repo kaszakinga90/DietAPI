@@ -4,6 +4,7 @@ using DietDB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietDB.Migrations
 {
     [DbContext(typeof(DietContext))]
-    partial class DietContextModelSnapshot : ModelSnapshot
+    [Migration("20231123115642_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -778,7 +780,7 @@ namespace DietDB.Migrations
                     b.ToTable("IngredientNutrient");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.Meal", b =>
+            modelBuilder.Entity("ModelsDB.Functionality.MealSchedule", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -786,50 +788,10 @@ namespace DietDB.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("dateAdded")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("dateDeleted")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("dateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("isActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("whoAdded")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("whoDeleted")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("whoUpdated")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Meal");
-                });
-
-            modelBuilder.Entity("ModelsDB.Functionality.MealTimeToXYAxis", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("DietId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("DietId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DishId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MealId")
+                    b.Property<int>("DishId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("MealTime")
@@ -862,7 +824,50 @@ namespace DietDB.Migrations
 
                     b.HasIndex("DishId");
 
-                    b.HasIndex("MealId");
+                    b.ToTable("MealSchedulesDb");
+                });
+
+            modelBuilder.Entity("ModelsDB.Functionality.MealTimeToXYAxis", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("DietId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("MealTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("dateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("dateDeleted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("dateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("whoAdded")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("whoDeleted")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("whoUpdated")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DietId");
 
                     b.ToTable("MealTimeToXYAxis");
                 });
@@ -2773,27 +2778,30 @@ namespace DietDB.Migrations
                     b.Navigation("Nutrient");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.MealTimeToXYAxis", b =>
+            modelBuilder.Entity("ModelsDB.Functionality.MealSchedule", b =>
                 {
                     b.HasOne("ModelsDB.Diet", "Diet")
-                        .WithMany("MealTimesToXYAxis")
-                        .HasForeignKey("DietId");
+                        .WithMany("MealSchedules")
+                        .HasForeignKey("DietId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ModelsDB.Dish", "Dish")
-                        .WithMany("MealTimes")
-                        .HasForeignKey("DishId");
-
-                    b.HasOne("ModelsDB.Functionality.Meal", "Meal")
-                        .WithMany("MealTimeToXYAxes")
-                        .HasForeignKey("MealId")
+                        .WithMany("MealSchedules")
+                        .HasForeignKey("DishId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Diet");
 
                     b.Navigation("Dish");
+                });
 
-                    b.Navigation("Meal");
+            modelBuilder.Entity("ModelsDB.Functionality.MealTimeToXYAxis", b =>
+                {
+                    b.HasOne("ModelsDB.Diet", null)
+                        .WithMany("MealTimesToXYAxis")
+                        .HasForeignKey("DietId");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.MessageTo", b =>
@@ -3187,6 +3195,8 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Diet", b =>
                 {
+                    b.Navigation("MealSchedules");
+
                     b.Navigation("MealTimesToXYAxis");
                 });
 
@@ -3217,17 +3227,12 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Dish", b =>
                 {
-                    b.Navigation("MealTimes");
+                    b.Navigation("MealSchedules");
                 });
 
             modelBuilder.Entity("ModelsDB.FoodCatalog", b =>
                 {
                     b.Navigation("DishFoodCatalogs");
-                });
-
-            modelBuilder.Entity("ModelsDB.Functionality.Meal", b =>
-                {
-                    b.Navigation("MealTimeToXYAxes");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.Nutrient", b =>

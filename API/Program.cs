@@ -16,6 +16,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Text.Json.Serialization;
+using Application.CQRS.Diplomas;
 
 var builder = WebApplication.CreateBuilder(args);
 

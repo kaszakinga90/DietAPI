@@ -8,10 +8,11 @@ namespace ModelsDB
     {
         [Key]
         public int Id { get; set; }
-        public string PhotoDiplomaUrl { get; set; }
-        public string PhotoDiplomaLink { get; set;}
-
-        public int DieteticianId { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public int DieticianId { get; set; }
         public Dietician Dietician { get; set; }
+        public string PublicId { get; set; }
+        public string PictureUrl { get; set; }
     }
 }

@@ -3,6 +3,7 @@ namespace ModelsDB
 {
     public class Dietician : User
     {
+        public string AboutMe { get; set; }
         public Rating Rating { get; set; }
         public int RatingId { get; set; }
         public List<Diploma> Diplomas { get; set; } 
@@ -17,5 +18,6 @@ namespace ModelsDB
         // jeden dietetyk może mieć wiele pacjentów
         public List<DieticianPatient> DieticianPatients { get; set; }
         public List<MessageTo> MessageTo { get; set; }
+        public List<DieticianSpecialization> DieticianSpecializations { get; set; }
     }
 }

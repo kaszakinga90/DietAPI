@@ -121,7 +121,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="message">Wiadomość dla dietetyka.</param>
         /// <returns>Status operacji.</returns>
-        [HttpPost("{patientId}/messageToDietician")]
+        [HttpPost("messageToDietician/{patientId}")]
         public async Task<IActionResult> MessageToDietetician(int patientId, MessageToDTO message)
         {
             await Mediator.Send(new MessageToDieteticianFromPatientCreate.Command { MessageDTO = message, PatientId = patientId });

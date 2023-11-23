@@ -2,11 +2,13 @@
 using Application.DTOs.DayWeekDTO;
 using Application.DTOs.DieteticianPatientDTO;
 using Application.DTOs.DieticianDTO;
+using Application.DTOs.DiplomaDTO;
 using Application.DTOs.DishDTO;
 using Application.DTOs.IngredientDTO;
 using Application.DTOs.MealTimeToXYAxisDTO;
 using Application.DTOs.NutrientDTO;
 using Application.DTOs.PatientDTO;
+using Application.DTOs.SpecializationDTO;
 using AutoMapper;
 using ModelsDB;
 using ModelsDB.Functionality;
@@ -140,6 +142,13 @@ namespace Application.Core
                 .ForMember(dest => dest.Nutrient, opt => opt.Ignore())
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
 
+            CreateMap<DiplomaPostDTO, Diploma>();
+            CreateMap<Diploma, DiplomaPostDTO>();
+
+            CreateMap<Diploma, DiplomaGetDTO>();
+            CreateMap<Specialization, SpecializationGetDTO>();
+            CreateMap<DieticianSpecialization, DieteticianSpecializationGetDTO>();
+            CreateMap<DieteticianSpecializationPostDTO, DieticianSpecialization>();
         }
     }
 }
