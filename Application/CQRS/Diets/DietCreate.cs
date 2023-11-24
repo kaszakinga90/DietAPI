@@ -1,57 +1,82 @@
-﻿using Application.DTOs.MealTimeToXYAxisDTO;
-using AutoMapper;
+﻿using AutoMapper;
 using DietDB;
 using MediatR;
-using ModelsDB;
 using ModelsDB.Functionality;
+using ModelsDB;
+using Application.DTOs.MealTimeToXYAxisDTO;
 
-namespace Application.CQRS.Diets
+public class DietCreate
 {
-    public class DietCreate
+    public class Command : IRequest
     {
-        public class Command : IRequest
+        public DietDTO DietDTO { get; set; }
+    }
+
+    public class Handler : IRequestHandler<Command>
+    {
+        private readonly DietContext _context;
+        private readonly IMapper _mapper;
+
+        public Handler(DietContext context, IMapper mapper)
         {
-            public DietDTO DietDTO { get; set; }
+            _context = context;
+            _mapper = mapper;
         }
 
-        public class Handler : IRequestHandler<Command>
+        public async Task Handle(Command request, CancellationToken cancellationToken)
         {
-            private readonly DietContext _context;
-            private readonly IMapper _mapper;
+            var diet = _mapper.Map<Diet>(request.DietDTO);
 
-            public Handler(DietContext context, IMapper mapper)
+            _context.DietsDb.Add(diet);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            //if (diet.MealTimesToXYAxis != null && diet.MealTimesToXYAxis.Any())
+            //{
+            //    foreach (var mealTime in diet.MealTimesToXYAxis)
+            //    {
+            //        if (mealTime.Id == 0)
+            //        {
+            //            mealTime.DietId = diet.Id;
+            //            _context.MealTimesDb.Add(mealTime);
+            //        }
+            //    }
+            //    await _context.SaveChangesAsync(cancellationToken);
+            //}
+
+            // After saving, Diet entity will have an Id
+            await AddMealSchedules(diet, request.DietDTO.MealTimesToXYAxisDTO, cancellationToken);
+        }
+
+        private async Task AddMealSchedules(Diet diet, List<MealTimeToXYAxisDTO> mealTimesDto, CancellationToken cancellationToken)
+        {
+            var startDate = diet.StartDate;
+            var endDate = diet.EndDate;
+            for (var date = startDate; date <= endDate; date = date.AddDays(1))
             {
-                _context = context;
-                _mapper = mapper;
+                // Assuming MealTime is a string in "HH:mm:ss" format
+                //var dateTime = new DateTime(diet.StartDate.Year, diet.StartDate.Month, diet.StartDate.Day, mealTime.Hours, mealTime.Minutes, mealTime.Seconds);
+
+                // Assuming you need to create a record for each day of the diet
+                foreach (var mealTimeDto in mealTimesDto)
+                {
+                    var mealTime = mealTimeDto.MealTime.TimeOfDay;
+                    //var mealTime = TimeSpan.Parse(mealTimeDto.MealTime);
+
+                    var mealDateTime = new DateTime(date.Year, date.Month, date.Day, mealTime.Hours, mealTime.Minutes, mealTime.Seconds);
+
+                    var mealSchedule = new MealTimeToXYAxis
+                    {
+                        DietId = diet.Id,
+                        MealId = mealTimeDto.MealId,
+                        MealTime = mealDateTime,
+                        DishId=null
+                    };
+
+                    _context.MealTimesDb.Add(mealSchedule);
+                }
             }
 
-            public async Task Handle(Command request, CancellationToken cancellationToken)
-            {
-                var diet = _mapper.Map<Diet>(request.DietDTO);
-
-                _context.DietsDb.Add(diet);
-                await _context.SaveChangesAsync(cancellationToken);
-
-                //if (request.DietDTO.MealTimesToXYAxisDTO != null && request.DietDTO.MealTimesToXYAxisDTO.Any())
-                //{
-                //    foreach (var mealTimeDto in request.DietDTO.MealTimesToXYAxisDTO)
-                //    {
-                //        var mealTime = _mapper.Map<MealTimeToXYAxis>(mealTimeDto);
-
-                //        // Przypisz DietId do MealTimeToXYAxis
-                //        mealTime.DietId = diet.Id;
-                //        //mealTime.DishId = null;
-
-                //        _context.MealTimesDb.Add(mealTime);
-
-                //        Console.WriteLine("=================================================================");
-                //        Console.WriteLine("Mealtime dodawany do contextu ======= >   " + mealTime.ToString());
-                //        Console.WriteLine("=================================================================");
-                //    }
-                //}
-
-                //await _context.SaveChangesAsync(cancellationToken);
-            }
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

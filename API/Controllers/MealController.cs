@@ -1,4 +1,5 @@
 ﻿using Application.CQRS.Meals;
+using Application.CQRS.Specializations;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB.Functionality;
 
@@ -9,7 +10,8 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Meal>>> GetMeals()
         {
-            return await Mediator.Send(new MealList.Query());
+            var result = await Mediator.Send(new MealList.Query());
+            return HandleResult(result);
         }
 
         [HttpGet("{id}")]

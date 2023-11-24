@@ -77,6 +77,7 @@ namespace DietDB
         public DbSet<DieticianSpecialization> DieticianSpecialization { get; set; }
 
         public DbSet<Meal> MealsDb { get; set; }
+        //public DbSet<MealTimeToXYAxis> MealTimeToXYAxis { get; set; }
 
 
         #endregion
