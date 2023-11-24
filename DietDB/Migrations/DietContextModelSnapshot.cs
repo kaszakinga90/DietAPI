@@ -1226,6 +1226,9 @@ namespace DietDB.Migrations
                     b.Property<float>("Calories")
                         .HasColumnType("real");
 
+                    b.Property<int?>("DieticianId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("GlycemicIndex")
                         .HasColumnType("int");
 
@@ -1275,6 +1278,8 @@ namespace DietDB.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DieticianId");
 
                     b.HasIndex("MeasureId");
 
@@ -2903,6 +2908,10 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Ingredient", b =>
                 {
+                    b.HasOne("ModelsDB.Dietician", "Dietician")
+                        .WithMany("Ingredients")
+                        .HasForeignKey("DieticianId");
+
                     b.HasOne("ModelsDB.Measure", "Measure")
                         .WithMany("Ingredients")
                         .HasForeignKey("MeasureId")
@@ -2914,6 +2923,8 @@ namespace DietDB.Migrations
                         .HasForeignKey("UnitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Dietician");
 
                     b.Navigation("Measure");
 
@@ -3207,6 +3218,8 @@ namespace DietDB.Migrations
                     b.Navigation("Diplomas");
 
                     b.Navigation("FoodCatalogs");
+
+                    b.Navigation("Ingredients");
 
                     b.Navigation("MessageTo");
 

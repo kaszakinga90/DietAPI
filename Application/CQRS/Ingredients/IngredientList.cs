@@ -13,7 +13,16 @@ namespace Application.CQRS.Ingredients
         /// <summary>
         /// Reprezentuje zapytanie do pobrania listy produktów(składników).
         /// </summary>
-        public class Query : IRequest<List<Ingredient>> { }
+        public class Query : IRequest<List<Ingredient>> 
+        {
+            public int? DietitianId { get; }
+
+            public Query(int? dietitianId)
+            {
+                DietitianId = dietitianId;
+            }
+        }
+
 
         /// <summary>
         /// Obsługuje proces pobierania listy produktów(składników) z bazy danych.
@@ -39,7 +48,11 @@ namespace Application.CQRS.Ingredients
             /// <returns>Zwraca listę produktów(składników).</returns>
             public async Task<List<Ingredient>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.IngridientsDb.ToListAsync(cancellationToken);
+                var ingredients = await _context.IngredientsDb
+        .Where(i => i.DieticianId == request.DietitianId || (i.DieticianId == null))
+        .ToListAsync(cancellationToken);
+
+                return ingredients;
             }
         }
     }

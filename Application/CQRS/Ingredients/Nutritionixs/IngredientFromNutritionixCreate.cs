@@ -1,17 +1,17 @@
-﻿using Application.DTOs.IngredientDTO;
+﻿using Application.DTOs.IngredientDTO.IngredientNutritionixDTO;
 using AutoMapper;
 using DietDB;
 using MediatR;
 using ModelsDB;
 using ModelsDB.Functionality;
 
-namespace Application.CQRS.Ingredients
+namespace Application.CQRS.Ingredients.Nutritionixs
 {
     public class IngredientFromNutritionixCreate
     {
         public class Command : IRequest
         {
-            public IngredientDTO IngredientDTO { get; set; }
+            public IngredientNutritionixDTO IngredientNutritionixDTO { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -27,14 +27,14 @@ namespace Application.CQRS.Ingredients
 
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                var ingredient = _mapper.Map<Ingredient>(request.IngredientDTO);
+                var ingredient = _mapper.Map<Ingredient>(request.IngredientNutritionixDTO);
 
                 _context.IngredientsDb.Add(ingredient);
                 await _context.SaveChangesAsync();
 
-                if (request.IngredientDTO.NutrientsDTO != null && request.IngredientDTO.NutrientsDTO.Any())
+                if (request.IngredientNutritionixDTO.NutrientsDTO != null && request.IngredientNutritionixDTO.NutrientsDTO.Any())
                 {
-                    foreach (var nutrientDTO in request.IngredientDTO.NutrientsDTO)
+                    foreach (var nutrientDTO in request.IngredientNutritionixDTO.NutrientsDTO)
                     {
                         var existingNutrient = await _context.IngredientNutrientsDb
                             .FindAsync(ingredient.Id, nutrientDTO.NutrientId);

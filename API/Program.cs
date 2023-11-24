@@ -17,6 +17,9 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Text.Json.Serialization;
 using Application.CQRS.Diplomas;
+using ModelsDB;
+using Application.CQRS.Measures;
+using Application.CQRS.Units;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,7 +67,9 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(DieticianList.Handler).Assembly,
     typeof(DishesList.Handler).Assembly,
     typeof(DietList.Handler).Assembly,
-    typeof(IngredientList.Handler).Assembly
+    typeof(IngredientList.Handler).Assembly,
+    typeof(MeasureList.Handler).Assembly,
+    typeof(UnitList.Handler).Assembly
     ));
 
 /// <summary>
