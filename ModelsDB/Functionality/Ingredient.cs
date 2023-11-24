@@ -29,6 +29,9 @@ namespace ModelsDB
         public int UnitId { get; set; }
         public Unit Unit { get; set; }
 
+        public int? DieticianId { get; set; } = null;
+        public Dietician Dietician { get; set; }
+
         public int? GlycemicIndex { get; set; }
         public string PublicId { get; set; }
         public string PictureUrl { get; set; }
