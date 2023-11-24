@@ -4,6 +4,7 @@ using MediatR;
 using ModelsDB.Functionality;
 using ModelsDB;
 using Application.DTOs.MealTimeToXYAxisDTO;
+using Microsoft.EntityFrameworkCore;
 
 public class DietCreate
 {
@@ -25,7 +26,12 @@ public class DietCreate
 
         public async Task Handle(Command request, CancellationToken cancellationToken)
         {
+            var mealTimesDtoList = request.DietDTO.MealTimesToXYAxisDTO;
+
+            request.DietDTO.MealTimesToXYAxisDTO = null;
             var diet = _mapper.Map<Diet>(request.DietDTO);
+
+            
 
             _context.DietsDb.Add(diet);
             await _context.SaveChangesAsync(cancellationToken);
@@ -42,9 +48,8 @@ public class DietCreate
             //    }
             //    await _context.SaveChangesAsync(cancellationToken);
             //}
-
             // After saving, Diet entity will have an Id
-            await AddMealSchedules(diet, request.DietDTO.MealTimesToXYAxisDTO, cancellationToken);
+            await AddMealSchedules(diet, mealTimesDtoList, cancellationToken);
         }
 
         private async Task AddMealSchedules(Diet diet, List<MealTimeToXYAxisDTO> mealTimesDto, CancellationToken cancellationToken)
@@ -72,6 +77,9 @@ public class DietCreate
                         DishId=null
                     };
 
+                    Console.WriteLine(" ==================================");
+                    Console.WriteLine(" Zapisuje do bazy: " + mealSchedule.DietId + " " + mealSchedule.MealTime);
+                    Console.WriteLine(" ==================================");
                     _context.MealTimesDb.Add(mealSchedule);
                 }
             }
