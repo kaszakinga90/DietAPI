@@ -50,7 +50,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateIngredient(IngredientDTO IngredientDTO)
+        public async Task<IActionResult> CreateIngredient([FromForm] IngredientDTO IngredientDTO)
         {
             return HandleResult(await Mediator.Send(new IngredientCreate.Command { IngredientDTO = IngredientDTO }));
         }

@@ -19,9 +19,9 @@ namespace Application.DTOs.IngredientDTO
         public int? UnitId { get; set; }
         public int? GlycemicIndex { get; set; }
         public IFormFile File { get; set; }
-        public string PictureUrl { get; set; }
+        //public string PictureUrl { get; set; }
         public int DieticianId { get; set; }
-        public List<IngredientNutrientDTO> NutrientsDTO { get; set; }
+        //public List<IngredientNutrientDTO> NutrientsDTO { get; set; }
 
     }
 }
