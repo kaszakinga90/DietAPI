@@ -1,5 +1,5 @@
-﻿using Application.CQRS.Ingredients;
-using Application.DTOs.IngredientDTO;
+﻿using Application.CQRS.Ingredients.Nutritionixs;
+using Application.DTOs.IngredientDTO.IngredientNutritionixDTO;
 using Application.Services;
 using DietDB;
 using Microsoft.AspNetCore.Mvc;
@@ -52,7 +52,7 @@ namespace API.Controllers
 
                             if (root.TryGetProperty("common", out var commonElement) && commonElement.ValueKind == JsonValueKind.Array)
                             {
-                                var ingredientDTOs = new List<IngredientDTO>();
+                                var ingredientDTOs = new List<IngredientNutritionixDTO>();
 
                                 foreach (var element in commonElement.EnumerateArray())
                                 {
@@ -101,7 +101,7 @@ namespace API.Controllers
                                         units.Add(newUnit.Symbol, unitId);
                                     }
 
-                                    var ingredientDTO = new IngredientDTO
+                                    var ingredientDTO = new IngredientNutritionixDTO
                                     {
                                         Name = element.GetProperty("food_name").GetString(),
                                         NameEN = element.GetProperty("tag_name").GetString(),
@@ -137,7 +137,7 @@ namespace API.Controllers
                 Console.WriteLine($"Błąd podczas pobierania danych: {ex.Message}");
             }
             // Zwróć pustą listę, jeśli nie znaleziono produktów lub wystąpił błąd
-            return Ok(new List<IngredientDTO>());
+            return Ok(new List<IngredientNutritionixDTO>());
         }
 
         /// <summary>
@@ -146,16 +146,16 @@ namespace API.Controllers
         /// <param name="Ingredient">Dane produktu do utworzenia.</param>
         /// <returns>Status operacji.</returns>
         [HttpPost]
-        public async Task<IActionResult> CreateIngredientFromNutritionix(IngredientDTO Ingredient)
+        public async Task<IActionResult> CreateIngredientFromNutritionix(IngredientNutritionixDTO Ingredient)
         {
-            await Mediator.Send(new IngredientFromNutritionixCreate.Command { IngredientDTO = Ingredient });
+            await Mediator.Send(new IngredientFromNutritionixCreate.Command { IngredientNutritionixDTO = Ingredient });
             return Ok();
         }
     }
 
     public static class IngredientDTOExtensions
     {
-        public static void LoadNutrientsLazy(this IngredientDTO ingredientDTO, JsonElement nutrientsArray, DietContext context)
+        public static void LoadNutrientsLazy(this IngredientNutritionixDTO ingredientDTO, JsonElement nutrientsArray, DietContext context)
         {
             var nutrientsDTOList = new List<IngredientNutrientDTO>();
             var nutrientDictionary = context.NutrientsDb.ToDictionary(n => n.NutritionixId);

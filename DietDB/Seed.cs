@@ -1,6 +1,5 @@
 ﻿using ModelsDB;
 using ModelsDB.Functionality;
-using Microsoft.EntityFrameworkCore;
 
 namespace DietDB
 {
@@ -8,105 +7,34 @@ namespace DietDB
     {
         public static async Task SeedData(DietContext context)
         {
+            await SeedBaseClasses(context);
+            await SeedFirstClassesWithForeignKey(context);
+            await SeedSecondClassesWithForeignKey(context);
+
+            await context.SaveChangesAsync();
+        }
+
+        // ******************** DANE PODSTAWOWE **************************************** //
+        private static async Task SeedBaseClasses(DietContext context)
+        {
             #region Address
-            // Sprawdzanie i dodawanie testowych rekordów dla adresów
+            // Sprawdzanie i dodawanie testowych adresów
             if (!context.AddressesDb.Any())
             {
                 var addresses = new List<Address>()
-    {
-        new Address
-        {
-            City = "Warszawa",
-            State = "Mazowieckie",
-            ZipCode = "00-001",
-            Country = "Polska",
-            Street = "Marszałkowska",
-            LocalNo = "24A"
-        },
-        new Address
-        {
-            City = "Kraków",
-            State = "Małopolskie",
-            ZipCode = "30-002",
-            Country = "Polska",
-            Street = "Floriańska",
-            LocalNo = "15B"
-        },
-        new Address
-        {
-            City = "Wrocław",
-            State = "Dolnośląskie",
-            ZipCode = "50-002",
-            Country = "Polska",
-            Street = "Rynek",
-            LocalNo = "12C"
-        },
-        new Address
-        {
-            City = "Poznań",
-            State = "Wielkopolskie",
-            ZipCode = "60-002",
-            Country = "Polska",
-            Street = "Stawna",
-            LocalNo = "8D"
-        },
-        new Address
-        {
-            City = "Gdańsk",
-            State = "Pomorskie",
-            ZipCode = "80-002",
-            Country = "Polska",
-            Street = "Długa",
-            LocalNo = "5E"
-        },
-        new Address
-        {
-            City = "Lublin",
-            State = "Lubelskie",
-            ZipCode = "20-001",
-            Country = "Polska",
-            Street = "Lipowa",
-            LocalNo = "3F"
-        },
-        new Address
-        {
-            City = "Katowice",
-            State = "Śląskie",
-            ZipCode = "40-001",
-            Country = "Polska",
-            Street = "Mariacka",
-            LocalNo = "2G"
-        },
-        new Address
-        {
-            City = "Bydgoszcz",
-            State = "Kujawsko-Pomorskie",
-            ZipCode = "85-001",
-            Country = "Polska",
-            Street = "Długa",
-            LocalNo = "6H"
-        },
-        new Address
-        {
-            City = "Białystok",
-            State = "Podlaskie",
-            ZipCode = "15-001",
-            Country = "Polska",
-            Street = "Lipowa",
-            LocalNo = "9I"
-        },
-        new Address
-        {
-            City = "Rzeszów",
-            State = "Podkarpackie",
-            ZipCode = "35-001",
-            Country = "Polska",
-            Street = "3 Maja",
-            LocalNo = "4J"
-        },
-    };
-
-                await context.AddressesDb.AddRangeAsync(addresses);
+                {
+                    new Address { City = "Warszawa", State = "Mazowieckie", ZipCode = "00-001", Country = "Polska", Street = "Marszałkowska", LocalNo = "24A" },
+                    new Address { City = "Kraków", State = "Małopolskie", ZipCode = "30-002", Country = "Polska", Street = "Floriańska", LocalNo = "15B" },
+                    new Address { City = "Wrocław", State = "Dolnośląskie", ZipCode = "50-002", Country = "Polska", Street = "Rynek", LocalNo = "12C" },
+                    new Address { City = "Poznań", State = "Wielkopolskie", ZipCode = "60-002", Country = "Polska", Street = "Stawna", LocalNo = "8D" },
+                    new Address { City = "Gdańsk", State = "Pomorskie", ZipCode = "80-002", Country = "Polska", Street = "Długa", LocalNo = "5E" },
+                    new Address { City = "Lublin", State = "Lubelskie", ZipCode = "20-001", Country = "Polska", Street = "Lipowa", LocalNo = "3F" },
+                    new Address { City = "Katowice", State = "Śląskie", ZipCode = "40-001", Country = "Polska", Street = "Mariacka", LocalNo = "2G" },
+                    new Address { City = "Bydgoszcz", State = "Kujawsko-Pomorskie", ZipCode = "85-001", Country = "Polska", Street = "Długa", LocalNo = "6H" },
+                    new Address { City = "Białystok", State = "Podlaskie", ZipCode = "15-001", Country = "Polska", Street = "Lipowa", LocalNo = "9I" },
+                    new Address { City = "Rzeszów", State = "Podkarpackie", ZipCode = "35-001", Country = "Polska", Street = "3 Maja", LocalNo = "4J" },
+                };
+                await context.AddressesDb.AddRangeAsync(addresses); 
             }
             #endregion
             #region CategoryOfDiet
@@ -114,49 +42,18 @@ namespace DietDB
             if (!context.CategoryOfDietsDb.Any())
             {
                 var categoriesOfDiets = new List<CategoryOfDiet>()
-    {
-        new CategoryOfDiet
-        {
-            CategoryName = "Wegetariańska"
-        },
-        new CategoryOfDiet
-        {
-            CategoryName = "Wegańska"
-        },
-        new CategoryOfDiet
-        {
-            CategoryName = "Keto"
-        },
-        new CategoryOfDiet
-        {
-            CategoryName = "Paleo"
-        },
-        new CategoryOfDiet
-        {
-            CategoryName = "Śródziemnomorska"
-        },
-        new CategoryOfDiet
-        {
-            CategoryName = "Niska zawartość węglowodanów"
-        },
-        new CategoryOfDiet
-        {
-            CategoryName = "Wysokobiałkowa"
-        },
-        new CategoryOfDiet
-        {
-            CategoryName = "Bezglutenowa"
-        },
-        new CategoryOfDiet
-        {
-            CategoryName = "Bezlaktozowa"
-        },
-        new CategoryOfDiet
-        {
-            CategoryName = "Surowa"
-        }
-    };
-
+                {
+                    new CategoryOfDiet { CategoryName = "Wegetariańska" },
+                    new CategoryOfDiet { CategoryName = "Wegańska" },
+                    new CategoryOfDiet { CategoryName = "Keto" },
+                    new CategoryOfDiet { CategoryName = "Paleo" },
+                    new CategoryOfDiet { CategoryName = "Śródziemnomorska" },
+                    new CategoryOfDiet { CategoryName = "Niska zawartość węglowodanów" },
+                    new CategoryOfDiet { CategoryName = "Wysokobiałkowa" },
+                    new CategoryOfDiet { CategoryName = "Bezglutenowa" },
+                    new CategoryOfDiet { CategoryName = "Bezlaktozowa" },
+                    new CategoryOfDiet { CategoryName = "Surowa" },
+                };
                 await context.CategoryOfDietsDb.AddRangeAsync(categoriesOfDiets);
             }
             #endregion
@@ -182,16 +79,13 @@ namespace DietDB
             if (!context.SexesDb.Any())
             {
                 var sexes = new List<Sex>()
-    {
-        new Sex { Name = "Mężczyzna" },
-        new Sex { Name = "Kobieta" },
-    };
-
+                {
+                    new Sex { Name = "Mężczyzna" },
+                    new Sex { Name = "Kobieta" },
+                };
                 await context.SexesDb.AddRangeAsync(sexes);
             }
             #endregion
-            
-
             #region Measure
             // Sprawdzanie i dodawanie testowych jednostek miary
             if (!context.MeasuresDb.Any())
@@ -204,41 +98,22 @@ namespace DietDB
                     new Measure { Symbol = "Tablespoon", Description = "Tablespoon" },
                     new Measure { Symbol = "Ounce", Description = "Ounce" },
                 };
-
                 await context.MeasuresDb.AddRangeAsync(measures);
-                await context.SaveChangesAsync();
-            }   
+            }
             #endregion
             #region Rating
             // Sprawdzanie i dodawanie testowych ocen
             if (!context.RatingsDb.Any())
             {
                 var ratings = new List<Rating>()
-    {
-        new Rating
-        {
-            Note = 5  // 5/5 - doskonała ocena
-        },
-        new Rating
-        {
-            Note = 4  // 4/5 - bardzo dobra ocena
-        },
-        new Rating
-        {
-            Note = 3  // 3/5 - średnia ocena
-        },
-        new Rating
-        {
-            Note = 2  // 2/5 - poniżej średniej oceny
-        },
-        new Rating
-        {
-            Note = 1  // 1/5 - niska ocena
-        }
-    };
-
+                {
+                    new Rating { Note = 5 }, // 5/5 - doskonała ocena
+                    new Rating { Note = 4 }, // 4/5 - bardzo dobra ocena
+                    new Rating { Note = 3 }, // 3/5 - średnia ocena
+                    new Rating { Note = 2 }, // 2/5 - poniżej średniej oceny
+                    new Rating { Note = 1 }, // 1/5 - niska ocena
+                };
                 await context.RatingsDb.AddRangeAsync(ratings);
-                await context.SaveChangesAsync();
             }
             #endregion
             #region Survey
@@ -246,71 +121,19 @@ namespace DietDB
             if (!context.SurveysDb.Any())
             {
                 var surveys = new List<Survey>()
-    {
-        new Survey
-        {
-            Heigth = 175.5f,
-            Weith = 70.2f,
-            MeasureTime = DateTime.Now.AddDays(-10)
-        },
-        new Survey
-        {
-            Heigth = 160.4f,
-            Weith = 60.1f,
-            MeasureTime = DateTime.Now.AddDays(-9)
-        },
-        new Survey
-        {
-            Heigth = 182.7f,
-            Weith = 80.5f,
-            MeasureTime = DateTime.Now.AddDays(-8)
-        },
-        new Survey
-        {
-            Heigth = 168.2f,
-            Weith = 65.3f,
-            MeasureTime = DateTime.Now.AddDays(-7)
-        },
-        new Survey
-        {
-            Heigth = 170.0f,
-            Weith = 72.4f,
-            MeasureTime = DateTime.Now.AddDays(-6)
-        },
-        new Survey
-        {
-            Heigth = 177.8f,
-            Weith = 74.2f,
-            MeasureTime = DateTime.Now.AddDays(-5)
-        },
-        new Survey
-        {
-            Heigth = 174.3f,
-            Weith = 68.9f,
-            MeasureTime = DateTime.Now.AddDays(-4)
-        },
-        new Survey
-        {
-            Heigth = 162.6f,
-            Weith = 63.7f,
-            MeasureTime = DateTime.Now.AddDays(-3)
-        },
-        new Survey
-        {
-            Heigth = 179.1f,
-            Weith = 76.0f,
-            MeasureTime = DateTime.Now.AddDays(-2)
-        },
-        new Survey
-        {
-            Heigth = 165.5f,
-            Weith = 62.5f,
-            MeasureTime = DateTime.Now.AddDays(-1)
-        },
-    };
-
+                {
+                    new Survey { Heigth = 175.5f, Weith = 70.2f, MeasureTime = DateTime.Now.AddDays(-10) },
+                    new Survey { Heigth = 160.4f, Weith = 60.1f, MeasureTime = DateTime.Now.AddDays(-9) },
+                    new Survey { Heigth = 182.7f, Weith = 80.5f, MeasureTime = DateTime.Now.AddDays(-8) },
+                    new Survey { Heigth = 168.2f, Weith = 65.3f, MeasureTime = DateTime.Now.AddDays(-7) },
+                    new Survey { Heigth = 170.0f, Weith = 72.4f, MeasureTime = DateTime.Now.AddDays(-6) },
+                    new Survey { Heigth = 177.8f, Weith = 74.2f, MeasureTime = DateTime.Now.AddDays(-5) },
+                    new Survey { Heigth = 174.3f, Weith = 68.9f, MeasureTime = DateTime.Now.AddDays(-4) },
+                    new Survey { Heigth = 162.6f, Weith = 63.7f, MeasureTime = DateTime.Now.AddDays(-3) },
+                    new Survey { Heigth = 179.1f, Weith = 76.0f, MeasureTime = DateTime.Now.AddDays(-2) },
+                    new Survey { Heigth = 165.5f, Weith = 62.5f, MeasureTime = DateTime.Now.AddDays(-1) },
+                };
                 await context.SurveysDb.AddRangeAsync(surveys);
-                await context.SaveChangesAsync();
             }
             #endregion
             #region Term
@@ -318,24 +141,21 @@ namespace DietDB
             if (!context.TermsDb.Any())
             {
                 var terms = new List<Term>()
-    {
-        new Term { Name = "Poranny" },
-        new Term { Name = "Przedpołudniowy" },
-        new Term { Name = "Popołudniowy" },
-        new Term { Name = "Wieczorny" },
-        new Term { Name = "Nocny" },
-        new Term { Name = "Świąteczny" },
-        new Term { Name = "Weekendowy" },
-        new Term { Name = "Specjalny" },
-        new Term { Name = "Długi weekend" },
-        new Term { Name = "Ekspresowy" }
-    };
-
+                {
+                    new Term { Name = "Poranny" },
+                    new Term { Name = "Przedpołudniowy" },
+                    new Term { Name = "Popołudniowy" },
+                    new Term { Name = "Wieczorny" },
+                    new Term { Name = "Nocny" },
+                    new Term { Name = "Świąteczny" },
+                    new Term { Name = "Weekendowy" },
+                    new Term { Name = "Specjalny" },
+                    new Term { Name = "Długi weekend" },
+                    new Term { Name = "Ekspresowy" }
+                };
                 await context.TermsDb.AddRangeAsync(terms);
-                await context.SaveChangesAsync();
             }
             #endregion
-
             #region Unit
             // Sprawdzanie i dodawanie testowych rekordów dla Unit
             if (!context.UnitsDb.Any())
@@ -353,37 +173,35 @@ namespace DietDB
                     new Unit { Symbol = "l", Description = "litr" }
                 };
                 await context.UnitsDb.AddRangeAsync(units);
-                await context.SaveChangesAsync();
             }
             #endregion
-
             #region Specialization
             // Dodawanie danych dla specjalizacji dietetycznych w SpecializationsDb
             if (!context.SpecializationsDb.Any())
             {
                 var specializations = new List<Specialization>()
-    {
-        new Specialization { SpecializationName = "Dietetyka kliniczna" },
-        new Specialization { SpecializationName = "Dietetyka sportowa" },
-        new Specialization { SpecializationName = "Dietetyka dziecięca" },
-        new Specialization { SpecializationName = "Dietetyka w cukrzycy" },
-        new Specialization { SpecializationName = "Dietetyka w chorobach serca" },
-        new Specialization { SpecializationName = "Dietetyka w chorobach nerek" },
-        new Specialization { SpecializationName = "Dietetyka w chorobach przewodu pokarmowego" },
-        new Specialization { SpecializationName = "Dietetyka onkologiczna" },
-        new Specialization { SpecializationName = "Dietetyka geriatryczna" },
-        new Specialization { SpecializationName = "Dietetyka w zaburzeniach odżywiania" },
-        new Specialization { SpecializationName = "Dietetyka wegetariańska" },
-        new Specialization { SpecializationName = "Dietetyka wegańska" },
-        new Specialization { SpecializationName = "Dietetyka w alergiach pokarmowych" },
-        new Specialization { SpecializationName = "Dietetyka w nietolerancjach pokarmowych" },
-        new Specialization { SpecializationName = "Dietetyka w chorobach autoimmunologicznych" },
-        new Specialization { SpecializationName = "Dietetyka w zaburzeniach metabolicznych" },
-        new Specialization { SpecializationName = "Dietetyka w menopauzie" },
-        new Specialization { SpecializationName = "Dietetyka w ciąży i laktacji" },
-        new Specialization { SpecializationName = "Dietetyka w zdrowiu psychicznym" },
-        new Specialization { SpecializationName = "Dietetyka w geriatrii" }
-    };
+                {
+                    new Specialization { SpecializationName = "Dietetyka kliniczna" },
+                    new Specialization { SpecializationName = "Dietetyka sportowa" },
+                    new Specialization { SpecializationName = "Dietetyka dziecięca" },
+                    new Specialization { SpecializationName = "Dietetyka w cukrzycy" },
+                    new Specialization { SpecializationName = "Dietetyka w chorobach serca" },
+                    new Specialization { SpecializationName = "Dietetyka w chorobach nerek" },
+                    new Specialization { SpecializationName = "Dietetyka w chorobach przewodu pokarmowego" },
+                    new Specialization { SpecializationName = "Dietetyka onkologiczna" },
+                    new Specialization { SpecializationName = "Dietetyka geriatryczna" },
+                    new Specialization { SpecializationName = "Dietetyka w zaburzeniach odżywiania" },
+                    new Specialization { SpecializationName = "Dietetyka wegetariańska" },
+                    new Specialization { SpecializationName = "Dietetyka wegańska" },
+                    new Specialization { SpecializationName = "Dietetyka w alergiach pokarmowych" },
+                    new Specialization { SpecializationName = "Dietetyka w nietolerancjach pokarmowych" },
+                    new Specialization { SpecializationName = "Dietetyka w chorobach autoimmunologicznych" },
+                    new Specialization { SpecializationName = "Dietetyka w zaburzeniach metabolicznych" },
+                    new Specialization { SpecializationName = "Dietetyka w menopauzie" },
+                    new Specialization { SpecializationName = "Dietetyka w ciąży i laktacji" },
+                    new Specialization { SpecializationName = "Dietetyka w zdrowiu psychicznym" },
+                    new Specialization { SpecializationName = "Dietetyka w geriatrii" }
+                };
                 await context.SpecializationsDb.AddRangeAsync(specializations);
             }
             #endregion
@@ -408,72 +226,72 @@ namespace DietDB
             {
                 var dishes = new List<Dish>()
                 {
-                    new Dish
-                        {
-                            Name = "Pasta Bolognese",
-                            isActive = true,
-                            dateAdded = DateTime.Now,
-                            dateUpdated = null,
-                            dateDeleted = null,
-                            whoAdded = "Admin",
-                            whoUpdated = null,
-                            whoDeleted = null
-                        },
-                        new Dish
-                        {
-                            Name = "Grilled Chicken Salad",
-                            isActive = true,
-                            dateAdded = DateTime.Now,
-                            dateUpdated = null,
-                            dateDeleted = null,
-                            whoAdded = "Admin",
-                            whoUpdated = null,
-                            whoDeleted = null
-                        },
-                        new Dish
-                        {
-                            Name = "Margherita Pizza",
-                            isActive = true,
-                            dateAdded = DateTime.Now,
-                            dateUpdated = null,
-                            dateDeleted = null,
-                            whoAdded = "Admin",
-                            whoUpdated = null,
-                            whoDeleted = null
-                        },
+                    new Dish { Name = "Pasta Bolognese", isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
+                    new Dish { Name = "Grilled Chicken Salad", isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
+                    new Dish { Name = "Margherita Pizza", isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
                 };
                 await context.DishesDb.AddRangeAsync(dishes);
             }
             #endregion
 
+            await context.SaveChangesAsync();
+        }
 
-            //********************DANE Z KLUCZAMI OBCYMI****************************************
-
-            //#region MealTimes
-            //// Sprawdzanie i dodawanie testowych danych dla MealTimes
-            //if (!context.MealTimesDb.Any())
-            //{
-            //    var mealTimes = new List<MealTimeToXYAxis>()
-            //    {
-            //        new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 11, 10) },
-            //        new MealTimeToXYAxis { MealId = 2, MealTime = new DateTime(2023, 11, 11) },
-            //        new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 11, 12) },
-            //        new MealTimeToXYAxis { MealId = 4, MealTime = new DateTime(2023, 11, 13) },
-            //        new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 11, 14) },
-            //        new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 11, 15) },
-            //        new MealTimeToXYAxis { MealId = 2, MealTime = new DateTime(2023, 11, 16) },
-            //        new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 11, 17) },
-            //        new MealTimeToXYAxis { MealId = 4, MealTime = new DateTime(2023, 11, 18) },
-            //        new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 11, 19) },
-            //        new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 11, 20) },
-            //        new MealTimeToXYAxis { MealId = 2, MealTime = new DateTime(2023, 11, 21) },
-            //        new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 11, 22) },
-            //        new MealTimeToXYAxis { MealId = 4, MealTime = new DateTime(2023, 11, 23) },
-            //        new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 11, 24) }
-            //    };
-            //    await context.MealTimesDb.AddRangeAsync(mealTimes);
-            //}
-            //#endregion
+        // ******************** DANE Z KLUCZAMI OBCYMI **************************************** //
+        private static async Task SeedFirstClassesWithForeignKey(DietContext context)
+        {
+            #region Admin
+            if (!context.AdminsDb.Any())
+            {
+                var admins = new List<Admin>()
+                {
+                    new Admin { FirstName = "Jan", LastName = "Kowalski", Email = "jan.kowalski@example.com", Password = "securepassword1", Phone = "500100200", isPatient = false, isDietician = false, isAdmin = true, BirthDate = new DateTime(1980, 1, 1), AddressId = 1, Notes = new List<Note>(), MessageTo = new List<MessageTo>() },
+                    new Admin { FirstName = "Ewa", LastName = "Nowak", Email = "ewa.nowak@example.com", Password = "securepassword2", Phone = "500100201", isPatient = false, isDietician = false, isAdmin = true, BirthDate = new DateTime(1982, 5, 10), AddressId = 2, Notes = new List<Note>(), MessageTo = new List<MessageTo>() },
+                };
+                await context.AdminsDb.AddRangeAsync(admins);
+            }
+            #endregion
+            #region Pacjent
+            // Sprawdzanie i dodawanie testowych rekordów dla Pacjenta
+            if (!context.PatientsDb.Any())
+            {
+                var pacjenci = new List<Patient>()
+                {
+                    new Patient { FirstName = "Tomasz", LastName = "Zieliński", Email = "tomasz.zielinski@example.com", Password = "haslo123", Phone = "500600700", isPatient = true, isDietician = false, isAdmin = false, BirthDate = new DateTime(1985, 6, 15), AddressId = 1, PatientCardId = 1, Notes = new List<Note>(), Dieticians = new List<Dietician>(), Comments = new List<Comment>(), Ratings = new List<Rating>(), Visits = new List<Visit>(), DieticianPatients = new List<DieticianPatient>(), NotePatients = new List<NotePatient>() },
+                    new Patient { FirstName = "Aleksandra", LastName = "Nowak", Email = "aleksandra.nowak@example.com", Password = "haslo123", Phone = "501601701", isPatient = true, isDietician = false, isAdmin = false, BirthDate = new DateTime(1990, 2, 20), AddressId = 2, PatientCardId = 2, Notes = new List<Note>(), Dieticians = new List<Dietician>(), Comments = new List<Comment>(), Ratings = new List<Rating>(), Visits = new List<Visit>(), DieticianPatients = new List<DieticianPatient>(), NotePatients = new List<NotePatient>() },
+                    new Patient { FirstName = "Piotr", LastName = "Kowal", Email = "piotr.kowal@example.com", Password = "haslo123", Phone = "502602702", isPatient = true, isDietician = false, isAdmin = false, BirthDate = new DateTime(1988, 5, 5), AddressId = 3, PatientCardId = 3, Notes = new List<Note>(), Dieticians = new List<Dietician>(), Comments = new List<Comment>(), Ratings = new List<Rating>(), Visits = new List<Visit>(), DieticianPatients = new List<DieticianPatient>(), NotePatients = new List<NotePatient>() },
+                };
+                await context.PatientsDb.AddRangeAsync(pacjenci);
+            }
+            #endregion
+            #region Dietician
+            // Sprawdzanie i dodawanie testowych rekordów dla Dietician
+            if (!context.DieticiansDb.Any())
+            {
+                var dieticians = new List<Dietician>()
+                {
+                    new Dietician { FirstName = "Anna", LastName = "Nowak", Email = "anna.nowak1@example.com", Password = "password123", Phone = "987654321", isPatient = false, isDietician = true, isAdmin = false, BirthDate = new DateTime(1985, 2, 2), AddressId = 1, RatingId = 1 },
+                    new Dietician { FirstName = "Marek", LastName = "Kowalski", Email = "marek.kowalski@example.com", Password = "password123", Phone = "987654322", isPatient = false, isDietician = true, isAdmin = false, BirthDate = new DateTime(1984, 3, 3), AddressId = 2, RatingId = 2 },
+                    new Dietician { FirstName = "Oliwia", LastName = "Wiśniewska", Email = "oliwia.wisniewska@example.com", Password = "password123", Phone = "987654330", isPatient = false, isDietician = true, isAdmin = false, BirthDate = new DateTime(1990, 10, 10), AddressId = 10, RatingId = 5 },
+                };
+                await context.DieticiansDb.AddRangeAsync(dieticians);
+            }
+            #endregion
+            #region PatientCard
+            // Sprawdzanie i dodawanie testowych rekordów dla PatientCard
+            if (!context.PatientCardsDb.Any())
+            {
+                var patientCards = new List<PatientCard>()
+                {
+                    new PatientCard { SexId = 1 },
+                    new PatientCard { SexId = 2 },
+                    new PatientCard { SexId = 1 },
+                    new PatientCard { SexId = 2 },
+                    new PatientCard { SexId = 2 },
+                };
+                await context.PatientCardsDb.AddRangeAsync(patientCards);
+            }
+            #endregion
             #region Nutrient
             // Sprawdzanie i dodawanie testowych rekordów dla Nutrient
             if (!context.NutrientsDb.Any())
@@ -643,437 +461,113 @@ namespace DietDB
                     new Nutrient { NutritionixId = 347, NamePL = "Tokoferol, delta", NameEN = "Tocotrienol, delta", IsMacronutrient = true, IsMicronutrient = true, UnitId = context.UnitsDb.Single(u => u.Symbol == "mg").Id }
                 };
                 await context.NutrientsDb.AddRangeAsync(nutrients);
-                await context.SaveChangesAsync();
-            }
-            #endregion
-            #region Dietician
-            // Sprawdzanie i dodawanie testowych rekordów dla Dietician
-            if (!context.DieticiansDb.Any())
-            {
-                var dieticians = new List<Dietician>()
-                {
-                    new Dietician
-                    {
-                        FirstName = "Anna",
-                        LastName = "Nowak",
-                        Email = "anna.nowak1@example.com",
-                        Password = "password123",
-                        Phone = "987654321",
-                        isPatient = false,
-                        isDietician = true,
-                        isAdmin = false,
-                        BirthDate = new DateTime(1985, 2, 2),
-                        AddressId = 1,
-                        RatingId = 1
-                    },
-                    new Dietician
-                    {
-                        FirstName = "Marek",
-                        LastName = "Kowalski",
-                        Email = "marek.kowalski@example.com",
-                        Password = "password123",
-                        Phone = "987654322",
-                        isPatient = false,
-                        isDietician = true,
-                        isAdmin = false,
-                        BirthDate = new DateTime(1984, 3, 3),
-                        AddressId = 2,
-                        RatingId = 2
-                    },
-                    new Dietician
-                    {
-                        FirstName = "Oliwia",
-                        LastName = "Wiśniewska",
-                        Email = "oliwia.wisniewska@example.com",
-                        Password = "password123",
-                        Phone = "987654330",
-                        isPatient = false,
-                        isDietician = true,
-                        isAdmin = false,
-                        BirthDate = new DateTime(1990, 10, 10),
-                        AddressId = 10,
-                        RatingId = 5
-                    }
-                };
-
-                await context.DieticiansDb.AddRangeAsync(dieticians);
-            }
-            #endregion
-            #region PatientCard
-            // Sprawdzanie i dodawanie testowych rekordów dla PatientCard
-            if (!context.PatientCardsDb.Any())
-            {
-                var patientCards = new List<PatientCard>()
-                {
-                    new PatientCard
-                    {
-
-                        SexId = 1
-                    },
-                    new PatientCard
-                    {
-
-                        SexId = 2
-                    },
-                    new PatientCard
-                    {
-
-                        SexId = 1
-                    },
-                    new PatientCard
-                    {
-
-                        SexId = 2
-                    },
-                    new PatientCard
-                    {
-
-                        SexId = 2
-                    }
-                };
-
-                await context.PatientCardsDb.AddRangeAsync(patientCards);
-            }
-            #endregion
-            #region Pacjent
-            // Sprawdzanie i dodawanie testowych rekordów dla Pacjenta
-            if (!context.PatientsDb.Any())
-            {
-                var pacjenci = new List<Patient>()
-                {
-                    new Patient
-                    {
-                        FirstName = "Tomasz",
-                        LastName = "Zieliński",
-                        Email = "tomasz.zielinski@example.com",
-                        Password = "haslo123",
-                        Phone = "500600700",
-                        isPatient = true,
-                        isDietician = false,
-                        isAdmin = false,
-                        BirthDate = new DateTime(1985, 6, 15),
-                        AddressId = 1,
-                        PatientCardId = 1,
-                        // Poniższe listy zostały już wypełnione i są dostępne.
-                        Notes = new List<Note>(),
-                        Dieticians = new List<Dietician>(),
-                        Comments = new List<Comment>(),
-                        Ratings = new List<Rating>(),
-                        Visits = new List<Visit>(),
-                        DieticianPatients = new List<DieticianPatient>(),
-                        //DietPatients = new List<DietPatient>(),
-                        NotePatients = new List<NotePatient>()
-                    },
-                    new Patient
-                    {
-                        FirstName = "Aleksandra",
-                        LastName = "Nowak",
-                        Email = "aleksandra.nowak@example.com",
-                        Password = "haslo123",
-                        Phone = "501601701",
-                        isPatient = true,
-                        isDietician = false,
-                        isAdmin = false,
-                        BirthDate = new DateTime(1990, 2, 20),
-                        AddressId = 2,
-                        PatientCardId = 2,
-                        // Poniższe listy zostały już wypełnione i są dostępne.
-                        Notes = new List<Note>(),
-                        Dieticians = new List<Dietician>(),
-                        Comments = new List<Comment>(),
-                        Ratings = new List<Rating>(),
-                        Visits = new List<Visit>(),
-                        DieticianPatients = new List<DieticianPatient>(),
-                        //DietPatients = new List<DietPatient>(),
-                        NotePatients = new List<NotePatient>()
-                    },
-                    new Patient
-                    {
-                        FirstName = "Piotr",
-                        LastName = "Kowal",
-                        Email = "piotr.kowal@example.com",
-                        Password = "haslo123",
-                        Phone = "502602702",
-                        isPatient = true,
-                        isDietician = false,
-                        isAdmin = false,
-                        BirthDate = new DateTime(1988, 5, 5),
-                        AddressId = 3,
-                        PatientCardId = 3,
-                        // Poniższe listy zostały już wypełnione i są dostępne.
-                        Notes = new List<Note>(),
-                        Dieticians = new List<Dietician>(),
-                        Comments = new List<Comment>(),
-                        Ratings = new List<Rating>(),
-                        Visits = new List<Visit>(),
-                        DieticianPatients = new List<DieticianPatient>(),
-                        //DietPatients = new List<DietPatient>(),
-                        NotePatients = new List<NotePatient>()
-                    }
-                };
-
-                await context.PatientsDb.AddRangeAsync(pacjenci);
-            }
-            #endregion
-            #region Admin
-            if (!context.AdminsDb.Any())
-            {
-                var admins = new List<Admin>()
-
-            {
-                new Admin
-                {
-                    FirstName = "Jan",
-                    LastName = "Kowalski",
-                    Email = "jan.kowalski@example.com",
-                    Password = "securepassword1",
-                    Phone = "500100200",
-                    isPatient = false,
-                    isDietician = false,
-                    isAdmin = true,
-                    BirthDate = new DateTime(1980, 1, 1),
-                    AddressId = 1,
-                    Notes = new List<Note>(),
-                    MessageTo = new List<MessageTo>()
-                },
-                new Admin
-                {
-                    FirstName = "Ewa",
-                    LastName = "Nowak",
-                    Email = "ewa.nowak@example.com",
-                    Password = "securepassword2",
-                    Phone = "500100201",
-                    isPatient = false,
-                    isDietician = false,
-                    isAdmin = true,
-                    BirthDate = new DateTime(1982, 5, 10),
-                    AddressId = 2,
-                    Notes = new List<Note>(),
-                    MessageTo = new List<MessageTo>()
-                },
-            };
-
-                await context.AdminsDb.AddRangeAsync(admins);
             }
             #endregion
 
-            //********************DANE Z KLUCZAMI KLUCZY OBCYCH****************************************
-
-            //#region MessagesToDietician
-            ////Sprawdzanie i dodawanie testowych wiadomości do dietetyka
-            //if (!context.MessageToDb.Any())
+            #region DaneTestowe - do bazy tymczasowe
+            //#region MealTimes
+            //// Sprawdzanie i dodawanie testowych danych dla MealTimes
+            //if (!context.MealTimesDb.Any())
             //{
-            //    var messages = new List<MessageTo>()
-            //{
-            //    new MessageTo
+            //    var mealTimes = new List<MealTimeToXYAxis>()
             //    {
-            //        Title = "Pytanie o dietę 1",
-            //        Description = "Mam pytanie odnośnie ilości węglowodanów w diecie.",
-            //        DieticianId = 1,
-            //        PatientId=1,
-            //        IsRead = false,
-            //        ReadDate = null,
-            //        isActive = true,
-            //        dateAdded = DateTime.Now
-            //    },
-            //    new MessageTo
-            //    {
-            //        Title = "Kwestia alergii",
-            //        Description = "Czy produkt X jest odpowiedni dla osoby z alergią na orzechy?",
-            //        DieticianId = 2,
-            //        PatientId=1,
-            //        IsRead = false,
-            //        ReadDate = null,
-            //        isActive = true,
-            //        dateAdded = DateTime.Now
-            //    },
-            //    new MessageTo
-            //    {
-            //        Title = "Porada dla sportowca",
-            //        Description = "Jakie produkty zalecasz dla aktywnych fizycznie osób?",
-            //        DieticianId = 3,
-            //        PatientId=3,
-            //        IsRead = false,
-            //        ReadDate = null,
-            //        isActive = true,
-            //        dateAdded = DateTime.Now
-            //    },
-            //    new MessageTo
-            //    {
-            //        Title = "Suplementacja",
-            //        Description = "Czy warto suplementować witaminę D w okresie zimowym?",
-            //        DieticianId = 1,
-            //        PatientId=2,
-            //        IsRead = false,
-            //        ReadDate = null,
-            //        isActive = true,
-            //        dateAdded = DateTime.Now
-            //    },
-            //    new MessageTo
-            //    {
-            //        Title = "Pytanie o jadłospis",
-            //        Description = "Czy możesz mi pomóc skomponować jadłospis na nadchodzący tydzień?",
-            //        DieticianId = 2,
-            //        PatientId=2,
-            //        IsRead = false,
-            //        ReadDate = null,
-            //        isActive = true,
-            //        dateAdded = DateTime.Now
-            //    }
-            //};
-
-            //    await context.MessageToDb.AddRangeAsync(messages);
+            //        new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 11, 10) },
+            //        new MealTimeToXYAxis { MealId = 2, MealTime = new DateTime(2023, 11, 11) },
+            //        new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 11, 12) },
+            //        new MealTimeToXYAxis { MealId = 4, MealTime = new DateTime(2023, 11, 13) },
+            //        new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 11, 14) },
+            //        new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 11, 15) },
+            //        new MealTimeToXYAxis { MealId = 2, MealTime = new DateTime(2023, 11, 16) },
+            //        new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 11, 17) },
+            //        new MealTimeToXYAxis { MealId = 4, MealTime = new DateTime(2023, 11, 18) },
+            //        new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 11, 19) },
+            //        new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 11, 20) },
+            //        new MealTimeToXYAxis { MealId = 2, MealTime = new DateTime(2023, 11, 21) },
+            //        new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 11, 22) },
+            //        new MealTimeToXYAxis { MealId = 4, MealTime = new DateTime(2023, 11, 23) },
+            //        new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 11, 24) }
+            //    };
+            //    await context.MealTimesDb.AddRangeAsync(mealTimes);
             //}
             //#endregion
-            //#region MessageToPatient
+            #endregion
 
-            //// Sprawdzanie i dodawanie testowych wiadomości do pacjentów
-            //if (!context.MessageToDb.Any())
-            //{
-            //    var messagesToPatients = new List<MessageTo>()
-            //{
-            //    new MessageTo
-            //    {
-            //        Title = "Konsultacja dietetyczna",
-            //        Description = "Witaj! Zapraszam na konsultację dietetyczną w przyszłym tygodniu. Daj mi znać, kiedy Ci pasuje.",
-            //        PatientId = 1,
-            //        AdminId=1,
-            //        isActive = true,
-            //        IsRead = false,
-            //        ReadDate = null,
-            //        dateAdded = DateTime.Now
-            //    },
-            //    new MessageTo
-            //    {
-            //        Title = "Zmiana planu dietetycznego",
-            //        Description = "Witam! Zaktualizowałem Twój plan dietetyczny. Sprawdź go w aplikacji i daj mi znać, czy wszystko jest jasne.",
-            //        PatientId = 1,
-            //        AdminId=2,
-            //        isActive = true,
-            //        IsRead = false,
-            //        ReadDate = null,
-            //        dateAdded = DateTime.Now
-            //    },
-            //    new MessageTo
-            //    {
-            //        Title = "Przypomnienie o wizycie",
-            //        Description = "Przypominam o jutrzejszej wizycie. Jeśli nie możesz przyjść, daj mi znać jak najszybciej.",
-            //        PatientId = 2,
-            //        AdminId=1,
-            //        isActive = true,
-            //        IsRead = false,
-            //        ReadDate = null,
-            //        dateAdded = DateTime.Now
-            //    },
-            //    new MessageTo
-            //    {
-            //        Title = "Wyniki badań",
-            //        Description = "Twoje wyniki badań są już dostępne. Zalecam omówienie ich podczas najbliższej wizyty.",
-            //        PatientId = 2,
-            //        AdminId=2,
-            //        isActive = true,
-            //        IsRead = false,
-            //        ReadDate = null,
-            //        dateAdded = DateTime.Now
-            //    },
-            //    new MessageTo
-            //    {
-            //        Title = "Zalecenia po wizycie",
-            //        Description = "Witaj! Po naszej ostatniej wizycie przygotowałem kilka zaleceń. Sprawdź je w aplikacji i postępuj zgodnie z nimi.",
-            //        PatientId = 3,
-            //        AdminId=2,
-            //        isActive = true,
-            //        IsRead = false,
-            //        ReadDate = null,
-            //        dateAdded = DateTime.Now
-            //    },
-            //};
+            await context.SaveChangesAsync();
+        }
 
-            //    await context.MessageToDb.AddRangeAsync(messagesToPatients);
-            //}
+        // ******************** DANE Z KLUCZAMI KLUCZY OBCYCH **************************************** //
+        private static async Task SeedSecondClassesWithForeignKey(DietContext context)
+        {
+            #region MessagesToDietician
+            //Sprawdzanie i dodawanie testowych wiadomości do dietetyka
+            if (!context.MessageToDb.Any())
+            {
+                var messages = new List<MessageTo>()
+                {
+                    new MessageTo { Title = "Pytanie o dietę 1", Description = "Mam pytanie odnośnie ilości węglowodanów w diecie.", DieticianId = 1, PatientId = 1, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Kwestia alergii", Description = "Czy produkt X jest odpowiedni dla osoby z alergią na orzechy?", DieticianId = 2, PatientId = 1, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Porada dla sportowca", Description = "Jakie produkty zalecasz dla aktywnych fizycznie osób?", DieticianId = 3, PatientId = 3, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Suplementacja", Description = "Czy warto suplementować witaminę D w okresie zimowym?", DieticianId = 1, PatientId = 2, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Pytanie o jadłospis", Description = "Czy możesz mi pomóc skomponować jadłospis na nadchodzący tydzień?", DieticianId = 2, PatientId = 2, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
+                };
+                await context.MessageToDb.AddRangeAsync(messages);
+            }
+            #endregion
+            #region MessageToPatient
+            // Sprawdzanie i dodawanie testowych wiadomości do pacjentów
+            if (!context.MessageToDb.Any())
+            {
+                var messagesToPatients = new List<MessageTo>()
+                {
+                    new MessageTo { Title = "Konsultacja dietetyczna", Description = "Witaj! Zapraszam na konsultację dietetyczną w przyszłym tygodniu. Daj mi znać, kiedy Ci pasuje.", PatientId = 1, AdminId = 1, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Zmiana planu dietetycznego", Description = "Witam! Zaktualizowałem Twój plan dietetyczny. Sprawdź go w aplikacji i daj mi znać, czy wszystko jest jasne.", PatientId = 1, AdminId = 2, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Przypomnienie o wizycie", Description = "Przypominam o jutrzejszej wizycie. Jeśli nie możesz przyjść, daj mi znać jak najszybciej.", PatientId = 2, AdminId = 1, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Wyniki badań", Description = "Twoje wyniki badań są już dostępne. Zalecam omówienie ich podczas najbliższej wizyty.", PatientId = 2, AdminId = 2, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Zalecenia po wizycie", Description = "Witaj! Po naszej ostatniej wizycie przygotowałem kilka zaleceń. Sprawdź je w aplikacji i postępuj zgodnie z nimi.", PatientId = 3, AdminId = 2, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                };
+                await context.MessageToDb.AddRangeAsync(messagesToPatients);
+            }
+            #endregion
+            #region MessagesToAdmin
+            if (!context.MessageToDb.Any())
+            {
+                var messagesToAdmins = new List<MessageTo>()
+                {
+                    new MessageTo { Title = "Zgłoszenie problemu technicznego", Description = "Witaj! Napotkaliśmy problem z funkcją wysyłania wiadomości w aplikacji. Prosimy o szybką interwencję.", AdminId = 1, DieticianId = 2, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Aktualizacja polityki prywatności", Description = "Witaj! Przesyłam aktualizację polityki prywatności. Proszę o jej przejrzenie i zatwierdzenie.", AdminId = 2, DieticianId = 3, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Propozycja współpracy", Description = "Dzień dobry! Mamy propozycję współpracy, która może być interesująca dla naszej platformy. Proszę o kontakt.", AdminId = 1, DieticianId = 1, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                };
+                await context.MessageToDb.AddRangeAsync(messagesToAdmins);
+            }
+            #endregion
 
-            //#endregion
-            //#region MessagesToAdmin
-            //if (!context.MessageToDb.Any())
-            //{
-            //    var messagesToAdmins = new List<MessageTo>()
-            //{
-            //    new MessageTo
-            //    {
-            //        Title = "Zgłoszenie problemu technicznego",
-            //        Description = "Witaj! Napotkaliśmy problem z funkcją wysyłania wiadomości w aplikacji. Prosimy o szybką interwencję.",
-            //        AdminId = 1,
-            //        DieticianId = 2,
-            //        isActive = true,
-            //        IsRead = false,
-            //        ReadDate = null,
-            //        dateAdded = DateTime.Now
-            //    },
-            //    new MessageTo
-            //    {
-            //        Title = "Aktualizacja polityki prywatności",
-            //        Description = "Witaj! Przesyłam aktualizację polityki prywatności. Proszę o jej przejrzenie i zatwierdzenie.",
-            //        AdminId = 2,
-            //        DieticianId = 3,
-            //        isActive = true,
-            //        IsRead = false,
-            //        ReadDate = null,
-            //        dateAdded = DateTime.Now
-            //    },
-            //    new MessageTo
-            //    {
-            //        Title = "Propozycja współpracy",
-            //        Description = "Dzień dobry! Mamy propozycję współpracy, która może być interesująca dla naszej platformy. Proszę o kontakt.",
-            //        AdminId = 1,
-            //        DieticianId = 1,
-            //        isActive = true,
-            //        IsRead = false,
-            //        ReadDate = null,
-            //        dateAdded = DateTime.Now
-            //    },
-            //};
+            // TODO: do wprowadzenia na podstawie skryptu z bazy
+            #region DaneTestowe - Ingredients
+            if (!context.IngredientsDb.Any())
+            {
+                var ingredients = new List<Ingredient>()
+                {
+                    new Ingredient { Name = "Ser Biały", Calories = 100, ServingQuantity = 1, MeasureId = 1, Weight = 28, UnitId = 1, DieticianId = 1, GlycemicIndex = 30, PublicId = string.Empty, PictureUrl = "https://example.com/ser-bialy.jpg" },
+                    new Ingredient { Name = "Jogurt Naturalny", Calories = 50, ServingQuantity = 1, MeasureId = 2, Weight = 200, UnitId = 1, DieticianId = 2, GlycemicIndex = 40, PublicId = string.Empty, PictureUrl = "https://example.com/jogurt-naturalny.jpg" },
+                    new Ingredient { Name = "Oliwa z Oliwek", Calories = 120, ServingQuantity = 1, MeasureId = 3, Weight = 15, UnitId = 1, DieticianId = 3, GlycemicIndex = 10, PublicId = string.Empty, PictureUrl = "https://example.com/oliwa.jpg" },
+                    new Ingredient { Name = "Pierś Kurczaka", Calories = 150, ServingQuantity = 1, MeasureId = 4, Weight = 100, UnitId = 2, DieticianId = 1, GlycemicIndex = 20, PublicId = string.Empty, PictureUrl = "https://example.com/piers-kurczaka.jpg" },
+                    new Ingredient { Name = "Mleko 2%", NameEN = "2% milk", Calories = 122f, MeasureId = 1, Weight = 244, UnitId = 1, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/377_thumb.jpg", DieticianId = null },
+                    new Ingredient { Name = "Pomidor", Calories = 20, ServingQuantity = 1, MeasureId = 1, Weight = 150, UnitId = 3, DieticianId = 2, GlycemicIndex = 15, PublicId = string.Empty, PictureUrl = "https://example.com/pomidor.jpg" },
+                    new Ingredient { Name = "Owsianka", Calories = 120, ServingQuantity = 1, MeasureId = 2, Weight = 40, UnitId = 1, DieticianId = 3, GlycemicIndex = 50, PublicId = string.Empty, PictureUrl = "https://example.com/owsianka.jpg" },
+                    new Ingredient { Name = "Ziemniaki", NameEN = "potato", Calories = 160.89f, MeasureId = 1, Weight = 21, UnitId = 5, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/752_thumb.jpg", DieticianId = null },
+                    new Ingredient { Name = "Ogórek", NameEN = "cucumber", Calories = 30.15f, MeasureId = 1, Weight = 10, UnitId = 7, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/522_thumb.jpg", DieticianId = null },
+                    new Ingredient { Name = "Banany", Calories = 90, ServingQuantity = 1, MeasureId = 3, Weight = 120, UnitId = 1, DieticianId = 1, GlycemicIndex = 60, PublicId = string.Empty, PictureUrl = "https://example.com/banany.jpg" },
+                    new Ingredient { Name = "Orzechy Włoskie", Calories = 200, ServingQuantity = 1, MeasureId = 4, Weight = 30, UnitId = 1, DieticianId = 2, GlycemicIndex = 25, PublicId = string.Empty, PictureUrl = "https://example.com/orzechy.jpg" },
+                    new Ingredient { Name = "Brokuły", Calories = 30, ServingQuantity = 1, MeasureId = 1, Weight = 150, UnitId = 1, DieticianId = 3, GlycemicIndex = 15, PublicId = string.Empty, PictureUrl = "https://example.com/brokuly.jpg" },
+                    new Ingredient { Name = "Chleb Pełnoziarnisty", Calories = 80, ServingQuantity = 1, MeasureId = 2, Weight = 40, UnitId = 1, DieticianId = 1, GlycemicIndex = 35, PublicId = string.Empty, PictureUrl = "https://example.com/chleb.jpg" },
+                    new Ingredient { Name = "Ser", NameEN = "cheese", Calories = 113.12f, MeasureId = 1, Weight = 28, UnitId = 1, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/1034_thumb.jpg", DieticianId = null },
+                    new Ingredient { Name = "Kapusta surowa", NameEN = "cabbage, raw", Calories = 22.25f, MeasureId = 1, Weight = 17, UnitId = 4, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/8083_thumb.jpg", DieticianId = null },
+                    new Ingredient { Name = "Bardzo duże jajko", NameEN = "extra large egg", Calories = 90.09f, MeasureId = 1, Weight = 34, UnitId = 1, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/775_thumb.jpg", DieticianId = null },
+                };
+                await context.IngredientsDb.AddRangeAsync(ingredients);
+            }
+            #endregion
 
-            //    await context.MessageToDb.AddRangeAsync(messagesToAdmins);
-            //}
-            //#endregion
-
-            // TODO: do wprowadzenia na podst skryptu z bazy
-            //#region Ingredients
-            ////if (!context.IngredientsDb.Any())
-            ////{
-            ////    var ingredients = new List<Ingredient>()
-            ////{
-            ////    new Ingredient
-            ////        {
-            ////            Name = "Jajko",
-            ////            NameEN = "Egg",
-            ////            Calories = 70.0f,
-            ////            ServingQuantity = 1.0f,
-            ////            MeasureId = 1, // TODO: Replace with the appropriate measure ID
-            ////            Weight = 50.0f,
-            ////            UnitId = 2, // TODO: Replace with the appropriate unit ID
-            ////            GlycemicIndex = 10,
-            ////            PublicId = "123",
-            ////            PictureUrl = "https://example.com/egg.jpg",
-            ////            Nutrients = new List<IngredientNutrient>
-            ////            {
-            ////                new IngredientNutrient
-            ////                {
-            ////                    NutrientId = 1, // TODO: Replace with the appropriate nutrient ID
-            ////                    NutrientValue = 5.0f
-            ////                },
-            ////                // Add more nutrients as needed
-            ////            }
-            ////        },
-            ////        // Add more ingredients as needed
-
-            ////};
-
-            ////    await context.IngredientsDb.AddRangeAsync(ingredients);
-            ////}
-            //#endregion
-
-            // Zapisanie zmian w bazie danych
             await context.SaveChangesAsync();
         }
     }

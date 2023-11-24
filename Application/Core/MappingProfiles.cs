@@ -5,6 +5,7 @@ using Application.DTOs.DieticianDTO;
 using Application.DTOs.DiplomaDTO;
 using Application.DTOs.DishDTO;
 using Application.DTOs.IngredientDTO;
+using Application.DTOs.IngredientDTO.IngredientNutritionixDTO;
 using Application.DTOs.MealTimeToXYAxisDTO;
 using Application.DTOs.NutrientDTO;
 using Application.DTOs.PatientDTO;
@@ -58,11 +59,6 @@ namespace Application.Core
 
             // Skomplikowane mapowanie z niestandardową logiką dla admina.
 
-            //CreateMap<Admin, AdminDTO>()
-            //    .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate.HasValue ? src.BirthDate.Value.Date : (DateTime?)null))
-            //    .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageTo));
-            //CreateMap<AdminDTO, Admin>();
-
             CreateMap<Admin, AdminGetDTO>()
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate.HasValue ? src.BirthDate.Value.Date : (DateTime?)null))
                 .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageTo));
@@ -74,11 +70,6 @@ namespace Application.Core
             CreateMap<AdminDTO, Admin>();
 
             // Skomplikowane mapowanie z niestandardową logiką dla dietetyka.
-
-            //CreateMap<Dietician, DieticianDTO>()
-            //    .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate.HasValue ? src.BirthDate.Value.Date : (DateTime?)null))
-            //    .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageTo));
-            //CreateMap<DieticianDTO, Dietician>();
 
             CreateMap<Dietician, DieticianGetDTO>()
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate.HasValue ? src.BirthDate.Value.Date : (DateTime?)null))
@@ -94,25 +85,8 @@ namespace Application.Core
             CreateMap<MealTimeToXYAxisDTO, MealTimeToXYAxis>();
             CreateMap<MealTimeToXYAxis, MealTimeToXYAxisDTO>();
 
-            //CreateMap<MealTimeToXYAxisDTO, MealTimeToXYAxis>()
-            //    .ForMember(dest => dest.Id, opt => opt.Ignore()) // Ignoruje Id przy mapowaniu
-            //    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-            //    .ForMember(dest => dest.MealTime, opt => opt.MapFrom(src => src.MealTime))
-            //    .ForMember(dest => dest.DietId, opt => opt.MapFrom(src => src.DietId));
-
-
-            //CreateMap<Diet, DietGetDTO>()
-            //    .ForMember(dest => dest.MealTimesToXYAxisDTO, opt => opt.MapFrom(src => src.MealTimesToXYAxis));
-
-
-
             CreateMap<Diet, DietDTO>();
-            
-            //CreateMap<Diet, DietDTO>()
-            //    .ForMember(dest => dest.MealTimesToXYAxisDTO, opt => opt.MapFrom(src => src.MealTimesToXYAxis));
 
-
-            //CreateMap<DietDTO, Diet>();
             CreateMap<DietDTO, Diet>()
                 .ForMember(dest => dest.MealTimesToXYAxis, opt => opt.MapFrom(src => src.MealTimesToXYAxisDTO));
 
@@ -128,6 +102,12 @@ namespace Application.Core
             CreateMap<DieteticianPatientDTO, DieticianPatient>();
 
             CreateMap<IngredientDTO, Ingredient>()
+                .ForMember(dest => dest.Measure, opt => opt.Ignore())
+                .ForMember(dest => dest.Unit, opt => opt.Ignore())
+                .ForMember(dest => dest.Nutrients, opt => opt.Ignore())
+                .ForMember(dest => dest.DishIngredients, opt => opt.Ignore());
+
+            CreateMap<IngredientNutritionixDTO, Ingredient>()
                 .ForMember(dest => dest.Measure, opt => opt.Ignore())
                 .ForMember(dest => dest.Unit, opt => opt.Ignore())
                 .ForMember(dest => dest.Nutrients, opt => opt.Ignore())
@@ -149,6 +129,16 @@ namespace Application.Core
             CreateMap<Specialization, SpecializationGetDTO>();
             CreateMap<DieticianSpecialization, DieteticianSpecializationGetDTO>();
             CreateMap<DieteticianSpecializationPostDTO, DieticianSpecialization>();
+
+            CreateMap<IngredientDTO, Ingredient>()
+            .ForMember(dest => dest.MeasureId, opt => opt.MapFrom(src => src.MeasureId.Value))
+            .ForMember(dest => dest.UnitId, opt => opt.MapFrom(src => src.UnitId.Value));
+
+            CreateMap<Ingredient, IngredientDTO>()
+                .ForMember(dest => dest.MeasureId, opt => opt.MapFrom(src => src.Measure.Id))
+                .ForMember(dest => dest.UnitId, opt => opt.MapFrom(src => src.Unit.Id));
+
+            CreateMap<Ingredient, IngredientGetDTO>();
         }
     }
 }
