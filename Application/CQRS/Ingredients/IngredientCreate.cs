@@ -71,35 +71,21 @@ namespace Application.CQRS.Ingredients
                 var newIngredient = _mapper.Map<Ingredient>(request.IngredientDTO);
 
 
-                if (request.File != null)
+                if (request.IngredientDTO.File != null)
                 {
-                    var imageResult = await _imageService.AddImageAsync(request.File);
-                    if (imageResult.Error != null)
-                    {
-                        // Logowanie błędu i zwrócenie informacji o błędzie
-                        return Result<IngredientDTO>.Failure(imageResult.Error.Message);
-                    }
+                    var imageResult = await _imageService.AddImageAsync(request.IngredientDTO.File);
+                    //if (imageResult.Error != null)
+                    //{
+                    //    // Logowanie błędu i zwrócenie informacji o błędzie
+                    //    return Result<IngredientDTO>.Failure(imageResult.Error.Message);
+                    //}
 
                     newIngredient.PictureUrl = imageResult.SecureUrl.ToString();
                     newIngredient.PublicId = imageResult.PublicId;
                 }
 
-                try
-                {
-                    // Dodanie nowego składnika do kontekstu bazy danych
-                    _context.IngridientsDb.Add(newIngredient);
-
-                    // Zapisanie zmian w bazie danych
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
-                    if (!result)
-                    {
-                        return Result<IngredientDTO>.Failure("Dodanie nowego produktu nie powiodło się.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return Result<IngredientDTO>.Failure("Wystąpił błąd podczas dodawania nowego produktu.");
-                }
+                _context.IngredientsDb.Add(newIngredient);
+                await _context.SaveChangesAsync();
 
                 return Result<IngredientDTO>.Success(_mapper.Map<IngredientDTO>(newIngredient));
             }

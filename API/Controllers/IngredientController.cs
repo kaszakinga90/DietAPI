@@ -1,4 +1,5 @@
-﻿using Application.CQRS.Ingredients;
+﻿using Application.CQRS.Diplomas;
+using Application.CQRS.Ingredients;
 using Application.CQRS.Meals;
 using Application.DTOs.IngredientDTO;
 using Application.Services;
@@ -49,10 +50,16 @@ namespace API.Controllers
             return await Mediator.Send(new IngredientDetails.Query { Id = id });
         }
 
-        [HttpPost]
+        [HttpPost("test")]
         public async Task<IActionResult> CreateIngredient([FromForm] IngredientDTO IngredientDTO)
         {
-            return HandleResult(await Mediator.Send(new IngredientCreate.Command { IngredientDTO = IngredientDTO }));
+            var command = new IngredientCreate.Command
+            {
+                IngredientDTO = IngredientDTO,
+                //File = file,
+            };
+
+            return HandleResult(await Mediator.Send(command));
         }
     }
 }
