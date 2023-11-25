@@ -35,10 +35,10 @@ namespace Application.CQRS.Ingredients
             /// <summary>
             /// Inicjalizuje walidator i definiuje reguły walidacji.
             /// </summary>
-            public CommandValidator()
-            {
-                RuleFor(x => x.Name).NotEmpty().WithMessage("Nazwa wymagana");
-            }
+            //public CommandValidator()
+            //{
+            //    RuleFor(x => x.Name).NotEmpty().WithMessage("Nazwa wymagana");
+            //}
         }
 
         /// <summary>

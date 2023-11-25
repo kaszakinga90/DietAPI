@@ -1,9 +1,6 @@
-﻿using Application.CQRS.Diets;
-using Application.CQRS.Diplomas;
-using Application.CQRS.Specializations;
+﻿using Application.CQRS.Specializations;
 using Application.DTOs.SpecializationDTO;
 using Microsoft.AspNetCore.Mvc;
-using ModelsDB.Functionality;
 
 namespace API.Controllers
 {

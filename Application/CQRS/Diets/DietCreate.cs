@@ -31,24 +31,9 @@ public class DietCreate
             request.DietDTO.MealTimesToXYAxisDTO = null;
             var diet = _mapper.Map<Diet>(request.DietDTO);
 
-            
-
             _context.DietsDb.Add(diet);
             await _context.SaveChangesAsync(cancellationToken);
 
-            //if (diet.MealTimesToXYAxis != null && diet.MealTimesToXYAxis.Any())
-            //{
-            //    foreach (var mealTime in diet.MealTimesToXYAxis)
-            //    {
-            //        if (mealTime.Id == 0)
-            //        {
-            //            mealTime.DietId = diet.Id;
-            //            _context.MealTimesDb.Add(mealTime);
-            //        }
-            //    }
-            //    await _context.SaveChangesAsync(cancellationToken);
-            //}
-            // After saving, Diet entity will have an Id
             await AddMealSchedules(diet, mealTimesDtoList, cancellationToken);
         }
 

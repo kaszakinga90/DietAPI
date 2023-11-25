@@ -5,7 +5,7 @@ namespace Application.DTOs.IngredientDTO
     public class IngredientDTO
     {
         public string Id { get; set; }
-        public string Name { get; set; }
+        public string IngredientName { get; set; }
         public float Calories { get; set; }
 
         //odpowiednik "serving_qty"  odp. np 1
