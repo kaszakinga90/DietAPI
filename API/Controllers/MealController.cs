@@ -1,5 +1,6 @@
 ﻿using Application.CQRS.Meals;
 using Application.CQRS.Specializations;
+using Application.DTOs.MealDTO;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB.Functionality;
 
@@ -8,7 +9,7 @@ namespace API.Controllers
     public class MealController : BaseApiController
     {
         [HttpGet]
-        public async Task<ActionResult<List<Meal>>> GetMeals()
+        public async Task<ActionResult<List<MealGetDTO>>> GetMeals()
         {
             var result = await Mediator.Send(new MealList.Query());
             return HandleResult(result);
