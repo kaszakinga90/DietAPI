@@ -1,6 +1,5 @@
 ﻿using Application.CQRS.Meals;
-using Application.CQRS.Specializations;
-using Application.DTOs.MealDTO;
+
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB.Functionality;
 
