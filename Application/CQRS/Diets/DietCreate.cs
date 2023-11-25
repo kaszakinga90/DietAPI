@@ -49,8 +49,8 @@ public class DietCreate
                 // Assuming you need to create a record for each day of the diet
                 foreach (var mealTimeDto in mealTimesDto)
                 {
-                    var mealTime = mealTimeDto.MealTime.TimeOfDay;
-                    //var mealTime = TimeSpan.Parse(mealTimeDto.MealTime);
+                    //var mealTime = mealTimeDto.MealTime.TimeOfDay;
+                    var mealTime = TimeSpan.Parse(mealTimeDto.MealTime);
 
                     var mealDateTime = new DateTime(date.Year, date.Month, date.Day, mealTime.Hours, mealTime.Minutes, mealTime.Seconds);
 
