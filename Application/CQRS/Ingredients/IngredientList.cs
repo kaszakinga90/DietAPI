@@ -49,8 +49,8 @@ namespace Application.CQRS.Ingredients
             public async Task<List<Ingredient>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var ingredients = await _context.IngredientsDb
-        .Where(i => i.DieticianId == request.DietitianId || (i.DieticianId == null))
-        .ToListAsync(cancellationToken);
+                                    .Where(i => i.DieticianId == request.DietitianId || (i.DieticianId == null))
+                                    .ToListAsync(cancellationToken);
 
                 return ingredients;
             }

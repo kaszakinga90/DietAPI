@@ -1,13 +1,9 @@
-﻿using Application.CQRS.Diplomas;
-using Application.CQRS.Ingredients;
-using Application.CQRS.Meals;
+﻿using Application.CQRS.Ingredients;
 using Application.DTOs.IngredientDTO;
 using Application.Services;
 using DietDB;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB;
-using ModelsDB.Functionality;
 
 namespace API.Controllers
 {
@@ -50,13 +46,13 @@ namespace API.Controllers
             return await Mediator.Send(new IngredientDetails.Query { Id = id });
         }
 
-        [HttpPost("test")]
-        public async Task<IActionResult> CreateIngredient([FromForm] IngredientDTO IngredientDTO)
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateIngredient([FromForm] IngredientDTO IngredientDTO, [FromForm] IFormFile file)
         {
             var command = new IngredientCreate.Command
             {
                 IngredientDTO = IngredientDTO,
-                //File = file,
+                File = file,
             };
 
             return HandleResult(await Mediator.Send(command));

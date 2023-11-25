@@ -131,10 +131,12 @@ namespace Application.Core
             CreateMap<DieteticianSpecializationPostDTO, DieticianSpecialization>();
 
             CreateMap<IngredientDTO, Ingredient>()
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.IngredientName))
             .ForMember(dest => dest.MeasureId, opt => opt.MapFrom(src => src.MeasureId.Value))
             .ForMember(dest => dest.UnitId, opt => opt.MapFrom(src => src.UnitId.Value));
 
             CreateMap<Ingredient, IngredientDTO>()
+                .ForMember(dest => dest.IngredientName, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.MeasureId, opt => opt.MapFrom(src => src.Measure.Id))
                 .ForMember(dest => dest.UnitId, opt => opt.MapFrom(src => src.Unit.Id));
 
