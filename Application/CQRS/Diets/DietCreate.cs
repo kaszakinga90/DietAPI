@@ -37,20 +37,15 @@ public class DietCreate
             await AddMealSchedules(diet, mealTimesDtoList, cancellationToken);
         }
 
-        private async Task AddMealSchedules(Diet diet, List<MealTimeToXYAxisDTO> mealTimesDto, CancellationToken cancellationToken)
+        private async Task AddMealSchedules(Diet diet, List<MealTimeToXYAxisPostDTO> mealTimesDto, CancellationToken cancellationToken)
         {
             var startDate = diet.StartDate;
             var endDate = diet.EndDate;
             for (var date = startDate; date <= endDate; date = date.AddDays(1))
             {
-                // Assuming MealTime is a string in "HH:mm:ss" format
-                //var dateTime = new DateTime(diet.StartDate.Year, diet.StartDate.Month, diet.StartDate.Day, mealTime.Hours, mealTime.Minutes, mealTime.Seconds);
-
-                // Assuming you need to create a record for each day of the diet
                 foreach (var mealTimeDto in mealTimesDto)
                 {
-                    //var mealTime = mealTimeDto.MealTime.TimeOfDay;
-                    var mealTime = TimeSpan.Parse(mealTimeDto.MealTime);
+                    var mealTime = mealTimeDto.MealTime.TimeOfDay;
 
                     var mealDateTime = new DateTime(date.Year, date.Month, date.Day, mealTime.Hours, mealTime.Minutes, mealTime.Seconds);
 

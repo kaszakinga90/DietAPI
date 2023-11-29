@@ -8,11 +8,11 @@ namespace Application.CQRS.Dishes
 {
     public class DishesList
     {
-        public class Query : IRequest<Result<List<DishDTO>>>
+        public class Query : IRequest<Result<List<DishGetDTO>>>
         {
         }
 
-        public class Handler : IRequestHandler<Query, Result<List<DishDTO>>>
+        public class Handler : IRequestHandler<Query, Result<List<DishGetDTO>>>
         {
             private readonly DietContext _context;
 
@@ -21,18 +21,18 @@ namespace Application.CQRS.Dishes
                 _context = context;
             }
 
-            public async Task<Result<List<DishDTO>>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<List<DishGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var dish = await _context.DishesDb
                     .Where(d=>d.Id!=4)
-                    .Select(d => new DishDTO
+                    .Select(d => new DishGetDTO
                     {
                         Id = d.Id,
                         Name = d.Name,
                     })
                     .ToListAsync(cancellationToken);
 
-                return Result<List<DishDTO>>.Success(dish);
+                return Result<List<DishGetDTO>>.Success(dish);
             }
         }
     }

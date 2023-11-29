@@ -16,7 +16,5 @@ namespace ModelsDB
         public string Description { get; set; }
 
         public List<Ingredient> Ingredients { get; set; }
-
-        public List<DishMeasure> DishMeasures { get; set; }
     }
 }
