@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using ModelsDB;
 using ModelsDB.Functionality;
 using ModelsDB.Layout;
@@ -34,6 +35,7 @@ namespace DietDB
         public DbSet<Dish> DishesDb { get; set; }
         public DbSet<FoodCatalog> FoodCatalogsDb { get; set; }
         public DbSet<Ingredient> IngridientsDb { get; set; }
+        public DbSet<DishIngredient> DishIngredientsDb { get; set; }
         public DbSet<MealTimeToXYAxis> MealTimesDb { get; set; }
         public DbSet<Measure> MeasuresDb { get; set; }
         public DbSet<Note> NotesDb { get; set; }
@@ -42,6 +44,7 @@ namespace DietDB
         public DbSet<PatientCard> PatientCardsDb { get; set; }
         public DbSet<Rating> RatingsDb { get; set; }
         public DbSet<Recipe> RecipesDb { get; set; }
+        public DbSet<RecipeStep> RecipeStepsDb { get; set; }
         public DbSet<SingleTestEqual> SingleTestEqualsDb { get; set; }
         public DbSet<Status> StatusesDb { get; set; }
         public DbSet<Survey> SurveysDb { get; set; }
@@ -218,37 +221,25 @@ namespace DietDB
             //    .HasOne(mp => mp.FoodCatalog)
             //    .WithMany(p => p.DishFoodCatalogs)  
             //    .HasForeignKey(mp => mp.FoodCatalogId);
-            
+
             //**************************************************************************************************
-            //modelBuilder.Entity<DishIngredient>()
-            //    .HasKey(mp => new { mp.DishId, mp.IngredientId });
+            modelBuilder.Entity<DishIngredient>()
+                .HasKey(di => new { di.DishId, di.IngredientId });
 
-            //modelBuilder.Entity<DishIngredient>()
-            //    .HasOne(mp => mp.Dish)
-            //    .WithMany(m => m.DishIngredients)
-            //    .HasForeignKey(mp => mp.DishId);
+            modelBuilder.Entity<DishIngredient>()
+                .HasOne(di => di.Dish)
+                .WithMany(d => d.DishIngredients)
+                .HasForeignKey(di => di.DishId)
+                .OnDelete(DeleteBehavior.Restrict); // Specify the desired behavior
 
-            //modelBuilder.Entity<DishIngredient>()
-            //    .HasOne(mp => mp.Ingredient)
-            //    .WithMany(p => p.DishIngredients)  
-            //    .HasForeignKey(mp => mp.IngredientId);
-            
+            modelBuilder.Entity<DishIngredient>()
+                .HasOne(di => di.Ingredient)
+                .WithMany(i => i.DishIngredients)
+                .HasForeignKey(di => di.IngredientId)
+                .OnDelete(DeleteBehavior.Restrict); // Specify the desired behavior
+
             //**************************************************************************************************
-            //modelBuilder.Entity<DishMeasure>()
-            //    .HasKey(mp => new { mp.DishId, mp.MeasureId });
 
-            //modelBuilder.Entity<DishMeasure>()
-            //    .HasOne(mp => mp.Dish)
-            //    .WithMany(m => m.DishMeasures)
-            //    .HasForeignKey(mp => mp.DishId);
-
-            //modelBuilder.Entity<DishMeasure>()
-            //    .HasOne(mp => mp.Measure)
-            //    .WithMany(p => p.DishMeasures)  
-            //    .HasForeignKey(mp => mp.MeasureId);
-            
-            //**************************************************************************************************
-            
             modelBuilder.Entity<PatientCardSurvey>()
                 .HasKey(mp => new { mp.PatientCardId, mp.SurveyId });
 
@@ -307,12 +298,22 @@ namespace DietDB
 
             // ---------------------------------------------------------------------------------------- //
 
+            modelBuilder.Entity<Recipe>()
+                .HasKey(r => r.Id);
+
+            modelBuilder.Entity<Recipe>()
+                .HasOne(r => r.Dish)
+                .WithOne(d => d.Recipe)
+                .HasForeignKey<Dish>(d => d.RecipeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
         #endregion
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Konfiguracja dodatkowych opcji DbContext, np. logowania zapytań SQL.
             optionsBuilder.LogTo(item => Debug.WriteLine(item));
+            //optionsBuilder.ConfigureWarnings(w => w.Ignore(SqlServerEventId.SavepointsDisabledBecauseOfMARS));
             base.OnConfiguring(optionsBuilder);
         }
     }

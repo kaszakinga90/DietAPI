@@ -4,11 +4,15 @@ using Application.DTOs.DieteticianPatientDTO;
 using Application.DTOs.DieticianDTO;
 using Application.DTOs.DiplomaDTO;
 using Application.DTOs.DishDTO;
+using Application.DTOs.DishFoodCatalogDTO;
+using Application.DTOs.DishIngredientDTO;
 using Application.DTOs.IngredientDTO;
 using Application.DTOs.IngredientDTO.IngredientNutritionixDTO;
 using Application.DTOs.MealTimeToXYAxisDTO;
 using Application.DTOs.NutrientDTO;
 using Application.DTOs.PatientDTO;
+using Application.DTOs.RecipeDTO;
+using Application.DTOs.RecipeStepDTO;
 using Application.DTOs.SpecializationDTO;
 using AutoMapper;
 using ModelsDB;
@@ -82,8 +86,8 @@ namespace Application.Core
             CreateMap<DieticianDTO, Dietician>();
 
 
-            CreateMap<MealTimeToXYAxisDTO, MealTimeToXYAxis>();
-            CreateMap<MealTimeToXYAxis, MealTimeToXYAxisDTO>();
+            CreateMap<MealTimeToXYAxisPostDTO, MealTimeToXYAxis>();
+            CreateMap<MealTimeToXYAxis, MealTimeToXYAxisPostDTO>();
 
             CreateMap<Diet, DietDTO>();
 
@@ -95,8 +99,8 @@ namespace Application.Core
                 .ForMember(dest => dest.PatientName, opt => opt.MapFrom(src => src.Patient.FirstName + " " + src.Patient.LastName))
                 .ReverseMap();
 
-            CreateMap<Dish, DishDTO>();
-            CreateMap<DishDTO, Dish>();
+            CreateMap<Dish, DishGetDTO>();
+            CreateMap<DishGetDTO, Dish>();
 
             CreateMap<DieticianPatient, DieteticianPatientDTO>();
             CreateMap<DieteticianPatientDTO, DieticianPatient>();
@@ -141,6 +145,26 @@ namespace Application.Core
                 .ForMember(dest => dest.UnitId, opt => opt.MapFrom(src => src.Unit.Id));
 
             CreateMap<Ingredient, IngredientGetDTO>();
+
+            // -------------------------------------------------------------------- //
+
+            CreateMap<DishPostDTO, Dish>()
+                .ForMember(dest => dest.Recipe, opt => opt.Ignore());
+            CreateMap<Dish, DishPostDTO>();
+
+            CreateMap<DishFoodCatalog, DishFoodCatalogPostDTO>()
+                .ReverseMap();
+
+            CreateMap<DishIngredientPostDTO, DishIngredient>()
+                .ReverseMap();
+
+            CreateMap<RecipePostDTO, Recipe>()
+                .ForMember(dest => dest.Steps, opt => opt.MapFrom(src => src.Steps))
+                .ReverseMap();
+
+            CreateMap<RecipeStepPostDTO, RecipeStep>()
+                .ReverseMap();
+
         }
     }
 }

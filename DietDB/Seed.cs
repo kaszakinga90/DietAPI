@@ -220,19 +220,7 @@ namespace DietDB
                 await context.MealsDb.AddRangeAsync(meals);
             }
             #endregion
-            #region Dishes
-            // Sprawdzanie i dodawanie testowych danych dla Dish
-            if (!context.DishesDb.Any())
-            {
-                var dishes = new List<Dish>()
-                {
-                    new Dish { Name = "Pasta Bolognese", isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
-                    new Dish { Name = "Grilled Chicken Salad", isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
-                    new Dish { Name = "Margherita Pizza", isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
-                };
-                await context.DishesDb.AddRangeAsync(dishes);
-            }
-            #endregion
+            
 
             await context.SaveChangesAsync();
         }
@@ -240,6 +228,20 @@ namespace DietDB
         // ******************** DANE Z KLUCZAMI OBCYMI **************************************** //
         private static async Task SeedFirstClassesWithForeignKey(DietContext context)
         {
+
+            #region Dishes
+            // Sprawdzanie i dodawanie testowych danych dla Dish
+            if (!context.DishesDb.Any())
+            {
+                var dishes = new List<Dish>()
+                {
+                    new Dish { Name = "Pasta Bolognese", MeasureId = 1, UnitId = 4, RecipeId = null, isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
+                    new Dish { Name = "Grilled Chicken Salad",  MeasureId = 3, UnitId = 7, RecipeId = null, isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
+                    new Dish { Name = "Margherita Pizza",  MeasureId = 2, UnitId = 2, RecipeId = null, isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
+                };
+                await context.DishesDb.AddRangeAsync(dishes);
+            }
+            #endregion
             #region Admin
             if (!context.AdminsDb.Any())
             {
@@ -498,9 +500,23 @@ namespace DietDB
         // ******************** DANE Z KLUCZAMI KLUCZY OBCYCH **************************************** //
         private static async Task SeedSecondClassesWithForeignKey(DietContext context)
         {
+            #region FoodCatalogs
+            if (!context.FoodCatalogsDb.Any())
+            {
+                var foodCatalogs = new List<FoodCatalog>()
+                {
+                    new FoodCatalog { CatalogName = "Wegetariańskie" },
+                    new FoodCatalog { CatalogName = "Bezmleczne" },
+                    new FoodCatalog { CatalogName = "Dla cukrzyków" },
+                    new FoodCatalog { CatalogName = "Keto" },
+                    new FoodCatalog { CatalogName = "Hashimoto" }
+                };
+                await context.FoodCatalogsDb.AddRangeAsync(foodCatalogs);
+            }
+            #endregion
             #region MessagesToDietician
-            //Sprawdzanie i dodawanie testowych wiadomości do dietetyka
-            if (!context.MessageToDb.Any())
+                //Sprawdzanie i dodawanie testowych wiadomości do dietetyka
+                if (!context.MessageToDb.Any())
             {
                 var messages = new List<MessageTo>()
                 {
