@@ -1,16 +1,12 @@
 ﻿using Application.Core;
 using Application.DTOs.DishDTO;
-using Application.DTOs.RecipeDTO;
-using Application.DTOs.RecipeStepDTO;
 using Application.Services;
 using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using ModelsDB;
 using ModelsDB.Functionality;
-using ModelsDB.ManualPanel;
 
 namespace Application.CQRS.Dishes
 {
@@ -35,10 +31,6 @@ namespace Application.CQRS.Dishes
 
             public async Task<Result<DishPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
-                //    //using (var transaction = _context.Database.BeginTransaction())
-                //    //{
-                //    //    try
-                //    //    {
                 var requestDish = request.DishPostDTO;
 
                 var dish = new Dish
@@ -52,41 +44,51 @@ namespace Application.CQRS.Dishes
                     UnitId = requestDish.UnitId,
                     GlycemicIndex = requestDish.GlycemicIndex,
                     PreparingTime = requestDish.PreparingTime,
-
                     DishFoodCatalogs = requestDish.DishFoodCatalogs?.Select(dto => _mapper.Map<DishFoodCatalog>(dto)).ToList(),
                     DishIngredients = requestDish.DishIngredients?.Select(dto => _mapper.Map<DishIngredient>(dto)).ToList(),
                     MealTimes = requestDish.MealTimes?.Select(dto => _mapper.Map<MealTimeToXYAxis>(dto)).ToList(),
                 };
 
+                //if (requestDish.File != null)
+                //{
+                //    var imageResult = await _imageService.AddImageAsync(requestDish.File);
+
+                //    dish.DishPhotoUrl = imageResult.SecureUrl.ToString();
+                //    dish.PublicId = imageResult.PublicId;
+                //}
+
+                //using (var transaction = _context.Database.BeginTransaction())
+                //{
+                //    try
+                //    {
                 _context.DishesDb.Add(dish);
-                await _context.SaveChangesAsync();
+                        await _context.SaveChangesAsync();
 
-                var recipe = new Recipe()
-                {
-                    DishId = dish.Id
-                };
+                        var recipe = new Recipe()
+                        {
+                            DishId = dish.Id
+                        };
 
-                _context.RecipesDb.Add(recipe);
-                await _context.SaveChangesAsync();
+                        _context.RecipesDb.Add(recipe);
+                        await _context.SaveChangesAsync();
 
-                var createdRecipeId = recipe.Id;
-                dish.RecipeId = createdRecipeId;
-                await _context.SaveChangesAsync();
+                        var createdRecipeId = recipe.Id;
+                        dish.RecipeId = createdRecipeId;
+                        await _context.SaveChangesAsync();
 
-                var existingRecipe = await _context.RecipesDb.FindAsync(createdRecipeId);
+                        var existingRecipe = await _context.RecipesDb.FindAsync(createdRecipeId);
 
-                existingRecipe.Steps = _mapper.Map<List<RecipeStep>>(requestDish.RecipeSteps);
-                await _context.SaveChangesAsync();
+                        existingRecipe.Steps = _mapper.Map<List<RecipeStep>>(requestDish.RecipeSteps);
+                        await _context.SaveChangesAsync();
 
-                //    //    transaction.Commit();
-                //    //}
-                //    //catch (Exception ex)
-                //    //{
-                //    //    transaction.Rollback();
-                //    //    return Result<DishPostDTO>.Failure("Wystąpił błąd podczas zapisywania danych do bazy.");
-                //    //}
-                //    return Result<DishPostDTO>.Success(_mapper.Map<DishPostDTO>(dish));
-                //    //}
+                //        transaction.Commit();
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        transaction.Rollback();
+                //        return Result<DishPostDTO>.Failure("Wystąpił błąd podczas zapisywania danych do bazy.");
+                //    }
+                //}
                 return Result<DishPostDTO>.Success(_mapper.Map<DishPostDTO>(dish));
             }
 

@@ -14,7 +14,8 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        [HttpPost("dish")]
+        // poniżej nalezy dodać [FromForm]
+        [HttpPost("create")]
         public async Task<IActionResult> CreateDish(DishPostDTO dishDto)
         {
             var command = new DishCreate.Command
