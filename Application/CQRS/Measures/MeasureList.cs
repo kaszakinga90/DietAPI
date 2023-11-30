@@ -1,4 +1,6 @@
-﻿using DietDB;
+﻿using Application.Core;
+using Application.DTOs.MeasureDTO;
+using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ModelsDB;
@@ -7,9 +9,9 @@ namespace Application.CQRS.Measures
 {
     public class MeasureList
     {
-        public class Query : IRequest<List<Measure>> { }
+        public class Query : IRequest<Result<List<MeasureGetDTO>>> { }
 
-        public class Handler : IRequestHandler<Query, List<Measure>>
+        public class Handler : IRequestHandler<Query, Result<List<MeasureGetDTO>>>
         {
             private readonly DietContext _context;
 
@@ -18,9 +20,17 @@ namespace Application.CQRS.Measures
                 _context = context;
             }
 
-            public async Task<List<Measure>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<List<MeasureGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.MeasuresDb.ToListAsync(cancellationToken);
+                var measureList=await _context.MeasuresDb
+                    .Select(m=>new MeasureGetDTO
+                    {
+                        Id = m.Id,
+                        Symbol = m.Symbol,
+                        Description = m.Description,
+                    })
+                    .ToListAsync();
+                return Result<List<MeasureGetDTO>>.Success(measureList);
             }
         }
     }

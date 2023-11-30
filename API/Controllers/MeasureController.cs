@@ -1,4 +1,5 @@
 ﻿using Application.CQRS.Measures;
+using Application.DTOs.MeasureDTO;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB;
 
@@ -13,9 +14,10 @@ namespace API.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<List<Measure>>> GetMeasures()
+        public async Task<ActionResult<List<MeasureGetDTO>>> GetMeasures()
         {
-            return await Mediator.Send(new MeasureList.Query());
+            var result = await Mediator.Send(new MeasureList.Query());
+            return HandleResult(result);
         }
     }
 }

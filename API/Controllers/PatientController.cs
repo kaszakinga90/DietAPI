@@ -1,10 +1,13 @@
 using Application.Core;
 using Application.CQRS.Patients;
+using Application.DTOs.MessagesDTO;
 using Application.DTOs.PatientDTO;
+using Application.FiltersExtensions.PatientMessages;
 using Application.Services;
 using DietDB;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB;
+using static Application.CQRS.Patients.MessagesFilters;
 
 namespace API.Controllers
 {
@@ -109,11 +112,17 @@ namespace API.Controllers
         }
 
         [HttpGet("{patientId}/messages")]
-        public async Task<ActionResult<PagedList<MessageToDTO>>> GetMessagesForPatient(int patientId, [FromQuery] PagingParams param)
+        public async Task<ActionResult<PagedList<MessageToDTO>>> GetMessagesForPatient(int patientId, [FromQuery] PatientMessagesParams param)
         {
             var result = await Mediator.Send(new PatientMessageList.Query { PatientId = patientId, Params = param });
 
             return HandlePagedResult(result);
+        }
+        [HttpGet("filters/{patientId}")]
+        public async Task<ActionResult<MessagesFiltersDTO>> GetFilters(int patientId)
+        {
+            var result = await Mediator.Send(new FilterList.Query { PatientId=patientId});
+            return HandleResult(result);
         }
 
         /// <summary>

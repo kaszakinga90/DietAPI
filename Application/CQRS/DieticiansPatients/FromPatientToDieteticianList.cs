@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.CQRS.DieticiansPatients
 {
-    public class DieticianPatientListDetails
+    public class FromPatientToDieteticianList
     {
         public class Query : IRequest<Result<List<DieteticianPatientDTO>>>
         {

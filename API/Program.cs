@@ -66,7 +66,6 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(DieticianList.Handler).Assembly,
     typeof(DishesList.Handler).Assembly,
     typeof(DietList.Handler).Assembly,
-    typeof(IngredientList.Handler).Assembly,
     typeof(MeasureList.Handler).Assembly,
     typeof(UnitList.Handler).Assembly
     ));
