@@ -6,6 +6,7 @@ using Application.DTOs.DiplomaDTO;
 using Application.DTOs.DishDTO;
 using Application.DTOs.DishFoodCatalogDTO;
 using Application.DTOs.DishIngredientDTO;
+using Application.DTOs.FoodCatalogDTO;
 using Application.DTOs.IngredientDTO;
 using Application.DTOs.IngredientDTO.IngredientNutritionixDTO;
 using Application.DTOs.MealTimeToXYAxisDTO;
@@ -163,6 +164,9 @@ namespace Application.Core
                 .ReverseMap();
 
             CreateMap<RecipeStepPostDTO, RecipeStep>()
+                .ReverseMap();
+
+            CreateMap<FoodCatalogGetDTO, FoodCatalog>()
                 .ReverseMap();
 
         }
