@@ -13,4 +13,5 @@
     public bool IsActive { get; set; }
     public DateTime? ReadDate { get; set; }
     public DateTime dateAdded { get; set; } = DateTime.Now;
+   
 }

@@ -1,5 +1,8 @@
-﻿using Application.CQRS.Ingredients;
+﻿using Application.Core;
+using Application.CQRS.Diplomas;
+using Application.CQRS.Ingredients;
 using Application.DTOs.IngredientDTO;
+using Application.FiltersExtensions.Ingredients;
 using Application.Services;
 using DietDB;
 using Microsoft.AspNetCore.Mvc;
@@ -18,29 +21,15 @@ namespace API.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<Ingredient>>> GetIngredients(int? dietitianId)
+        [HttpGet("ingridients/{dieticianId}")]
+        public async Task<ActionResult<PagedList<IngredientGetDTO>>> GetIngredients(int dieticianId, [FromQuery] IngredientsParams param)
         {
-            try
-            {
-                var query = new IngredientList.Query(dietitianId);
-                var ingredients = await Mediator.Send(query);
-
-                if (ingredients == null || ingredients.Count == 0)
-                {
-                    return NotFound(); // Zwróć NotFound, jeśli nie znaleziono składników
-                }
-
-                return Ok(ingredients);
-            }
-            catch (Exception ex)
-            {
-                // Tutaj możesz obsłużyć wyjątek, zalogować go, itp.
-                return StatusCode(500, "Internal Server Error");
-            }
+            var result = await Mediator.Send(new IngredientDieticianList.Query { DieticianId = dieticianId, Params=param });
+            return HandlePagedResult(result);
         }
+    
 
-        [HttpGet("{id}")]
+    [HttpGet("{id}")]
         public async Task<ActionResult<IngredientGetDTO>> GetIngredient(int id)
         {
             return await Mediator.Send(new IngredientDetails.Query { Id = id });

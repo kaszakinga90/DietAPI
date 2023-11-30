@@ -1,4 +1,7 @@
-﻿using Application.CQRS.Units;
+﻿using Application.CQRS.Measures;
+using Application.CQRS.Units;
+using Application.DTOs.MeasureDTO;
+using Application.DTOs.UnitDTO;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB.Functionality;
 
@@ -13,9 +16,10 @@ namespace API.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<List<Unit>>> GetUnits()
+        public async Task<ActionResult<List<UnitGetDTO>>> GetUnits()
         {
-            return await Mediator.Send(new UnitList.Query());
+            var result = await Mediator.Send(new UnitList.Query());
+            return HandleResult(result);
         }
     }
 }
