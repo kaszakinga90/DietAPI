@@ -10,6 +10,7 @@ using Application.DTOs.MealTimeToXYAxisDTO;
 using Application.DTOs.NutrientDTO;
 using Application.DTOs.PatientDTO;
 using Application.DTOs.SpecializationDTO;
+using Application.DTOs.UnitDTO;
 using AutoMapper;
 using ModelsDB;
 using ModelsDB.Functionality;
@@ -140,7 +141,13 @@ namespace Application.Core
                 .ForMember(dest => dest.MeasureId, opt => opt.MapFrom(src => src.Measure.Id))
                 .ForMember(dest => dest.UnitId, opt => opt.MapFrom(src => src.Unit.Id));
 
-            CreateMap<Ingredient, IngredientGetDTO>();
+            CreateMap<Ingredient, IngredientGetDTO>()
+                .ForMember(dest => dest.IngredientName, opt => opt.MapFrom(src => src.Name));
+
+
+            CreateMap<Unit, UnitGetDTO>();
+            CreateMap<UnitGetDTO, Unit>();
+
         }
     }
 }
