@@ -11,5 +11,5 @@ public class DietGetDTO
     public int numberOfMeals { get; set; }
     public string PatientName { get; set; }
     public string DieteticanName { get; set; }
-    //public List<MealTimeToXYAxisDTO> MealTimesToXYAxisDTO { get; set; }
+    //public List<MealTimeToXYAxisPostDTO> MealTimesToXYAxisDTO { get; set; }
 }

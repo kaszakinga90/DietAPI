@@ -9,7 +9,7 @@ public class DietDTO
     public int PatientId { get; set; }
     public int DieteticianId { get; set; }
     public int numberOfMeals { get; set; }
-    public List<MealTimeToXYAxisDTO> MealTimesToXYAxisDTO { get; set; }
+    public List<MealTimeToXYAxisPostDTO> MealTimesToXYAxisDTO { get; set; }
 
 }
 
