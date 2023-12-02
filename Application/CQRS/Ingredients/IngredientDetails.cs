@@ -1,4 +1,6 @@
-﻿using Application.DTOs.IngredientDTO;
+﻿using Application.Core;
+using Application.DTOs.DiplomaDTO;
+using Application.DTOs.IngredientDTO;
 using AutoMapper;
 using DietDB;
 using MediatR;
@@ -11,48 +13,46 @@ namespace Application.CQRS.Ingredients
     /// </summary>
     public class IngredientDetails
     {
-        /// <summary>
-        /// Reprezentuje zapytanie do pobrania szczegółów produktu(składnika) na podstawie identyfikatora.
-        /// </summary>
-        public class Query : IRequest<IngredientGetDTO>
+        public class Query : IRequest<Result<IngredientGetDTO>>
         {
-            /// <summary>
-            /// Pobiera lub ustawia identyfikator produktu(składnika), którego szczegóły mają zostać pobrane.
-            /// </summary>
-            public int Id { get; set; }
-        }
+            public int IngredientId { get; set; }
 
-        /// <summary>
-        /// Obsługuje proces pobierania szczegółów produktu(składnika) z bazy danych.
-        /// </summary>
-        public class Handler : IRequestHandler<Query, IngredientGetDTO>
-        {
-            private readonly DietContext _context;
-            private readonly IMapper _mapper;
-
-            /// <summary>
-            /// Inicjuje nową instancję klasy <see cref="Handler"/> z podanym kontekstem bazy danych i maperem.
-            /// </summary>
-            /// <param name="context">Kontekst bazy danych do obsługi produktów(składników).</param>
-            /// <param name="mapper">Maper służący do mapowania obiektów.</param>
-            public Handler(DietContext context, IMapper mapper)
+            public class Handler : IRequestHandler<Query, Result<IngredientGetDTO>>
             {
-                _context = context;
-                _mapper = mapper;
-            }
+                private readonly DietContext _context;
 
-            /// <summary>
-            /// Przetwarza zapytanie i zwraca szczegóły produktu(składnika) na podstawie identyfikatora.
-            /// </summary>
-            /// <param name="request">Zapytanie do przetworzenia.</param>
-            /// <param name="cancellationToken">Token anulowania operacji.</param>
-            /// <returns>Zwraca szczegóły produktu(składnika) w postaci obiektu <see cref="IngredientGetDTO"/>.</returns>
-            public async Task<IngredientGetDTO> Handle(Query request, CancellationToken cancellationToken)
-            {
-                var ingredient = await _context.IngridientsDb.SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+                public Handler(DietContext context)
+                {
+                    _context = context;
+                }
 
-                return _mapper.Map<IngredientGetDTO>(ingredient);
+                public async Task<Result<IngredientGetDTO>> Handle(Query request, CancellationToken cancellationToken)
+                {
+                    var ingredient = await _context.IngredientsDb
+                        .Where(m => m.Id == request.IngredientId)
+                        .Select(m => new IngredientGetDTO
+                        {
+                            Id = m.Id,
+                            IngredientName = m.Name,
+                            Calories = m.Calories,
+                            GlycemicIndex = m.GlycemicIndex ?? 0,
+                            ServingQuantity = m.ServingQuantity ?? 0,
+                            MeasureId = m.MeasureId,
+                            PictureUrl = m.PictureUrl,
+                            Weight = m.Weight??0,
+                        })
+                        .FirstOrDefaultAsync();
+
+                    if (ingredient == null)
+                    {
+                        return Result<IngredientGetDTO>.Failure("Ingredient not found.");
+                    }
+
+                    return Result<IngredientGetDTO>.Success(ingredient);
+                }
+
             }
         }
     }
 }
+
