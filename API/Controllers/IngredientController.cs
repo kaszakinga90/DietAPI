@@ -21,18 +21,31 @@ namespace API.Controllers
             _context = context;
         }
 
-        [HttpGet("ingridients/{dieticianId}")]
-        public async Task<ActionResult<PagedList<IngredientGetDTO>>> GetIngredients(int dieticianId, [FromQuery] IngredientsParams param)
+        [HttpGet("full/{dieticianId}")]
+        public async Task<ActionResult<PagedList<IngredientGetDTO>>> GetFullListIngredients(int dieticianId, [FromQuery] IngredientsParams param)
         {
             var result = await Mediator.Send(new IngredientDieticianList.Query { DieticianId = dieticianId, Params=param });
             return HandlePagedResult(result);
         }
+        [HttpGet("onlydietician/{dieticianId}")]
+        public async Task<ActionResult<PagedList<IngredientGetDTO>>> GetDieticianIngredients(int dieticianId, [FromQuery] IngredientsParams param)
+        {
+            var result = await Mediator.Send(new IngredientONLYDieticianList.Query { DieticianId = dieticianId, Params=param });
+            return HandlePagedResult(result);
+        }
+        [HttpGet("list/{dieticianId}")]
+        public async Task<ActionResult<PagedList<IngredientGetDTO>>> GetIngredients(int dieticianId, [FromQuery] IngredientsParams param)
+        {
+            var result = await Mediator.Send(new IngredientList.Query { DieticianId = dieticianId, Params=param });
+            return HandlePagedResult(result);
+        }
     
 
-    [HttpGet("{id}")]
-        public async Task<ActionResult<IngredientGetDTO>> GetIngredient(int id)
+    [HttpGet("{ingredientId}")]
+        public async Task<ActionResult<IngredientGetDTO>> GetIngredient(int ingredientId)
         {
-            return await Mediator.Send(new IngredientDetails.Query { Id = id });
+            var result = await Mediator.Send(new IngredientDetails.Query { IngredientId = ingredientId });
+            return HandleResult(result);
         }
 
         [HttpPost("create")]

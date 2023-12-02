@@ -20,6 +20,8 @@ using Application.CQRS.Diplomas;
 using ModelsDB;
 using Application.CQRS.Measures;
 using Application.CQRS.Units;
+using ModelsDB.Functionality;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,7 +54,12 @@ builder.Services.AddDbContext<DietContext>(opt =>
 /// Dodaje wsparcie dla CORS.
 /// </summary>
 builder.Services.AddCors();
-
+builder.Services.AddIdentityCore<User>(opt =>
+{
+    opt.User.RequireUniqueEmail = true;
+})
+    .AddRoles<Role>()
+    .AddEntityFrameworkStores<DietContext>();
 /// <summary>
 /// Dodaje i konfiguruje MediatR.
 /// </summary>
@@ -112,13 +119,13 @@ var services = scope.ServiceProvider;
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
-
+var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 
 try
 {
     var context = services.GetRequiredService<DietContext>();
     await context.Database.MigrateAsync();
-    await Seed.SeedData(context);
+    await Seed.Initialize(context, userManager);
 }
 catch (Exception ex)
 {

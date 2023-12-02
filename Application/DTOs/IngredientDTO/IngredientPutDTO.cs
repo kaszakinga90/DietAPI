@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Application.DTOs.IngredientDTO
 {
-    public class IngredientGetDTO
+    public class IngredientPutDTO
     {
         public int Id { get; set; }
         public string IngredientName { get; set; }
