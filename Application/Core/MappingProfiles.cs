@@ -10,6 +10,7 @@ using Application.DTOs.FoodCatalogDTO;
 using Application.DTOs.IngredientDTO;
 using Application.DTOs.IngredientDTO.IngredientNutritionixDTO;
 using Application.DTOs.MealTimeToXYAxisDTO;
+using Application.DTOs.MeasureDTO;
 using Application.DTOs.NutrientDTO;
 using Application.DTOs.PatientDTO;
 using Application.DTOs.RecipeDTO;
@@ -101,8 +102,8 @@ namespace Application.Core
                 .ForMember(dest => dest.PatientName, opt => opt.MapFrom(src => src.Patient.FirstName + " " + src.Patient.LastName))
                 .ReverseMap();
 
-            CreateMap<Dish, DishGetDTO>();
-            CreateMap<DishGetDTO, Dish>();
+            CreateMap<Dish, DishGetDTO>()
+                .ReverseMap();
 
             CreateMap<DieticianPatient, DieteticianPatientDTO>();
             CreateMap<DieteticianPatientDTO, DieticianPatient>();
@@ -151,8 +152,11 @@ namespace Application.Core
                 .ForMember(dest => dest.IngredientName, opt => opt.MapFrom(src => src.Name));
 
 
-            CreateMap<Unit, UnitGetDTO>();
-            CreateMap<UnitGetDTO, Unit>();
+            CreateMap<Unit, UnitGetDTO>()
+                .ReverseMap();
+
+            CreateMap<Measure, MeasureGetDTO>()
+                .ReverseMap();
 
             CreateMap<Ingredient, IngredientGetDTO>();
 
@@ -176,6 +180,9 @@ namespace Application.Core
                 .ReverseMap();
 
             CreateMap<FoodCatalogGetDTO, FoodCatalog>()
+                .ReverseMap();
+
+            CreateMap<FoodCatalogPostDTO, FoodCatalog>()
                 .ReverseMap();
 
         }

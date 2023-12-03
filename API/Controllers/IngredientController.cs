@@ -1,12 +1,10 @@
 ﻿using Application.Core;
-using Application.CQRS.Diplomas;
 using Application.CQRS.Ingredients;
 using Application.DTOs.IngredientDTO;
 using Application.FiltersExtensions.Ingredients;
 using Application.Services;
 using DietDB;
 using Microsoft.AspNetCore.Mvc;
-using ModelsDB;
 
 namespace API.Controllers
 {

@@ -1,5 +1,4 @@
-﻿using Application.DTOs.PatientDTO;
-using AutoMapper;
+﻿using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

@@ -6,11 +6,17 @@ namespace API.Controllers
 {
     public class DishController : BaseApiController
     {
-        [HttpGet]
-        public async Task<ActionResult<List<DishGetDTO>>> GetDishes()
+        [HttpGet("{id}")]
+        public async Task<ActionResult<DishGetDTO>> GetDish(int id)
         {
+            return await Mediator.Send(new DishDetails.Query { Id = id });
+        }
 
-            var result = await Mediator.Send(new DishesList.Query());
+        //pobiera dania dostępne dla dietetyka (czyli z bazy wspólnej, gdzie DieticianID == NULL oraz te utworzone przez tego dietetyka)
+        [HttpGet("all")]
+        public async Task<IActionResult> GetDishes(int dieticianId)
+        {
+            var result = await Mediator.Send(new DishesList.Query { DieteticianId = dieticianId } );
             return HandleResult(result);
         }
 

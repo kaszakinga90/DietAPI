@@ -22,6 +22,7 @@ namespace Application.DTOs.DishDTO
         public string DishPhotoUrl { get; set; }
         public string PreparingTime { get; set; }   // TODO: jaki format?
         public int RecipeId { get; set; }
+        public int? DieteticianId { get; set; }
 
         // TODO : poniższe powinno działać na listach DTOs
         public List<DishIngredient> DishIngredients { get; set; }

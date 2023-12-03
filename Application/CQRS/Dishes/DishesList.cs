@@ -10,6 +10,7 @@ namespace Application.CQRS.Dishes
     {
         public class Query : IRequest<Result<List<DishGetDTO>>>
         {
+            public int DieteticianId { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Result<List<DishGetDTO>>>
@@ -24,7 +25,7 @@ namespace Application.CQRS.Dishes
             public async Task<Result<List<DishGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var dish = await _context.DishesDb
-                    .Where(d=>d.Id!=4)
+                    .Where(d => d.DieteticianId == null || d.DieteticianId == request.DieteticianId)
                     .Select(d => new DishGetDTO
                     {
                         Id = d.Id,

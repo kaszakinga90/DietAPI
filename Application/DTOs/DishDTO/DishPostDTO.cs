@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Application.DTOs.MealTimeToXYAxisDTO;
+﻿using Application.DTOs.MealTimeToXYAxisDTO;
 using Application.DTOs.DishFoodCatalogDTO;
 using Application.DTOs.DishIngredientDTO;
 using Application.DTOs.RecipeStepDTO;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Application.DTOs.DishDTO
 {
@@ -25,6 +23,7 @@ namespace Application.DTOs.DishDTO
         //public IFormFile File { get; set; }
         public string PreparingTime { get; set; }   // TODO: jaki format?
         public int? RecipeId { get; set; } = null;
+        public int DieteticianId { get; set; }
 
         public List<RecipeStepPostDTO> RecipeSteps { get; set; }
         public List<DishFoodCatalogPostDTO> DishFoodCatalogs { get; set; }

@@ -23,7 +23,7 @@ namespace Application.CQRS.FoodCatalogs
 
             public async Task<Result<List<FoodCatalogGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var foodCatalogList = await _context.FoodCatalogsDb
+                var foodCatalog = await _context.FoodCatalogsDb
                     .Where(m => m.DieteticianId == null || m.DieteticianId == request.DieteticianId)
                     .Select(m => new FoodCatalogGetDTO
                     {
@@ -31,7 +31,7 @@ namespace Application.CQRS.FoodCatalogs
                         CatalogName = m.CatalogName
                     })
                     .ToListAsync(cancellationToken);
-                return Result<List<FoodCatalogGetDTO>>.Success(foodCatalogList);
+                return Result<List<FoodCatalogGetDTO>>.Success(foodCatalog);
             }
         }
     }
