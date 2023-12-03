@@ -1,16 +1,13 @@
-﻿using Application.CQRS.Measures;
-using Application.CQRS.Units;
-using Application.DTOs.MeasureDTO;
+﻿using Application.CQRS.Units;
 using Application.DTOs.UnitDTO;
 using Microsoft.AspNetCore.Mvc;
-using ModelsDB.Functionality;
 
 namespace API.Controllers
 {
     public class UnitController : BaseApiController
     {
         [HttpGet("{id}")]
-        public async Task<ActionResult<Unit>> GetUnit(int id)
+        public async Task<ActionResult<UnitGetDTO>> GetUnit(int id)
         {
             return await Mediator.Send(new UnitDetails.Query { Id = id });
         }

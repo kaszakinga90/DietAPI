@@ -4,7 +4,6 @@ using DietDB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -12,10 +11,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietDB.Migrations
 {
     [DbContext(typeof(DietContext))]
-    [Migration("20231128160906_InitialCreate")]
-    partial class InitialCreate
+    partial class DietContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -479,6 +477,12 @@ namespace DietDB.Migrations
                     b.Property<int?>("Calories")
                         .HasColumnType("int");
 
+                    b.Property<int?>("DieteticianId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DieticianId")
+                        .HasColumnType("int");
+
                     b.Property<string>("DishPhotoUrl")
                         .HasColumnType("nvarchar(max)");
 
@@ -534,6 +538,8 @@ namespace DietDB.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DieticianId");
 
                     b.HasIndex("MeasureId");
 
@@ -2725,6 +2731,10 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Dish", b =>
                 {
+                    b.HasOne("ModelsDB.Dietician", "Dietician")
+                        .WithMany()
+                        .HasForeignKey("DieticianId");
+
                     b.HasOne("ModelsDB.Measure", "Measure")
                         .WithMany()
                         .HasForeignKey("MeasureId");
@@ -2737,6 +2747,8 @@ namespace DietDB.Migrations
                     b.HasOne("ModelsDB.Functionality.Unit", "Unit")
                         .WithMany()
                         .HasForeignKey("UnitId");
+
+                    b.Navigation("Dietician");
 
                     b.Navigation("Measure");
 

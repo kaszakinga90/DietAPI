@@ -3,7 +3,6 @@ using Application.DTOs.MeasureDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using ModelsDB;
 
 namespace Application.CQRS.Measures
 {

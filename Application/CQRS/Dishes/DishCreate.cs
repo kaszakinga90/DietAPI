@@ -44,6 +44,7 @@ namespace Application.CQRS.Dishes
                     UnitId = requestDish.UnitId,
                     GlycemicIndex = requestDish.GlycemicIndex,
                     PreparingTime = requestDish.PreparingTime,
+                    DieteticianId = requestDish.DieteticianId,
                     DishFoodCatalogs = requestDish.DishFoodCatalogs?.Select(dto => _mapper.Map<DishFoodCatalog>(dto)).ToList(),
                     DishIngredients = requestDish.DishIngredients?.Select(dto => _mapper.Map<DishIngredient>(dto)).ToList(),
                     MealTimes = requestDish.MealTimes?.Select(dto => _mapper.Map<MealTimeToXYAxis>(dto)).ToList(),

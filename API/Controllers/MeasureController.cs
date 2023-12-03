@@ -1,14 +1,13 @@
 ﻿using Application.CQRS.Measures;
 using Application.DTOs.MeasureDTO;
 using Microsoft.AspNetCore.Mvc;
-using ModelsDB;
 
 namespace API.Controllers
 {
     public class MeasureController : BaseApiController
     {
         [HttpGet("{id}")]
-        public async Task<ActionResult<Measure>> GetMeasure(int id)
+        public async Task<ActionResult<MeasureGetDTO>> GetMeasure(int id)
         {
             return await Mediator.Send(new MeasureDetails.Query { Id = id });
         }

@@ -23,6 +23,7 @@ namespace ModelsDB
 
         // która to jest jednostka, np. gramy
         public int? UnitId { get; set; }
+        
         public Unit Unit { get; set; }
         public int? GlycemicIndex { get; set; }  // TODO: jak obliczany?
         public string PublicId { get; set; }
@@ -31,6 +32,9 @@ namespace ModelsDB
         public string PreparingTime { get; set; }   // TODO: jaki format?
         public int? RecipeId { get; set; }
         public Recipe Recipe { get; set; }
+
+        public int? DieteticianId { get; set; }
+        public Dietician Dietician { get; set; }
 
         public List<DishFoodCatalog> DishFoodCatalogs { get; set; }
         public List<DishIngredient> DishIngredients { get; set; }

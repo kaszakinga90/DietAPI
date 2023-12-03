@@ -20,8 +20,7 @@ namespace API.Controllers
             _context = context;
         }
 
-        [HttpGet("{productName}")]
-        //[Route("product")]
+        [HttpGet("ingredient/{productName}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetProductWithNutrients(string productName)
@@ -140,17 +139,13 @@ namespace API.Controllers
             return Ok(new List<IngredientNutritionixDTO>());
         }
 
-        /// <summary>
-        /// Tworzy nowy produkt.
-        /// </summary>
-        /// <param name="Ingredient">Dane produktu do utworzenia.</param>
-        /// <returns>Status operacji.</returns>
         [HttpPost]
         public async Task<IActionResult> CreateIngredientFromNutritionix(IngredientNutritionixDTO Ingredient)
         {
             await Mediator.Send(new IngredientFromNutritionixCreate.Command { IngredientNutritionixDTO = Ingredient });
             return Ok();
         }
+
     }
 
     public static class IngredientDTOExtensions
