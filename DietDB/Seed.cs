@@ -1,11 +1,37 @@
-﻿using ModelsDB;
+﻿using Microsoft.AspNetCore.Identity;
+using ModelsDB;
 using ModelsDB.Functionality;
 
 namespace DietDB
 {
     public class Seed
     {
-        public static async Task SeedData(DietContext context)
+        public static async Task Initialize(DietContext context, UserManager<User> userManager)
+        {
+            if (!userManager.Users.Any())
+            {
+                var user = new User
+                {
+                    UserName = "bob",
+                    Email = "bob@test.com"
+                };
+
+                await userManager.CreateAsync(user, "Pa$$w0rd");
+                await userManager.AddToRoleAsync(user, "Admin");
+
+                var admin = new User
+                {
+                    
+                    UserName = "admin",
+                    Email = "admin@test.com"
+                };
+
+                await userManager.CreateAsync(admin, "Pa$$w0rd");
+                await userManager.AddToRolesAsync(admin, new[] { "Patient", "Admin" });
+                await context.SaveChangesAsync();
+            }
+        }
+            public static async Task SeedData(DietContext context)
         {
             await SeedBaseClasses(context);
             await SeedFirstClassesWithForeignKey(context);

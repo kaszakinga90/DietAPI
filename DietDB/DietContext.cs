@@ -1,9 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using ModelsDB;
 using ModelsDB.Functionality;
 using ModelsDB.Layout;
 using ModelsDB.ManualPanel;
+using System.Data;
 using System.Diagnostics;
 
 namespace DietDB
@@ -11,7 +14,7 @@ namespace DietDB
     /// <summary>
     /// Reprezentuje kontekst bazy danych dla diet.
     /// </summary>
-    public class DietContext : DbContext
+    public class DietContext : IdentityDbContext<User, Role, int>
     {
         /// <summary>
         /// Inicjalizuje nową instancję klasy <see cref="DietContext"/> z określonymi opcjami.
@@ -94,10 +97,28 @@ namespace DietDB
         {
             // Mapowanie encji i ustawienia relacji między nimi, np.:
             // Mapuje encję Patient do odpowiedniej tabeli w bazie danych.
-            modelBuilder.Entity<Patient>().ToTable("PatientsDb");
-            modelBuilder.Entity<Dietician>().ToTable("DieticiansDb");
-            modelBuilder.Entity<Admin>().ToTable("AdminsDb");
+            //modelBuilder.Entity<Patient>().ToTable("PatientsDb");
+            //modelBuilder.Entity<Dietician>().ToTable("DieticiansDb");
+            //modelBuilder.Entity<Admin>().ToTable("AdminsDb");
 
+            modelBuilder.Entity<IdentityRole>()
+                .HasData(
+                new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" },
+                new IdentityRole { Name = "Patient", NormalizedName = "PATIENT" },
+                new IdentityRole { Name = "Dietetician", NormalizedName = "DIETETICIAN" }
+                );
+            modelBuilder.Entity<IdentityUserLogin<int>>(b =>
+            {
+                b.HasKey(login => new { login.ProviderKey, login.LoginProvider });
+            });
+            modelBuilder.Entity<IdentityUserRole<int>>(b =>
+            {
+                b.HasKey(ur => new { ur.UserId, ur.RoleId });
+            });
+            modelBuilder.Entity<IdentityUserToken<int>>(b =>
+            {
+                b.HasKey(ut => new { ut.UserId, ut.LoginProvider, ut.Name });
+            });
             //*************************************** Restrict Mode on Delete ***********************************************************
 
             modelBuilder.Entity<Link>()
