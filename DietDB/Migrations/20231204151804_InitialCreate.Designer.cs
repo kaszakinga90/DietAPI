@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietDB.Migrations
 {
     [DbContext(typeof(DietContext))]
-    [Migration("20231202192904_InitialCreate")]
+    [Migration("20231204151804_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,22 +120,22 @@ namespace DietDB.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b203d89e-dbb9-41b7-aca5-1748581a193e",
-                            ConcurrencyStamp = "036b104c-c10b-45b9-8669-11434cca972c",
+                            Id = "d2a4a90a-d3ff-410a-9048-405e78470e7c",
+                            ConcurrencyStamp = "0885c1d4-db5e-40cb-bd28-8294077f3dea",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "22122443-9c3c-448e-b185-ef043c0e0256",
-                            ConcurrencyStamp = "52f89da7-6cf1-45b4-a8ad-176601771a4c",
+                            Id = "05f1e162-43c6-44c6-8085-e5b1bd80030f",
+                            ConcurrencyStamp = "95817922-72c9-4270-8f44-377c024ef2f4",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = "7c718ea1-34f2-4e2f-abe1-81fb879395d6",
-                            ConcurrencyStamp = "415f0eef-67c8-454c-aafb-0f8ed767ff26",
+                            Id = "40a23522-9f1a-482e-813c-2133dea38374",
+                            ConcurrencyStamp = "cdc7f669-2d75-4ce6-8af8-fac0e0cca28c",
                             Name = "Dietetician",
                             NormalizedName = "DIETETICIAN"
                         });
@@ -459,6 +459,12 @@ namespace DietDB.Migrations
                     b.Property<int?>("Calories")
                         .HasColumnType("int");
 
+                    b.Property<int?>("DieteticianId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DieticianId")
+                        .HasColumnType("int");
+
                     b.Property<string>("DishPhotoUrl")
                         .HasColumnType("nvarchar(max)");
 
@@ -514,6 +520,8 @@ namespace DietDB.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DieticianId");
 
                     b.HasIndex("MeasureId");
 
@@ -2630,7 +2638,7 @@ namespace DietDB.Migrations
                 {
                     b.HasBaseType("ModelsDB.User");
 
-                    b.Property<int>("PatientCardId")
+                    b.Property<int?>("PatientCardId")
                         .HasColumnType("int");
 
                     b.Property<int?>("SexId")
@@ -2769,6 +2777,10 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Dish", b =>
                 {
+                    b.HasOne("ModelsDB.Dietician", "Dietician")
+                        .WithMany()
+                        .HasForeignKey("DieticianId");
+
                     b.HasOne("ModelsDB.Measure", "Measure")
                         .WithMany()
                         .HasForeignKey("MeasureId");
@@ -2781,6 +2793,8 @@ namespace DietDB.Migrations
                     b.HasOne("ModelsDB.Functionality.Unit", "Unit")
                         .WithMany()
                         .HasForeignKey("UnitId");
+
+                    b.Navigation("Dietician");
 
                     b.Navigation("Measure");
 
@@ -3338,9 +3352,7 @@ namespace DietDB.Migrations
 
                     b.HasOne("ModelsDB.PatientCard", "PatientCard")
                         .WithMany("Patients")
-                        .HasForeignKey("PatientCardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PatientCardId");
 
                     b.HasOne("ModelsDB.Functionality.Sex", null)
                         .WithMany("Patients")

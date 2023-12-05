@@ -169,7 +169,7 @@ try
 {
     var context = services.GetRequiredService<DietContext>();
     await context.Database.MigrateAsync();
-    await Seed.Initialize(context, userManager);
+    await Seed.SeedData(context, userManager);
 }
 catch (Exception ex)
 {
