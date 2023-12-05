@@ -7,7 +7,7 @@ namespace ModelsDB
     {
         public List<Dietician> Dieticians { get; set; }
         public PatientCard PatientCard { get; set; }
-        public int PatientCardId { get; set; }
+        public int? PatientCardId { get; set; } = null;
         public List<Comment> Comments { get; set; }
         public List<Rating> Ratings { get; set; }
         public List<Visit> Visits { get; set; }
