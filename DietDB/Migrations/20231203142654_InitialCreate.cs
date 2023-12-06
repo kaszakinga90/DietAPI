@@ -1681,17 +1681,29 @@ namespace DietDB.Migrations
             migrationBuilder.InsertData(
                 table: "IdentityRole",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+<<<<<<<< HEAD:DietDB/Migrations/20231203142654_InitialCreate.cs
+                values: new object[] { "17e9983a-40e0-4054-956d-caf7a20748fb", "6acb9cc7-f798-4b37-81ea-4a0d00e6c9cd", "Patient", "PATIENT" });
+========
                 values: new object[] { "05f1e162-43c6-44c6-8085-e5b1bd80030f", "95817922-72c9-4270-8f44-377c024ef2f4", "Patient", "PATIENT" });
+>>>>>>>> master:DietDB/Migrations/20231204151804_InitialCreate.cs
 
             migrationBuilder.InsertData(
                 table: "IdentityRole",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+<<<<<<<< HEAD:DietDB/Migrations/20231203142654_InitialCreate.cs
+                values: new object[] { "797ab481-a3af-492a-84a2-e56578e9858f", "04d675f4-0654-43df-b04c-2c22a8652879", "Dietetician", "DIETETICIAN" });
+========
                 values: new object[] { "40a23522-9f1a-482e-813c-2133dea38374", "cdc7f669-2d75-4ce6-8af8-fac0e0cca28c", "Dietetician", "DIETETICIAN" });
+>>>>>>>> master:DietDB/Migrations/20231204151804_InitialCreate.cs
 
             migrationBuilder.InsertData(
                 table: "IdentityRole",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+<<<<<<<< HEAD:DietDB/Migrations/20231203142654_InitialCreate.cs
+                values: new object[] { "a260379b-2829-4518-82cd-729c314c4bf7", "16fc5ee5-f8f2-483a-9dfd-1c4293c5f735", "Admin", "ADMIN" });
+========
                 values: new object[] { "d2a4a90a-d3ff-410a-9048-405e78470e7c", "0885c1d4-db5e-40cb-bd28-8294077f3dea", "Admin", "ADMIN" });
+>>>>>>>> master:DietDB/Migrations/20231204151804_InitialCreate.cs
 
             migrationBuilder.CreateIndex(
                 name: "IX_Article_LayoutCategoryId",

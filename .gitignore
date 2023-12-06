@@ -400,3 +400,7 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+
+# another
+appsettings.json
