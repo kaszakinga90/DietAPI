@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using ModelsDB;
 using ModelsDB.Functionality;
 using ModelsDB.Layout;
 using ModelsDB.ManualPanel;
-using System.Data;
 using System.Diagnostics;
 
 namespace DietDB
@@ -48,11 +46,11 @@ namespace DietDB
         public DbSet<Rating> RatingsDb { get; set; }
         public DbSet<Recipe> RecipesDb { get; set; }
         public DbSet<RecipeStep> RecipeStepsDb { get; set; }
-        public DbSet<SingleTestEqual> SingleTestEqualsDb { get; set; }
+        public DbSet<SingleTestResults> SingleTestResultsDb { get; set; }
         public DbSet<Status> StatusesDb { get; set; }
         public DbSet<Survey> SurveysDb { get; set; }
         public DbSet<Term> TermsDb { get; set; }
-        public DbSet<TestEqual> TestEqualsDb { get; set; }
+        public DbSet<TestResult> TestResultsDb { get; set; }
         public DbSet<Visit> VisitsDb { get; set; }
         public DbSet<Article> ArticlesDb { get; set; }
         public DbSet<Carousel> CarouselsDb { get; set; }
@@ -192,7 +190,7 @@ namespace DietDB
 
             // ---------------------------------------------------------------------------------------- //
 
-            modelBuilder.Entity<TestEqual>()
+            modelBuilder.Entity<TestResult>()
                 .HasOne(te => te.Patient)
                 .WithMany(p => p.TestEquals)
                 .HasForeignKey(te => te.PatientId)
