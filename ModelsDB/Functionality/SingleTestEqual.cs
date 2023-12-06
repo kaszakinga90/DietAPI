@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ModelsDB
 {
+    /// <summary>
+    /// Pojedyncze wyniki przeprowadzonych badań analitycznych np. z krwi
+    /// </summary>
     [Table("SingleTestEqual")]
     public class SingleTestEqual : BaseModel
     {
