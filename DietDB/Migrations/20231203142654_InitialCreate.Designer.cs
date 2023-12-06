@@ -12,7 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietDB.Migrations
 {
     [DbContext(typeof(DietContext))]
+<<<<<<<< HEAD:DietDB/Migrations/20231203142654_InitialCreate.Designer.cs
     [Migration("20231203142654_InitialCreate")]
+========
+    [Migration("20231204151804_InitialCreate")]
+>>>>>>>> master:DietDB/Migrations/20231204151804_InitialCreate.Designer.cs
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,22 +124,37 @@ namespace DietDB.Migrations
                     b.HasData(
                         new
                         {
+<<<<<<<< HEAD:DietDB/Migrations/20231203142654_InitialCreate.Designer.cs
                             Id = "a260379b-2829-4518-82cd-729c314c4bf7",
                             ConcurrencyStamp = "16fc5ee5-f8f2-483a-9dfd-1c4293c5f735",
+========
+                            Id = "d2a4a90a-d3ff-410a-9048-405e78470e7c",
+                            ConcurrencyStamp = "0885c1d4-db5e-40cb-bd28-8294077f3dea",
+>>>>>>>> master:DietDB/Migrations/20231204151804_InitialCreate.Designer.cs
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
+<<<<<<<< HEAD:DietDB/Migrations/20231203142654_InitialCreate.Designer.cs
                             Id = "17e9983a-40e0-4054-956d-caf7a20748fb",
                             ConcurrencyStamp = "6acb9cc7-f798-4b37-81ea-4a0d00e6c9cd",
+========
+                            Id = "05f1e162-43c6-44c6-8085-e5b1bd80030f",
+                            ConcurrencyStamp = "95817922-72c9-4270-8f44-377c024ef2f4",
+>>>>>>>> master:DietDB/Migrations/20231204151804_InitialCreate.Designer.cs
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
+<<<<<<<< HEAD:DietDB/Migrations/20231203142654_InitialCreate.Designer.cs
                             Id = "797ab481-a3af-492a-84a2-e56578e9858f",
                             ConcurrencyStamp = "04d675f4-0654-43df-b04c-2c22a8652879",
+========
+                            Id = "40a23522-9f1a-482e-813c-2133dea38374",
+                            ConcurrencyStamp = "cdc7f669-2d75-4ce6-8af8-fac0e0cca28c",
+>>>>>>>> master:DietDB/Migrations/20231204151804_InitialCreate.Designer.cs
                             Name = "Dietetician",
                             NormalizedName = "DIETETICIAN"
                         });
@@ -2638,7 +2657,7 @@ namespace DietDB.Migrations
                 {
                     b.HasBaseType("ModelsDB.User");
 
-                    b.Property<int>("PatientCardId")
+                    b.Property<int?>("PatientCardId")
                         .HasColumnType("int");
 
                     b.Property<int?>("SexId")
@@ -3352,9 +3371,7 @@ namespace DietDB.Migrations
 
                     b.HasOne("ModelsDB.PatientCard", "PatientCard")
                         .WithMany("Patients")
-                        .HasForeignKey("PatientCardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PatientCardId");
 
                     b.HasOne("ModelsDB.Functionality.Sex", null)
                         .WithMany("Patients")
