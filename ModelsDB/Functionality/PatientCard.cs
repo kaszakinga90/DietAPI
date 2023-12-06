@@ -9,12 +9,11 @@ namespace ModelsDB
     {
         [Key]
         public int Id { get; set; }
-
         public Patient Patient { get; set; }
         public int PatientId { get; set; }
         public int SexId { get; set; }
         public Sex Sex { get; set; }
         public List<PatientCardSurvey> PatientCardSurveys { get; set; }
-        public List<TestEqual> TestEquals { get; set; }
+        public List<TestResult> TestResults { get; set; }
     }
 }

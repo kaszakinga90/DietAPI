@@ -403,3 +403,4 @@ FodyWeavers.xsd
 
 # Others
 appsettings.json
+/Migrations/

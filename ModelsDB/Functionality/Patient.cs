@@ -6,21 +6,16 @@ namespace ModelsDB
     public class Patient : User
     {
         public List<Dietician> Dieticians { get; set; }
-        public PatientCard PatientCard { get; set; }
-        public int? PatientCardId { get; set; } = null;
+        public List<PatientCard> PatientCards { get; set; }
         public List<Comment> Comments { get; set; }
         public List<Rating> Ratings { get; set; }
         public List<Visit> Visits { get; set; }
         //public List<DietPatient> DietPatients { get; set; }
         public List<NotePatient> NotePatients { get; set; }
-
-        //lista odzwierc. jeden pacjent może mieć wiele dietetyków
-        // jeden dietetyk może mieć wiele pacjentów
         public List<DieticianPatient> DieticianPatients { get; set; }
-
         public List<MessageTo> MessageTo { get; set; }
         public List<Diet> Diets { get; set; }
-        public List<TestEqual> TestEquals { get; set; }
+        public List<TestResult> TestEquals { get; set; }
 
     }
 }

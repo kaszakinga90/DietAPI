@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ModelsDB.Functionality;
 
 namespace ModelsDB
 {
     /// <summary>
     /// Pojedyncze wyniki przeprowadzonych badań analitycznych np. z krwi
     /// </summary>
-    [Table("SingleTestEqual")]
-    public class SingleTestEqual : BaseModel
+    [Table("SingleTestResults")]
+    public class SingleTestResults : BaseModel
     {
         [Key]
         public int Id { get; set; }
@@ -16,6 +17,6 @@ namespace ModelsDB
         public float test3 { get; set; }
 
         public int TestEqualId { get; set; }
-        public TestEqual TestEqual { get; set; }
+        public TestResult TestResult { get; set; }
     }
 }
