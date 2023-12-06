@@ -8,7 +8,7 @@ namespace DietDB
     {
         public static async Task Initialize(DietContext context, UserManager<User> userManager)
         {
-            if (!userManager.Users.Any())
+            if (userManager.Users.Any())
             {
                 var user = new User
                 {
