@@ -6,36 +6,12 @@ namespace DietDB
 {
     public class Seed
     {
-        //public static async Task Initialize(DietContext context, UserManager<User> userManager)
-        //{
-        //    if (!userManager.Users.Any())
-        //    {
-        //        var user = new User
-        //        {
-        //            UserName = "bob",
-        //            Email = "bob@test.com"
-        //        };
-
-        //        await userManager.CreateAsync(user, "Pa$$w0rd");
-        //        await userManager.AddToRoleAsync(user, "Admin");
-
-        //        var admin = new User
-        //        {
-
-        //            UserName = "admin",
-        //            Email = "admin@test.com"
-        //        };
-
-        //        await userManager.CreateAsync(admin, "Pa$$w0rd");
-        //        await userManager.AddToRolesAsync(admin, new[] { "Patient", "Admin" });
-        //        await context.SaveChangesAsync();
-        //    }
-        //}
         public static async Task SeedData(DietContext context, UserManager<User> userManager)
         {
             await SeedBaseClasses(context);
             await SeedFirstClassesWithForeignKey(context, userManager);
             await SeedSecondClassesWithForeignKey(context);
+            await SeedThirdClassesWithForeignKey(context);
 
             await context.SaveChangesAsync();
         }
@@ -113,15 +89,16 @@ namespace DietDB
             }
             #endregion
             #region Roles
-            //if (!context.Roles.Any())
-            //{
-            //    var roles = new List<Role>()
-            //    {
-            //        new Role{Name="Admin", NormalizedName="ADMIN"},
-            //        new Role{Name="Patient", NormalizedName="PATIENT"},
-            //        new Role{Name="Dietetician", NormalizedName="DIETETICIAN"},
-            //    };
-            //}
+            if (!context.Roles.Any())
+            {
+                var roles = new List<Role>()
+                {
+                    new Role{Name="Admin", NormalizedName="ADMIN"},
+                    new Role{Name="Patient", NormalizedName="PATIENT"},
+                    new Role{Name="Dietetician", NormalizedName="DIETETICIAN"},
+                };
+                await context.Roles.AddRangeAsync(roles);
+            }
             #endregion
             #region Measure
             // Sprawdzanie i dodawanie testowych jednostek miary
@@ -265,7 +242,6 @@ namespace DietDB
         // ******************** DANE Z KLUCZAMI OBCYMI **************************************** //
         private static async Task SeedFirstClassesWithForeignKey(DietContext context, UserManager<User> userManager)
         {
-
             #region Dishes
             // Sprawdzanie i dodawanie testowych danych dla Dish
             if (!context.DishesDb.Any())
@@ -690,7 +666,7 @@ namespace DietDB
         if (!context.IngredientsDb.Any())
         {
             var ingredients = new List<Ingredient>()
-                {
+            {
                     new Ingredient { Name = "Ser Biały", Calories = 100, ServingQuantity = 1, MeasureId = 1, Weight = 28, UnitId = 1, DieticianId = 1, GlycemicIndex = 30, PublicId = string.Empty, PictureUrl = "https://example.com/ser-bialy.jpg" },
                     new Ingredient { Name = "Jogurt Naturalny", Calories = 50, ServingQuantity = 1, MeasureId = 2, Weight = 200, UnitId = 1, DieticianId = 2, GlycemicIndex = 40, PublicId = string.Empty, PictureUrl = "https://example.com/jogurt-naturalny.jpg" },
                     new Ingredient { Name = "Oliwa z Oliwek", Calories = 120, ServingQuantity = 1, MeasureId = 3, Weight = 15, UnitId = 1, DieticianId = 3, GlycemicIndex = 10, PublicId = string.Empty, PictureUrl = "https://example.com/oliwa.jpg" },
@@ -707,13 +683,73 @@ namespace DietDB
                     new Ingredient { Name = "Ser", NameEN = "cheese", Calories = 113.12f, MeasureId = 1, Weight = 28, UnitId = 1, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/1034_thumb.jpg", DieticianId = null },
                     new Ingredient { Name = "Kapusta surowa", NameEN = "cabbage, raw", Calories = 22.25f, MeasureId = 1, Weight = 17, UnitId = 4, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/8083_thumb.jpg", DieticianId = null },
                     new Ingredient { Name = "Bardzo duże jajko", NameEN = "extra large egg", Calories = 90.09f, MeasureId = 1, Weight = 34, UnitId = 1, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/775_thumb.jpg", DieticianId = null },
-                };
+            };
             await context.IngredientsDb.AddRangeAsync(ingredients);
         }
         #endregion
 
+        #region PatientCards
+        if (!context.PatientCardsDb.Any())
+        {
+            var patientCards = new List<PatientCard>
+            {
+                new PatientCard { PatientId = 3, SexId = 1, DieticianId = 6 },
+                new PatientCard { PatientId = 4, SexId = 1, DieticianId = 7 },
+                new PatientCard { PatientId = 5, SexId = 2, DieticianId = 8 },
+                new PatientCard { PatientId = 3, SexId = 1, DieticianId = 7 },
+                new PatientCard { PatientId = 3, SexId = 1, DieticianId = 8 }
+            };
+
+            await context.PatientCardsDb.AddRangeAsync(patientCards);
+            context.SaveChanges();
+
+            var surveys = new List<Survey>
+            {
+                new Survey { Heigth = 170, Weith = 70, MeasureTime = DateTime.Now.AddDays(-30) },
+                new Survey { Heigth = 165, Weith = 65, MeasureTime = DateTime.Now.AddDays(-20) },
+                new Survey { Heigth = 180, Weith = 80, MeasureTime = DateTime.Now.AddDays(-10) },
+                new Survey { Heigth = 170, Weith = 65, MeasureTime = DateTime.Now.AddDays(-20) },
+                new Survey { Heigth = 170, Weith = 62, MeasureTime = DateTime.Now.AddDays(-10) }
+            };
+
+            await context.SurveysDb.AddRangeAsync(surveys);
+            context.SaveChanges();
+
+            var patientCardSurveys = new List<PatientCardSurvey>
+            {
+                new PatientCardSurvey { PatientCardId = 1, SurveyId = 1 },
+                new PatientCardSurvey { PatientCardId = 2, SurveyId = 2 },
+                new PatientCardSurvey { PatientCardId = 3, SurveyId = 3 },
+                new PatientCardSurvey { PatientCardId = 4, SurveyId = 4 },
+                new PatientCardSurvey { PatientCardId = 5, SurveyId = 5 }
+            };
+
+            await context.PatientCardSurveysDb.AddRangeAsync(patientCardSurveys);
+            context.SaveChanges();
+        }
+        #endregion
 
         await context.SaveChangesAsync();
     }
-}
+
+        private static async Task SeedThirdClassesWithForeignKey(DietContext context)
+        {
+            //#region DieticianPatients
+            //if (!context.DieticianPatientsDb.Any())
+            //{
+            //    var dieticianPatients = new List<DieticianPatient> 
+            //    {
+            //        new DieticianPatient { PatientId = 3, DieticianId = 6 },
+            //        new DieticianPatient { PatientId = 4, DieticianId = 7 },
+            //        new DieticianPatient { PatientId = 5, DieticianId = 8 },
+            //        new DieticianPatient { PatientId = 3, DieticianId = 6 },
+            //        new DieticianPatient { PatientId = 3, DieticianId = 8 }
+            //    };
+            //    await context.DieticianPatientsDb.AddRangeAsync(dieticianPatients);
+            //};
+            //#endregion
+
+            await context.SaveChangesAsync();
+        }
+    }
 }

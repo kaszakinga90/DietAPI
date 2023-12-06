@@ -14,6 +14,8 @@ namespace ModelsDB
         public int SexId { get; set; }
         public Sex Sex { get; set; }
         public List<PatientCardSurvey> PatientCardSurveys { get; set; }
+        public Dietician Dietician { get; set; }
+        public int DieticianId { get; set; }
         public List<TestResult> TestResults { get; set; }
     }
 }
