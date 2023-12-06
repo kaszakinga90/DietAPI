@@ -79,6 +79,7 @@ namespace DietDB
         public DbSet<Unit> UnitsDb { get; set; }
         public DbSet<Specialization> SpecializationsDb { get; set; }
         public DbSet<DieticianSpecialization> DieticianSpecialization { get; set; }
+        public DbSet<PatientCardSurvey> PatientCardSurveysDb { get; set; }
 
         public DbSet<Meal> MealsDb { get; set; }
         //public DbSet<Role> Role { get; set; }
@@ -159,6 +160,7 @@ namespace DietDB
                 .WithMany(d => d.DieticianPatients)
                 .HasForeignKey(dp => dp.DieticianId)
                 .OnDelete(DeleteBehavior.Restrict);
+
 
             // ---------------------------------------------------------------------------------------- //
 
@@ -326,6 +328,15 @@ namespace DietDB
                 .WithOne(d => d.Recipe)
                 .HasForeignKey<Dish>(d => d.RecipeId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // ---------------------------------------------------------------------------------------- //
+
+            modelBuilder.Entity<PatientCard>()
+                .HasOne(pc => pc.Patient)
+                .WithMany(p => p.PatientCards)
+                .HasForeignKey(pc => pc.PatientId)
+                .OnDelete(DeleteBehavior.Restrict);
+
 
         }
         #endregion
