@@ -41,30 +41,39 @@ public class DietCreate
         {
             var startDate = diet.StartDate;
             var endDate = diet.EndDate;
+
             for (var date = startDate; date <= endDate; date = date.AddDays(1))
             {
                 foreach (var mealTimeDto in mealTimesDto)
                 {
-                    var mealTime = mealTimeDto.MealTime.TimeOfDay;
-
-                    var mealDateTime = new DateTime(date.Year, date.Month, date.Day, mealTime.Hours, mealTime.Minutes, mealTime.Seconds);
-
-                    var mealSchedule = new MealTimeToXYAxis
+                    // Konwersja stringa na TimeSpan
+                    if (TimeSpan.TryParse(mealTimeDto.MealTime, out TimeSpan time))
                     {
-                        DietId = diet.Id,
-                        MealId = mealTimeDto.MealId,
-                        MealTime = mealDateTime,
-                        DishId=null
-                    };
+                        var mealDateTime = new DateTime(date.Year, date.Month, date.Day, time.Hours, time.Minutes, time.Seconds);
 
-                    Console.WriteLine(" ==================================");
-                    Console.WriteLine(" Zapisuje do bazy: " + mealSchedule.DietId + " " + mealSchedule.MealTime);
-                    Console.WriteLine(" ==================================");
-                    _context.MealTimesDb.Add(mealSchedule);
+                        var mealSchedule = new MealTimeToXYAxis
+                        {
+                            DietId = diet.Id,
+                            MealId = mealTimeDto.MealId,
+                            MealTime = mealDateTime,
+                            DishId = null
+                        };
+
+                        // Logowanie i dodawanie do kontekstu
+                        Console.WriteLine(" ==================================");
+                        Console.WriteLine(" Zapisuje do bazy: " + mealSchedule.DietId + " " + mealSchedule.MealTime);
+                        Console.WriteLine(" ==================================");
+                        _context.MealTimesDb.Add(mealSchedule);
+                    }
+                    else
+                    {
+                        // Obsługa błędu konwersji
+                    }
                 }
             }
 
             await _context.SaveChangesAsync(cancellationToken);
         }
+
     }
 }

@@ -13,7 +13,7 @@ namespace API.Controllers
             var result = await Mediator.Send(new DietList.Query { DieticianId=dieticianId, Params=pagingParams});
             return HandlePagedResult(result);
         }
-        [HttpPost]
+        [HttpPost("adddiet")]
         public async Task<IActionResult> CreateDiet( DietDTO diet)
         {
             await Mediator.Send(new DietCreate.Command { DietDTO = diet });

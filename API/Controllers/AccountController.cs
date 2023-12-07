@@ -29,14 +29,24 @@ namespace API.Controllers
 
             return new UserDTO
             {
+                Id=user.Id,
                 Email = user.Email,
-                Token = await _tokenService.GenerateToken(user)
+                Token = await _tokenService.GenerateToken(user),
+                 IsPatient = user.isPatient,
+                IsDietician = user.isDietician,
+                IsAdmin = user.isAdmin
             };
         }
         [HttpPost("registerpatient")]
         public async Task<ActionResult> RegisterPatient(RegisterDTO registerDTO)
         {
-            var user = new User {  Email = registerDTO.Email };
+            var user = new User { 
+                UserName = registerDTO.Email, 
+                Email = registerDTO.Email, 
+                isPatient=true,
+                isDietician=false,
+                isAdmin=false
+            };
 
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
 
@@ -52,10 +62,17 @@ namespace API.Controllers
             await _userManager.AddToRoleAsync(user, "Patient");
 
             return StatusCode(201);
-        } [HttpPost("registerdietician")]
+        } 
+        [HttpPost("registerdietician")]
         public async Task<ActionResult> RegisterDietician(RegisterDTO registerDTO)
         {
-            var user = new User { Email = registerDTO.Email };
+            var user = new User { 
+                UserName = registerDTO.Email, 
+                Email = registerDTO.Email,
+                isPatient = false,
+                isDietician = true,
+                isAdmin = false
+            };
 
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
 
@@ -80,8 +97,12 @@ namespace API.Controllers
 
             return new UserDTO
             {
+                Id = user.Id,
                 Email = user.Email,
-                Token = await _tokenService.GenerateToken(user)
+                Token = await _tokenService.GenerateToken(user),
+                IsPatient = user.isPatient,
+                IsDietician = user.isDietician,
+                IsAdmin = user.isAdmin
             };
         }
     }

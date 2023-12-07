@@ -6,14 +6,14 @@ namespace API.Controllers
 {
     public class DieteticianPatientController : BaseApiController
     {
-        [HttpGet("{patientId}")]
+        [HttpGet("patient/{patientId}")]
         public async Task<ActionResult<List<DieteticianPatientDTO>>> GetDieteticianPatient(int patientId)
         {
 
             var result = await Mediator.Send(new FromPatientToDieteticianList.Query { PatientId = patientId });
             return HandleResult(result);
         }
-        [HttpGet("dietician{dieticianId}")]
+        [HttpGet("dietician/{dieticianId}")]
         public async Task<ActionResult<List<DieteticianPatientDTO>>> GetPatientFromDietician(int dieticianId)
         {
 
