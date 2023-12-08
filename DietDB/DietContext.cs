@@ -95,11 +95,13 @@ namespace DietDB
         /// <param name="modelBuilder">Konstruktor modelu bazy danych.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Mapowanie encji i ustawienia relacji między nimi, np.:
-            // Mapuje encję Patient do odpowiedniej tabeli w bazie danych.
-            //modelBuilder.Entity<Patient>().ToTable("PatientsDb");
-            //modelBuilder.Entity<Dietician>().ToTable("DieticiansDb");
-            //modelBuilder.Entity<Admin>().ToTable("AdminsDb");
+            modelBuilder.Entity<User>()
+                .HasIndex(u => new { u.FirstName, u.LastName })
+                .HasDatabaseName("IX_FirstNameLastName");
+            modelBuilder.Entity<Ingredient>()
+                .HasIndex(i => new { i.Name })
+                .HasDatabaseName("IX_IngredientName");
+
 
             modelBuilder.Entity<IdentityRole>()
                 .HasData(
