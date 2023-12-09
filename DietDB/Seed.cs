@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using ModelsDB;
 using ModelsDB.Functionality;
 
@@ -12,6 +13,7 @@ namespace DietDB
             await SeedFirstClassesWithForeignKey(context, userManager);
             await SeedSecondClassesWithForeignKey(context);
             await SeedThirdClassesWithForeignKey(context);
+            await ExecuteSqlCommands(context);
 
             await context.SaveChangesAsync();
         }
@@ -354,7 +356,7 @@ namespace DietDB
                     isAdmin = false,
                     BirthDate = new DateTime(1985, 2, 2),
                     AddressId = 1,
-                    RatingId = 1
+                    //RatingId = 1
                 };
                 await userManager.CreateAsync(dietician1, "Pa$$w0rd5555555554!");
                 await userManager.AddToRoleAsync(dietician1, "Dietetician");
@@ -373,7 +375,7 @@ namespace DietDB
                 isAdmin = false,
                 BirthDate = new DateTime(1984, 3, 3),
                 AddressId = 2,
-                RatingId = 2
+                //RatingId = 2
             };
             await userManager.CreateAsync(dietician2, "Pa$$w0rd5555555554!");
             await userManager.AddToRoleAsync(dietician2, "Dietetician");
@@ -390,7 +392,7 @@ namespace DietDB
                 isAdmin = false,
                 BirthDate = new DateTime(1990, 10, 10),
                 AddressId = 10,
-                RatingId = 5
+                //RatingId = 5
             };
             await userManager.CreateAsync(dietician3, "Pa$$w0rd5555555554!");
             await userManager.AddToRoleAsync(dietician3, "Dietetician");
@@ -750,6 +752,101 @@ namespace DietDB
             //#endregion
 
             await context.SaveChangesAsync();
+        }
+
+        private static async Task ExecuteSqlCommands(DietContext context)
+        {
+            #region ApplySQLCommandsForSpTriggView
+
+            await context.Database.ExecuteSqlRawAsync("USE [DietDB];");
+            // Polecenie CREATE VIEW
+            await context.Database.ExecuteSqlRawAsync("CREATE VIEW [dbo].[GetAllSexesFromSqlView] AS " +
+                "SELECT dbo.Sex.*, Id AS Expr1, Name AS Expr2 FROM dbo.Sex;");
+
+            // Polecenie CREATE TRIGGER
+            await context.Database.ExecuteSqlRawAsync(
+                @"
+                -- Jeśli trigger jest aktywowany przez operację INSERT
+                CREATE TRIGGER [dbo].[CreateAddressForUser] 
+                ON [dbo].[Users] AFTER INSERT 
+                AS 
+                BEGIN 
+                    SET NOCOUNT ON; 
+
+                    IF (SELECT COUNT(*) FROM inserted) > 0 
+                    BEGIN 
+                        DECLARE @UserId INT; 
+                        DECLARE @AddressId INT; 
+                        DECLARE @FirstName NVARCHAR(MAX); 
+                        DECLARE @LastName NVARCHAR(MAX); 
+                        DECLARE @Phone NVARCHAR(MAX); 
+                        DECLARE @BirthDate DATETIME; 
+                        DECLARE @isPatient BIT; 
+                        DECLARE @isDietician BIT; 
+                        DECLARE @isAdmin BIT; 
+
+                        SELECT TOP 1 
+                            @UserId = Id, 
+                            @AddressId = AddressId, 
+                            @FirstName = FirstName, 
+                            @LastName = LastName, 
+                            @Phone = Phone, 
+                            @BirthDate = BirthDate, 
+                            @isPatient = isPatient, 
+                            @isDietician = isDietician, 
+                            @isAdmin = isAdmin 
+                        FROM inserted; 
+
+                        IF (@isDietician = 1 OR @isPatient = 1 OR @isAdmin = 1) 
+                        BEGIN 
+                            INSERT INTO dbo.Address (City, State, ZipCode, Country, Street, LocalNo, isActive, dateAdded) 
+                            VALUES ('Uzupelnij dane', 'Uzupelnij dane', 'Uzupelnij dane', 'Uzupelnij dane', 'Uzupelnij dane', 'Uzupelnij dane', 1, CURRENT_TIMESTAMP); 
+                            
+                            SET @AddressId = SCOPE_IDENTITY(); 
+
+                            UPDATE dbo.Users 
+                            SET AddressId = @AddressId 
+                            WHERE Id = @UserId; 
+
+                            IF @isDietician = 1 
+                            BEGIN 
+                                INSERT INTO dbo.UserRoles (UserId, RoleId) 
+                                VALUES (@UserId, 3); 
+                            END 
+                            ELSE IF @isAdmin = 1 
+                            BEGIN 
+                                INSERT INTO dbo.UserRoles (UserId, RoleId) 
+                                VALUES (@UserId, 1); 
+                            END 
+                            ELSE IF @isPatient = 1 
+                            BEGIN 
+                                INSERT INTO dbo.UserRoles (UserId, RoleId) 
+                                VALUES (@UserId, 2); 
+                            END 
+                        END 
+                    END 
+                END;
+                "
+            );
+
+            // Polecenie CREATE PROCEDURE
+            await context.Database.ExecuteSqlRawAsync(
+                @"
+                CREATE PROCEDURE [dbo].[CreatePatientCard]
+                    @PatientId INT,
+                    @DieticianId INT,
+                    @SexId INT
+                AS
+                BEGIN
+                    INSERT INTO PatientCard (PatientId, DieticianId, SexId, isActive, dateAdded)
+                    VALUES (@PatientId, @DieticianId, @SexId, 1, CURRENT_TIMESTAMP);
+
+                    -- Zwróć identyfikator nowo dodanego wpisu (opcjonalne, jeśli chcesz)
+                    SELECT SCOPE_IDENTITY() AS NewPatientCardId;
+                END;
+                "
+                );
+            #endregion 
         }
     }
 }

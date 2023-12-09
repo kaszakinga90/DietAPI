@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ModelsDB.Functionality;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ModelsDB
@@ -9,7 +10,6 @@ namespace ModelsDB
         [Key]
         public int Id { get; set; }
         public int Note { get; set; }
-
-        public List<Dietician> Dieticians { get; set; }
+        public List<DieticianPatientRating> DieticianPatientRatings { get; set; }
     }
 }

@@ -24,28 +24,32 @@ namespace API.Controllers
         public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDTO)
         {
             var user = await _userManager.FindByEmailAsync(loginDTO.Email);
-            if (user == null || !await _userManager.CheckPasswordAsync(user,loginDTO.Password)) 
+            if (user == null || !await _userManager.CheckPasswordAsync(user, loginDTO.Password))
                 return Unauthorized();
 
             return new UserDTO
             {
-                Id=user.Id,
+                Id = user.Id,
                 Email = user.Email,
                 Token = await _tokenService.GenerateToken(user),
-                 IsPatient = user.isPatient,
+                IsPatient = user.isPatient,
                 IsDietician = user.isDietician,
                 IsAdmin = user.isAdmin
             };
         }
+
+        // IMPORTANT : FROM SQL
         [HttpPost("registerpatient")]
         public async Task<ActionResult> RegisterPatient(RegisterDTO registerDTO)
         {
-            var user = new User { 
-                UserName = registerDTO.Email, 
-                Email = registerDTO.Email, 
-                isPatient=true,
-                isDietician=false,
-                isAdmin=false
+            var user = new Patient
+            {
+                UserName = registerDTO.Email,
+                Email = registerDTO.Email,
+                isPatient = true,
+                isDietician = false,
+                isAdmin = false,
+                AddressId = null
             };
 
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
@@ -59,19 +63,21 @@ namespace API.Controllers
                 return ValidationProblem();
             }
 
-            await _userManager.AddToRoleAsync(user, "Patient");
-
             return StatusCode(201);
-        } 
+        }
+
+        // IMPORTANT : FROM SQL
         [HttpPost("registerdietician")]
         public async Task<ActionResult> RegisterDietician(RegisterDTO registerDTO)
         {
-            var user = new User { 
-                UserName = registerDTO.Email, 
+            var user = new Dietician
+            {
+                UserName = registerDTO.Email,
                 Email = registerDTO.Email,
                 isPatient = false,
                 isDietician = true,
-                isAdmin = false
+                isAdmin = false,
+                AddressId = null
             };
 
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
@@ -84,8 +90,6 @@ namespace API.Controllers
                 }
                 return ValidationProblem();
             }
-
-            await _userManager.AddToRoleAsync(user, "Dietetician");
 
             return StatusCode(201);
         }
@@ -93,7 +97,7 @@ namespace API.Controllers
         [HttpGet("currentUser")]
         public async Task<ActionResult<UserDTO>> GetCurrentUser()
         {
-            var user=await _userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
 
             return new UserDTO
             {

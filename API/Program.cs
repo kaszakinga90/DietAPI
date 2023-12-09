@@ -116,7 +116,6 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(MeasureList.Handler).Assembly,
     typeof(UnitList.Handler).Assembly
     ));
-
 /// <summary>
 /// Dodaje i konfiguruje AutoMapper.
 /// </summary>

@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
+using ModelsDB.Functionality;
 
 namespace ModelsDB
 {
     public class User: IdentityUser<int>
     {
-        
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Password { get; set; }
@@ -17,7 +17,8 @@ namespace ModelsDB
         public string PublicId { get; set; }
         public string PictureUrl { get; set; }
 
-
+        public Sex Sex { get; set; }
+        public int? SexId { get; set; } = null;
 
         public Address Address { get; set; }
         public int? AddressId { get; set; } = null;
