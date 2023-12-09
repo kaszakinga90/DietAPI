@@ -11,7 +11,7 @@ namespace ModelsDB
         public int Id { get; set; }
         public string CatalogName { get; set; }
         public List<DishFoodCatalog> DishFoodCatalogs { get; set; }
-        public int? DieteticianId { get; set; }
+        public int? DieticianId { get; set; }
         public Dietician Dietician { get; set; }
     }
 }

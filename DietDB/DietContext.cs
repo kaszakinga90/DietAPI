@@ -80,6 +80,7 @@ namespace DietDB
         public DbSet<Specialization> SpecializationsDb { get; set; }
         public DbSet<DieticianSpecialization> DieticianSpecialization { get; set; }
         public DbSet<PatientCardSurvey> PatientCardSurveysDb { get; set; }
+        public DbSet<DieticianPatientRating> DieticianPatientRatings { get; set; }
 
         public DbSet<Meal> MealsDb { get; set; }
         //public DbSet<Role> Role { get; set; }
@@ -296,12 +297,14 @@ namespace DietDB
             //modelBuilder.Entity<DietPatient>()
             //    .HasOne(mp => mp.Patient)
             //    .WithMany(m => m.DietPatients)
-            //    .HasForeignKey(mp => mp.PatientId);
+            //    .HasForeignKey(mp => mp.PatientId)
+            //    .OnDelete(DeleteBehavior.Restrict);
 
             //modelBuilder.Entity<DietPatient>()
             //    .HasOne(mp => mp.Diet)
-            //    .WithMany(p => p.DietPatients)  
-            //    .HasForeignKey(mp => mp.DietId);
+            //    .WithMany(p => p.diet)
+            //    .HasForeignKey(mp => mp.DietId)
+            //    .OnDelete(DeleteBehavior.Restrict);
 
             // ---------------------------------------------------------------------------------------- //
 
@@ -338,6 +341,30 @@ namespace DietDB
                 .WithMany(p => p.PatientCards)
                 .HasForeignKey(pc => pc.PatientId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // ---------------------------------------------------------------------------------------- //
+
+            modelBuilder.Entity<DieticianPatientRating>()
+                .HasKey(dpr => new { dpr.DieticianId, dpr.PatientId });
+
+            modelBuilder.Entity<DieticianPatientRating>()
+                .HasOne(dpr => dpr.Dietician)
+                .WithMany(d => d.DieticianRatings)
+                .HasForeignKey(dpr => dpr.DieticianId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<DieticianPatientRating>()
+                .HasOne(dpr => dpr.Patient)
+                .WithMany(p => p.DieticianRatings)
+                .HasForeignKey(dpr => dpr.PatientId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<DieticianPatientRating>()
+                .HasOne(dpr => dpr.Rating)
+                .WithMany(r => r.DieticianPatientRatings)
+                .HasForeignKey(dpr => dpr.RatingId)
+                .OnDelete(DeleteBehavior.Restrict);
+
 
 
         }

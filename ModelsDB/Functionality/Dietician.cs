@@ -4,8 +4,6 @@ namespace ModelsDB
     public class Dietician : User
     {
         public string AboutMe { get; set; }
-        public Rating Rating { get; set; }
-        public int RatingId { get; set; }
         public List<Diploma> Diplomas { get; set; } 
         public List<FoodCatalog> FoodCatalogs { get; set; }
         public List<DieticianOffice> DieticianOffices { get; set; }
@@ -20,5 +18,6 @@ namespace ModelsDB
         public List<MessageTo> MessageTo { get; set; }
         public List<DieticianSpecialization> DieticianSpecializations { get; set; }
         public List<Ingredient> Ingredients { get; set; }
+        public List<DieticianPatientRating> DieticianRatings { get; set; }
     }
 }

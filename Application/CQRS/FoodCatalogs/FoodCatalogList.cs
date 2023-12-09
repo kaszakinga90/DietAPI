@@ -24,7 +24,7 @@ namespace Application.CQRS.FoodCatalogs
             public async Task<Result<List<FoodCatalogGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var foodCatalog = await _context.FoodCatalogsDb
-                    .Where(m => m.DieteticianId == null || m.DieteticianId == request.DieteticianId)
+                    .Where(m => m.DieticianId == null || m.DieticianId == request.DieteticianId)
                     .Select(m => new FoodCatalogGetDTO
                     {
                         FoodCatalogId = m.Id,

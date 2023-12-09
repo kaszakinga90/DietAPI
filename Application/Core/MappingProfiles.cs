@@ -16,6 +16,7 @@ using Application.DTOs.PatientCardDTO;
 using Application.DTOs.PatientDTO;
 using Application.DTOs.RecipeDTO;
 using Application.DTOs.RecipeStepDTO;
+using Application.DTOs.SexDTO;
 using Application.DTOs.SpecializationDTO;
 using Application.DTOs.UnitDTO;
 using AutoMapper;
@@ -196,6 +197,9 @@ namespace Application.Core
             .ForMember(dest => dest.TestResults, opt => opt.MapFrom(src => src.TestResults));
 
             CreateMap<PatientCardPostDTO, PatientCard>()
+                .ReverseMap();
+
+            CreateMap<Sex, SexGetDTO>()
                 .ReverseMap();
         }
     }

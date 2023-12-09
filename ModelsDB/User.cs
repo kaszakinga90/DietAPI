@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ModelsDB.Functionality;
 
 namespace ModelsDB
 {
@@ -16,7 +17,8 @@ namespace ModelsDB
         public string PublicId { get; set; }
         public string PictureUrl { get; set; }
 
-
+        public Sex Sex { get; set; }
+        public int? SexId { get; set; } = null;
 
         public Address Address { get; set; }
         public int? AddressId { get; set; } = null;
