@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietDB.Migrations
 {
     [DbContext(typeof(DietContext))]
-    [Migration("20231209194835_InitialCreate")]
+    [Migration("20231211142730_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,22 +120,22 @@ namespace DietDB.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b41753ef-d3e3-4697-9c59-f8d5b45c5533",
-                            ConcurrencyStamp = "ec30a0ef-a60c-475f-8cbd-f0845e1b5c29",
+                            Id = "62ecdeec-c2c7-4e52-8732-8713213ed6f7",
+                            ConcurrencyStamp = "a8802964-11eb-4071-b68e-469aacc2607b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "2fc53c35-45e3-426e-843f-e1d8ba8f64d7",
-                            ConcurrencyStamp = "e203ee6b-5fee-4d1d-a668-54bee20d3bcc",
+                            Id = "69361469-c771-4871-88ad-be5b90be58b9",
+                            ConcurrencyStamp = "59a7ac8e-161b-495f-9fde-9778430dfc09",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = "b9465b29-02e1-4366-8bf9-8f85899d8a9c",
-                            ConcurrencyStamp = "69d6037b-3036-426d-a8ab-7001968ac97e",
+                            Id = "14971395-107f-4bd5-a195-31abfb1fae0c",
+                            ConcurrencyStamp = "14ff9acc-fc1b-4a74-bcc7-81af04f58fc7",
                             Name = "Dietetician",
                             NormalizedName = "DIETETICIAN"
                         });

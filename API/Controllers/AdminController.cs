@@ -3,6 +3,7 @@ using Application.CQRS.Admins;
 using Application.DTOs.AdminDTO;
 using Application.Services;
 using DietDB;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB;
 
@@ -16,7 +17,7 @@ namespace API.Controllers
         private readonly ImageService _imageService;
         private readonly DietContext _context;
 
-        public AdminController(ImageService imageService, DietContext context)
+        public AdminController(ImageService imageService, DietContext context, IMediator mediator) : base(mediator)
         {
             _imageService = imageService;
             _context = context;
@@ -30,7 +31,7 @@ namespace API.Controllers
         [Route("all")]
         public async Task<ActionResult<List<Admin>>> GetAdmins()
         {
-            return await Mediator.Send(new AdminList.Query());
+            return await _mediator.Send(new AdminList.Query());
         }
 
         /// <summary>
@@ -41,7 +42,7 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<AdminGetDTO>> GetAdmin(int id)
         {
-            return await Mediator.Send(new AdminDetails.Query { Id = id });
+            return await _mediator.Send(new AdminDetails.Query { Id = id });
         }
 
         /// <summary>
@@ -52,7 +53,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAdmin(Admin Admin)
         {
-            await Mediator.Send(new AdminCreate.Command { Admin = Admin });
+            await _mediator.Send(new AdminCreate.Command { Admin = Admin });
             return Ok();
         }
 
@@ -72,7 +73,7 @@ namespace API.Controllers
             };
             command.Admin.Id = id;
 
-            return HandleResult(await Mediator.Send(command));
+            return HandleResult(await _mediator.Send(command));
         }
 
         /// <summary>
@@ -83,7 +84,7 @@ namespace API.Controllers
         [HttpGet("{adminId}/messages")]
         public async Task<ActionResult<PagedList<MessageToDTO>>> GetMessagesForAdmin(int adminId, [FromQuery] PagingParams param)
         {
-            var result = await Mediator.Send(new AdminMessageList.Query { AdminId = adminId, Params = param });
+            var result = await _mediator.Send(new AdminMessageList.Query { AdminId = adminId, Params = param });
 
             return HandlePagedResult(result);
         }
@@ -96,7 +97,7 @@ namespace API.Controllers
         [HttpPost("{adminId}/messageToDietician")]
         public async Task<IActionResult> MessageToDietetician(int adminId, MessageToDTO message)
         {
-            await Mediator.Send(new MessageToDieteticianFromAdminCreate.Command { MessageDTO = message, AdminId = adminId });
+            await _mediator.Send(new MessageToDieteticianFromAdminCreate.Command { MessageDTO = message, AdminId = adminId });
             return Ok();
         }
 
@@ -108,7 +109,7 @@ namespace API.Controllers
         [HttpPost("{adminId}/messageToPatient")]
         public async Task<IActionResult> MessageToPatient(int adminId, MessageToDTO message)
         {
-            await Mediator.Send(new MessageToPatientFromAdminCreate.Command { MessageDTO = message, AdminId = adminId });
+            await _mediator.Send(new MessageToPatientFromAdminCreate.Command { MessageDTO = message, AdminId = adminId });
             return Ok();
         }
     }

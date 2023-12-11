@@ -5,6 +5,7 @@ using Application.DTOs.PatientDTO;
 using Application.FiltersExtensions.PatientMessages;
 using Application.Services;
 using DietDB;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB;
 using static Application.CQRS.Patients.MessagesFilters;
@@ -19,7 +20,7 @@ namespace API.Controllers
         private readonly ImageService _imageService;
         private readonly DietContext _context;
 
-        public PatientController(ImageService imageService, DietContext context)
+        public PatientController(ImageService imageService, DietContext context, IMediator mediator) : base(mediator)
         {
             _imageService = imageService;
             _context = context;
@@ -33,7 +34,7 @@ namespace API.Controllers
         [Route("all")]
         public async Task<ActionResult<List<Patient>>> GetPatients()
         {
-            return await Mediator.Send(new PatientList.Query());
+            return await _mediator.Send(new PatientList.Query());
         }
 
         /// <summary>
@@ -44,7 +45,7 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<PatientGetDTO>> GetPatient(int id)
         {
-            return await Mediator.Send(new PatientDetails.Query { Id = id });
+            return await _mediator.Send(new PatientDetails.Query { Id = id });
         }
 
         /// <summary>
@@ -55,7 +56,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreatePatient(Patient Patient)
         {
-            await Mediator.Send(new PatientCreate.Command { Patient = Patient });
+            await _mediator.Send(new PatientCreate.Command { Patient = Patient });
             return Ok();
         }
 
@@ -97,7 +98,7 @@ namespace API.Controllers
             };
             command.Patient.Id = id;
 
-            return HandleResult(await Mediator.Send(command));
+            return HandleResult(await _mediator.Send(command));
         }
         [HttpPut("{id}/editdata")]
         public async Task<IActionResult> EditPatientData(int id, PatientEditDataDTO patient)
@@ -108,20 +109,20 @@ namespace API.Controllers
             };
             command.PatientEditData.Id = id;
 
-            return HandleResult(await Mediator.Send(command));
+            return HandleResult(await _mediator.Send(command));
         }
 
         [HttpGet("{patientId}/messages")]
         public async Task<ActionResult<PagedList<MessageToDTO>>> GetMessagesForPatient(int patientId, [FromQuery] PatientMessagesParams param)
         {
-            var result = await Mediator.Send(new PatientMessageList.Query { PatientId = patientId, Params = param });
+            var result = await _mediator.Send(new PatientMessageList.Query { PatientId = patientId, Params = param });
 
             return HandlePagedResult(result);
         }
         [HttpGet("filters/{patientId}")]
         public async Task<ActionResult<MessagesFiltersDTO>> GetFilters(int patientId)
         {
-            var result = await Mediator.Send(new FilterList.Query { PatientId=patientId});
+            var result = await _mediator.Send(new FilterList.Query { PatientId = patientId });
             return HandleResult(result);
         }
 
@@ -133,7 +134,7 @@ namespace API.Controllers
         [HttpPost("messageToDietician/{patientId}")]
         public async Task<IActionResult> MessageToDietetician(int patientId, MessageToDTO message)
         {
-            await Mediator.Send(new MessageToDieteticianFromPatientCreate.Command { MessageDTO = message, PatientId = patientId });
+            await _mediator.Send(new MessageToDieteticianFromPatientCreate.Command { MessageDTO = message, PatientId = patientId });
             return Ok();
         }
 
@@ -145,7 +146,7 @@ namespace API.Controllers
         [HttpPost("{patientId}/messageToAdmin")]
         public async Task<IActionResult> MessageToAdmin(int patientId, MessageToDTO message)
         {
-            await Mediator.Send(new MessageToAdminFromPatientCreate.Command { MessageDTO = message, PatientId = patientId });
+            await _mediator.Send(new MessageToAdminFromPatientCreate.Command { MessageDTO = message, PatientId = patientId });
             return Ok();
         }
 

@@ -1,12 +1,11 @@
 ﻿using Application.Core;
 using Application.CQRS.Dieticians;
 using Application.CQRS.Diplomas;
-using Application.CQRS.Patients;
 using Application.DTOs.DieticianDTO;
 using Application.DTOs.DiplomaDTO;
-using Application.DTOs.PatientDTO;
 using Application.Services;
 using DietDB;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB;
 
@@ -20,7 +19,7 @@ namespace API.Controllers
         private readonly ImageService _imageService;
         private readonly DietContext _context;
 
-        public DieticianController(ImageService imageService, DietContext context)
+        public DieticianController(ImageService imageService, DietContext context, IMediator mediator) : base(mediator)
         {
             _imageService = imageService;
             _context = context;
@@ -34,7 +33,7 @@ namespace API.Controllers
         [Route("all")]
         public async Task<ActionResult<List<Dietician>>> GetDieticians()
         {
-            return await Mediator.Send(new DieticianList.Query());
+            return await _mediator.Send(new DieticianList.Query());
         }
 
         /// <summary>
@@ -45,7 +44,7 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<DieticianGetDTO>> GetDietician(int id)
         {
-            return await Mediator.Send(new DieticianDetails.Query { Id = id });
+            return await _mediator.Send(new DieticianDetails.Query { Id = id });
         }
 
         /// <summary>
@@ -56,7 +55,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateDietician(Dietician Dietician)
         {
-            await Mediator.Send(new DieticianCreate.Command { Dietician = Dietician });
+            await _mediator.Send(new DieticianCreate.Command { Dietician = Dietician });
             return Ok();
         }
 
@@ -77,7 +76,7 @@ namespace API.Controllers
             command.Dietician.Id = id;
 
 
-            return HandleResult(await Mediator.Send(command));
+            return HandleResult(await _mediator.Send(command));
         }
 
         /// <summary>
@@ -88,7 +87,7 @@ namespace API.Controllers
         [HttpGet("{dieticianId}/messages")]
         public async Task<ActionResult<PagedList<MessageToDTO>>> GetMessagesForDietician(int dieticianId, [FromQuery] PagingParams param)
         {
-            var result = await Mediator.Send(new DieticianMessageList.Query { DieticianId = dieticianId, Params = param });
+            var result = await _mediator.Send(new DieticianMessageList.Query { DieticianId = dieticianId, Params = param });
 
             return HandlePagedResult(result);
         }
@@ -101,7 +100,7 @@ namespace API.Controllers
         [HttpPost("{dieticianId}/messageToAdmin")]
         public async Task<IActionResult> MessageToAdmin(int dieticianId, MessageToDTO message)
         {
-            await Mediator.Send(new MessageToAdminFromDieticianCreate.Command { MessageDTO = message, DieticianId = dieticianId });
+            await _mediator.Send(new MessageToAdminFromDieticianCreate.Command { MessageDTO = message, DieticianId = dieticianId });
             return Ok();
         }
 
@@ -113,7 +112,7 @@ namespace API.Controllers
         [HttpPost("{dieticianId}/messageToPatient")]
         public async Task<IActionResult> MessageToPatient(int dieticianId, MessageToDTO message)
         {
-            await Mediator.Send(new MessageToPatientFromDieticianCreate.Command { MessageDTO = message, DieticianId = dieticianId });
+            await _mediator.Send(new MessageToPatientFromDieticianCreate.Command { MessageDTO = message, DieticianId = dieticianId });
             return Ok();
         }
 
@@ -126,9 +125,9 @@ namespace API.Controllers
                 File = file,
             };
 
-            await Mediator.Send(command);
+            await _mediator.Send(command);
 
-            return Ok(); 
+            return Ok();
         }
 
 

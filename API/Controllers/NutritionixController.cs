@@ -2,6 +2,7 @@
 using Application.DTOs.IngredientDTO.IngredientNutritionixDTO;
 using Application.Services;
 using DietDB;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB;
 using ModelsDB.Functionality;
@@ -14,7 +15,7 @@ namespace API.Controllers
         private readonly ImageService _imageService;
         private readonly DietContext _context;
 
-        public NutritionixController(ImageService imageService, DietContext context)
+        public NutritionixController(ImageService imageService, DietContext context, IMediator mediator) : base(mediator)
         {
             _imageService = imageService;
             _context = context;
@@ -86,7 +87,7 @@ namespace API.Controllers
                                     else
                                     {
                                         // Jednostka nie istnieje, dodaj ją do bazy danych
-                                        var newUnit = new Unit
+                                        var newUnit = new ModelsDB.Functionality.Unit
                                         {
                                             Symbol = "g",
                                         };
@@ -142,7 +143,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateIngredientFromNutritionix(IngredientNutritionixDTO Ingredient)
         {
-            await Mediator.Send(new IngredientFromNutritionixCreate.Command { IngredientNutritionixDTO = Ingredient });
+            await _mediator.Send(new IngredientFromNutritionixCreate.Command { IngredientNutritionixDTO = Ingredient });
             return Ok();
         }
 
@@ -189,4 +190,3 @@ namespace API.Controllers
         }
     }
 }
- 

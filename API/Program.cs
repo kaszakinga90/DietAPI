@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Application.Services.EmailSends;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -100,6 +101,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<TokenService>();
+
+builder.Services.AddDefaultIdentity<User>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = true; // Upewnij się, że potwierdzenie konta jest wymagane
+})
+.AddEntityFrameworkStores<DietContext>() // Dodaj sklep danych dla Identity
+.AddDefaultTokenProviders(); // Dodaj domyślne dostawce tokenów (w tym dostawcę dwuetapowego uwierzytelniania)
+
+
+
 /// <summary>
 /// Dodaje i konfiguruje MediatR.
 /// </summary>
@@ -116,6 +127,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(MeasureList.Handler).Assembly,
     typeof(UnitList.Handler).Assembly
     ));
+
 /// <summary>
 /// Dodaje i konfiguruje AutoMapper.
 /// </summary>
@@ -127,6 +139,12 @@ builder.Services.AddScoped<ImageService>();
 /// </summary>
 builder.Services.AddFluentValidationAutoValidation();
 //builder.Services.AddValidatorsFromAssemblyContaining<Create>();
+
+var emailSendConfiguration = builder.Configuration
+    .GetSection("EmailSenderConfiguration")
+    .Get<EmailSenderConfiguration>();
+builder.Services.AddSingleton(emailSendConfiguration);
+builder.Services.AddScoped<IEmailSender, EmailService>();
 
 var app = builder.Build();
 
