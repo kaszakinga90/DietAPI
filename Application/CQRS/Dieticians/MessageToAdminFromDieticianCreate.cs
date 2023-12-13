@@ -55,15 +55,12 @@ namespace Application.CQRS.Dieticians
 
                 var message = _mapper.Map<MessageTo>(request.MessageDTO);
 
-                // Ustawienie ID dietetyka dla wiadomości
                 message.DieticianId = request.DieticianId;
                 message.PatientId = null;
 
-                // Przypisuj wiadomość do admina
                 var admin = await _context.AdminsDb.FindAsync(request.MessageDTO.AdminId.Value);
                 if (admin == null)
                 {
-                    // Rzuć błąd jeśli admin nie został znaleziony
                     throw new Exception("Admin nie został znaleziony");
                 }
 

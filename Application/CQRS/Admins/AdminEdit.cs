@@ -83,7 +83,6 @@ namespace Application.CQRS.Admins
                     var imageResult = await _imageService.AddImageAsync(request.File);
                     if (imageResult.Error != null)
                     {
-                        // Logowanie błędu i zwrócenie informacji o błędzie
                         return Result<AdminDTO>.Failure(imageResult.Error.Message);
                     }
 
@@ -106,12 +105,8 @@ namespace Application.CQRS.Admins
                 }
                 catch (Exception ex)
                 {
-                    // Logowanie błędu ex
                     return Result<AdminDTO>.Failure("Wystąpił błąd podczas edycji admina.");
                 }
-
-                //var updatedAdmin = _mapper.Map<AdminDTO>(admin);
-                //return Result<AdminDTO>.Success(updatedAdmin);
                 return Result<AdminDTO>.Success(_mapper.Map<AdminDTO>(admin));
             }
         }

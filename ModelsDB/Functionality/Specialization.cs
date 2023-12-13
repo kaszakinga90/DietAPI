@@ -1,6 +1,6 @@
 ﻿namespace ModelsDB.Functionality
 {
-    public class Specialization
+    public class Specialization : BaseModel
     {
         public int Id { get; set; }
         public string SpecializationName { get; set; }

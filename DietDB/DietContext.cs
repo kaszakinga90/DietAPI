@@ -81,6 +81,7 @@ namespace DietDB
         public DbSet<DieticianSpecialization> DieticianSpecialization { get; set; }
         public DbSet<PatientCardSurvey> PatientCardSurveysDb { get; set; }
         public DbSet<DieticianPatientRating> DieticianPatientRatings { get; set; }
+        public DbSet<Logo> LogosDb { get; set; }
 
         public DbSet<Meal> MealsDb { get; set; }
         //public DbSet<Role> Role { get; set; }
@@ -365,7 +366,18 @@ namespace DietDB
                 .HasForeignKey(dpr => dpr.RatingId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // ---------------------------------------------------------------------------------------- //
 
+            modelBuilder.Entity<Logo>()
+                .HasOne(l => l.Dietician)
+                .WithOne(d => d.Logo)
+                .HasForeignKey<Logo>(l => l.DieticianId);
+
+            modelBuilder.Entity<Dietician>()
+                .HasOne(d => d.Logo)
+                .WithOne(l => l.Dietician)
+                .HasForeignKey<Logo>(l => l.DieticianId)
+                .IsRequired(false);
 
         }
         #endregion

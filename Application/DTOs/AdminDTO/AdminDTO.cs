@@ -15,10 +15,8 @@ namespace Application.DTOs.AdminDTO
         public bool isDietician { get; set; }
         public bool isAdmin { get; set; }
         public DateTime? BirthDate { get; set; }
-
         public Address Address { get; set; }
         public int AddressId { get; set; }
-
         public List<MessageToDTO> Messages { get; set; }
     }
 }

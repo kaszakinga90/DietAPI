@@ -23,10 +23,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Application.Services.EmailSends;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Dodaje us³ugi do kontenera.
+// Dodaje uslugi do kontenera.
 
 /// <summary>
 /// Dodaje kontrolery i konfiguruje opcje serializacji JSON.
@@ -67,9 +68,6 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-/// <summary>
-/// Dodaje i konfiguruje bazê danych.
-/// </summary>
 builder.Services.AddDbContext<DietContext>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -82,9 +80,12 @@ builder.Services.AddCors();
 builder.Services.AddIdentityCore<User>(opt =>
 {
     opt.User.RequireUniqueEmail = true;
+    //opt.SignIn.RequireConfirmedEmail = true;
 })
     .AddRoles<Role>()
-    .AddEntityFrameworkStores<DietContext>();
+    .AddEntityFrameworkStores<DietContext>()
+    .AddDefaultTokenProviders();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opt =>
     {
@@ -100,6 +101,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<TokenService>();
+
 /// <summary>
 /// Dodaje i konfiguruje MediatR.
 /// </summary>
@@ -116,6 +118,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(MeasureList.Handler).Assembly,
     typeof(UnitList.Handler).Assembly
     ));
+
 /// <summary>
 /// Dodaje i konfiguruje AutoMapper.
 /// </summary>
@@ -126,7 +129,12 @@ builder.Services.AddScoped<ImageService>();
 /// Dodaje wsparcie dla walidacji z FluentValidation.
 /// </summary>
 builder.Services.AddFluentValidationAutoValidation();
-//builder.Services.AddValidatorsFromAssemblyContaining<Create>();
+
+var emailSendConfiguration = builder.Configuration
+    .GetSection("EmailSenderConfiguration")
+    .Get<EmailSenderConfiguration>();
+builder.Services.AddSingleton(emailSendConfiguration);
+builder.Services.AddScoped<IEmailSender, EmailService>();
 
 var app = builder.Build();
 
@@ -154,7 +162,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 /// <summary>
-/// Tworzy zakres dla us³ug i inicjuje bazê danych.
+/// Tworzy zakres dla uslug i inicjuje baze danych.
 /// </summary>
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
@@ -175,6 +183,5 @@ catch (Exception ex)
     var logger = services.GetRequiredService<ILogger<Program>>();
     logger.LogError(ex, "An error occured during migration");
 }
-
 
 app.Run();

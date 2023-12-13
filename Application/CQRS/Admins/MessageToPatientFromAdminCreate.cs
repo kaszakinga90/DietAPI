@@ -55,11 +55,9 @@ namespace Application.CQRS.Admins
 
                 var message = _mapper.Map<MessageTo>(request.MessageDTO);
 
-                // Ustawienie ID admina dla wiadomości
                 message.AdminId = request.AdminId;
                 message.DieticianId = null;
 
-                // Przypisuj wiadomość do pacjenta
                 var patient = await _context.PatientsDb.FindAsync(request.MessageDTO.PatientId.Value);
                 if (patient == null)
                 {

@@ -77,13 +77,11 @@ namespace Application.CQRS.Ingredients
 
                 _mapper.Map(request.Ingredient, ingredient);
 
-                // Obsługa obrazu
                 if (request.File != null)
                 {
                     var imageResult = await _imageService.AddImageAsync(request.File);
                     if (imageResult.Error != null)
                     {
-                        // Logowanie błędu i zwrócenie informacji o błędzie
                         return Result<IngredientDTO>.Failure(imageResult.Error.Message);
                     }
 
@@ -108,7 +106,6 @@ namespace Application.CQRS.Ingredients
                 {
                     return Result<IngredientDTO>.Failure("Wystąpił błąd podczas edycji produktu.");
                 }
-
                 return Result<IngredientDTO>.Success(_mapper.Map<IngredientDTO>(ingredient));
             }
         }

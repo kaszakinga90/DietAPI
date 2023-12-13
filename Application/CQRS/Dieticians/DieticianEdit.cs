@@ -83,7 +83,6 @@ namespace Application.CQRS.Dieticians
                     var imageResult = await _imageService.AddImageAsync(request.File);
                     if (imageResult.Error != null)
                     {
-                        // Logowanie błędu i zwrócenie informacji o błędzie
                         return Result<DieticianDTO>.Failure(imageResult.Error.Message);
                     }
 
@@ -106,12 +105,8 @@ namespace Application.CQRS.Dieticians
                 }
                 catch (Exception ex)
                 {
-                    // Logowanie błędu ex
                     return Result<DieticianDTO>.Failure("Wystąpił błąd podczas edycji dietetyka.");
                 }
-
-                //var updatedDietician = _mapper.Map<DieticianDTO>(dietician);
-                //return Result<DieticianDTO>.Success(updatedDietician);
                 return Result<DieticianDTO>.Success(_mapper.Map<DieticianDTO>(dietician));
             }
         }

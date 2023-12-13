@@ -756,6 +756,7 @@ namespace DietDB.Migrations
                     PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SexId = table.Column<int>(type: "int", nullable: true),
                     AddressId = table.Column<int>(type: "int", nullable: true),
+                    isDarkMode = table.Column<bool>(type: "bit", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
                     dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -1362,6 +1363,33 @@ namespace DietDB.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Logo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DieticianId = table.Column<int>(type: "int", nullable: false),
+                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    isActive = table.Column<bool>(type: "bit", nullable: false),
+                    dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Logo", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Logo_Users_DieticianId",
+                        column: x => x.DieticianId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MessageToDb",
                 columns: table => new
                 {
@@ -1837,17 +1865,17 @@ namespace DietDB.Migrations
             migrationBuilder.InsertData(
                 table: "IdentityRole",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "2fc53c35-45e3-426e-843f-e1d8ba8f64d7", "e203ee6b-5fee-4d1d-a668-54bee20d3bcc", "Patient", "PATIENT" });
+                values: new object[] { "02f30095-add6-46a3-8cd5-41e8c2933142", "703531ca-e341-4a52-ad0e-a5a11334cdc0", "Dietetician", "DIETETICIAN" });
 
             migrationBuilder.InsertData(
                 table: "IdentityRole",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "b41753ef-d3e3-4697-9c59-f8d5b45c5533", "ec30a0ef-a60c-475f-8cbd-f0845e1b5c29", "Admin", "ADMIN" });
+                values: new object[] { "ce2113b6-12e1-400d-9cf6-1de3d975471c", "fde0c6ad-82ad-4a12-9de3-c8d3933dd729", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "IdentityRole",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "b9465b29-02e1-4366-8bf9-8f85899d8a9c", "69d6037b-3036-426d-a8ab-7001968ac97e", "Dietetician", "DIETETICIAN" });
+                values: new object[] { "fc23a44e-0549-4bf2-b4f7-ad797f557cdc", "25e3d8d3-d385-4e2c-ab0a-607f9d670352", "Patient", "PATIENT" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Article_LayoutCategoryId",
@@ -2025,6 +2053,12 @@ namespace DietDB.Migrations
                 name: "IX_Link_LayoutCategoryId",
                 table: "Link",
                 column: "LayoutCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Logo_DieticianId",
+                table: "Logo",
+                column: "DieticianId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_MainNavbarTab_TabsId",
@@ -2255,6 +2289,9 @@ namespace DietDB.Migrations
 
             migrationBuilder.DropTable(
                 name: "LayoutPhotoNews");
+
+            migrationBuilder.DropTable(
+                name: "Logo");
 
             migrationBuilder.DropTable(
                 name: "MainNavbarTab");

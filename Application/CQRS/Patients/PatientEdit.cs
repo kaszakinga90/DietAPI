@@ -83,7 +83,6 @@ namespace Application.CQRS.Patients
                     var imageResult = await _imageService.AddImageAsync(request.File);
                     if (imageResult.Error != null)
                     {
-                        // Logowanie błędu i zwrócenie informacji o błędzie
                         return Result<PatientDTO>.Failure(imageResult.Error.Message);
                     }
 
@@ -106,14 +105,9 @@ namespace Application.CQRS.Patients
                 }
                 catch (Exception ex)
                 {
-                    // Logowanie błędu ex
                     return Result<PatientDTO>.Failure("Wystąpił błąd podczas edycji pacjenta.");
                 }
 
-
-
-                //var updatedPatient = _mapper.Map<PatientDTO>(patient);
-                //return Result<PatientDTO>.Success(updatedPatient);
                 return Result<PatientDTO>.Success(_mapper.Map<PatientDTO>(patient));
             }
         }

@@ -1,22 +1,19 @@
 ﻿using Application.CQRS.Ingredients.Nutritionixs;
 using Application.DTOs.IngredientDTO.IngredientNutritionixDTO;
-using Application.Services;
 using DietDB;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB;
-using ModelsDB.Functionality;
 using System.Text.Json;
 
 namespace API.Controllers
 {
     public class NutritionixController : BaseApiController
     {
-        private readonly ImageService _imageService;
         private readonly DietContext _context;
 
-        public NutritionixController(ImageService imageService, DietContext context)
+        public NutritionixController(DietContext context, IMediator mediator) : base(mediator)
         {
-            _imageService = imageService;
             _context = context;
         }
 
@@ -57,10 +54,8 @@ namespace API.Controllers
                                 {
                                     var measureName = element.GetProperty("serving_unit").GetString();
 
-                                    //Sprawdzenie, czy jednostka miary istnieje w kolekcji wcześniej pobranych jednostek miary
                                     if (measures.TryGetValue(measureName, out var measureId))
                                     {
-                                        // Jednostka miary istnieje, możemy użyć jej identyfikatora
                                     }
                                     else
                                     {
@@ -72,21 +67,16 @@ namespace API.Controllers
                                         _context.MeasuresDb.Add(newMeasure);
                                         await _context.SaveChangesAsync();
 
-                                        // Pobierz identyfikator nowo dodanej jednostki miary
                                         measureId = newMeasure.Id;
-
                                         measures.Add(measureName, measureId);
                                     }
 
-                                    // Sprawdzenie, czy jednostka istnieje w kolekcji wcześniej pobranych jednostek
                                     if (units.TryGetValue("g", out var unitId))
                                     {
-                                        // Jednostka istnieje, możemy użyć jej identyfikatora
                                     }
                                     else
                                     {
-                                        // Jednostka nie istnieje, dodaj ją do bazy danych
-                                        var newUnit = new Unit
+                                        var newUnit = new ModelsDB.Functionality.Unit
                                         {
                                             Symbol = "g",
                                         };
@@ -94,9 +84,7 @@ namespace API.Controllers
                                         _context.UnitsDb.Add(newUnit);
                                         await _context.SaveChangesAsync();
 
-                                        // Pobierz identyfikator nowo dodanej jednostki miary
                                         unitId = newUnit.Id;
-
                                         units.Add(newUnit.Symbol, unitId);
                                     }
 
@@ -135,17 +123,15 @@ namespace API.Controllers
             {
                 Console.WriteLine($"Błąd podczas pobierania danych: {ex.Message}");
             }
-            // Zwróć pustą listę, jeśli nie znaleziono produktów lub wystąpił błąd
             return Ok(new List<IngredientNutritionixDTO>());
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateIngredientFromNutritionix(IngredientNutritionixDTO Ingredient)
         {
-            await Mediator.Send(new IngredientFromNutritionixCreate.Command { IngredientNutritionixDTO = Ingredient });
+            await _mediator.Send(new IngredientFromNutritionixCreate.Command { IngredientNutritionixDTO = Ingredient });
             return Ok();
         }
-
     }
 
     public static class IngredientDTOExtensions
@@ -189,4 +175,3 @@ namespace API.Controllers
         }
     }
 }
- 

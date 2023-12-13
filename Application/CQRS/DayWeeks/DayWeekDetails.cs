@@ -3,8 +3,6 @@ using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using ModelsDB;
-using ModelsDB.Functionality;
 
 namespace Application.CQRS.DayWeekDTOs
 {

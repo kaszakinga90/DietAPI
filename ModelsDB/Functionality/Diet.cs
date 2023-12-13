@@ -16,7 +16,6 @@ namespace ModelsDB
         public Patient Patient { get; set; }
         public int numberOfMeals { get; set; }
         public List<MealTimeToXYAxis> MealTimesToXYAxis { get; set; }
-
         public int DieteticianId { get; set; }
         public Dietician Dietician { get; set; }
         //public List<DietPatient> DietPatients { get; set; }

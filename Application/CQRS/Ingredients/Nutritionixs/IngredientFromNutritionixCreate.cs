@@ -41,20 +41,17 @@ namespace Application.CQRS.Ingredients.Nutritionixs
 
                         if (existingNutrient != null)
                         {
-                            // Aktualizuj istniejącą encję
                             _context.Entry(existingNutrient).CurrentValues.SetValues(nutrientDTO);
                             await _context.SaveChangesAsync();
                         }
                         else
                         {
-                            // Dodaj nową encję
                             var newNutrient = _mapper.Map<IngredientNutrient>(nutrientDTO);
                             newNutrient.IngredientId = ingredient.Id;
                             _context.IngredientNutrientsDb.Add(newNutrient);
                             await _context.SaveChangesAsync();
                         }
                     }
-
                     await _context.SaveChangesAsync();
                 }
             }

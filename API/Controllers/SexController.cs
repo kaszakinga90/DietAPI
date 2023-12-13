@@ -1,17 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Application.DTOs.SexDTO;
 using Application.CQRS.Sexes;
+using MediatR;
 
 namespace API.Controllers
 {
     public class SexController : BaseApiController
     {
-        // IMPORTANT : FROM SQL
+        public SexController(IMediator mediator) : base(mediator)
+        {
+        }
+
+        // IMPORTANT : FROM SQL - pobieranie danych z widoku
         [HttpGet]
         [Route("allSexTypesFromView")]
         public async Task<ActionResult<List<SexGetDTO>>> GetSexesFromView()
         {
-            var result = await Mediator.Send(new SexesList.Query());
+            var result = await _mediator.Send(new SexesList.Query());
             return HandleResult(result);
         }
     }

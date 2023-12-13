@@ -2,6 +2,8 @@
 using Application.DTOs.RegistersDTO;
 using Application.DTOs.UsersDTO;
 using Application.Services;
+using Application.Services.EmailSends;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,11 +15,13 @@ namespace API.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly TokenService _tokenService;
+        private readonly IEmailSender _emailService;
 
-        public AccountController(UserManager<User> userManager, TokenService tokenService)
+        public AccountController(UserManager<User> userManager, TokenService tokenService, IEmailSender emailService, IMediator mediator) : base(mediator)
         {
             _userManager = userManager;
             _tokenService = tokenService;
+            _emailService = emailService;
         }
 
         [HttpPost("login")]
@@ -25,7 +29,10 @@ namespace API.Controllers
         {
             var user = await _userManager.FindByEmailAsync(loginDTO.Email);
             if (user == null || !await _userManager.CheckPasswordAsync(user, loginDTO.Password))
-                return Unauthorized();
+                return Unauthorized("user jest null lub hasło się nie zgadza");
+
+            if (!user.EmailConfirmed)
+                return Unauthorized("Email nie został potwierdzony.");
 
             return new UserDTO
             {
@@ -38,8 +45,9 @@ namespace API.Controllers
             };
         }
 
-        // IMPORTANT : FROM SQL
-        [HttpPost("registerpatient")]
+        // IMPORTANT : FROM SQL - trigger tworzący obiekt Adres 
+        [AllowAnonymous]
+        [HttpPost("registerPatient")]
         public async Task<ActionResult> RegisterPatient(RegisterDTO registerDTO)
         {
             var user = new Patient
@@ -49,10 +57,25 @@ namespace API.Controllers
                 isPatient = true,
                 isDietician = false,
                 isAdmin = false,
+                isActive = false,
+                isDarkMode = false,
                 AddressId = null
             };
 
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
+
+            if(result.Succeeded)
+            {
+                var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                if (emailConfirmationToken != null)
+                {
+                    var confirmationLink = $"http://localhost:3000/registerConfirm?userId={user.Id}&token={emailConfirmationToken}";
+                    var emailBody = $"Potwierdź swoje konto, klikając <a href='{confirmationLink}'>tutaj</a>";
+                    var message = new EmailMessage(new string[] { "testtesttest@test.com" }, "Test email", emailBody);
+                    _emailService.SendEmail(message);
+                }
+            }
 
             if (!result.Succeeded)
             {
@@ -61,13 +84,13 @@ namespace API.Controllers
                     ModelState.AddModelError(error.Code, error.Description);
                 }
                 return ValidationProblem();
-            }
-
+            } 
             return StatusCode(201);
         }
 
-        // IMPORTANT : FROM SQL
-        [HttpPost("registerdietician")]
+        // IMPORTANT : FROM SQL - trigger tworzący obiekt Adres
+        [AllowAnonymous]
+        [HttpPost("registerDietician")]
         public async Task<ActionResult> RegisterDietician(RegisterDTO registerDTO)
         {
             var user = new Dietician
@@ -77,10 +100,24 @@ namespace API.Controllers
                 isPatient = false,
                 isDietician = true,
                 isAdmin = false,
+                isDarkMode=false,
                 AddressId = null
             };
 
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
+
+            if (result.Succeeded)
+            {
+                var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                if (emailConfirmationToken != null)
+                {
+                    var confirmationLink = $"http://localhost:3000/registerConfirm?userId={user.Id}&token={emailConfirmationToken}";
+                    var emailBody = $"Potwierdź swoje konto, klikając <a href='{confirmationLink}'>tutaj</a>";
+                    var message = new EmailMessage(new string[] { "testtesttest@test.com" }, "Test email", emailBody);
+                    _emailService.SendEmail(message);
+                }
+            }
 
             if (!result.Succeeded)
             {
@@ -90,14 +127,63 @@ namespace API.Controllers
                 }
                 return ValidationProblem();
             }
-
             return StatusCode(201);
         }
+
+        // IMPORTANT : FROM SQL - trigger tworzący obiekt Adres
+        [AllowAnonymous]
+        [HttpPost("registerAdmin")]
+        public async Task<ActionResult> RegisterAdmin(RegisterDTO registerDTO)
+        {
+            var user = new Admin
+            {
+                UserName = registerDTO.Email,
+                Email = registerDTO.Email,
+                isPatient = false,
+                isDietician = false,
+                isAdmin = true,
+                isDarkMode=false,
+                AddressId = null
+            };
+
+            var result = await _userManager.CreateAsync(user, registerDTO.Password);
+
+            if (result.Succeeded)
+            {
+                var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                if (emailConfirmationToken != null)
+                {
+                    var confirmationLink = $"http://localhost:3000/registerConfirm?userId={user.Id}&token={emailConfirmationToken}";
+                    var emailBody = $"Potwierdź swoje konto, klikając <a href='{confirmationLink}'>tutaj</a>";
+                    var message = new EmailMessage(new string[] { "testtesttest@test.com" }, "Test email", emailBody);
+                    _emailService.SendEmail(message);
+                }
+            }
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(error.Code, error.Description);
+                }
+                return ValidationProblem();
+            }
+            return StatusCode(201);
+        }
+
         [Authorize]
         [HttpGet("currentUser")]
         public async Task<ActionResult<UserDTO>> GetCurrentUser()
         {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            // Nazwa użytkownika jest przekazywana przez token JWT
+            var userName = User.Identity.Name;
+
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user == null)
+            {
+                return NotFound("Użytkownik nie znaleziony.");
+            }
 
             return new UserDTO
             {
@@ -109,5 +195,40 @@ namespace API.Controllers
                 IsAdmin = user.isAdmin
             };
         }
+
+        [AllowAnonymous]
+        [HttpPost("registerConfirm")]
+        public async Task<ActionResult> ConfirmEmail(string userId, string token)
+        {
+            if (userId == null || token == null)
+            {
+                return BadRequest("Invalid parameters for email confirmation.");
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return BadRequest("User not found for email confirmation.");
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            Console.WriteLine($"ConfirmEmail result: {result.Succeeded}");
+
+            if (result.Succeeded)
+            {
+                user.isActive = true;
+                user.EmailConfirmed = true;
+                await _userManager.UpdateAsync(user);
+
+                return Ok("Email confirmation successful.");
+            }
+            else
+            {
+                Console.WriteLine($"ConfirmEmail failed. Errors: {string.Join(", ", result.Errors)}");
+                return BadRequest("Email confirmation failed.");
+            }
+        }
+
     }
 }

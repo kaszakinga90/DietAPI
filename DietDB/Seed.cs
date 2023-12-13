@@ -271,10 +271,11 @@ namespace DietDB
                     isDietician = false,
                     isAdmin = true,
                     BirthDate = new DateTime(1980, 1, 1),
-                    AddressId = 1
+                    AddressId = 1,
+                    EmailConfirmed = true
                 };
                 await userManager.CreateAsync(admin, "Pa$$w0rd5555555554!");
-                await userManager.AddToRoleAsync(admin, "Admin");
+                //await userManager.AddToRoleAsync(admin, "Admin");
 
                 var admin1 = new Admin
                 {
@@ -288,11 +289,12 @@ namespace DietDB
                     isAdmin = true,
                     BirthDate = new DateTime(1982, 5, 10),
                     AddressId = 2,
+                    EmailConfirmed = true
                 };
                 await userManager.CreateAsync(admin1, "Pa$$w0rd5555555554!");
-                await userManager.AddToRoleAsync(admin1, "Admin");
+                //await userManager.AddToRoleAsync(admin1, "Admin");
                 //***********************************************PATIENT************************
-                var pstient1 = new Patient
+                var patient1 = new Patient
                 {
                     UserName = "tomasz.zielinski@example.com",
                     FirstName = "Tomasz",
@@ -303,13 +305,14 @@ namespace DietDB
                     isDietician = false,
                     isAdmin = false,
                     BirthDate = new DateTime(1985, 6, 15),
-                    AddressId = 1,
+                    AddressId = 3,
+                    EmailConfirmed = true
                     //PatientCardId = 1,
                 };
-                await userManager.CreateAsync(pstient1, "Pa$$w0rd5555555554!");
-                await userManager.AddToRoleAsync(pstient1, "Patient");
+                await userManager.CreateAsync(patient1, "Pa$$w0rd5555555554!");
+                //await userManager.AddToRoleAsync(patient1, "Patient");
 
-                var pstient2 = new Patient
+                var patient2 = new Patient
                 {
                     UserName = "aleksandra.nowak@example.com",
                     FirstName = "Aleksandra",
@@ -320,13 +323,14 @@ namespace DietDB
                     isDietician = false,
                     isAdmin = false,
                     BirthDate = new DateTime(1990, 2, 20),
-                    AddressId = 2,
+                    AddressId = 4,
+                    EmailConfirmed = true
                     //PatientCardId = 2,
                 };
-                await userManager.CreateAsync(pstient2, "Pa$$w0rd5555555554!");
-                await userManager.AddToRoleAsync(pstient2, "Patient");
+                await userManager.CreateAsync(patient2, "Pa$$w0rd5555555554!");
+                //await userManager.AddToRoleAsync(patient2, "Patient");
 
-                var pstient3 = new Patient
+                var patient3 = new Patient
                 {
                     UserName = "piotr.kowal@example.com",
                     FirstName = "Piotr",
@@ -337,11 +341,12 @@ namespace DietDB
                     isDietician = false,
                     isAdmin = false,
                     BirthDate = new DateTime(1988, 5, 5),
-                    AddressId = 3,
+                    AddressId = 5,
+                    EmailConfirmed = true
                     //PatientCardId = 3,
                 };
-                await userManager.CreateAsync(pstient3, "Pa$$w0rd5555555554!");
-                await userManager.AddToRoleAsync(pstient3, "Patient");
+                await userManager.CreateAsync(patient3, "Pa$$w0rd5555555554!");
+                //await userManager.AddToRoleAsync(patient3, "Patient");
 
                 //*****************************DIETICIAN******************************************
                 var dietician1 = new Dietician
@@ -355,48 +360,51 @@ namespace DietDB
                     isDietician = true,
                     isAdmin = false,
                     BirthDate = new DateTime(1985, 2, 2),
-                    AddressId = 1,
+                    AddressId = 6,
+                    EmailConfirmed = true
                     //RatingId = 1
                 };
                 await userManager.CreateAsync(dietician1, "Pa$$w0rd5555555554!");
-                await userManager.AddToRoleAsync(dietician1, "Dietetician");
-                await context.SaveChangesAsync();
+                //await userManager.AddToRoleAsync(dietician1, "Dietetician");
+
+                var dietician2 = new Dietician
+                {
+                    UserName = "marek.kowalski@example.com",
+                    FirstName = "Marek",
+                    LastName = "Kowalski",
+                    Email = "marek.kowalski@example.com",
+                    Phone = "987654322",
+                    isPatient = false,
+                    isDietician = true,
+                    isAdmin = false,
+                    BirthDate = new DateTime(1984, 3, 3),
+                    AddressId = 7,
+                    EmailConfirmed = true
+                    //RatingId = 2
+                };
+                await userManager.CreateAsync(dietician2, "Pa$$w0rd5555555554!");
+                //await userManager.AddToRoleAsync(dietician2, "Dietetician");
+
+                var dietician3 = new Dietician
+                {
+                    UserName = "oliwia.wisniewska@example.com",
+                    FirstName = "Oliwia",
+                    LastName = "Wiśniewska",
+                    Email = "oliwia.wisniewska@example.com",
+                    Phone = "987654330",
+                    isPatient = false,
+                    isDietician = true,
+                    isAdmin = false,
+                    BirthDate = new DateTime(1990, 10, 10),
+                    AddressId = 10,
+                    EmailConfirmed = true
+                    //RatingId = 5
+                };
+                await userManager.CreateAsync(dietician3, "Pa$$w0rd5555555554!");
+                //await userManager.AddToRoleAsync(dietician3, "Dietetician");
             }
 
-            var dietician2 = new Dietician
-            {
-                UserName = "marek.kowalski@example.com",
-                FirstName = "Marek",
-                LastName = "Kowalski",
-                Email = "marek.kowalski@example.com",
-                Phone = "987654322",
-                isPatient = false,
-                isDietician = true,
-                isAdmin = false,
-                BirthDate = new DateTime(1984, 3, 3),
-                AddressId = 2,
-                //RatingId = 2
-            };
-            await userManager.CreateAsync(dietician2, "Pa$$w0rd5555555554!");
-            await userManager.AddToRoleAsync(dietician2, "Dietetician");
-
-            var dietician3 = new Dietician
-            {
-                UserName = "oliwia.wisniewska@example.com",
-                FirstName = "Oliwia",
-                LastName = "Wiśniewska",
-                Email = "oliwia.wisniewska@example.com",
-                Phone = "987654330",
-                isPatient = false,
-                isDietician = true,
-                isAdmin = false,
-                BirthDate = new DateTime(1990, 10, 10),
-                AddressId = 10,
-                //RatingId = 5
-            };
-            await userManager.CreateAsync(dietician3, "Pa$$w0rd5555555554!");
-            await userManager.AddToRoleAsync(dietician3, "Dietetician");
-            //await context.SaveChangesAsync();
+            await context.SaveChangesAsync();
 
 
             #endregion
@@ -606,8 +614,21 @@ namespace DietDB
     // ******************** DANE Z KLUCZAMI KLUCZY OBCYCH **************************************** //
     private static async Task SeedSecondClassesWithForeignKey(DietContext context)
     {
-        #region FoodCatalogs
-        if (!context.FoodCatalogsDb.Any())
+            //#region UserRoles
+            //// Sprawdzanie i dodawanie testowych danych dla Dish
+            //if (!context.UserRoles.Any())
+            //{
+            //    var userRoles = new List<Role>()
+            //    {
+            //        new Role {  },
+            //        new Role {  },
+            //        new Role {  },
+            //    };
+            //    await context.UserRoles.AddRangeAsync(userRoles);
+            //}
+            //#endregion
+            #region FoodCatalogs
+            if (!context.FoodCatalogsDb.Any())
         {
             var foodCatalogs = new List<FoodCatalog>()
                 {
@@ -760,14 +781,15 @@ namespace DietDB
 
             await context.Database.ExecuteSqlRawAsync("USE [DietDB];");
             // Polecenie CREATE VIEW
-            await context.Database.ExecuteSqlRawAsync("CREATE VIEW [dbo].[GetAllSexesFromSqlView] AS " +
+            await context.Database.ExecuteSqlRawAsync("CREATE OR ALTER VIEW [dbo].[GetAllSexesFromSqlView] AS " +
                 "SELECT dbo.Sex.*, Id AS Expr1, Name AS Expr2 FROM dbo.Sex;");
 
+            
             // Polecenie CREATE TRIGGER
             await context.Database.ExecuteSqlRawAsync(
                 @"
                 -- Jeśli trigger jest aktywowany przez operację INSERT
-                CREATE TRIGGER [dbo].[CreateAddressForUser] 
+                CREATE OR ALTER TRIGGER [dbo].[CreateAddressForUser] 
                 ON [dbo].[Users] AFTER INSERT 
                 AS 
                 BEGIN 
@@ -832,7 +854,7 @@ namespace DietDB
             // Polecenie CREATE PROCEDURE
             await context.Database.ExecuteSqlRawAsync(
                 @"
-                CREATE PROCEDURE [dbo].[CreatePatientCard]
+                CREATE OR ALTER PROCEDURE [dbo].[CreatePatientCard]
                     @PatientId INT,
                     @DieticianId INT,
                     @SexId INT
@@ -846,6 +868,42 @@ namespace DietDB
                 END;
                 "
                 );
+
+
+            await context.Database.ExecuteSqlRawAsync(
+                @"
+                CREATE OR ALTER PROCEDURE [dbo].[GetPatientCard] 
+                    @PatientId INT 
+                AS
+                BEGIN
+                SELECT
+                pc.Id AS PatientCardId,
+                p.FirstName AS PatientFirstName,
+                p.LastName AS PatientLastName,
+                p.PictureUrl AS PatientPictureUrl,
+                s.Name AS PatientSex,
+                pcs.SurveyId,
+                s2.Heigth AS Heigth,
+                s2.Weith AS Weith,
+                s2.MeasureTime AS MeasureTime,
+                tr.Id AS TestResultId,
+                tr.TestDate
+                FROM
+                PatientCard pc
+                JOIN
+                Users p ON pc.PatientId = p.Id
+                JOIN
+                Sex s ON pc.SexId = s.Id
+                LEFT JOIN
+                PatientCardSurveysDb pcs ON pc.Id = pcs.PatientCardId
+                LEFT JOIN
+                Survey s2 ON pcs.SurveyId = s2.Id
+                LEFT JOIN
+                TestResult tr ON pc.Id = tr.PatientCardId
+                WHERE p.Id = @PatientId;
+                END;"
+                );
+
             #endregion 
         }
     }

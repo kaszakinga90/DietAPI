@@ -9,6 +9,7 @@ using Application.DTOs.DishIngredientDTO;
 using Application.DTOs.FoodCatalogDTO;
 using Application.DTOs.IngredientDTO;
 using Application.DTOs.IngredientDTO.IngredientNutritionixDTO;
+using Application.DTOs.LogoDTO;
 using Application.DTOs.MealTimeToXYAxisDTO;
 using Application.DTOs.MeasureDTO;
 using Application.DTOs.NutrientDTO;
@@ -35,10 +36,8 @@ namespace Application.Core
         /// </summary>
         public MappingProfiles()
         {
-            // Mapowania dla tych samych typów (dla pełnej konfiguracji).
             CreateMap<CategoryOfDiet, CategoryOfDiet>();
 
-            // Mapowania pomiędzy DTO a modelami.
             CreateMap<DayWeekDTO, DayWeek>();
             CreateMap<DayWeek, DayWeekDTO>();
 
@@ -52,7 +51,6 @@ namespace Application.Core
             .ForMember(dest => dest.AdminId, opt => opt.MapFrom(src => src.AdminId.HasValue ? src.AdminId : null))
             .ForMember(dest => dest.DieticianId, opt => opt.MapFrom(src => src.DieticianId.HasValue ? src.DieticianId : null));
 
-            // Skomplikowane mapowanie z niestandardową logiką dla pacjenta.
             CreateMap<Patient, PatientGetDTO>()
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate.HasValue ? src.BirthDate.Value.Date : (DateTime?)null))
                 .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageTo));
@@ -66,8 +64,6 @@ namespace Application.Core
             CreateMap<PatientEditDataDTO, Patient>();
             CreateMap<Patient, PatientEditDataDTO>();
 
-            // Skomplikowane mapowanie z niestandardową logiką dla admina.
-
             CreateMap<Admin, AdminGetDTO>()
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate.HasValue ? src.BirthDate.Value.Date : (DateTime?)null))
                 .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageTo));
@@ -78,8 +74,6 @@ namespace Application.Core
 
             CreateMap<AdminDTO, Admin>();
 
-            // Skomplikowane mapowanie z niestandardową logiką dla dietetyka.
-
             CreateMap<Dietician, DieticianGetDTO>()
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate.HasValue ? src.BirthDate.Value.Date : (DateTime?)null))
                 .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageTo));
@@ -89,7 +83,6 @@ namespace Application.Core
                 .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageTo));
 
             CreateMap<DieticianDTO, Dietician>();
-
 
             CreateMap<MealTimeToXYAxisPostDTO, MealTimeToXYAxis>();
             CreateMap<MealTimeToXYAxis, MealTimeToXYAxisPostDTO>();
@@ -149,10 +142,8 @@ namespace Application.Core
                 .ForMember(dest => dest.MeasureId, opt => opt.MapFrom(src => src.Measure.Id))
                 .ForMember(dest => dest.UnitId, opt => opt.MapFrom(src => src.Unit.Id));
 
-
             CreateMap<Ingredient, IngredientGetDTO>()
                 .ForMember(dest => dest.IngredientName, opt => opt.MapFrom(src => src.Name));
-
 
             CreateMap<Unit, UnitGetDTO>()
                 .ReverseMap();
@@ -187,8 +178,6 @@ namespace Application.Core
             CreateMap<FoodCatalogPostDTO, FoodCatalog>()
                 .ReverseMap();
 
-
-
             CreateMap<PatientCard, PatientCardGetDTO>()
             .ForMember(dest => dest.PatientId, opt => opt.MapFrom(src => src.Patient.Id))
             .ForMember(dest => dest.SexId, opt => opt.MapFrom(src => src.SexId))
@@ -200,6 +189,12 @@ namespace Application.Core
                 .ReverseMap();
 
             CreateMap<Sex, SexGetDTO>()
+                .ReverseMap();
+
+            CreateMap<Logo, LogoPostDTO>()
+                .ReverseMap();
+
+            CreateMap<Logo, LogoGetDTO>()
                 .ReverseMap();
         }
     }
