@@ -30,11 +30,8 @@ namespace Application.CQRS.FoodCatalogs
                 _context.FoodCatalogsDb.Add(foodCatalog);
 
                 await _context.SaveChangesAsync();
-
-                var foodCatalogDto = _mapper.Map<FoodCatalogPostDTO>(foodCatalog);
-                return Result<FoodCatalogPostDTO>.Success(foodCatalogDto); // Zwraca DTO z uzupełnionym ID
+                return Result<FoodCatalogPostDTO>.Success(_mapper.Map<FoodCatalogPostDTO>(foodCatalog));
             }
-
         }
     }
 }
