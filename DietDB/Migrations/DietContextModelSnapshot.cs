@@ -118,22 +118,22 @@ namespace DietDB.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "62ecdeec-c2c7-4e52-8732-8713213ed6f7",
-                            ConcurrencyStamp = "a8802964-11eb-4071-b68e-469aacc2607b",
+                            Id = "ce2113b6-12e1-400d-9cf6-1de3d975471c",
+                            ConcurrencyStamp = "fde0c6ad-82ad-4a12-9de3-c8d3933dd729",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "69361469-c771-4871-88ad-be5b90be58b9",
-                            ConcurrencyStamp = "59a7ac8e-161b-495f-9fde-9778430dfc09",
+                            Id = "fc23a44e-0549-4bf2-b4f7-ad797f557cdc",
+                            ConcurrencyStamp = "25e3d8d3-d385-4e2c-ab0a-607f9d670352",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = "14971395-107f-4bd5-a195-31abfb1fae0c",
-                            ConcurrencyStamp = "14ff9acc-fc1b-4a74-bcc7-81af04f58fc7",
+                            Id = "02f30095-add6-46a3-8cd5-41e8c2933142",
+                            ConcurrencyStamp = "703531ca-e341-4a52-ad0e-a5a11334cdc0",
                             Name = "Dietetician",
                             NormalizedName = "DIETETICIAN"
                         });
@@ -812,6 +812,52 @@ namespace DietDB.Migrations
                     b.HasIndex("NutrientId");
 
                     b.ToTable("IngredientNutrient");
+                });
+
+            modelBuilder.Entity("ModelsDB.Functionality.Logo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("DieticianId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PictureUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("dateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("dateDeleted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("dateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("whoAdded")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("whoDeleted")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("whoUpdated")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DieticianId")
+                        .IsUnique();
+
+                    b.ToTable("Logo");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.Meal", b =>
@@ -2639,6 +2685,9 @@ namespace DietDB.Migrations
                     b.Property<bool>("isAdmin")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("isDarkMode")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("isDietician")
                         .HasColumnType("bit");
 
@@ -3013,6 +3062,15 @@ namespace DietDB.Migrations
                     b.Navigation("Ingredient");
 
                     b.Navigation("Nutrient");
+                });
+
+            modelBuilder.Entity("ModelsDB.Functionality.Logo", b =>
+                {
+                    b.HasOne("ModelsDB.Dietician", "Dietician")
+                        .WithOne("Logo")
+                        .HasForeignKey("ModelsDB.Functionality.Logo", "DieticianId");
+
+                    b.Navigation("Dietician");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.MealTimeToXYAxis", b =>
@@ -3626,6 +3684,8 @@ namespace DietDB.Migrations
                     b.Navigation("FoodCatalogs");
 
                     b.Navigation("Ingredients");
+
+                    b.Navigation("Logo");
 
                     b.Navigation("MessageTo");
 

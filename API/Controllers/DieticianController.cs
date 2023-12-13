@@ -1,8 +1,10 @@
 ﻿using Application.Core;
 using Application.CQRS.Dieticians;
 using Application.CQRS.Diplomas;
+using Application.CQRS.Logos;
 using Application.DTOs.DieticianDTO;
 using Application.DTOs.DiplomaDTO;
+using Application.DTOs.LogoDTO;
 using Application.Services;
 using DietDB;
 using MediatR;
@@ -122,6 +124,20 @@ namespace API.Controllers
             var command = new CreateDiploma.Command
             {
                 DiplomaDTO = diplomaDto,
+                File = file,
+            };
+
+            await _mediator.Send(command);
+
+            return Ok();
+        }
+
+        [HttpPost("logo")]
+        public async Task<IActionResult> CreateLogo([FromForm] LogoPostDTO logoDto, [FromForm] IFormFile file)
+        {
+            var command = new CreateLogo.Command
+            {
+                LogoPostDTO = logoDto,
                 File = file,
             };
 

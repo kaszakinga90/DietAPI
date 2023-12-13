@@ -29,7 +29,7 @@ namespace API.Controllers
         {
             var user = await _userManager.FindByEmailAsync(loginDTO.Email);
             if (user == null || !await _userManager.CheckPasswordAsync(user, loginDTO.Password))
-                return Unauthorized();
+                return Unauthorized("user jest null lub hasło się nie zgadza");
 
             if (!user.EmailConfirmed)
                 return Unauthorized("Email nie został potwierdzony.");
@@ -46,9 +46,8 @@ namespace API.Controllers
         }
 
         // IMPORTANT : FROM SQL
-        [HttpPost("registerPatient")]
         [AllowAnonymous]
-        //[ValidateAntiForgeryToken]
+        [HttpPost("registerPatient")]
         public async Task<ActionResult> RegisterPatient(RegisterDTO registerDTO)
         {
             var user = new Patient
@@ -59,6 +58,7 @@ namespace API.Controllers
                 isDietician = false,
                 isAdmin = false,
                 isActive = false,
+                isDarkMode = false,
                 AddressId = null
             };
 
@@ -89,9 +89,8 @@ namespace API.Controllers
         }
 
         // IMPORTANT : FROM SQL
-        [HttpPost("registerDietician")]
         [AllowAnonymous]
-        //[ValidateAntiForgeryToken]
+        [HttpPost("registerDietician")]
         public async Task<ActionResult> RegisterDietician(RegisterDTO registerDTO)
         {
             var user = new Dietician
@@ -101,10 +100,24 @@ namespace API.Controllers
                 isPatient = false,
                 isDietician = true,
                 isAdmin = false,
+                isDarkMode=false,
                 AddressId = null
             };
 
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
+
+            if (result.Succeeded)
+            {
+                var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                if (emailConfirmationToken != null)
+                {
+                    var confirmationLink = $"http://localhost:3000/registerConfirm?userId={user.Id}&token={emailConfirmationToken}";
+                    var emailBody = $"Potwierdź swoje konto, klikając <a href='{confirmationLink}'>tutaj</a>";
+                    var message = new EmailMessage(new string[] { "testtesttest@test.com" }, "Test email", emailBody);
+                    _emailService.SendEmail(message);
+                }
+            }
 
             if (!result.Succeeded)
             {
@@ -114,14 +127,12 @@ namespace API.Controllers
                 }
                 return ValidationProblem();
             }
-
             return StatusCode(201);
         }
 
         // IMPORTANT : FROM SQL
-        [HttpPost("registerAdmin")]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        [HttpPost("registerAdmin")]
         public async Task<ActionResult> RegisterAdmin(RegisterDTO registerDTO)
         {
             var user = new Admin
@@ -131,10 +142,24 @@ namespace API.Controllers
                 isPatient = false,
                 isDietician = false,
                 isAdmin = true,
+                isDarkMode=false,
                 AddressId = null
             };
 
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
+
+            if (result.Succeeded)
+            {
+                var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                if (emailConfirmationToken != null)
+                {
+                    var confirmationLink = $"http://localhost:3000/registerConfirm?userId={user.Id}&token={emailConfirmationToken}";
+                    var emailBody = $"Potwierdź swoje konto, klikając <a href='{confirmationLink}'>tutaj</a>";
+                    var message = new EmailMessage(new string[] { "testtesttest@test.com" }, "Test email", emailBody);
+                    _emailService.SendEmail(message);
+                }
+            }
 
             if (!result.Succeeded)
             {
@@ -144,7 +169,6 @@ namespace API.Controllers
                 }
                 return ValidationProblem();
             }
-
             return StatusCode(201);
         }
 
@@ -152,7 +176,14 @@ namespace API.Controllers
         [HttpGet("currentUser")]
         public async Task<ActionResult<UserDTO>> GetCurrentUser()
         {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            // Nazwa użytkownika jest przekazywana przez token JWT
+            var userName = User.Identity.Name;
+
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user == null)
+            {
+                return NotFound("Użytkownik nie znaleziony.");
+            }
 
             return new UserDTO
             {

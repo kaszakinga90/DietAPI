@@ -4,6 +4,7 @@ namespace ModelsDB
     public class Dietician : User
     {
         public string AboutMe { get; set; }
+        public Logo Logo { get; set; }
         public List<Diploma> Diplomas { get; set; } 
         public List<FoodCatalog> FoodCatalogs { get; set; }
         public List<DieticianOffice> DieticianOffices { get; set; }

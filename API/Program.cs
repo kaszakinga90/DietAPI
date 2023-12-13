@@ -24,6 +24,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using Application.Services.EmailSends;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -83,9 +84,12 @@ builder.Services.AddCors();
 builder.Services.AddIdentityCore<User>(opt =>
 {
     opt.User.RequireUniqueEmail = true;
+    //opt.SignIn.RequireConfirmedEmail = true;
 })
     .AddRoles<Role>()
-    .AddEntityFrameworkStores<DietContext>();
+    .AddEntityFrameworkStores<DietContext>()
+    .AddDefaultTokenProviders();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opt =>
     {
@@ -102,13 +106,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<TokenService>();
 
-builder.Services.AddDefaultIdentity<User>(options =>
-{
-    options.SignIn.RequireConfirmedAccount = true; // Upewnij się, że potwierdzenie konta jest wymagane
-})
-.AddEntityFrameworkStores<DietContext>() // Dodaj sklep danych dla Identity
-.AddDefaultTokenProviders(); // Dodaj domyślne dostawce tokenów (w tym dostawcę dwuetapowego uwierzytelniania)
-
+//builder.Services.AddDefaultIdentity<User>(options =>
+//{
+//    options.SignIn.RequireConfirmedAccount = true; // Upewnij się, że potwierdzenie konta jest wymagane
+//})
+//.AddEntityFrameworkStores<DietContext>() // Dodaj sklep danych dla Identity
+//.AddDefaultTokenProviders(); // Dodaj domyślne dostawce tokenów (w tym dostawcę dwuetapowego uwierzytelniania)
 
 
 /// <summary>

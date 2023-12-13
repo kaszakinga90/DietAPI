@@ -9,6 +9,7 @@ using Application.DTOs.DishIngredientDTO;
 using Application.DTOs.FoodCatalogDTO;
 using Application.DTOs.IngredientDTO;
 using Application.DTOs.IngredientDTO.IngredientNutritionixDTO;
+using Application.DTOs.LogoDTO;
 using Application.DTOs.MealTimeToXYAxisDTO;
 using Application.DTOs.MeasureDTO;
 using Application.DTOs.NutrientDTO;
@@ -200,6 +201,12 @@ namespace Application.Core
                 .ReverseMap();
 
             CreateMap<Sex, SexGetDTO>()
+                .ReverseMap();
+
+            CreateMap<Logo, LogoPostDTO>()
+                .ReverseMap();
+
+            CreateMap<Logo, LogoGetDTO>()
                 .ReverseMap();
         }
     }
