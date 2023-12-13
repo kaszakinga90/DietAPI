@@ -118,22 +118,22 @@ namespace DietDB.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f2b19647-e43b-4d9d-a536-1b2cd4192ead",
-                            ConcurrencyStamp = "0e96cf16-6623-4cfe-9db5-49e7703a1ffe",
+                            Id = "f570b66b-589e-49ff-9993-68301b7366cb",
+                            ConcurrencyStamp = "8e6dfd44-8148-4045-9418-9389bd197680",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "7297227f-4105-4c4d-85dd-0fb1c732e6a4",
-                            ConcurrencyStamp = "dd65137d-ca4c-4f55-b05b-72db805bb492",
+                            Id = "ab294201-6e0f-4fb5-9316-559c7636358d",
+                            ConcurrencyStamp = "b54eb8fa-4f9f-43cb-beee-15a139f47178",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = "8bad4c43-451a-41cd-9d00-5e7eab3d107c",
-                            ConcurrencyStamp = "1193f685-0f9f-4386-ba8e-a700ffa5a38c",
+                            Id = "deb39186-bbd0-48f5-bf0f-dc705c7b8fef",
+                            ConcurrencyStamp = "3e297f3d-3fdb-428b-99f0-aa16122740a9",
                             Name = "Dietetician",
                             NormalizedName = "DIETETICIAN"
                         });
@@ -457,9 +457,6 @@ namespace DietDB.Migrations
                     b.Property<int?>("Calories")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DieteticianId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("DieticianId")
                         .HasColumnType("int");
 
@@ -742,12 +739,17 @@ namespace DietDB.Migrations
                     b.Property<int>("IngredientId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UnitId")
                         .HasColumnType("int");
 
                     b.HasKey("DishId", "IngredientId");
 
                     b.HasIndex("IngredientId");
+
+                    b.HasIndex("UnitId");
 
                     b.ToTable("DishIngredient");
                 });
@@ -2927,9 +2929,17 @@ namespace DietDB.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ModelsDB.Functionality.Unit", "Unit")
+                        .WithMany("DishIngredients")
+                        .HasForeignKey("UnitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Dish");
 
                     b.Navigation("Ingredient");
+
+                    b.Navigation("Unit");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.IngredientNutrient", b =>
@@ -3437,6 +3447,8 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Functionality.Unit", b =>
                 {
+                    b.Navigation("DishIngredients");
+
                     b.Navigation("Ingredients");
 
                     b.Navigation("Nutrients");

@@ -44,10 +44,10 @@ namespace Application.CQRS.Dishes
                     UnitId = requestDish.UnitId,
                     GlycemicIndex = requestDish.GlycemicIndex,
                     PreparingTime = requestDish.PreparingTime,
-                    DieteticianId = requestDish.DieteticianId,
+                    DieticianId = requestDish.DieteticianId,
                     DishFoodCatalogs = requestDish.DishFoodCatalogs?.Select(dto => _mapper.Map<DishFoodCatalog>(dto)).ToList(),
                     DishIngredients = requestDish.DishIngredients?.Select(dto => _mapper.Map<DishIngredient>(dto)).ToList(),
-                    MealTimes = requestDish.MealTimes?.Select(dto => _mapper.Map<MealTimeToXYAxis>(dto)).ToList(),
+                    //MealTimes = requestDish.MealTimes?.Select(dto => _mapper.Map<MealTimeToXYAxis>(dto)).ToList(),
                 };
 
                 //if (requestDish.File != null)
@@ -58,10 +58,6 @@ namespace Application.CQRS.Dishes
                 //    dish.PublicId = imageResult.PublicId;
                 //}
 
-                //using (var transaction = _context.Database.BeginTransaction())
-                //{
-                //    try
-                //    {
                 _context.DishesDb.Add(dish);
                         await _context.SaveChangesAsync();
 
@@ -82,14 +78,6 @@ namespace Application.CQRS.Dishes
                         existingRecipe.Steps = _mapper.Map<List<RecipeStep>>(requestDish.RecipeSteps);
                         await _context.SaveChangesAsync();
 
-                //        transaction.Commit();
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        transaction.Rollback();
-                //        return Result<DishPostDTO>.Failure("Wystąpił błąd podczas zapisywania danych do bazy.");
-                //    }
-                //}
                 return Result<DishPostDTO>.Success(_mapper.Map<DishPostDTO>(dish));
             }
 

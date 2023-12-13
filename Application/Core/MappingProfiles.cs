@@ -185,6 +185,9 @@ namespace Application.Core
             CreateMap<FoodCatalogPostDTO, FoodCatalog>()
                 .ReverseMap();
 
+            CreateMap<MealTimeToXYAxisEditDTO, MealTimeToXYAxis>()
+                .ReverseMap();
+
         }
     }
 }

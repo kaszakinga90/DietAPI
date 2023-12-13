@@ -272,7 +272,7 @@ namespace DietDB
 
             modelBuilder.Entity<PatientCardSurvey>()
                 .HasOne(mp => mp.Survey)
-                .WithMany(p => p.PatientCardSurveys)  
+                .WithMany(p => p.PatientCardSurveys)
                 .HasForeignKey(mp => mp.SurveyId);
             //**************************************************************************************************
             modelBuilder.Entity<IngredientNutrient>()
@@ -336,6 +336,7 @@ namespace DietDB
                 .WithMany(p => p.PatientCards)
                 .HasForeignKey(pc => pc.PatientId)
                 .OnDelete(DeleteBehavior.Restrict);
+
 
 
         }

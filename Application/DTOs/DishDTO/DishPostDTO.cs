@@ -2,6 +2,7 @@
 using Application.DTOs.DishFoodCatalogDTO;
 using Application.DTOs.DishIngredientDTO;
 using Application.DTOs.RecipeStepDTO;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.DTOs.DishDTO
 {
@@ -28,6 +29,6 @@ namespace Application.DTOs.DishDTO
         public List<RecipeStepPostDTO> RecipeSteps { get; set; }
         public List<DishFoodCatalogPostDTO> DishFoodCatalogs { get; set; }
         public List<DishIngredientPostDTO> DishIngredients { get; set; }
-        public List<MealTimeToXYAxisPostDTO> MealTimes { get; set; }
+        //public List<MealTimeToXYAxisPostDTO> MealTimes { get; set; }
     }
 }

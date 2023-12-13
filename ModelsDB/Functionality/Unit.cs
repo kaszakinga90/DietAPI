@@ -16,5 +16,6 @@ namespace ModelsDB.Functionality
 
         public List<Ingredient> Ingredients { get; set;}
         public List<Nutrient> Nutrients { get; set;}
+        public List<DishIngredient> DishIngredients { get; set;}
     }
 }

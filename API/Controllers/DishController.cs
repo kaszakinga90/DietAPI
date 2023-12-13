@@ -6,23 +6,23 @@ namespace API.Controllers
 {
     public class DishController : BaseApiController
     {
-        [HttpGet("{id}")]
-        public async Task<ActionResult<DishGetDTO>> GetDish(int id)
+        [HttpGet("dieticianDish/{dieticianid}")]
+        public async Task<ActionResult<DishGetDTO>> GetDish(int dieticianid)
         {
-            return await Mediator.Send(new DishDetails.Query { Id = id });
+            return await Mediator.Send(new DishDetails.Query { Id = dieticianid });
         }
 
         //pobiera dania dostępne dla dietetyka (czyli z bazy wspólnej, gdzie DieticianID == NULL oraz te utworzone przez tego dietetyka)
-        [HttpGet("all")]
+        [HttpGet("all/{dieticianId}")]
         public async Task<IActionResult> GetDishes(int dieticianId)
         {
             var result = await Mediator.Send(new DishesList.Query { DieteticianId = dieticianId } );
             return HandleResult(result);
         }
 
-        // poniżej nalezy dodać [FromForm]
+        // poniżej nalezy dodać [FromForm], [FromForm] IFormFile file
         [HttpPost("create")]
-        public async Task<IActionResult> CreateDish(DishPostDTO dishDto)
+        public async Task<IActionResult> CreateDish( DishPostDTO dishDto)
         {
             var command = new DishCreate.Command
             {

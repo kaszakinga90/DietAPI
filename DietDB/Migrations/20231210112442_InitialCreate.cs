@@ -1146,7 +1146,6 @@ namespace DietDB.Migrations
                     DishPhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PreparingTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RecipeId = table.Column<int>(type: "int", nullable: true),
-                    DieteticianId = table.Column<int>(type: "int", nullable: true),
                     DieticianId = table.Column<int>(type: "int", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -1242,7 +1241,8 @@ namespace DietDB.Migrations
                 {
                     DishId = table.Column<int>(type: "int", nullable: false),
                     IngredientId = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    UnitId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1253,6 +1253,12 @@ namespace DietDB.Migrations
                         principalTable: "Dish",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_DishIngredient_Unit_UnitId",
+                        column: x => x.UnitId,
+                        principalTable: "Unit",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1677,17 +1683,17 @@ namespace DietDB.Migrations
             migrationBuilder.InsertData(
                 table: "IdentityRole",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "7297227f-4105-4c4d-85dd-0fb1c732e6a4", "dd65137d-ca4c-4f55-b05b-72db805bb492", "Patient", "PATIENT" });
+                values: new object[] { "ab294201-6e0f-4fb5-9316-559c7636358d", "b54eb8fa-4f9f-43cb-beee-15a139f47178", "Patient", "PATIENT" });
 
             migrationBuilder.InsertData(
                 table: "IdentityRole",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "8bad4c43-451a-41cd-9d00-5e7eab3d107c", "1193f685-0f9f-4386-ba8e-a700ffa5a38c", "Dietetician", "DIETETICIAN" });
+                values: new object[] { "deb39186-bbd0-48f5-bf0f-dc705c7b8fef", "3e297f3d-3fdb-428b-99f0-aa16122740a9", "Dietetician", "DIETETICIAN" });
 
             migrationBuilder.InsertData(
                 table: "IdentityRole",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "f2b19647-e43b-4d9d-a536-1b2cd4192ead", "0e96cf16-6623-4cfe-9db5-49e7703a1ffe", "Admin", "ADMIN" });
+                values: new object[] { "f570b66b-589e-49ff-9993-68301b7366cb", "8e6dfd44-8148-4045-9418-9389bd197680", "Admin", "ADMIN" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Article_LayoutCategoryId",
@@ -1795,6 +1801,11 @@ namespace DietDB.Migrations
                 name: "IX_DishIngredient_IngredientId",
                 table: "DishIngredient",
                 column: "IngredientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DishIngredient_UnitId",
+                table: "DishIngredient",
+                column: "UnitId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Document_ContentId",
