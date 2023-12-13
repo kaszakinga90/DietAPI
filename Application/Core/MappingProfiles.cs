@@ -178,6 +178,9 @@ namespace Application.Core
             CreateMap<FoodCatalogPostDTO, FoodCatalog>()
                 .ReverseMap();
 
+            CreateMap<MealTimeToXYAxisEditDTO, MealTimeToXYAxis>()
+                .ReverseMap();
+
             CreateMap<PatientCard, PatientCardGetDTO>()
             .ForMember(dest => dest.PatientId, opt => opt.MapFrom(src => src.Patient.Id))
             .ForMember(dest => dest.SexId, opt => opt.MapFrom(src => src.SexId))

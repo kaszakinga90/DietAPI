@@ -4,6 +4,7 @@ using DietDB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietDB.Migrations
 {
     [DbContext(typeof(DietContext))]
-    partial class DietContextModelSnapshot : ModelSnapshot
+    [Migration("20231210112442_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -118,19 +120,22 @@ namespace DietDB.Migrations
                     b.HasData(
                         new
                         {
-
+                            Id = "f570b66b-589e-49ff-9993-68301b7366cb",
+                            ConcurrencyStamp = "8e6dfd44-8148-4045-9418-9389bd197680",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-
+                            Id = "ab294201-6e0f-4fb5-9316-559c7636358d",
+                            ConcurrencyStamp = "b54eb8fa-4f9f-43cb-beee-15a139f47178",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-
+                            Id = "deb39186-bbd0-48f5-bf0f-dc705c7b8fef",
+                            ConcurrencyStamp = "3e297f3d-3fdb-428b-99f0-aa16122740a9",
                             Name = "Dietetician",
                             NormalizedName = "DIETETICIAN"
                         });
@@ -537,6 +542,9 @@ namespace DietDB.Migrations
                     b.Property<string>("CatalogName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("DieteticianId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("DieticianId")
                         .HasColumnType("int");
 
@@ -680,34 +688,11 @@ namespace DietDB.Migrations
                     b.Property<int>("DieticianId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
                     b.HasKey("PatientId", "DieticianId");
 
                     b.HasIndex("DieticianId");
 
                     b.ToTable("DieticianPatientsDb");
-                });
-
-            modelBuilder.Entity("ModelsDB.Functionality.DieticianPatientRating", b =>
-                {
-                    b.Property<int>("DieticianId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PatientId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RatingId")
-                        .HasColumnType("int");
-
-                    b.HasKey("DieticianId", "PatientId");
-
-                    b.HasIndex("PatientId");
-
-                    b.HasIndex("RatingId");
-
-                    b.ToTable("DieticianPatientRatings");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.DieticianSpecialization", b =>
@@ -811,52 +796,6 @@ namespace DietDB.Migrations
                     b.HasIndex("NutrientId");
 
                     b.ToTable("IngredientNutrient");
-                });
-
-            modelBuilder.Entity("ModelsDB.Functionality.Logo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("DieticianId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PictureUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PublicId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("dateAdded")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("dateDeleted")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("dateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("isActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("whoAdded")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("whoDeleted")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("whoUpdated")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DieticianId")
-                        .IsUnique();
-
-                    b.ToTable("Logo");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.Meal", b =>
@@ -1171,27 +1110,6 @@ namespace DietDB.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("dateAdded")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("dateDeleted")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("dateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("isActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("whoAdded")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("whoDeleted")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("whoUpdated")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Sex");
@@ -1405,7 +1323,7 @@ namespace DietDB.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NameEN")
                         .HasColumnType("nvarchar(max)");
@@ -1451,9 +1369,6 @@ namespace DietDB.Migrations
                     b.HasIndex("DieticianId");
 
                     b.HasIndex("MeasureId");
-
-                    b.HasIndex("Name")
-                        .HasDatabaseName("IX_IngredientName");
 
                     b.HasIndex("UnitId");
 
@@ -2619,10 +2534,10 @@ namespace DietDB.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -2660,9 +2575,6 @@ namespace DietDB.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SexId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -2684,9 +2596,6 @@ namespace DietDB.Migrations
                     b.Property<bool>("isAdmin")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("isDarkMode")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("isDietician")
                         .HasColumnType("bit");
 
@@ -2703,11 +2612,6 @@ namespace DietDB.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SexId");
-
-                    b.HasIndex("FirstName", "LastName")
-                        .HasDatabaseName("IX_FirstNameLastName");
 
                     b.ToTable("Users");
 
@@ -2730,7 +2634,17 @@ namespace DietDB.Migrations
                     b.Property<string>("AboutMe")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("PatientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RatingId")
+                        .HasColumnType("int");
+
                     b.HasIndex("AddressId");
+
+                    b.HasIndex("PatientId");
+
+                    b.HasIndex("RatingId");
 
                     b.HasDiscriminator().HasValue("Dietician");
                 });
@@ -2739,7 +2653,12 @@ namespace DietDB.Migrations
                 {
                     b.HasBaseType("ModelsDB.User");
 
+                    b.Property<int?>("SexId")
+                        .HasColumnType("int");
+
                     b.HasIndex("AddressId");
+
+                    b.HasIndex("SexId");
 
                     b.HasDiscriminator().HasValue("Patient");
                 });
@@ -2960,33 +2879,6 @@ namespace DietDB.Migrations
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("ModelsDB.Functionality.DieticianPatientRating", b =>
-                {
-                    b.HasOne("ModelsDB.Dietician", "Dietician")
-                        .WithMany("DieticianRatings")
-                        .HasForeignKey("DieticianId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ModelsDB.Patient", "Patient")
-                        .WithMany("DieticianRatings")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ModelsDB.Rating", "Rating")
-                        .WithMany("DieticianPatientRatings")
-                        .HasForeignKey("RatingId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Dietician");
-
-                    b.Navigation("Patient");
-
-                    b.Navigation("Rating");
-                });
-
             modelBuilder.Entity("ModelsDB.Functionality.DieticianSpecialization", b =>
                 {
                     b.HasOne("ModelsDB.Dietician", "Dietician")
@@ -3069,15 +2961,6 @@ namespace DietDB.Migrations
                     b.Navigation("Ingredient");
 
                     b.Navigation("Nutrient");
-                });
-
-            modelBuilder.Entity("ModelsDB.Functionality.Logo", b =>
-                {
-                    b.HasOne("ModelsDB.Dietician", "Dietician")
-                        .WithOne("Logo")
-                        .HasForeignKey("ModelsDB.Functionality.Logo", "DieticianId");
-
-                    b.Navigation("Dietician");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.MealTimeToXYAxis", b =>
@@ -3463,15 +3346,6 @@ namespace DietDB.Migrations
                     b.Navigation("PatientCard");
                 });
 
-            modelBuilder.Entity("ModelsDB.User", b =>
-                {
-                    b.HasOne("ModelsDB.Functionality.Sex", "Sex")
-                        .WithMany("Users")
-                        .HasForeignKey("SexId");
-
-                    b.Navigation("Sex");
-                });
-
             modelBuilder.Entity("ModelsDB.Admin", b =>
                 {
                     b.HasOne("ModelsDB.Address", "Address")
@@ -3487,7 +3361,19 @@ namespace DietDB.Migrations
                         .WithMany("Dieticians")
                         .HasForeignKey("AddressId");
 
+                    b.HasOne("ModelsDB.Patient", null)
+                        .WithMany("Dieticians")
+                        .HasForeignKey("PatientId");
+
+                    b.HasOne("ModelsDB.Rating", "Rating")
+                        .WithMany("Dieticians")
+                        .HasForeignKey("RatingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Address");
+
+                    b.Navigation("Rating");
                 });
 
             modelBuilder.Entity("ModelsDB.Patient", b =>
@@ -3495,6 +3381,10 @@ namespace DietDB.Migrations
                     b.HasOne("ModelsDB.Address", "Address")
                         .WithMany("Patients")
                         .HasForeignKey("AddressId");
+
+                    b.HasOne("ModelsDB.Functionality.Sex", null)
+                        .WithMany("Patients")
+                        .HasForeignKey("SexId");
 
                     b.Navigation("Address");
                 });
@@ -3539,7 +3429,7 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Functionality.Sex", b =>
                 {
-                    b.Navigation("Users");
+                    b.Navigation("Patients");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.Specialization", b =>
@@ -3642,7 +3532,7 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Rating", b =>
                 {
-                    b.Navigation("DieticianPatientRatings");
+                    b.Navigation("Dieticians");
                 });
 
             modelBuilder.Entity("ModelsDB.Recipe", b =>
@@ -3682,8 +3572,6 @@ namespace DietDB.Migrations
 
                     b.Navigation("DieticianPatients");
 
-                    b.Navigation("DieticianRatings");
-
                     b.Navigation("DieticianSpecializations");
 
                     b.Navigation("Diets");
@@ -3693,8 +3581,6 @@ namespace DietDB.Migrations
                     b.Navigation("FoodCatalogs");
 
                     b.Navigation("Ingredients");
-
-                    b.Navigation("Logo");
 
                     b.Navigation("MessageTo");
 
@@ -3707,7 +3593,7 @@ namespace DietDB.Migrations
 
                     b.Navigation("DieticianPatients");
 
-                    b.Navigation("DieticianRatings");
+                    b.Navigation("Dieticians");
 
                     b.Navigation("Diets");
 

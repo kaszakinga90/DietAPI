@@ -27,7 +27,7 @@ namespace Application.CQRS.FoodCatalogs
                     .Where(m => m.DieticianId == null || m.DieticianId == request.DieteticianId)
                     .Select(m => new FoodCatalogGetDTO
                     {
-                        FoodCatalogId = m.Id,
+                        Id = m.Id,
                         CatalogName = m.CatalogName
                     })
                     .ToListAsync(cancellationToken);

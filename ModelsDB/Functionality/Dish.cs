@@ -27,7 +27,7 @@ namespace ModelsDB
         public string PreparingTime { get; set; }   // TODO: jaki format?
         public int? RecipeId { get; set; }
         public Recipe Recipe { get; set; }
-        public int? DieteticianId { get; set; }
+        public int? DieticianId { get; set; }
         public Dietician Dietician { get; set; }
         public List<DishFoodCatalog> DishFoodCatalogs { get; set; }
         public List<DishIngredient> DishIngredients { get; set; }

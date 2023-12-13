@@ -11,14 +11,13 @@ namespace API.Controllers
         {
         }
         //pobiera katalog po id
-        [HttpGet("{id}")]
-        public async Task<ActionResult<FoodCatalogGetDTO>> GetFoodCatalog(int id)
+        [HttpGet("getdieticiancatalogs/{dieticianId}")]
+        public async Task<ActionResult<FoodCatalogGetDTO>> GetFoodCatalog(int dieticianId)
         {
-            return await _mediator.Send(new FoodCatalogDetails.Query { Id = id });
+            return await _mediator.Send(new FoodCatalogDetails.Query { Id = dieticianId });
         }
-
         //pobiera katalogi dań dostępne dla dietetyka (czyli z bazy wspólnej, gdzie DieticianID == NULL oraz te utworzone przez tego dietetyka)
-        [HttpGet("all")]
+        [HttpGet("getallcatalogs/{dieticianId}")]
         public async Task<IActionResult> GetFoodCatalogs(int dieticianId)
         {
             var result = await _mediator.Send(new FoodCatalogList.Query { DieteticianId = dieticianId });
@@ -26,10 +25,11 @@ namespace API.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateFoodCatalog([FromForm] FoodCatalogPostDTO FoodCatalogPostDTO)
+        public async Task<IActionResult> CreateFoodCatalog(FoodCatalogPostDTO FoodCatalogPostDTO)
         {
-            await _mediator.Send(new FoodCatalogCreate.Command { FoodCatalogPostDTO = FoodCatalogPostDTO });
-            return Ok();
+            var result = await _mediator.Send(new FoodCatalogCreate.Command { FoodCatalogPostDTO = FoodCatalogPostDTO });
+            return Ok(result.Value); // Zwraca obiekt DTO z ID
         }
+
     }
 }

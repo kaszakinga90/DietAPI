@@ -35,6 +35,7 @@ namespace Application.CQRS.Ingredients
                              ServingQuantity = i.ServingQuantity ?? 0,
                              MeasureId = i.MeasureId,
                              PictureUrl = i.PictureUrl,
+                             Weight = i.Weight,
                          })
                         .AsQueryable();
                     ingridientList = ingridientList.Search(request.Params.SearchTerm);

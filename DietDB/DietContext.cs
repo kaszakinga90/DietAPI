@@ -276,7 +276,7 @@ namespace DietDB
 
             modelBuilder.Entity<PatientCardSurvey>()
                 .HasOne(mp => mp.Survey)
-                .WithMany(p => p.PatientCardSurveys)  
+                .WithMany(p => p.PatientCardSurveys)
                 .HasForeignKey(mp => mp.SurveyId);
             //**************************************************************************************************
             modelBuilder.Entity<IngredientNutrient>()
@@ -378,6 +378,7 @@ namespace DietDB
                 .WithOne(l => l.Dietician)
                 .HasForeignKey<Logo>(l => l.DieticianId)
                 .IsRequired(false);
+
 
         }
         #endregion

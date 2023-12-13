@@ -18,7 +18,7 @@ namespace Application.DTOs.DishDTO
         // która to jest jednostka, np. gramy
         public int UnitId { get; set; }
         public int? GlycemicIndex { get; set; }  // TODO: jak obliczany?
-        public IFormFile File { get; set; }
+        //public IFormFile File { get; set; }
         public string DishPhotoUrl { get; set; }
         public string PreparingTime { get; set; }   // TODO: jaki format?
         public int RecipeId { get; set; }
