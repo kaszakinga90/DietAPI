@@ -4,8 +4,7 @@ namespace ModelsDB
     public class Dietician : User
     {
         public string AboutMe { get; set; }
-        public Rating Rating { get; set; }
-        public int RatingId { get; set; }
+        public Logo Logo { get; set; }
         public List<Diploma> Diplomas { get; set; } 
         public List<FoodCatalog> FoodCatalogs { get; set; }
         public List<DieticianOffice> DieticianOffices { get; set; }
@@ -13,12 +12,10 @@ namespace ModelsDB
         public List<Comment> Comments { get; set; }
         public List<Diet> Diets { get; set; }
         public List<DieticianNote> DieticianNotes { get; set; }
-
-        //lista odzwierc. jeden pacjent może mieć wiele dietetyków
-        // jeden dietetyk może mieć wiele pacjentów
         public List<DieticianPatient> DieticianPatients { get; set; }
         public List<MessageTo> MessageTo { get; set; }
         public List<DieticianSpecialization> DieticianSpecializations { get; set; }
         public List<Ingredient> Ingredients { get; set; }
+        public List<DieticianPatientRating> DieticianRatings { get; set; }
     }
 }

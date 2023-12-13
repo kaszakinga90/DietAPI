@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using ModelsDB;
 
+// TODO : obsługa - dokończ. funkcjonalności
 namespace Application.CQRS.Ingredients
 {
     /// <summary>

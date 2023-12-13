@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using ModelsDB;
 using ModelsDB.Functionality;
 
+// TODO : obsługa - dokończ.
 namespace Application.CQRS.Dishes
 {
     public class DishCreate

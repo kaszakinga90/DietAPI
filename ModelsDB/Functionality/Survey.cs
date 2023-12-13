@@ -12,7 +12,6 @@ namespace ModelsDB
         public float Heigth { get; set; }
         public float Weith { get; set; }
         public DateTime MeasureTime { get; set; }
-
         public List<PatientCardSurvey> PatientCardSurveys { get; set; }
     }
 }

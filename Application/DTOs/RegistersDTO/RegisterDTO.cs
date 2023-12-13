@@ -1,6 +1,4 @@
-﻿
-
-using Application.DTOs.LoginsDTO;
+﻿using Application.DTOs.LoginsDTO;
 
 namespace Application.DTOs.RegistersDTO
 {

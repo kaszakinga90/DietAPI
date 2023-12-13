@@ -2,10 +2,9 @@
 
 namespace ModelsDB
 {
-
     public class Patient : User
     {
-        public List<Dietician> Dieticians { get; set; }
+        //public List<Dietician> Dieticians { get; set; }
         public List<PatientCard> PatientCards { get; set; }
         public List<Comment> Comments { get; set; }
         public List<Rating> Ratings { get; set; }
@@ -16,6 +15,6 @@ namespace ModelsDB
         public List<MessageTo> MessageTo { get; set; }
         public List<Diet> Diets { get; set; }
         public List<TestResult> TestEquals { get; set; }
-
+        public List<DieticianPatientRating> DieticianRatings { get; set; }
     }
 }

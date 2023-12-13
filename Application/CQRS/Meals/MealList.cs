@@ -1,10 +1,8 @@
 ﻿using Application.Core;
 using Application.DTOs.MealDTO;
-using Application.DTOs.SpecializationDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using ModelsDB.Functionality;
 
 namespace Application.CQRS.Meals
 {

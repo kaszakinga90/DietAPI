@@ -13,7 +13,6 @@ namespace ModelsDB.Functionality
         public int Id { get; set; }
         public string Symbol { get; set; }
         public string Description { get; set; }
-
         public List<Ingredient> Ingredients { get; set;}
         public List<Nutrient> Nutrients { get; set;}
         public List<DishIngredient> DishIngredients { get; set;}

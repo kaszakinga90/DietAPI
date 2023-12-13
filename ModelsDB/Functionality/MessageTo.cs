@@ -17,6 +17,5 @@
         public int? DieticianId { get; set; } = null;
         public bool IsRead { get; set; }
         public DateTime? ReadDate { get; set; }
-
     }
 }

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace Application.DTOs.IngredientDTO
+﻿namespace Application.DTOs.IngredientDTO
 {
     public class IngredientGetDTO
     {

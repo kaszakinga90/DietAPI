@@ -10,7 +10,6 @@ namespace ModelsDB.Layout
         public int Id { get; set; }
         public string Description { get; set; }
         public string Icon { get; set; }
-
         public Link Link { get; set; }
         public int LinkId { get; set; }
         public Footer Footer { get; set; }

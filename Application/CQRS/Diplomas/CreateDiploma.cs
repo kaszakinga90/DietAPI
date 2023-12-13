@@ -34,6 +34,7 @@ namespace Application.CQRS.Diplomas
                 if (request.DiplomaDTO.File != null)
                 {
                     var imageResult = await _imageService.AddImageAsync(request.DiplomaDTO.File);
+                    // TODO : obsługa błędów
                     //if (imageResult.Error != null)
                     //{
                     //    return OkResult();

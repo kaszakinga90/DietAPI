@@ -8,8 +8,6 @@ namespace ModelsDB.Functionality
     {
         [Key]
         public int Id { get; set; }
-
-        // tutaj będzie nazwa posilku (sniadanie, obiad, kolacja, itp.)
         public int MealId { get; set; }
         public Meal Meal { get; set; }
         public DateTime MealTime { get; set; }
