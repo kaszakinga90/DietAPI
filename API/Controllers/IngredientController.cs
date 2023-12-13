@@ -2,8 +2,6 @@
 using Application.CQRS.Ingredients;
 using Application.DTOs.IngredientDTO;
 using Application.FiltersExtensions.Ingredients;
-using Application.Services;
-using DietDB;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,13 +9,8 @@ namespace API.Controllers
 {
     public class IngredientController : BaseApiController
     {
-        private readonly ImageService _imageService;
-        private readonly DietContext _context;
-
-        public IngredientController(ImageService imageService, DietContext context, IMediator mediator) : base(mediator)
+        public IngredientController(IMediator mediator) : base(mediator)
         {
-            _imageService = imageService;
-            _context = context;
         }
 
         [HttpGet("full/{dieticianId}")]
@@ -38,7 +31,6 @@ namespace API.Controllers
             var result = await _mediator.Send(new IngredientList.Query { DieticianId = dieticianId, Params = param });
             return HandlePagedResult(result);
         }
-
 
         [HttpGet("{ingredientId}")]
         public async Task<ActionResult<IngredientGetDTO>> GetIngredient(int ingredientId)

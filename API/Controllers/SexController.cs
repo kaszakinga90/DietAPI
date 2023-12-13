@@ -11,7 +11,7 @@ namespace API.Controllers
         {
         }
 
-        // IMPORTANT : FROM SQL
+        // IMPORTANT : FROM SQL - pobieranie danych z widoku
         [HttpGet]
         [Route("allSexTypesFromView")]
         public async Task<ActionResult<List<SexGetDTO>>> GetSexesFromView()

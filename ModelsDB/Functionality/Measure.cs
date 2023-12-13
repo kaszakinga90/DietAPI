@@ -1,5 +1,4 @@
-﻿using ModelsDB.Functionality;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ModelsDB
@@ -14,7 +13,6 @@ namespace ModelsDB
         public int Id { get; set; }
         public string Symbol { get; set; }
         public string Description { get; set; }
-
         public List<Ingredient> Ingredients { get; set; }
     }
 }

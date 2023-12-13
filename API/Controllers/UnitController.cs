@@ -10,6 +10,7 @@ namespace API.Controllers
         public UnitController(IMediator mediator) : base(mediator)
         {
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<UnitGetDTO>> GetUnit(int id)
         {

@@ -24,11 +24,10 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using Application.Services.EmailSends;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Dodaje us³ugi do kontenera.
+// Dodaje uslugi do kontenera.
 
 /// <summary>
 /// Dodaje kontrolery i konfiguruje opcje serializacji JSON.
@@ -69,9 +68,6 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-/// <summary>
-/// Dodaje i konfiguruje bazê danych.
-/// </summary>
 builder.Services.AddDbContext<DietContext>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -106,14 +102,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<TokenService>();
 
-//builder.Services.AddDefaultIdentity<User>(options =>
-//{
-//    options.SignIn.RequireConfirmedAccount = true; // Upewnij się, że potwierdzenie konta jest wymagane
-//})
-//.AddEntityFrameworkStores<DietContext>() // Dodaj sklep danych dla Identity
-//.AddDefaultTokenProviders(); // Dodaj domyślne dostawce tokenów (w tym dostawcę dwuetapowego uwierzytelniania)
-
-
 /// <summary>
 /// Dodaje i konfiguruje MediatR.
 /// </summary>
@@ -141,7 +129,6 @@ builder.Services.AddScoped<ImageService>();
 /// Dodaje wsparcie dla walidacji z FluentValidation.
 /// </summary>
 builder.Services.AddFluentValidationAutoValidation();
-//builder.Services.AddValidatorsFromAssemblyContaining<Create>();
 
 var emailSendConfiguration = builder.Configuration
     .GetSection("EmailSenderConfiguration")
@@ -175,7 +162,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 /// <summary>
-/// Tworzy zakres dla us³ug i inicjuje bazê danych.
+/// Tworzy zakres dla uslug i inicjuje baze danych.
 /// </summary>
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
@@ -196,6 +183,5 @@ catch (Exception ex)
     var logger = services.GetRequiredService<ILogger<Program>>();
     logger.LogError(ex, "An error occured during migration");
 }
-
 
 app.Run();

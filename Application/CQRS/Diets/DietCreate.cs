@@ -4,7 +4,6 @@ using MediatR;
 using ModelsDB.Functionality;
 using ModelsDB;
 using Application.DTOs.MealTimeToXYAxisDTO;
-using Microsoft.EntityFrameworkCore;
 
 public class DietCreate
 {
@@ -46,7 +45,6 @@ public class DietCreate
             {
                 foreach (var mealTimeDto in mealTimesDto)
                 {
-                    // Konwersja stringa na TimeSpan
                     if (TimeSpan.TryParse(mealTimeDto.MealTime, out TimeSpan time))
                     {
                         var mealDateTime = new DateTime(date.Year, date.Month, date.Day, time.Hours, time.Minutes, time.Seconds);
@@ -59,7 +57,6 @@ public class DietCreate
                             DishId = null
                         };
 
-                        // Logowanie i dodawanie do kontekstu
                         Console.WriteLine(" ==================================");
                         Console.WriteLine(" Zapisuje do bazy: " + mealSchedule.DietId + " " + mealSchedule.MealTime);
                         Console.WriteLine(" ==================================");
@@ -67,7 +64,7 @@ public class DietCreate
                     }
                     else
                     {
-                        // Obsługa błędu konwersji
+                        // TODO: Obsługa błędu konwersji
                     }
                 }
             }

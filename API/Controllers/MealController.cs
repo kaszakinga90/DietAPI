@@ -11,6 +11,7 @@ namespace API.Controllers
         public MealController(IMediator mediator) : base(mediator)
         {
         }
+
         [HttpGet]
         public async Task<ActionResult<List<MealGetDTO>>> GetMeals()
         {

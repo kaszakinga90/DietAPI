@@ -4,6 +4,5 @@ namespace ModelsDB.Functionality
 {
     public class Role : IdentityRole<int>
     {
-
     }
 }

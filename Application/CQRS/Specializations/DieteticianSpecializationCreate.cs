@@ -2,7 +2,6 @@
 using AutoMapper;
 using DietDB;
 using MediatR;
-using ModelsDB;
 using ModelsDB.Functionality;
 
 namespace Application.CQRS.Specializations
@@ -31,10 +30,7 @@ namespace Application.CQRS.Specializations
 
                 _context.DieticianSpecialization.Add(ds);
                 await _context.SaveChangesAsync(cancellationToken);
-
-
             }
-
         }
     }
 }

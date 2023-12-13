@@ -17,10 +17,8 @@ namespace Application.DTOs.AdminDTO
         public DateTime? BirthDate { get; set; }
         public IFormFile File { get; set; }
         public string PictureUrl { get; set; }
-
         public Address Address { get; set; }
         public int AddressId { get; set; }
-
         public List<MessageToDTO> Messages { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
+// TODO : obsługa - dokończ. funkcjonalności (czy należy zmapować? )
 namespace Application.CQRS.PatientCards
 {
     public class PatientCardCreate

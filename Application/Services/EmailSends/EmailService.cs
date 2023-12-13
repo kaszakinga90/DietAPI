@@ -1,7 +1,5 @@
 ﻿using MailKit.Net.Smtp;
-using MailKit.Security;
 using MimeKit;
-using System.Security.Authentication;
 
 namespace Application.Services.EmailSends
 {
@@ -36,21 +34,14 @@ namespace Application.Services.EmailSends
             {
                 try
                 {
-                    // TODO:
-
-                    //client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                    //client.CheckCertificateRevocation = false;
-                    //client.SslProtocols = SslProtocols.Tls | SslProtocols.Tls11 | SslProtocols.Tls12 | SslProtocols.Tls13;
-                    //client.SslProtocols = System.Security.Authentication.SslProtocols.Tls;
                     client.Connect(_emailConfig.SMTPServer, _emailConfig.Port, false);
                     client.AuthenticationMechanisms.Remove("XOAUTH2");
                     client.Authenticate(_emailConfig.Username, _emailConfig.Password);
-
                     client.Send(mailMessage);
                 }
                 catch
                 {
-                    //log an error message or throw an exception or both.
+                    // TODO : obsługa błędów.
                     throw;
                 }
                 finally
@@ -60,12 +51,5 @@ namespace Application.Services.EmailSends
                 }
             }
         }
-
-        //public async Task SendEmailAsync(EmailMessage message)
-        //{
-        //    var mailMessage = CreateEmailMessage(message);
-
-        //    await SendAsync(mailMessage);
-        //}
     }
 }

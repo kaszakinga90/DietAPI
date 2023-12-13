@@ -1,16 +1,11 @@
 ﻿using Application.Core;
-using Application.DTOs.DiplomaDTO;
 using Application.DTOs.IngredientDTO;
-using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.CQRS.Ingredients
 {
-    /// <summary>
-    /// Zawiera klasy służące do pobierania szczegółów produktu(składnika) na podstawie jego identyfikatora.
-    /// </summary>
     public class IngredientDetails
     {
         public class Query : IRequest<Result<IngredientGetDTO>>
@@ -50,7 +45,6 @@ namespace Application.CQRS.Ingredients
 
                     return Result<IngredientGetDTO>.Success(ingredient);
                 }
-
             }
         }
     }

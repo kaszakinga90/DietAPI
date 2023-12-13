@@ -10,6 +10,7 @@ namespace API.Controllers
         public MealTimeController(IMediator mediator) : base(mediator)
         {
         }
+
         [HttpGet]
         public async Task<ActionResult<List<MealTimeToXYAxis>>> GetMealTimes()
         {

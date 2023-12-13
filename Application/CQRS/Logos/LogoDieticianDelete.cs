@@ -1,13 +1,9 @@
 ﻿using Application.Core;
-using Application.DTOs.DieticianDTO;
 using Application.DTOs.LogoDTO;
-using Application.Services;
 using AutoMapper;
 using DietDB;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using ModelsDB;
 
 namespace Application.CQRS.Logos
 {
@@ -48,7 +44,6 @@ namespace Application.CQRS.Logos
 
                     return Result<LogoPostDTO>.Success(_mapper.Map<LogoPostDTO>(logo));
                 }
-
             }
         }
     }

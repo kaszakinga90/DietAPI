@@ -1,7 +1,4 @@
-﻿using MailKit.Net.Smtp;
-using MimeKit;
-using MailKit;
-using System.Text;
+﻿using MimeKit;
 
 namespace Application.Services.EmailSends
 {

@@ -12,7 +12,6 @@ namespace ModelsDB
         public string Title { get; set; }
         public string Description { get; set; }
         public bool isVisibleToPatient { get; set; }
-
         public int DieticianId { get; set; }
         public List<DieticianNote> DieticianNotes { get; set; }
         public List<NotePatient> NotePatients { get; set; }

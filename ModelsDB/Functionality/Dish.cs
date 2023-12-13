@@ -17,25 +17,18 @@ namespace ModelsDB
         //odpowiednik "serving_unit"  odp. np. "slice (1 oz)"
         public int? MeasureId { get; set; }
         public Measure Measure { get; set; }
-
         //odpowiednik "serving_weight_grams"  odp. np 28
         public float? Weight { get; set; }
-
-        // która to jest jednostka, np. gramy
         public int? UnitId { get; set; }
-        
         public Unit Unit { get; set; }
         public int? GlycemicIndex { get; set; }  // TODO: jak obliczany?
         public string PublicId { get; set; }
         public string DishPhotoUrl { get; set; }
-
         public string PreparingTime { get; set; }   // TODO: jaki format?
         public int? RecipeId { get; set; }
         public Recipe Recipe { get; set; }
-
         public int? DieteticianId { get; set; }
         public Dietician Dietician { get; set; }
-
         public List<DishFoodCatalog> DishFoodCatalogs { get; set; }
         public List<DishIngredient> DishIngredients { get; set; }
         public List<MealTimeToXYAxis> MealTimes { get; set; }

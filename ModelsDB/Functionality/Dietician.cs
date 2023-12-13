@@ -12,9 +12,6 @@ namespace ModelsDB
         public List<Comment> Comments { get; set; }
         public List<Diet> Diets { get; set; }
         public List<DieticianNote> DieticianNotes { get; set; }
-
-        //lista odzwierc. jeden pacjent może mieć wiele dietetyków
-        // jeden dietetyk może mieć wiele pacjentów
         public List<DieticianPatient> DieticianPatients { get; set; }
         public List<MessageTo> MessageTo { get; set; }
         public List<DieticianSpecialization> DieticianSpecializations { get; set; }

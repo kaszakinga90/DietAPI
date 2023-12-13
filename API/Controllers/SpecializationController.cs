@@ -10,6 +10,7 @@ namespace API.Controllers
         public SpecializationController(IMediator mediator) : base(mediator)
         {
         }
+
         [HttpGet]
         public async Task<IActionResult> GetSpecializations()
         {
@@ -23,6 +24,7 @@ namespace API.Controllers
             var result = await _mediator.Send(new DieteticianSpecializationList.Query { DieticianId = dieticianId });
             return HandleResult(result);
         }
+
         [HttpPost]
         public async Task<IActionResult> CreateDiet(DieteticianSpecializationPostDTO ds)
         {

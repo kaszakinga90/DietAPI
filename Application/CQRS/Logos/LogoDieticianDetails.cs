@@ -1,9 +1,7 @@
 ﻿using Application.Core;
 using Application.DTOs.LogoDTO;
-using AutoMapper;
 using DietDB;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.CQRS.Logos
@@ -41,7 +39,6 @@ namespace Application.CQRS.Logos
 
                     return Result<LogoGetDTO>.Success(logo);
                 }
-
             }
         }
     }

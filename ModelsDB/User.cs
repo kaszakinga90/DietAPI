@@ -15,15 +15,12 @@ namespace ModelsDB
         public DateTime? BirthDate { get; set; }
         public string PublicId { get; set; }
         public string PictureUrl { get; set; }
-
         public Sex Sex { get; set; }
         public int? SexId { get; set; } = null;
-
         public Address Address { get; set; }
         public int? AddressId { get; set; } = null;
         public bool isDarkMode { get; set; } = false;
         public List<Note> Notes { get; set; }
-
         public bool isActive { get; set; } = true;
         public DateTime dateAdded { get; set; } = DateTime.Now;
         public DateTime? dateUpdated { get; set; } = null;

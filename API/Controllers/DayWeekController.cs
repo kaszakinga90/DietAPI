@@ -3,7 +3,6 @@ using Application.CQRS.DayWeeks;
 using Application.DTOs.DayWeekDTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ModelsDB.Functionality;
 
 namespace API.Controllers
 {

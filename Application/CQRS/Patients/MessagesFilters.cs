@@ -3,7 +3,6 @@ using Application.DTOs.MessagesDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace Application.CQRS.Patients
 {
@@ -41,7 +40,6 @@ namespace Application.CQRS.Patients
                             .Distinct()
                             .ToListAsync()
                     };
-
                     return Result<MessagesFiltersDTO>.Success(filters);
                 }
             }

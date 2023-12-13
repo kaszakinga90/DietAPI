@@ -10,6 +10,7 @@ namespace API.Controllers
         public MeasureController(IMediator mediator) : base(mediator)
         {
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<MeasureGetDTO>> GetMeasure(int id)
         {

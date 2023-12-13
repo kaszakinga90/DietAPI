@@ -45,7 +45,7 @@ namespace API.Controllers
             };
         }
 
-        // IMPORTANT : FROM SQL
+        // IMPORTANT : FROM SQL - trigger tworzący obiekt Adres 
         [AllowAnonymous]
         [HttpPost("registerPatient")]
         public async Task<ActionResult> RegisterPatient(RegisterDTO registerDTO)
@@ -88,7 +88,7 @@ namespace API.Controllers
             return StatusCode(201);
         }
 
-        // IMPORTANT : FROM SQL
+        // IMPORTANT : FROM SQL - trigger tworzący obiekt Adres
         [AllowAnonymous]
         [HttpPost("registerDietician")]
         public async Task<ActionResult> RegisterDietician(RegisterDTO registerDTO)
@@ -130,7 +130,7 @@ namespace API.Controllers
             return StatusCode(201);
         }
 
-        // IMPORTANT : FROM SQL
+        // IMPORTANT : FROM SQL - trigger tworzący obiekt Adres
         [AllowAnonymous]
         [HttpPost("registerAdmin")]
         public async Task<ActionResult> RegisterAdmin(RegisterDTO registerDTO)

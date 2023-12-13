@@ -1,10 +1,8 @@
 ﻿using Application.Core;
-using Application.DTOs.DiplomaDTO;
 using Application.DTOs.IngredientDTO;
 using Application.FiltersExtensions.Ingredients;
 using DietDB;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Application.CQRS.Ingredients
 {

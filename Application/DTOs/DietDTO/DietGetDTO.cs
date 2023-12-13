@@ -1,5 +1,5 @@
 ﻿using Application.DTOs.MealTimeToXYAxisDTO;
-
+// TODO : czy tu będzie to pole?
 public class DietGetDTO
 {
     public int Id { get; set; }

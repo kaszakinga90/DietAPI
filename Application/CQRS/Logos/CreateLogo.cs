@@ -1,19 +1,13 @@
 ﻿using Application.Core;
-using Application.DTOs.DiplomaDTO;
 using Application.DTOs.LogoDTO;
 using Application.Services;
 using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using ModelsDB;
 using ModelsDB.Functionality;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
+// TODO : obsługa - dokończ. funkcjonalności
 namespace Application.CQRS.Logos
 {
     public class CreateLogo

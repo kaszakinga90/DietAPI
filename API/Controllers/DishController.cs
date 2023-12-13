@@ -24,7 +24,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        // poniżej nalezy dodać [FromForm]
+        // TODO : poniżej nalezy dodać [FromForm]
         [HttpPost("create")]
         public async Task<IActionResult> CreateDish(DishPostDTO dishDto)
         {
