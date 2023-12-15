@@ -132,19 +132,6 @@ namespace API.Controllers
             return Ok();
         }
 
-        [HttpPost("logo")]
-        public async Task<IActionResult> CreateLogo([FromForm] LogoPostDTO logoDto, [FromForm] IFormFile file)
-        {
-            var command = new CreateLogo.Command
-            {
-                LogoPostDTO = logoDto,
-                File = file,
-            };
-
-            await _mediator.Send(command);
-
-            return Ok();
-        }
 
 
 

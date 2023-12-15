@@ -199,6 +199,9 @@ namespace Application.Core
 
             CreateMap<Logo, LogoGetDTO>()
                 .ReverseMap();
+
+            CreateMap<Dietician, DieticianEditDataDTO>()
+                .ReverseMap();
         }
     }
 }
