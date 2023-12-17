@@ -276,6 +276,26 @@ namespace DietDB.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ReportTemplate",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    isActive = table.Column<bool>(type: "bit", nullable: false),
+                    dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReportTemplate", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RoleClaims",
                 columns: table => new
                 {
@@ -1878,17 +1898,17 @@ namespace DietDB.Migrations
             migrationBuilder.InsertData(
                 table: "IdentityRole",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "893d91c9-1409-4a8a-bb47-05a20c3c4dfe", "2390dc1e-9ab1-4487-9b59-5c19a76860b6", "Admin", "ADMIN" });
+                values: new object[] { "13248768-5c87-4d03-9dd2-f084b79f7c7a", "795d6823-f46a-4ebb-bf77-b7df89f4f645", "Dietetician", "DIETETICIAN" });
 
             migrationBuilder.InsertData(
                 table: "IdentityRole",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "bf7c5f72-b5ff-44f1-8e2a-470ac488f95a", "8ba13080-eac4-4ff3-a00a-6ba41b36a241", "Patient", "PATIENT" });
+                values: new object[] { "486f836a-0c36-4470-bc7c-901a0209101f", "ba44b5a5-701a-48cd-b9b8-edbddef0c979", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "IdentityRole",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "d1d350a1-d0fb-4117-837d-f867ac4fbff7", "4d82ce04-baba-40f8-8ddc-0377eed350c4", "Dietetician", "DIETETICIAN" });
+                values: new object[] { "7d33e7b5-2e66-4692-8289-04db54776cb7", "3dcf6584-94e7-4783-91e4-c87cd74a8845", "Patient", "PATIENT" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Article_LayoutCategoryId",
@@ -2331,6 +2351,9 @@ namespace DietDB.Migrations
 
             migrationBuilder.DropTable(
                 name: "RecipeStep");
+
+            migrationBuilder.DropTable(
+                name: "ReportTemplate");
 
             migrationBuilder.DropTable(
                 name: "RoleClaims");

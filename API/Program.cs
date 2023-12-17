@@ -124,6 +124,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
 /// </summary>
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 builder.Services.AddScoped<ImageService>();
+builder.Services.AddScoped<ReportService>();
 
 /// <summary>
 /// Dodaje wsparcie dla walidacji z FluentValidation.
