@@ -1,10 +1,13 @@
 ﻿using Application.Core;
 using Application.DTOs.LogoDTO;
+using Application.DTOs.PatientDTO;
 using Application.Services;
 using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using ModelsDB;
 using ModelsDB.Functionality;
 
 // TODO : obsługa - dokończ. funkcjonalności
@@ -30,21 +33,46 @@ namespace Application.CQRS.Logos
             }
             public async Task<Result<LogoPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var logo = _mapper.Map<Logo>(request.LogoPostDTO);
+                Logo logo = await _context.LogosDb.FirstOrDefaultAsync(l => l.DieticianId == request.LogoPostDTO.DieticianId);
 
-                if (request.LogoPostDTO.File != null)
+                if (logo == null)
                 {
-                    var imageResult = await _imageService.AddImageAsync(request.LogoPostDTO.File);
-                    //if (imageResult.Error != null)
-                    //{
-                    //    return OkResult();
-                    //}
+                    logo = new Logo();
+                    _context.LogosDb.Add(logo);
+                }
+
+                _mapper.Map(request.LogoPostDTO, logo);
+
+                if (request.File != null)
+                {
+                    var imageResult = await _imageService.AddImageAsync(request.File);
+                    if (imageResult.Error != null)
+                    {
+                        return Result<LogoPostDTO>.Failure(imageResult.Error.Message);
+                    }
+
+                    if (!string.IsNullOrEmpty(logo.PublicId))
+                    {
+                        await _imageService.DeleteImageAsync(logo.PublicId);
+                    }
 
                     logo.PictureUrl = imageResult.SecureUrl.ToString();
                     logo.PublicId = imageResult.PublicId;
                 }
-                _context.LogosDb.Add(logo);
-                await _context.SaveChangesAsync();
+
+                try
+                {
+                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    if (!result)
+                    {
+                        return Result<LogoPostDTO>.Failure("Edycja logo nie powiodła się.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Result<LogoPostDTO>.Failure("Wystąpił błąd podczas edycji logo: " + ex.Message);
+                }
+
                 return Result<LogoPostDTO>.Success(_mapper.Map<LogoPostDTO>(logo));
             }
         }

@@ -203,6 +203,8 @@ namespace Application.Core
 
             CreateMap<ReportTemplate, ReportTemplateGetDTO>()
                 .ReverseMap();
+            CreateMap<Dietician, DieticianEditDataDTO>()
+                .ReverseMap();
         }
     }
 }

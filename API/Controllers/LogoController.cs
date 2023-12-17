@@ -13,7 +13,20 @@ namespace API.Controllers
         {
         }
 
-        [HttpGet("{dieticianId}")]
+        [HttpPost("logocreateorupdate")]
+        public async Task<IActionResult> CreateLogo([FromForm] LogoPostDTO logoDto, [FromForm] IFormFile file)
+        {
+            var command = new CreateLogo.Command
+            {
+                LogoPostDTO = logoDto,
+                File = file,
+            };
+
+            await _mediator.Send(command);
+
+            return Ok();
+        }
+        [HttpGet("getlogo/{dieticianId}")]
         public async Task<ActionResult<LogoGetDTO>> GetLogo(int dieticianId)
         {
             var result = await _mediator.Send(new LogoDieticianDetails.Query { DieticianId = dieticianId });

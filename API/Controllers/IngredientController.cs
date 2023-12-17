@@ -1,4 +1,5 @@
 ﻿using Application.Core;
+using Application.CQRS.FoodCatalogs;
 using Application.CQRS.Ingredients;
 using Application.DTOs.IngredientDTO;
 using Application.FiltersExtensions.Ingredients;
@@ -38,7 +39,12 @@ namespace API.Controllers
             var result = await _mediator.Send(new IngredientDetails.Query { IngredientId = ingredientId });
             return HandleResult(result);
         }
-
+        [HttpGet("getallnopagination/{dieticianId}")]
+        public async Task<IActionResult> GetAllIngredientsNoPagination(int dieticianId)
+        {
+            var result = await _mediator.Send(new IngredientsAllListNOpagination .Query { DieteticianId = dieticianId });
+            return HandleResult(result);
+        }
         [HttpPost("create")]
         public async Task<IActionResult> CreateIngredient([FromForm] IngredientDTO IngredientDTO, [FromForm] IFormFile file)
         {
