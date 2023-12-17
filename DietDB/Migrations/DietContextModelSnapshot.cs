@@ -118,22 +118,22 @@ namespace DietDB.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "893d91c9-1409-4a8a-bb47-05a20c3c4dfe",
-                            ConcurrencyStamp = "2390dc1e-9ab1-4487-9b59-5c19a76860b6",
+                            Id = "486f836a-0c36-4470-bc7c-901a0209101f",
+                            ConcurrencyStamp = "ba44b5a5-701a-48cd-b9b8-edbddef0c979",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "bf7c5f72-b5ff-44f1-8e2a-470ac488f95a",
-                            ConcurrencyStamp = "8ba13080-eac4-4ff3-a00a-6ba41b36a241",
+                            Id = "7d33e7b5-2e66-4692-8289-04db54776cb7",
+                            ConcurrencyStamp = "3dcf6584-94e7-4783-91e4-c87cd74a8845",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = "d1d350a1-d0fb-4117-837d-f867ac4fbff7",
-                            ConcurrencyStamp = "4d82ce04-baba-40f8-8ddc-0377eed350c4",
+                            Id = "13248768-5c87-4d03-9dd2-f084b79f7c7a",
+                            ConcurrencyStamp = "795d6823-f46a-4ebb-bf77-b7df89f4f645",
                             Name = "Dietetician",
                             NormalizedName = "DIETETICIAN"
                         });
@@ -1139,6 +1139,43 @@ namespace DietDB.Migrations
                     b.HasIndex("RecipeId");
 
                     b.ToTable("RecipeStep");
+                });
+
+            modelBuilder.Entity("ModelsDB.Functionality.ReportTemplate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("dateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("dateDeleted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("dateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("whoAdded")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("whoDeleted")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("whoUpdated")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ReportTemplate");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.Role", b =>

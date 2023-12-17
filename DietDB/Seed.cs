@@ -21,6 +21,20 @@ namespace DietDB
         // ******************** DANE PODSTAWOWE **************************************** //
         private static async Task SeedBaseClasses(DietContext context)
         {
+            #region ReportTemplates
+            // Sprawdzanie i dodawanie testowych reportTemplates
+            if (!context.ReportTemplatesDb.Any())
+            {
+                var rt = new List<ReportTemplate>()
+                {
+                    new ReportTemplate { Name = "Szablon1" },
+                    new ReportTemplate { Name = "Szablon2" },
+                    new ReportTemplate { Name = "Szablon3" },
+
+                };
+                await context.ReportTemplatesDb.AddRangeAsync(rt);
+            }
+            #endregion
             #region Address
             // Sprawdzanie i dodawanie testowych adresów
             if (!context.AddressesDb.Any())
