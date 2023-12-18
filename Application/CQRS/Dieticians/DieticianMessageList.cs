@@ -1,4 +1,6 @@
 ﻿using Application.Core;
+using Application.FiltersExtensions.DieticianMessages;
+using Application.FiltersExtensions.PatientMessages;
 using DietDB;
 using MediatR;
 
@@ -9,7 +11,7 @@ namespace Application.CQRS.Dieticians
         public class Query : IRequest<Result<PagedList<MessageToDTO>>>
         {
             public int DieticianId { get; set; }
-            public PagingParams Params { get; set; }
+            public DieticianMessagesParams Params { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Result<PagedList<MessageToDTO>>>
@@ -24,7 +26,7 @@ namespace Application.CQRS.Dieticians
             public async Task<Result<PagedList<MessageToDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var dieticianMessagesList = _context.MessageToDb
-                    .Where(m => m.DieticianId == request.DieticianId)
+                    .Where(m => m.DieticianId == request.DieticianId && m.AdminId == null)
                     .Select(m => new MessageToDTO
                     {
                         Id = m.Id,
@@ -40,6 +42,9 @@ namespace Application.CQRS.Dieticians
                         IsRead = m.IsRead
                     })
                     .AsQueryable();
+                dieticianMessagesList = dieticianMessagesList.PatientSort(request.Params.OrderBy);
+                dieticianMessagesList = dieticianMessagesList.PatientFilter(request.Params.PatientNames);
+                dieticianMessagesList = dieticianMessagesList.PatientSearch(request.Params.SearchTerm);
                 return Result<PagedList<MessageToDTO>>.Success(
                     await PagedList<MessageToDTO>.CreateAsync(dieticianMessagesList, request.Params.PageNumber, request.Params.PageSize)
                     );
@@ -47,3 +52,4 @@ namespace Application.CQRS.Dieticians
         }
     }
 }
+

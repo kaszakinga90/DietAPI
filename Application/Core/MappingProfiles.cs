@@ -1,7 +1,9 @@
-﻿using Application.DTOs.AdminDTO;
+﻿using Application.DTOs.AddressDTO;
+using Application.DTOs.AdminDTO;
 using Application.DTOs.DayWeekDTO;
 using Application.DTOs.DieteticianPatientDTO;
 using Application.DTOs.DieticianDTO;
+using Application.DTOs.DieticianOfficeDTO;
 using Application.DTOs.DiplomaDTO;
 using Application.DTOs.DishDTO;
 using Application.DTOs.DishFoodCatalogDTO;
@@ -13,6 +15,7 @@ using Application.DTOs.LogoDTO;
 using Application.DTOs.MealTimeToXYAxisDTO;
 using Application.DTOs.MeasureDTO;
 using Application.DTOs.NutrientDTO;
+using Application.DTOs.OfficeDTO;
 using Application.DTOs.PatientCardDTO;
 using Application.DTOs.PatientDTO;
 using Application.DTOs.RecipeDTO;
@@ -201,8 +204,21 @@ namespace Application.Core
             CreateMap<Logo, LogoGetDTO>()
                 .ReverseMap();
 
+
+            CreateMap<Dietician, DieticianEditDataDTO>()
+                .ReverseMap();
+
+            CreateMap<Address, AddressPostDTO>()
+                .ReverseMap();
+
+            CreateMap<Office, OfficePostDTO>()
+                .ReverseMap();
+        
+            CreateMap<DieticianOffice, DieticianOfficesGetDTO>()
+
             CreateMap<ReportTemplate, ReportTemplateGetDTO>()
                 .ReverseMap();
+                
             CreateMap<Dietician, DieticianEditDataDTO>()
                 .ReverseMap();
         }
