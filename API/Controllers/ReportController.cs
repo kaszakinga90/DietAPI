@@ -27,7 +27,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        [HttpGet("{templateId}")]
+        [HttpGet("{dieticianId}/{templateId}/{reportType}")]
         public async Task<IActionResult> GenerateReport(int templateId, ReportTypeEnum reportType, int dieticianId)
         {
             var template = _context.ReportTemplatesDb.Find(templateId);
