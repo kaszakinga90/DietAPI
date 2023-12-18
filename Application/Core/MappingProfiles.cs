@@ -213,8 +213,8 @@ namespace Application.Core
 
             CreateMap<Office, OfficePostDTO>()
                 .ReverseMap();
-        
-            CreateMap<DieticianOffice, DieticianOfficesGetDTO>()
+
+            CreateMap<DieticianOffice, DieticianOfficesGetDTO>();
 
             CreateMap<ReportTemplate, ReportTemplateGetDTO>()
                 .ReverseMap();
