@@ -49,14 +49,14 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
-        [HttpPut("{id}/editdata")]
-        public async Task<IActionResult> EditPatientData(int id, PatientEditDataDTO patient)
+        [HttpPut("{patientId}/editdata")]
+        public async Task<IActionResult> EditPatientData(int patientId, PatientEditDataDTO patient)
         {
             var command = new PatientEditData.Command
             {
                 PatientEditData = patient,
             };
-            command.PatientEditData.Id = id;
+            command.PatientEditData.Id = patientId;
 
             return HandleResult(await _mediator.Send(command));
         }
@@ -70,7 +70,7 @@ namespace API.Controllers
         }
 
         [HttpGet("filters/{patientId}")]
-        public async Task<ActionResult<MessagesFiltersDTO>> GetFilters(int patientId)
+        public async Task<ActionResult<PatientMessagesFiltersDTO>> GetFilters(int patientId)
         {
             var result = await _mediator.Send(new FilterList.Query { PatientId = patientId });
             return HandleResult(result);

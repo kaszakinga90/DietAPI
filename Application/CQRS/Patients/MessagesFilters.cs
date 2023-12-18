@@ -10,12 +10,12 @@ namespace Application.CQRS.Patients
     {
         public class FilterList
         {
-            public class Query : IRequest<Result<MessagesFiltersDTO>>
+            public class Query : IRequest<Result<PatientMessagesFiltersDTO>>
             {
                 public int PatientId { get; set; }
             }
 
-            public class Handler : IRequestHandler<Query, Result<MessagesFiltersDTO>>
+            public class Handler : IRequestHandler<Query, Result<PatientMessagesFiltersDTO>>
             {
                 private readonly DietContext _context;
 
@@ -24,23 +24,23 @@ namespace Application.CQRS.Patients
                     _context = context;
                 }
 
-                public async Task<Result<MessagesFiltersDTO>> Handle(Query request, CancellationToken cancellationToken)
+                public async Task<Result<PatientMessagesFiltersDTO>> Handle(Query request, CancellationToken cancellationToken)
                 {
-                    var filters = new MessagesFiltersDTO
+                    var filters = new PatientMessagesFiltersDTO
                     {
                         DatesAdded = await _context.MessageToDb
-                            .Where(m => m.PatientId == request.PatientId && m.DieticianId!=null)
+                            .Where(m => m.PatientId == request.PatientId && m.DieticianId != null)
                             .Select(m => m.dateAdded)
                             .Distinct()
                             .ToListAsync(),
 
                         DieticianNames = await _context.MessageToDb
-                            .Where(m => m.PatientId == request.PatientId && m.DieticianId!=null)
+                            .Where(m => m.PatientId == request.PatientId && m.DieticianId != null)
                             .Select(m => m.Dietician.FirstName + " " + m.Dietician.LastName)
                             .Distinct()
                             .ToListAsync()
                     };
-                    return Result<MessagesFiltersDTO>.Success(filters);
+                    return Result<PatientMessagesFiltersDTO>.Success(filters);
                 }
             }
         }

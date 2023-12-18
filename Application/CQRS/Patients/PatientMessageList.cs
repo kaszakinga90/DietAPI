@@ -42,7 +42,7 @@ namespace Application.CQRS.Patients
                     })
                     .AsQueryable();
                 patientMessagesList = patientMessagesList.Sort(request.Params.OrderBy);
-                patientMessagesList = patientMessagesList.Filter(request.Params.DieticianNames);
+                //patientMessagesList = patientMessagesList.Filter(request.Params.Names);
                 patientMessagesList = patientMessagesList.Search(request.Params.SearchTerm);
                 return Result<PagedList<MessageToDTO>>.Success(
                     await PagedList<MessageToDTO>.CreateAsync(patientMessagesList, request.Params.PageNumber, request.Params.PageSize)

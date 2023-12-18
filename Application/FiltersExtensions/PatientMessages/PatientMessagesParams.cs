@@ -2,7 +2,7 @@
 
 namespace Application.FiltersExtensions.PatientMessages
 {
-    public class PatientMessagesParams:PagingParams
+    public class PatientMessagesParams : PagingParams
     {
         public string OrderBy { get; set; }
         public string SearchTerm { get; set; }
