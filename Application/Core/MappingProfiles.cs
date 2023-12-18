@@ -20,6 +20,7 @@ using Application.DTOs.PatientCardDTO;
 using Application.DTOs.PatientDTO;
 using Application.DTOs.RecipeDTO;
 using Application.DTOs.RecipeStepDTO;
+using Application.DTOs.ReportTemplateDTO;
 using Application.DTOs.SexDTO;
 using Application.DTOs.SpecializationDTO;
 using Application.DTOs.UnitDTO;
@@ -203,6 +204,7 @@ namespace Application.Core
             CreateMap<Logo, LogoGetDTO>()
                 .ReverseMap();
 
+
             CreateMap<Dietician, DieticianEditDataDTO>()
                 .ReverseMap();
 
@@ -213,6 +215,11 @@ namespace Application.Core
                 .ReverseMap();
         
             CreateMap<DieticianOffice, DieticianOfficesGetDTO>()
+
+            CreateMap<ReportTemplate, ReportTemplateGetDTO>()
+                .ReverseMap();
+                
+            CreateMap<Dietician, DieticianEditDataDTO>()
                 .ReverseMap();
         }
     }
