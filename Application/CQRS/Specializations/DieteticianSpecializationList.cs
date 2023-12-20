@@ -26,6 +26,8 @@ namespace Application.CQRS.Specializations
                         .Where(m=>m.DieticianId == request.DieticianId) 
                         .Select(m => new DieteticianSpecializationGetDTO
                         {
+                            DieticianId = m.DieticianId,
+                            SpecializationId = m.SpecializationId,
                             SpecializationName = m.Specialization.SpecializationName,
                             DieticianName=m.Dietician.FirstName+" "+m.Dietician.LastName,
                         })

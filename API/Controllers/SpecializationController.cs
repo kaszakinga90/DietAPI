@@ -11,25 +11,25 @@ namespace API.Controllers
         {
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<IActionResult> GetSpecializations()
         {
             var result = await _mediator.Send(new SpecializationsList.Query());
             return HandleResult(result);
         }
 
-        [HttpGet("{dieticianId}")]
+        [HttpGet("details/{dieticianId}")]
         public async Task<IActionResult> GetDieticianSpecializations(int dieticianId)
         {
             var result = await _mediator.Send(new DieteticianSpecializationList.Query { DieticianId = dieticianId });
             return HandleResult(result);
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<IActionResult> CreateDiet(DieteticianSpecializationPostDTO ds)
         {
-            await _mediator.Send(new DieteticianSpecializationCreate.Command { DieteticianSpecializationPostDTOs = ds });
-            return Ok();
+            var result=await _mediator.Send(new DieteticianSpecializationCreate.Command { DieteticianSpecializationPostDTOs = ds });
+            return Ok(result.Value);
         }
     }
 }

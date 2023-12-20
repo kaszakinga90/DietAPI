@@ -35,7 +35,7 @@ namespace Application.CQRS.Offices
                     .Where(m => m.DieticianId == request.DieteticianId)
                     .Select(m => new DieticianOfficesGetDTO
                     {
-                        OfficeId=m.OfficeId,
+                        Id=m.OfficeId,
                         OfficeName=m.Office.OfficeName,
                     })
                     .ToListAsync(cancellationToken);

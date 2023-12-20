@@ -9,7 +9,7 @@ namespace Application.DTOs.DishDTO
     public class DishPostDTO
     {
         public int Id { get; set; }
-        public string DishName { get; set; }
+        public string Name { get; set; }
         public int? Calories { get; set; }   // TODO: zliczane?
         //odpowiednik "serving_qty"  odp. np 1
         public float? ServingQuantity { get; set; }

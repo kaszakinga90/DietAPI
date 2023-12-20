@@ -2,6 +2,7 @@
 using Application.DTOs.AdminDTO;
 using Application.DTOs.DayWeekDTO;
 using Application.DTOs.DieteticianPatientDTO;
+using Application.DTOs.DieticianBusinessCardDTO;
 using Application.DTOs.DieticianDTO;
 using Application.DTOs.DieticianOfficeDTO;
 using Application.DTOs.DiplomaDTO;
@@ -27,6 +28,7 @@ using Application.DTOs.UnitDTO;
 using AutoMapper;
 using ModelsDB;
 using ModelsDB.Functionality;
+using System.Linq;
 
 namespace Application.Core
 {
@@ -58,11 +60,11 @@ namespace Application.Core
             CreateMap<Patient, PatientGetDTO>()
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate.HasValue ? src.BirthDate.Value.Date : (DateTime?)null))
                 .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageTo));
-            
+
             CreateMap<Patient, PatientDTO>()
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate.HasValue ? src.BirthDate.Value.Date : (DateTime?)null))
                 .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageTo));
-            
+
             CreateMap<PatientDTO, Patient>();
 
             CreateMap<PatientEditDataDTO, Patient>();
@@ -133,13 +135,19 @@ namespace Application.Core
 
             CreateMap<Diploma, DiplomaGetDTO>();
             CreateMap<Specialization, SpecializationGetDTO>();
-            CreateMap<DieticianSpecialization, DieteticianSpecializationGetDTO>();
+            CreateMap<DieticianSpecialization, DieteticianSpecializationPostDTO>()
+           //.ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+           .ForMember(dest => dest.DieticianId, opt => opt.MapFrom(src => src.DieticianId))
+           .ForMember(dest => dest.SpecializationId, opt => opt.MapFrom(src => src.SpecializationId))
+           .ForMember(dest => dest.SpecializationName, opt => opt.MapFrom(src => src.Specialization.SpecializationName));
+
             CreateMap<DieteticianSpecializationPostDTO, DieticianSpecialization>();
 
             CreateMap<IngredientDTO, Ingredient>()
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.IngredientName))
             .ForMember(dest => dest.MeasureId, opt => opt.MapFrom(src => src.MeasureId.Value))
-            .ForMember(dest => dest.UnitId, opt => opt.MapFrom(src => src.UnitId.Value));
+            .ForMember(dest => dest.UnitId, opt => opt.MapFrom(src => src.UnitId.Value))
+                .ReverseMap();
 
             CreateMap<Ingredient, IngredientDTO>()
                 .ForMember(dest => dest.IngredientName, opt => opt.MapFrom(src => src.Name))
@@ -218,9 +226,39 @@ namespace Application.Core
 
             CreateMap<ReportTemplate, ReportTemplateGetDTO>()
                 .ReverseMap();
-                
+
             CreateMap<Dietician, DieticianEditDataDTO>()
                 .ReverseMap();
+
+            CreateMap<Office, OfficeEditDTO>()
+                       .ForMember(dest => dest.AddressDTO, opt => opt.MapFrom(src => src.Address))
+                       .ReverseMap();
+
+            CreateMap<Address, AddressesDTO>().ReverseMap();
+
+            CreateMap<Dietician, DieticianBusinessCardGetDTO>()
+                      .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                      .ForMember(dest => dest.DieticianName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName))
+                      .ForMember(dest => dest.DieticianPictureUrl, opt => opt.MapFrom(src => src.PictureUrl))
+                      .ForMember(dest => dest.DieticianLogoUrl, opt => opt.MapFrom(src => src.Logo.PictureUrl))
+                      .ForMember(dest => dest.DieticianOffices, opt => opt.MapFrom(src => src.DieticianOffices.Select(src => src.Office))) 
+                      .ForMember(dest => dest.DieticianDiplomas, opt => opt.MapFrom(src => src.Diplomas))
+                      .ForMember(dest => dest.DieticianSpecializations, opt => opt.MapFrom(src => src.DieticianSpecializations.Select(ds => ds.Specialization)));
+
+
+            CreateMap<Office, OfficeGetDTO>()
+                    .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                    .ForMember(dest => dest.OfficeName, opt => opt.MapFrom(src => src.OfficeName))
+                    .ForMember(dest => dest.AddressDTO, opt => opt.MapFrom(src => src.Address));
+
+            CreateMap<Diploma, DiplomaGetDTO>()
+                    .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                    .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
+                    .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+                    .ForMember(dest => dest.PictureUrl, opt => opt.MapFrom(src => src.PictureUrl));
+
+
+
         }
     }
 }
