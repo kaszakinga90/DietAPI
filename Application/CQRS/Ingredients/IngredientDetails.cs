@@ -35,6 +35,7 @@ namespace Application.CQRS.Ingredients
                             MeasureId = m.MeasureId,
                             PictureUrl = m.PictureUrl,
                             Weight = m.Weight??0,
+                            UnitId=m.UnitId,
                         })
                         .FirstOrDefaultAsync();
 

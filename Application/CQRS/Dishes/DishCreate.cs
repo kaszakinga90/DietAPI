@@ -37,7 +37,7 @@ namespace Application.CQRS.Dishes
                 var dish = new Dish
                 {
                     Id = requestDish.Id,
-                    Name = requestDish.DishName,
+                    Name = requestDish.Name,
                     Calories = requestDish.Calories,
                     ServingQuantity = requestDish.ServingQuantity,
                     MeasureId = requestDish.MeasureId,

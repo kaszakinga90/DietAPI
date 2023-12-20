@@ -8,6 +8,7 @@
         public int GlycemicIndex { get; set; }
         public float ServingQuantity { get; set; }
         public int MeasureId { get; set; }
+        public int? UnitId { get; set; }
         //public IFormFile File { get; set; }
         public string PictureUrl { get; set; }
         public float? Weight { get; set; }
