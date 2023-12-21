@@ -27,8 +27,8 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        [HttpGet("{dieticianId}/{templateId}/{reportType}")]
-        public async Task<IActionResult> GenerateReport(int templateId, ReportTypeEnum reportType, int dieticianId)
+        [HttpGet("generate/{templateId}/{reportType}")]
+        public async Task<IActionResult> GenerateReport(int templateId, ReportTypeEnum reportType, int? dieticianId = null, int? dietId = null)
         {
             var template = _context.ReportTemplatesDb.Find(templateId);
 
@@ -39,7 +39,7 @@ namespace API.Controllers
 
             try
             {
-                var reportServiceResult = await _reportService.CreateReport(reportType, dieticianId);
+                var reportServiceResult = await _reportService.CreateReport(reportType, dieticianId, dietId);
 
                 if (reportServiceResult.IsSucces)
                 {

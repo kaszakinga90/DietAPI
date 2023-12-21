@@ -19,5 +19,7 @@ namespace ModelsDB
         public int DieteticianId { get; set; }
         public Dietician Dietician { get; set; }
         //public List<DietPatient> DietPatients { get; set; }
+
+        //TODO : brakuje CategoryOfDiet
     }
 }

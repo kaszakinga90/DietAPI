@@ -1,7 +1,7 @@
-﻿using Application.DTOs.GenericsDTO;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text;
 using Newtonsoft.Json;
+using Application.DTOs.ReportsClassesDTO.Reports;
 
 namespace Application.Services.Reports
 {

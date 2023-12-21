@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Application.DTOs.DishIngredientDTO;
+using Application.DTOs.RecipeStepDTO;
+using Microsoft.AspNetCore.Http;
 using ModelsDB;
 using ModelsDB.Functionality;
 
@@ -25,6 +27,9 @@ namespace Application.DTOs.DishDTO
         public int? DieteticianId { get; set; }
 
         // TODO : poniższe powinno działać na listach DTOs
-        public List<DishIngredient> DishIngredients { get; set; }
+        public List<DishIngredientGetDTO> DishIngredients { get; set; }
+        
+        // TODO : dodane bo potrzebne do raportu - czy nie zrobić osobnego DTO-sa?
+        public List<RecipeStepGetDTO> RecipeStepsDTO { get; set; }
     }
 }

@@ -21,6 +21,8 @@ using Application.DTOs.PatientCardDTO;
 using Application.DTOs.PatientDTO;
 using Application.DTOs.RecipeDTO;
 using Application.DTOs.RecipeStepDTO;
+using Application.DTOs.ReportsClassesDTO;
+using Application.DTOs.ReportsClassesDTO.Reports;
 using Application.DTOs.ReportTemplateDTO;
 using Application.DTOs.SexDTO;
 using Application.DTOs.SpecializationDTO;
@@ -256,6 +258,87 @@ namespace Application.Core
                     .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
                     .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                     .ForMember(dest => dest.PictureUrl, opt => opt.MapFrom(src => src.PictureUrl));
+
+            // -------------------------------------------------------------------- //
+
+            //CreateMap<Diet, DietForPatientToDocumentDTO>()
+            //        .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+            //        .ForMember(dest => dest.PatientName, opt => opt.MapFrom(src => src.Patient.FirstName + " " + src.Patient.LastName))
+            //        .ForMember(dest => dest.DieticianName, opt => opt.MapFrom(src => src.Dietician.FirstName + " " + src.Dietician.LastName))
+            //        .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate))
+            //        .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDate))
+            //        .ForMember(dest => dest.numberOfMeals, opt => opt.MapFrom(src => src.numberOfMeals))
+            //        .ForMember(dest => dest.Period, opt => opt.MapFrom(src => (int)(src.EndDate - src.StartDate).TotalDays))
+            //        .ForMember(dest => dest.MealTimesToXYAxisDTO, opt => opt.MapFrom(src => src.MealTimesToXYAxis.Select(mt => new MealTimeToXYAxisToReportDTO
+            //        {
+            //            //Id = mt.Id,
+            //            //DietId = mt.DietId,
+            //            //DishId = mt.DishId,
+            //            DishName = mt.Dish.Name,
+            //            MealTime = mt.MealTime.ToString()
+            //        }).ToList()))
+            //        .ForMember(dest => dest.DishesDTO, opt => opt.MapFrom(src => src.MealTimesToXYAxis.Select(mt => mt.Dish).Select(dish => new DishGetDTO
+            //        {
+            //            RecipeId = dish.Recipe.Id,
+            //            Name = dish.Name,
+            //            Calories = dish.Calories,
+            //            ServingQuantity = dish.ServingQuantity,
+            //            MeasureId = dish.Measure.Id,
+            //            Weight = dish.Weight,
+            //            UnitId = dish.Unit.Id,
+            //            GlycemicIndex = dish.GlycemicIndex,
+            //            DishPhotoUrl = dish.DishPhotoUrl,
+            //            PreparingTime = dish.PreparingTime,
+            //            RecipeStepsDTO = dish.Recipe.Steps.Select(step => new RecipeStepGetDTO
+            //            {
+            //                Id = step.Id,
+            //                StepNumber = step.StepNumber,
+            //                Description = step.Description,
+            //                RecipeId = step.RecipeId
+            //            }).ToList()
+            //        }).ToList()));
+
+            CreateMap<Diet, DietForPatientToDocumentDTO>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.PatientName, opt => opt.MapFrom(src => src.Patient.FirstName + " " + src.Patient.LastName))
+                .ForMember(dest => dest.DieticianName, opt => opt.MapFrom(src => src.Dietician.FirstName + " " + src.Dietician.LastName))
+                .ForMember(dest => dest.DieticianLogoUrl, opt => opt.MapFrom(src => src.Dietician.Logo.PictureUrl))
+                .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate.ToShortDateString()))
+                .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDate.ToShortDateString()))
+                .ForMember(dest => dest.numberOfMeals, opt => opt.MapFrom(src => src.numberOfMeals))
+                .ForMember(dest => dest.Period, opt => opt.MapFrom(src => (int)(src.EndDate - src.StartDate).TotalDays))
+                .ForMember(dest => dest.MealTimesToXYAxisDTO, opt => opt.MapFrom(src => src.MealTimesToXYAxis.Select(mt => new MealTimeToXYAxisToReportDTO
+                {
+                    DishName = mt.Dish.Name,
+                    MealTime = mt.MealTime.ToString(),
+                    MealName = mt.Meal.Name,
+                    Dish = new DishToReportDTO
+                    {
+                        Name = mt.Dish.Name,
+                        Calories = mt.Dish.Calories,
+                        ServingQuantity = mt.Dish.ServingQuantity,
+                        MeasureName = mt.Dish.Measure.Symbol,
+                        Weight = mt.Dish.Weight,
+                        UnitName = mt.Dish.Unit.Symbol,
+                        GlycemicIndex = mt.Dish.GlycemicIndex,
+                        DishPhotoUrl = mt.Dish.DishPhotoUrl,
+                        PreparingTime = mt.Dish.PreparingTime,
+                        Recipe = new RecipeToReportDTO
+                        {
+                            Steps = mt.Dish.Recipe.Steps.Select(step => new RecipeStepToReportDTO
+                            {
+                                StepNumber = step.StepNumber,
+                                Description = step.Description,
+                            }).ToList(),
+                        },
+                        Ingredients = mt.Dish.DishIngredients.Select(di => new DishIngredientToReportDTO
+                        {
+                            Quantity = di.Quantity,
+                            UnitName = di.Unit.Symbol,
+                            IngredientName = di.Ingredient.Name,
+                        }).ToList(),
+                    },
+                }).ToList()));
 
 
 

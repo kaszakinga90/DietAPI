@@ -1,4 +1,4 @@
-﻿using Application.DTOs.GenericsDTO;
+﻿using Application.DTOs.ReportsClassesDTO.Reports;
 
 namespace Application.Services.Reports
 {
