@@ -32,7 +32,8 @@ namespace Application.BusinessLogic.DietSaleses
                         DietName = d.Name,
                         CreateTime = d.dateAdded,
                         PatientName = d.Patient.FirstName + " " + d.Patient.LastName,
-                        Period = d.EndDate - d.StartDate
+                        
+                        Period = (int)(d.EndDate - d.StartDate).TotalDays
                     })
                     .ToListAsync();
 

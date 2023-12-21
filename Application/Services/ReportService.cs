@@ -1,4 +1,5 @@
-﻿using Application.BusinessLogic.DietSaleses;
+﻿using Application.BusinessLogic.DietForPatients;
+using Application.BusinessLogic.DietSaleses;
 using Application.Core;
 using Application.DTOs.GenericsDTO;
 using Application.Services.Reports;
@@ -41,8 +42,23 @@ namespace Application.Services
 
                 case ReportTypeEnum.DietForPatientToDocumentReport:
                     {
-                        var dfpdto = new DietForPatientToDocumentDTO();
-                        return Result<IReport>.Success(new DietForPatientToDocumentReport(dfpdto));
+                        //var dfpdtoResult = new DietForPatientToDocumentDTO();
+                        //return Result<IReport>.Success(new DietForPatientToDocumentReport(dfpdto));
+
+
+                        var dfpdtoResult = await _mediator.Send(new DietForPatientToDocumentCreateDetails.Command { DieticianId = dietitianId });
+
+                        if (dfpdtoResult.IsSucces)
+                        {
+                            var dfpdto = dfpdtoResult.Value;
+                            return Result<IReport>.Success(new DietForPatientToDocumentReport(dfpdto));
+                        }
+                        else
+                        {
+                            return Result<IReport>.Failure($"Failed to get DietSales data. Reason: {dfpdtoResult.Error}");
+                        }
+
+
                     }
 
                 default:

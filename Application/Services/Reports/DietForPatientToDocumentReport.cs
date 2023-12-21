@@ -1,4 +1,7 @@
 ﻿using Application.DTOs.GenericsDTO;
+using Newtonsoft.Json;
+using System.Diagnostics;
+using System.Text;
 
 namespace Application.Services.Reports
 {
@@ -13,8 +16,20 @@ namespace Application.Services.Reports
 
         public string GenerateReport()
         {
-            // TODO: Logika generowania raportu na podstawie danych _data
-            return "Diet for patient report content";
+            var reportContent = new StringBuilder();
+
+
+            Console.WriteLine(string.Empty);
+            Console.WriteLine("***********************************");
+            Console.WriteLine(reportContent.ToString());
+            reportContent.AppendLine("Diet for patient PDF content:\n");
+
+            string jsonReport = JsonConvert.SerializeObject(_data, Formatting.Indented);
+
+
+            Console.WriteLine(reportContent.ToString());
+            Debug.WriteLine(reportContent.ToString());
+            return jsonReport;
         }
     }
 }
