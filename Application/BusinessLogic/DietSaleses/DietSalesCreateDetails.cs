@@ -1,5 +1,5 @@
 ﻿using Application.Core;
-using Application.DTOs.GenericsDTO;
+using Application.DTOs.ReportsClassesDTO.Reports;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

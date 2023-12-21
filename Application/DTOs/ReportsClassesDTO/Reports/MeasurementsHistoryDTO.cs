@@ -1,4 +1,4 @@
-﻿namespace Application.DTOs.GenericsDTO
+﻿namespace Application.DTOs.ReportsClassesDTO.Reports
 {
     public class MeasurementsHistoryDTO
     {

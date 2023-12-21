@@ -1,7 +1,7 @@
 ﻿using Application.BusinessLogic.DietForPatients;
 using Application.BusinessLogic.DietSaleses;
 using Application.Core;
-using Application.DTOs.GenericsDTO;
+using Application.DTOs.ReportsClassesDTO.Reports;
 using Application.Services.Reports;
 using MediatR;
 
@@ -15,7 +15,7 @@ namespace Application.Services
             _mediator = mediator;
         }
 
-        public async Task<Result<IReport>> CreateReport(ReportTypeEnum reportType, int dietitianId)
+        public async Task<Result<IReport>> CreateReport(ReportTypeEnum reportType, int? dietitianId = null, int? dietId = null)
         {
             switch (reportType)
             {
@@ -27,7 +27,7 @@ namespace Application.Services
 
                 case ReportTypeEnum.DietSalesReport:
                     {
-                        var dsdtoResult = await _mediator.Send(new DietSalesCreateDetails.Command { DieticianId = dietitianId });
+                        var dsdtoResult = await _mediator.Send(new DietSalesCreateDetails.Command { DieticianId = (int)dietitianId });
 
                         if (dsdtoResult.IsSucces)
                         {
@@ -42,11 +42,7 @@ namespace Application.Services
 
                 case ReportTypeEnum.DietForPatientToDocumentReport:
                     {
-                        //var dfpdtoResult = new DietForPatientToDocumentDTO();
-                        //return Result<IReport>.Success(new DietForPatientToDocumentReport(dfpdto));
-
-
-                        var dfpdtoResult = await _mediator.Send(new DietForPatientToDocumentCreateDetails.Command { DieticianId = dietitianId });
+                        var dfpdtoResult = await _mediator.Send(new DietForPatientToDocumentCreateDetails.Command { DietId = (int)dietId });
 
                         if (dfpdtoResult.IsSucces)
                         {
@@ -57,8 +53,6 @@ namespace Application.Services
                         {
                             return Result<IReport>.Failure($"Failed to get DietSales data. Reason: {dfpdtoResult.Error}");
                         }
-
-
                     }
 
                 default:

@@ -1,4 +1,4 @@
-﻿using Application.DTOs.GenericsDTO;
+﻿using Application.DTOs.ReportsClassesDTO.Reports;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Text;
@@ -24,11 +24,11 @@ namespace Application.Services.Reports
             Console.WriteLine(reportContent.ToString());
             reportContent.AppendLine("Diet for patient PDF content:\n");
 
-            string jsonReport = JsonConvert.SerializeObject(_data, Formatting.Indented);
-
-
             Console.WriteLine(reportContent.ToString());
             Debug.WriteLine(reportContent.ToString());
+
+            string jsonReport = JsonConvert.SerializeObject(_data, Formatting.Indented);
+
             return jsonReport;
         }
     }
