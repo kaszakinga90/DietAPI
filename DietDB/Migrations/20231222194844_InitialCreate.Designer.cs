@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietDB.Migrations
 {
     [DbContext(typeof(DietContext))]
-    [Migration("20231218163542_InitialCreate")]
+    [Migration("20231222194844_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,22 +120,22 @@ namespace DietDB.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a6d2a087-46ff-48d8-a2ff-03cec4e64ec5",
-                            ConcurrencyStamp = "d233b939-ad4a-4ee7-a34e-3f9be9713950",
+                            Id = "ea87ceda-cd46-4fc2-8695-47daf59dca35",
+                            ConcurrencyStamp = "ceafdd77-e554-4bed-b621-5ba55be78577",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "d708b114-1833-40ff-be8a-232f02d6736a",
-                            ConcurrencyStamp = "573156ee-a3f1-4f1d-a590-692eb2ce259a",
+                            Id = "f1b7ee02-569e-45a1-aac0-26d50d6ec647",
+                            ConcurrencyStamp = "32d63e0b-b0b1-4caf-9778-b93e26682571",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = "c8f2ae40-e2d4-46a7-a735-75189750d063",
-                            ConcurrencyStamp = "5bd9e861-8ced-4404-8483-d4e0c20222b4",
+                            Id = "b0951434-472e-46e9-98a7-10f7931ab89c",
+                            ConcurrencyStamp = "898e7f92-b1f6-4ec4-a03e-de1dbf368983",
                             Name = "Dietetician",
                             NormalizedName = "DIETETICIAN"
                         });
@@ -685,10 +685,15 @@ namespace DietDB.Migrations
                     b.Property<int>("DieticianId")
                         .HasColumnType("int");
 
+                    b.Property<int>("DietId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
                     b.HasKey("PatientId", "DieticianId");
+
+                    b.HasIndex("DietId");
 
                     b.HasIndex("DieticianId");
 
@@ -3006,6 +3011,12 @@ namespace DietDB.Migrations
 
             modelBuilder.Entity("ModelsDB.Functionality.DieticianPatient", b =>
                 {
+                    b.HasOne("ModelsDB.Diet", "Diet")
+                        .WithMany()
+                        .HasForeignKey("DietId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ModelsDB.Dietician", "Dietician")
                         .WithMany("DieticianPatients")
                         .HasForeignKey("DieticianId")
@@ -3017,6 +3028,8 @@ namespace DietDB.Migrations
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Diet");
 
                     b.Navigation("Dietician");
 

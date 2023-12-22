@@ -1184,31 +1184,6 @@ namespace DietDB.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DieticianPatientsDb",
-                columns: table => new
-                {
-                    PatientId = table.Column<int>(type: "int", nullable: false),
-                    DieticianId = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DieticianPatientsDb", x => new { x.PatientId, x.DieticianId });
-                    table.ForeignKey(
-                        name: "FK_DieticianPatientsDb_Users_DieticianId",
-                        column: x => x.DieticianId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_DieticianPatientsDb_Users_PatientId",
-                        column: x => x.PatientId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "DieticianSpecialization",
                 columns: table => new
                 {
@@ -1600,6 +1575,38 @@ namespace DietDB.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DieticianPatientsDb",
+                columns: table => new
+                {
+                    PatientId = table.Column<int>(type: "int", nullable: false),
+                    DieticianId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    DietId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DieticianPatientsDb", x => new { x.PatientId, x.DieticianId });
+                    table.ForeignKey(
+                        name: "FK_DieticianPatientsDb_Diet_DietId",
+                        column: x => x.DietId,
+                        principalTable: "Diet",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DieticianPatientsDb_Users_DieticianId",
+                        column: x => x.DieticianId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_DieticianPatientsDb_Users_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MealTimeToXYAxis",
                 columns: table => new
                 {
@@ -1898,17 +1905,17 @@ namespace DietDB.Migrations
             migrationBuilder.InsertData(
                 table: "IdentityRole",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "a6d2a087-46ff-48d8-a2ff-03cec4e64ec5", "d233b939-ad4a-4ee7-a34e-3f9be9713950", "Admin", "ADMIN" });
+                values: new object[] { "b0951434-472e-46e9-98a7-10f7931ab89c", "898e7f92-b1f6-4ec4-a03e-de1dbf368983", "Dietetician", "DIETETICIAN" });
 
             migrationBuilder.InsertData(
                 table: "IdentityRole",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "c8f2ae40-e2d4-46a7-a735-75189750d063", "5bd9e861-8ced-4404-8483-d4e0c20222b4", "Dietetician", "DIETETICIAN" });
+                values: new object[] { "ea87ceda-cd46-4fc2-8695-47daf59dca35", "ceafdd77-e554-4bed-b621-5ba55be78577", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "IdentityRole",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "d708b114-1833-40ff-be8a-232f02d6736a", "573156ee-a3f1-4f1d-a590-692eb2ce259a", "Patient", "PATIENT" });
+                values: new object[] { "f1b7ee02-569e-45a1-aac0-26d50d6ec647", "32d63e0b-b0b1-4caf-9778-b93e26682571", "Patient", "PATIENT" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Article_LayoutCategoryId",
@@ -1979,6 +1986,11 @@ namespace DietDB.Migrations
                 name: "IX_DieticianPatientsDb_DieticianId",
                 table: "DieticianPatientsDb",
                 column: "DieticianId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DieticianPatientsDb_DietId",
+                table: "DieticianPatientsDb",
+                column: "DietId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DieticianSpecialization_SpecializationId",

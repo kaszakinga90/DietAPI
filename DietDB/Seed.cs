@@ -251,26 +251,12 @@ namespace DietDB
             }
             #endregion
 
-
             await context.SaveChangesAsync();
         }
 
         // ******************** DANE Z KLUCZAMI OBCYMI **************************************** //
         private static async Task SeedFirstClassesWithForeignKey(DietContext context, UserManager<User> userManager)
         {
-            #region Dishes
-            // Sprawdzanie i dodawanie testowych danych dla Dish
-            if (!context.DishesDb.Any())
-            {
-                var dishes = new List<Dish>()
-                {
-                    new Dish { Name = "Pasta Bolognese", MeasureId = 1, UnitId = 4, RecipeId = null, isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
-                    new Dish { Name = "Grilled Chicken Salad",  MeasureId = 3, UnitId = 7, RecipeId = null, isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
-                    new Dish { Name = "Margherita Pizza",  MeasureId = 2, UnitId = 2, RecipeId = null, isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
-                };
-                await context.DishesDb.AddRangeAsync(dishes);
-            }
-            #endregion
             #region Users
             if (!userManager.Users.Any())
             {
@@ -594,33 +580,7 @@ namespace DietDB
             }
             #endregion
 
-            #region DaneTestowe - do bazy tymczasowe
-            #region MealTimes
-            // Sprawdzanie i dodawanie testowych danych dla MealTimes
-            if (!context.MealTimesDb.Any())
-            {
-                var mealTimes = new List<MealTimeToXYAxis>()
-                {
-                    new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 12, 13), DietId = 2, DishId = 1 },
-                    new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 12, 13), DietId = 2, DishId = 2  },
-                    new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 12, 13), DietId = 2, DishId = 3  },
-                    new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 12, 14), DietId = 2, DishId = 2  },
-                    new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 12, 14), DietId = 2, DishId = 3  },
-                    new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 12, 14), DietId = 2, DishId = 1  },
-                    //new MealTimeToXYAxis { MealId = 2, MealTime = new DateTime(2023, 11, 16) },
-                    //new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 11, 17) },
-                    //new MealTimeToXYAxis { MealId = 4, MealTime = new DateTime(2023, 11, 18) },
-                    //new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 11, 19) },
-                    //new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 11, 20) },
-                    //new MealTimeToXYAxis { MealId = 2, MealTime = new DateTime(2023, 11, 21) },
-                    //new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 11, 22) },
-                    //new MealTimeToXYAxis { MealId = 4, MealTime = new DateTime(2023, 11, 23) },
-                    //new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 11, 24) }
-                };
-                await context.MealTimesDb.AddRangeAsync(mealTimes);
-            }
-            #endregion
-            #endregion
+            
 
             await context.SaveChangesAsync();
     }
@@ -628,19 +588,44 @@ namespace DietDB
     // ******************** DANE Z KLUCZAMI KLUCZY OBCYCH **************************************** //
     private static async Task SeedSecondClassesWithForeignKey(DietContext context)
     {
-            //#region UserRoles
-            //// Sprawdzanie i dodawanie testowych danych dla Dish
-            //if (!context.UserRoles.Any())
-            //{
-            //    var userRoles = new List<Role>()
-            //    {
-            //        new Role {  },
-            //        new Role {  },
-            //        new Role {  },
-            //    };
-            //    await context.UserRoles.AddRangeAsync(userRoles);
-            //}
-            //#endregion
+            #region Dishes
+            // Sprawdzanie i dodawanie testowych danych dla Dish
+            List<Dish> dishes;
+
+            if (!context.DishesDb.Any())
+        {
+             dishes = new List<Dish>()
+            {
+                new Dish { Name = "Makaron Bolognese", NameEN="Pasta Bolognese", Calories = 123, ServingQuantity = 1, MeasureId = 1, Weight = 34, UnitId = 4, GlycemicIndex = 98, PreparingTime = "3:20", isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
+                new Dish { Name = "salatka z grillow kurcz", NameEN="Grilled Chicken Salad",  Calories = 250, ServingQuantity = 1, MeasureId = 3, Weight = 25, UnitId = 7, GlycemicIndex = 69, PreparingTime = "1:15", isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
+                new Dish { Name = "Margherita Pizza", NameEN="Margherita Pizza", Calories = 698, ServingQuantity = 1, MeasureId = 2, Weight = 168, UnitId = 2, GlycemicIndex = 22, PreparingTime = "0:50", isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
+            };
+            await context.DishesDb.AddRangeAsync(dishes);
+                context.SaveChanges();
+                #region Recipes
+                if (!context.RecipesDb.Any())
+                {
+                    var recipes = new List<Recipe>()
+            {
+                new Recipe { DishId = dishes[0].Id, isActive = true, dateAdded = DateTime.Now },
+                new Recipe { DishId = dishes[1].Id, isActive = true, dateAdded = DateTime.Now },
+                new Recipe { DishId = dishes[2].Id, isActive = true, dateAdded = DateTime.Now }
+            };
+                    await context.RecipesDb.AddRangeAsync(recipes);
+                    context.SaveChanges();
+
+                    dishes[0].Recipe = recipes[0];
+                    dishes[1].Recipe = recipes[1];
+                    dishes[2].Recipe = recipes[2];
+
+                    context.SaveChanges();
+                }
+                #endregion
+            }
+            #endregion
+
+
+
             #region FoodCatalogs
             if (!context.FoodCatalogsDb.Any())
         {
@@ -696,39 +681,11 @@ namespace DietDB
                 };
             await context.MessageToDb.AddRangeAsync(messagesToAdmins);
         }
-        #endregion
-
-        // TODO: do wprowadzenia na podstawie skryptu z bazy
-        #region DaneTestowe - Ingredients
-        if (!context.IngredientsDb.Any())
-        {
-            var ingredients = new List<Ingredient>()
-            {
-                    new Ingredient { Name = "Ser Biały", Calories = 100, ServingQuantity = 1, MeasureId = 1, Weight = 28, UnitId = 1, DieticianId = 1, GlycemicIndex = 30, PublicId = string.Empty, PictureUrl = "https://example.com/ser-bialy.jpg" },
-                    new Ingredient { Name = "Jogurt Naturalny", Calories = 50, ServingQuantity = 1, MeasureId = 2, Weight = 200, UnitId = 1, DieticianId = 2, GlycemicIndex = 40, PublicId = string.Empty, PictureUrl = "https://example.com/jogurt-naturalny.jpg" },
-                    new Ingredient { Name = "Oliwa z Oliwek", Calories = 120, ServingQuantity = 1, MeasureId = 3, Weight = 15, UnitId = 1, DieticianId = 3, GlycemicIndex = 10, PublicId = string.Empty, PictureUrl = "https://example.com/oliwa.jpg" },
-                    new Ingredient { Name = "Pierś Kurczaka", Calories = 150, ServingQuantity = 1, MeasureId = 4, Weight = 100, UnitId = 2, DieticianId = 1, GlycemicIndex = 20, PublicId = string.Empty, PictureUrl = "https://example.com/piers-kurczaka.jpg" },
-                    new Ingredient { Name = "Mleko 2%", NameEN = "2% milk", Calories = 122f, MeasureId = 1, Weight = 244, UnitId = 1, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/377_thumb.jpg", DieticianId = null },
-                    new Ingredient { Name = "Pomidor", Calories = 20, ServingQuantity = 1, MeasureId = 1, Weight = 150, UnitId = 3, DieticianId = 2, GlycemicIndex = 15, PublicId = string.Empty, PictureUrl = "https://example.com/pomidor.jpg" },
-                    new Ingredient { Name = "Owsianka", Calories = 120, ServingQuantity = 1, MeasureId = 2, Weight = 40, UnitId = 1, DieticianId = 3, GlycemicIndex = 50, PublicId = string.Empty, PictureUrl = "https://example.com/owsianka.jpg" },
-                    new Ingredient { Name = "Ziemniaki", NameEN = "potato", Calories = 160.89f, MeasureId = 1, Weight = 21, UnitId = 5, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/752_thumb.jpg", DieticianId = null },
-                    new Ingredient { Name = "Ogórek", NameEN = "cucumber", Calories = 30.15f, MeasureId = 1, Weight = 10, UnitId = 7, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/522_thumb.jpg", DieticianId = null },
-                    new Ingredient { Name = "Banany", Calories = 90, ServingQuantity = 1, MeasureId = 3, Weight = 120, UnitId = 1, DieticianId = 1, GlycemicIndex = 60, PublicId = string.Empty, PictureUrl = "https://example.com/banany.jpg" },
-                    new Ingredient { Name = "Orzechy Włoskie", Calories = 200, ServingQuantity = 1, MeasureId = 4, Weight = 30, UnitId = 1, DieticianId = 2, GlycemicIndex = 25, PublicId = string.Empty, PictureUrl = "https://example.com/orzechy.jpg" },
-                    new Ingredient { Name = "Brokuły", Calories = 30, ServingQuantity = 1, MeasureId = 1, Weight = 150, UnitId = 1, DieticianId = 3, GlycemicIndex = 15, PublicId = string.Empty, PictureUrl = "https://example.com/brokuly.jpg" },
-                    new Ingredient { Name = "Chleb Pełnoziarnisty", Calories = 80, ServingQuantity = 1, MeasureId = 2, Weight = 40, UnitId = 1, DieticianId = 1, GlycemicIndex = 35, PublicId = string.Empty, PictureUrl = "https://example.com/chleb.jpg" },
-                    new Ingredient { Name = "Ser", NameEN = "cheese", Calories = 113.12f, MeasureId = 1, Weight = 28, UnitId = 1, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/1034_thumb.jpg", DieticianId = null },
-                    new Ingredient { Name = "Kapusta surowa", NameEN = "cabbage, raw", Calories = 22.25f, MeasureId = 1, Weight = 17, UnitId = 4, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/8083_thumb.jpg", DieticianId = null },
-                    new Ingredient { Name = "Bardzo duże jajko", NameEN = "extra large egg", Calories = 90.09f, MeasureId = 1, Weight = 34, UnitId = 1, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/775_thumb.jpg", DieticianId = null },
-            };
-            await context.IngredientsDb.AddRangeAsync(ingredients);
-        }
-        #endregion
-
+            #endregion
         #region PatientCards
-        if (!context.PatientCardsDb.Any())
-        {
-            var patientCards = new List<PatientCard>
+            if (!context.PatientCardsDb.Any())
+            {
+                var patientCards = new List<PatientCard>
             {
                 new PatientCard { PatientId = 3, SexId = 1, DieticianId = 6 },
                 new PatientCard { PatientId = 4, SexId = 1, DieticianId = 7 },
@@ -737,10 +694,10 @@ namespace DietDB
                 new PatientCard { PatientId = 3, SexId = 1, DieticianId = 8 }
             };
 
-            await context.PatientCardsDb.AddRangeAsync(patientCards);
-            context.SaveChanges();
+                await context.PatientCardsDb.AddRangeAsync(patientCards);
+                context.SaveChanges();
 
-            var surveys = new List<Survey>
+                var surveys = new List<Survey>
             {
                 new Survey { Heigth = 170, Weith = 70, MeasureTime = DateTime.Now.AddDays(-30) },
                 new Survey { Heigth = 165, Weith = 65, MeasureTime = DateTime.Now.AddDays(-20) },
@@ -749,10 +706,10 @@ namespace DietDB
                 new Survey { Heigth = 170, Weith = 62, MeasureTime = DateTime.Now.AddDays(-10) }
             };
 
-            await context.SurveysDb.AddRangeAsync(surveys);
-            context.SaveChanges();
+                await context.SurveysDb.AddRangeAsync(surveys);
+                context.SaveChanges();
 
-            var patientCardSurveys = new List<PatientCardSurvey>
+                var patientCardSurveys = new List<PatientCardSurvey>
             {
                 new PatientCardSurvey { PatientCardId = 1, SurveyId = 1 },
                 new PatientCardSurvey { PatientCardId = 2, SurveyId = 2 },
@@ -761,9 +718,49 @@ namespace DietDB
                 new PatientCardSurvey { PatientCardId = 5, SurveyId = 5 }
             };
 
-            await context.PatientCardSurveysDb.AddRangeAsync(patientCardSurveys);
-            context.SaveChanges();
-        }
+                await context.PatientCardSurveysDb.AddRangeAsync(patientCardSurveys);
+                context.SaveChanges();
+            }
+            #endregion
+        #region Diets
+            if (!context.DietsDb.Any())
+            {
+                var diets = new List<Diet>()
+                {
+                    new Diet { Name = "Dieta1", StartDate = new DateTime(2023, 12, 13), EndDate = new DateTime(2023, 12, 14), PatientId = 3, numberOfMeals = 4, DieteticianId = 6, isActive = true, dateAdded = DateTime.Now },
+                    new Diet { Name = "Dieta2", StartDate = new DateTime(2023, 12, 10), EndDate = new DateTime(2023, 12, 11), PatientId = 4, numberOfMeals = 2, DieteticianId = 6, isActive = true, dateAdded = DateTime.Now },
+                    new Diet { Name = "Dieta3", StartDate = new DateTime(2023, 12, 14), EndDate = new DateTime(2023, 12, 24), PatientId = 4, numberOfMeals = 5, DieteticianId = 6, isActive = true, dateAdded = DateTime.Now },
+                    new Diet { Name = "Dieta4", StartDate = new DateTime(2023, 12, 15), EndDate = new DateTime(2023, 12, 31), PatientId = 5, numberOfMeals = 4, DieteticianId = 7, isActive = true, dateAdded = DateTime.Now },
+                };
+                await context.DietsDb.AddRangeAsync(diets);
+            }
+         #endregion
+
+
+        #region DaneTestowe - Ingredients
+            if (!context.IngredientsDb.Any())
+            {
+                var ingredients = new List<Ingredient>()
+                {
+                        new Ingredient { Name = "Ser Biały", Calories = 100, ServingQuantity = 1, MeasureId = 1, Weight = 28, UnitId = 1, DieticianId = 1, GlycemicIndex = 30, PublicId = string.Empty, PictureUrl = "https://example.com/ser-bialy.jpg" },
+                        new Ingredient { Name = "Jogurt Naturalny", Calories = 50, ServingQuantity = 1, MeasureId = 2, Weight = 200, UnitId = 1, DieticianId = 2, GlycemicIndex = 40, PublicId = string.Empty, PictureUrl = "https://example.com/jogurt-naturalny.jpg" },
+                        new Ingredient { Name = "Oliwa z Oliwek", Calories = 120, ServingQuantity = 1, MeasureId = 3, Weight = 15, UnitId = 1, DieticianId = 3, GlycemicIndex = 10, PublicId = string.Empty, PictureUrl = "https://example.com/oliwa.jpg" },
+                        new Ingredient { Name = "Pierś Kurczaka", Calories = 150, ServingQuantity = 1, MeasureId = 4, Weight = 100, UnitId = 2, DieticianId = 1, GlycemicIndex = 20, PublicId = string.Empty, PictureUrl = "https://example.com/piers-kurczaka.jpg" },
+                        new Ingredient { Name = "Mleko 2%", NameEN = "2% milk", Calories = 122f, MeasureId = 1, Weight = 244, UnitId = 1, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/377_thumb.jpg", DieticianId = null },
+                        new Ingredient { Name = "Pomidor", Calories = 20, ServingQuantity = 1, MeasureId = 1, Weight = 150, UnitId = 3, DieticianId = 2, GlycemicIndex = 15, PublicId = string.Empty, PictureUrl = "https://example.com/pomidor.jpg" },
+                        new Ingredient { Name = "Owsianka", Calories = 120, ServingQuantity = 1, MeasureId = 2, Weight = 40, UnitId = 1, DieticianId = 3, GlycemicIndex = 50, PublicId = string.Empty, PictureUrl = "https://example.com/owsianka.jpg" },
+                        new Ingredient { Name = "Ziemniaki", NameEN = "potato", Calories = 160.89f, MeasureId = 1, Weight = 21, UnitId = 5, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/752_thumb.jpg", DieticianId = null },
+                        new Ingredient { Name = "Ogórek", NameEN = "cucumber", Calories = 30.15f, MeasureId = 1, Weight = 10, UnitId = 7, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/522_thumb.jpg", DieticianId = null },
+                        new Ingredient { Name = "Banany", Calories = 90, ServingQuantity = 1, MeasureId = 3, Weight = 120, UnitId = 1, DieticianId = 1, GlycemicIndex = 60, PublicId = string.Empty, PictureUrl = "https://example.com/banany.jpg" },
+                        new Ingredient { Name = "Orzechy Włoskie", Calories = 200, ServingQuantity = 1, MeasureId = 4, Weight = 30, UnitId = 1, DieticianId = 2, GlycemicIndex = 25, PublicId = string.Empty, PictureUrl = "https://example.com/orzechy.jpg" },
+                        new Ingredient { Name = "Brokuły", Calories = 30, ServingQuantity = 1, MeasureId = 1, Weight = 150, UnitId = 1, DieticianId = 3, GlycemicIndex = 15, PublicId = string.Empty, PictureUrl = "https://example.com/brokuly.jpg" },
+                        new Ingredient { Name = "Chleb Pełnoziarnisty", Calories = 80, ServingQuantity = 1, MeasureId = 2, Weight = 40, UnitId = 1, DieticianId = 1, GlycemicIndex = 35, PublicId = string.Empty, PictureUrl = "https://example.com/chleb.jpg" },
+                        new Ingredient { Name = "Ser", NameEN = "cheese", Calories = 113.12f, MeasureId = 1, Weight = 28, UnitId = 1, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/1034_thumb.jpg", DieticianId = null },
+                        new Ingredient { Name = "Kapusta surowa", NameEN = "cabbage, raw", Calories = 22.25f, MeasureId = 1, Weight = 17, UnitId = 4, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/8083_thumb.jpg", DieticianId = null },
+                        new Ingredient { Name = "Bardzo duże jajko", NameEN = "extra large egg", Calories = 90.09f, MeasureId = 1, Weight = 34, UnitId = 1, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/775_thumb.jpg", DieticianId = null },
+                };
+                await context.IngredientsDb.AddRangeAsync(ingredients);
+            }
         #endregion
 
         await context.SaveChangesAsync();
@@ -771,6 +768,40 @@ namespace DietDB
 
         private static async Task SeedThirdClassesWithForeignKey(DietContext context)
         {
+            #region RecipeSteps
+            if (!context.RecipeStepsDb.Any())
+            {
+                var recipeSteps = new List<RecipeStep>()
+                {
+                    new RecipeStep { StepNumber = 1, Description = "krok1", RecipeId = 1, isActive = true, dateAdded = DateTime.Now },
+                    new RecipeStep { StepNumber = 2, Description = "krok2", RecipeId = 1, isActive = true, dateAdded = DateTime.Now },
+                    new RecipeStep { StepNumber = 3, Description = "krok3", RecipeId = 1, isActive = true, dateAdded = DateTime.Now },
+                    new RecipeStep { StepNumber = 4, Description = "krok4", RecipeId = 1, isActive = true, dateAdded = DateTime.Now },
+                    new RecipeStep { StepNumber = 1, Description = "krok1 dla przepisu 2", RecipeId = 2, isActive = true, dateAdded = DateTime.Now },
+                    new RecipeStep { StepNumber = 2, Description = "krok2 dla przepisu 2", RecipeId = 2, isActive = true, dateAdded = DateTime.Now },
+                    new RecipeStep { StepNumber = 1, Description = "wykonanie przep 3", RecipeId = 3, isActive = true, dateAdded = DateTime.Now },
+                    new RecipeStep { StepNumber = 2, Description = "kolejny z przepis 3", RecipeId = 3, isActive = true, dateAdded = DateTime.Now },
+                    new RecipeStep { StepNumber = 3, Description = "i ostatni z przepi 3", RecipeId = 3, isActive = true, dateAdded = DateTime.Now },
+                };
+                await context.RecipeStepsDb.AddRangeAsync(recipeSteps);
+            }
+            #endregion
+            #region DaneTestowe - MealTimesToXYAxis
+            // Sprawdzanie i dodawanie testowych danych dla MealTimes
+            if (!context.MealTimesDb.Any())
+            {
+                var mealTimes = new List<MealTimeToXYAxis>()
+                {
+                    new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 12, 13), DietId = 2, DishId = 1 },
+                    new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 12, 13), DietId = 2, DishId = 2  },
+                    new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 12, 13), DietId = 2, DishId = 3  },
+                    new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 12, 14), DietId = 2, DishId = 2  },
+                    new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 12, 14), DietId = 2, DishId = 3  },
+                    new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 12, 14), DietId = 2, DishId = 1  }
+                };
+                await context.MealTimesDb.AddRangeAsync(mealTimes);
+            }
+            #endregion
             //#region DieticianPatients
             //if (!context.DieticianPatientsDb.Any())
             //{
