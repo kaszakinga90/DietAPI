@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietDB.Migrations
 {
     [DbContext(typeof(DietContext))]
-    [Migration("20231218163542_InitialCreate")]
+    [Migration("20231221094823_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,22 +120,22 @@ namespace DietDB.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a6d2a087-46ff-48d8-a2ff-03cec4e64ec5",
-                            ConcurrencyStamp = "d233b939-ad4a-4ee7-a34e-3f9be9713950",
+                            Id = "8e892126-2ace-4d61-8220-262695c3bd17",
+                            ConcurrencyStamp = "29a70d03-5da5-4a03-a43f-0e6eb0d10e6e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "d708b114-1833-40ff-be8a-232f02d6736a",
-                            ConcurrencyStamp = "573156ee-a3f1-4f1d-a590-692eb2ce259a",
+                            Id = "4b274352-1b26-4536-9688-23f1951496e5",
+                            ConcurrencyStamp = "2eb6d7c3-c646-42bc-908f-cedafc73494d",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = "c8f2ae40-e2d4-46a7-a735-75189750d063",
-                            ConcurrencyStamp = "5bd9e861-8ced-4404-8483-d4e0c20222b4",
+                            Id = "7c7a02b3-2988-4912-893d-8ee938442cef",
+                            ConcurrencyStamp = "a96913ed-5dbb-4ebf-b28d-19580962f71e",
                             Name = "Dietetician",
                             NormalizedName = "DIETETICIAN"
                         });
@@ -250,10 +250,10 @@ namespace DietDB.Migrations
                     b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LocalNo")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CountryStatesId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("State")
+                    b.Property<string>("LocalNo")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Street")
@@ -284,6 +284,8 @@ namespace DietDB.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CountryStatesId");
 
                     b.ToTable("Address");
                 });
@@ -608,6 +610,22 @@ namespace DietDB.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CategoryOfDiet");
+                });
+
+            modelBuilder.Entity("ModelsDB.Functionality.CountryStates", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("StateName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CountryStatesDb");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.DayWeek", b =>
@@ -2882,6 +2900,17 @@ namespace DietDB.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ModelsDB.Address", b =>
+                {
+                    b.HasOne("ModelsDB.Functionality.CountryStates", "CountryStates")
+                        .WithMany("Addresses")
+                        .HasForeignKey("CountryStatesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CountryStates");
+                });
+
             modelBuilder.Entity("ModelsDB.Comment", b =>
                 {
                     b.HasOne("ModelsDB.Dietician", "Dietician")
@@ -3588,6 +3617,11 @@ namespace DietDB.Migrations
             modelBuilder.Entity("ModelsDB.FoodCatalog", b =>
                 {
                     b.Navigation("DishFoodCatalogs");
+                });
+
+            modelBuilder.Entity("ModelsDB.Functionality.CountryStates", b =>
+                {
+                    b.Navigation("Addresses");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.Meal", b =>

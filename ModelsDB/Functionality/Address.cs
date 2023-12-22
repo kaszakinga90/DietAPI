@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ModelsDB.Functionality;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
@@ -10,7 +11,8 @@ namespace ModelsDB
         [Key]
         public int Id { get; set; }
         public string City { get; set; }
-        public string State { get; set; }
+        public CountryStates CountryStates { get; set; }
+        public int CountryStatesId { get; set; }
         public string ZipCode { get; set; }
         public string Country { get; set; }
         public string Street { get; set; }

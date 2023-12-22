@@ -10,31 +10,6 @@ namespace DietDB.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Address",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    State = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LocalNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    isActive = table.Column<bool>(type: "bit", nullable: false),
-                    dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Address", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "CategoryOfDiet",
                 columns: table => new
                 {
@@ -93,6 +68,19 @@ namespace DietDB.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Content", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CountryStatesDb",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StateName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CountryStatesDb", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -543,33 +531,6 @@ namespace DietDB.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Office",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OfficeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AddressId = table.Column<int>(type: "int", nullable: false),
-                    isActive = table.Column<bool>(type: "bit", nullable: false),
-                    dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Office", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Office_Address_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "Address",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "FileCategory",
                 columns: table => new
                 {
@@ -592,6 +553,37 @@ namespace DietDB.Migrations
                         name: "FK_FileCategory_CategoryType_CategoryTypeId",
                         column: x => x.CategoryTypeId,
                         principalTable: "CategoryType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Address",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CountryStatesId = table.Column<int>(type: "int", nullable: false),
+                    ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LocalNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    isActive = table.Column<bool>(type: "bit", nullable: false),
+                    dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Address", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Address_CountryStatesDb_CountryStatesId",
+                        column: x => x.CountryStatesId,
+                        principalTable: "CountryStatesDb",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -766,64 +758,6 @@ namespace DietDB.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    isPatient = table.Column<bool>(type: "bit", nullable: false),
-                    isDietician = table.Column<bool>(type: "bit", nullable: false),
-                    isAdmin = table.Column<bool>(type: "bit", nullable: false),
-                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SexId = table.Column<int>(type: "int", nullable: true),
-                    AddressId = table.Column<int>(type: "int", nullable: true),
-                    isDarkMode = table.Column<bool>(type: "bit", nullable: false),
-                    isActive = table.Column<bool>(type: "bit", nullable: false),
-                    dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AboutMe = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Users_Address_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "Address",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Users_Sex_SexId",
-                        column: x => x.SexId,
-                        principalTable: "Sex",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Nutrient",
                 columns: table => new
                 {
@@ -920,6 +854,91 @@ namespace DietDB.Migrations
                         principalTable: "FileCategory",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Office",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OfficeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AddressId = table.Column<int>(type: "int", nullable: false),
+                    isActive = table.Column<bool>(type: "bit", nullable: false),
+                    dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Office", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Office_Address_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Address",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    isPatient = table.Column<bool>(type: "bit", nullable: false),
+                    isDietician = table.Column<bool>(type: "bit", nullable: false),
+                    isAdmin = table.Column<bool>(type: "bit", nullable: false),
+                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SexId = table.Column<int>(type: "int", nullable: true),
+                    AddressId = table.Column<int>(type: "int", nullable: true),
+                    isDarkMode = table.Column<bool>(type: "bit", nullable: false),
+                    isActive = table.Column<bool>(type: "bit", nullable: false),
+                    dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AboutMe = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Address_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Address",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Users_Sex_SexId",
+                        column: x => x.SexId,
+                        principalTable: "Sex",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -1898,17 +1917,22 @@ namespace DietDB.Migrations
             migrationBuilder.InsertData(
                 table: "IdentityRole",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "a6d2a087-46ff-48d8-a2ff-03cec4e64ec5", "d233b939-ad4a-4ee7-a34e-3f9be9713950", "Admin", "ADMIN" });
+                values: new object[] { "4b274352-1b26-4536-9688-23f1951496e5", "2eb6d7c3-c646-42bc-908f-cedafc73494d", "Patient", "PATIENT" });
 
             migrationBuilder.InsertData(
                 table: "IdentityRole",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "c8f2ae40-e2d4-46a7-a735-75189750d063", "5bd9e861-8ced-4404-8483-d4e0c20222b4", "Dietetician", "DIETETICIAN" });
+                values: new object[] { "7c7a02b3-2988-4912-893d-8ee938442cef", "a96913ed-5dbb-4ebf-b28d-19580962f71e", "Dietetician", "DIETETICIAN" });
 
             migrationBuilder.InsertData(
                 table: "IdentityRole",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "d708b114-1833-40ff-be8a-232f02d6736a", "573156ee-a3f1-4f1d-a590-692eb2ce259a", "Patient", "PATIENT" });
+                values: new object[] { "8e892126-2ace-4d61-8220-262695c3bd17", "29a70d03-5da5-4a03-a43f-0e6eb0d10e6e", "Admin", "ADMIN" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Address_CountryStatesId",
+                table: "Address",
+                column: "CountryStatesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Article_LayoutCategoryId",
@@ -2486,6 +2510,9 @@ namespace DietDB.Migrations
 
             migrationBuilder.DropTable(
                 name: "Sex");
+
+            migrationBuilder.DropTable(
+                name: "CountryStatesDb");
         }
     }
 }

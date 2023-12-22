@@ -35,24 +35,31 @@ namespace DietDB
                 await context.ReportTemplatesDb.AddRangeAsync(rt);
             }
             #endregion
-            #region Address
-            // Sprawdzanie i dodawanie testowych adresów
-            if (!context.AddressesDb.Any())
+            #region CountryState
+            if (!context.CountryStatesDb.Any())
             {
-                var addresses = new List<Address>()
-                {
-                    new Address { City = "Warszawa", State = "Mazowieckie", ZipCode = "00-001", Country = "Polska", Street = "Marszałkowska", LocalNo = "24A" },
-                    new Address { City = "Kraków", State = "Małopolskie", ZipCode = "30-002", Country = "Polska", Street = "Floriańska", LocalNo = "15B" },
-                    new Address { City = "Wrocław", State = "Dolnośląskie", ZipCode = "50-002", Country = "Polska", Street = "Rynek", LocalNo = "12C" },
-                    new Address { City = "Poznań", State = "Wielkopolskie", ZipCode = "60-002", Country = "Polska", Street = "Stawna", LocalNo = "8D" },
-                    new Address { City = "Gdańsk", State = "Pomorskie", ZipCode = "80-002", Country = "Polska", Street = "Długa", LocalNo = "5E" },
-                    new Address { City = "Lublin", State = "Lubelskie", ZipCode = "20-001", Country = "Polska", Street = "Lipowa", LocalNo = "3F" },
-                    new Address { City = "Katowice", State = "Śląskie", ZipCode = "40-001", Country = "Polska", Street = "Mariacka", LocalNo = "2G" },
-                    new Address { City = "Bydgoszcz", State = "Kujawsko-Pomorskie", ZipCode = "85-001", Country = "Polska", Street = "Długa", LocalNo = "6H" },
-                    new Address { City = "Białystok", State = "Podlaskie", ZipCode = "15-001", Country = "Polska", Street = "Lipowa", LocalNo = "9I" },
-                    new Address { City = "Rzeszów", State = "Podkarpackie", ZipCode = "35-001", Country = "Polska", Street = "3 Maja", LocalNo = "4J" },
-                };
-                await context.AddressesDb.AddRangeAsync(addresses);
+                // Lista województw w Polsce
+                var states = new List<CountryStates>()
+            {
+                new CountryStates { StateName = "Dolnośląskie" },
+                new CountryStates { StateName = "Kujawsko-Pomorskie" },
+                new CountryStates { StateName = "Lubelskie" },
+                new CountryStates { StateName = "Lubuskie" },
+                new CountryStates { StateName = "Łódzkie" },
+                new CountryStates { StateName = "Małopolskie" },
+                new CountryStates { StateName = "Mazowieckie" },
+                new CountryStates { StateName = "Opolskie" },
+                new CountryStates { StateName = "Podkarpackie" },
+                new CountryStates { StateName = "Podlaskie" },
+                new CountryStates { StateName = "Pomorskie" },
+                new CountryStates { StateName = "Śląskie" },
+                new CountryStates { StateName = "Świętokrzyskie" },
+                new CountryStates { StateName = "Warmińsko-Mazurskie" },
+                new CountryStates { StateName = "Wielkopolskie" },
+                new CountryStates { StateName = "Zachodniopomorskie" }
+            };
+
+                await context.CountryStatesDb.AddRangeAsync(states);
             }
             #endregion
             #region CategoryOfDiet
@@ -258,6 +265,26 @@ namespace DietDB
         // ******************** DANE Z KLUCZAMI OBCYMI **************************************** //
         private static async Task SeedFirstClassesWithForeignKey(DietContext context, UserManager<User> userManager)
         {
+            #region Address
+            // Sprawdzanie i dodawanie testowych adresów
+            if (!context.AddressesDb.Any())
+            {
+                var addresses = new List<Address>()
+                {
+                    new Address { City = "Warszawa", CountryStatesId = 1, ZipCode = "00-001", Country = "Polska", Street = "Marszałkowska", LocalNo = "24A" },
+                    new Address { City = "Kraków", CountryStatesId = 2, ZipCode = "30-002", Country = "Polska", Street = "Floriańska", LocalNo = "15B" },
+                    new Address { City = "Wrocław", CountryStatesId = 2, ZipCode = "50-002", Country = "Polska", Street = "Rynek", LocalNo = "12C" },
+                    new Address { City = "Poznań", CountryStatesId = 8, ZipCode = "60-002", Country = "Polska", Street = "Stawna", LocalNo = "8D" },
+                    new Address { City = "Gdańsk", CountryStatesId = 4, ZipCode = "80-002", Country = "Polska", Street = "Długa", LocalNo = "5E" },
+                    new Address { City = "Lublin", CountryStatesId = 4, ZipCode = "20-001", Country = "Polska", Street = "Lipowa", LocalNo = "3F" },
+                    new Address { City = "Katowice", CountryStatesId = 8, ZipCode = "40-001", Country = "Polska", Street = "Mariacka", LocalNo = "2G" },
+                    new Address { City = "Bydgoszcz", CountryStatesId = 9, ZipCode = "85-001", Country = "Polska", Street = "Długa", LocalNo = "6H" },
+                    new Address { City = "Białystok", CountryStatesId = 12, ZipCode = "15-001", Country = "Polska", Street = "Lipowa", LocalNo = "9I" },
+                    new Address { City = "Rzeszów", CountryStatesId = 7, ZipCode = "35-001", Country = "Polska", Street = "3 Maja", LocalNo = "4J" },
+                };
+                await context.AddressesDb.AddRangeAsync(addresses);
+            }
+            #endregion
             #region Dishes
             // Sprawdzanie i dodawanie testowych danych dla Dish
             if (!context.DishesDb.Any())
@@ -835,7 +862,7 @@ namespace DietDB
 
                         IF (@isDietician = 1 OR @isPatient = 1 OR @isAdmin = 1) 
                         BEGIN 
-                            INSERT INTO dbo.Address (City, State, ZipCode, Country, Street, LocalNo, isActive, dateAdded) 
+                            INSERT INTO dbo.Address (City, CountryStatesId, ZipCode, Country, Street, LocalNo, isActive, dateAdded) 
                             VALUES ('Uzupelnij dane', 'Uzupelnij dane', 'Uzupelnij dane', 'Uzupelnij dane', 'Uzupelnij dane', 'Uzupelnij dane', 1, CURRENT_TIMESTAMP); 
                             
                             SET @AddressId = SCOPE_IDENTITY(); 

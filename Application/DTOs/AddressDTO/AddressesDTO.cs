@@ -11,10 +11,11 @@ namespace Application.DTOs.AddressDTO
     {
         public int Id { get; set; }
         public string City { get; set; }
-        public string State { get; set; }
         public string ZipCode { get; set; }
         public string Country { get; set; }
         public string Street { get; set; }
         public string LocalNo { get; set; }
+        public int CountryStatesId { get; set; }
+        public string StateName { get; set; }
     }
 }
