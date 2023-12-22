@@ -82,6 +82,7 @@ namespace DietDB
         public DbSet<PatientCardSurvey> PatientCardSurveysDb { get; set; }
         public DbSet<DieticianPatientRating> DieticianPatientRatings { get; set; }
         public DbSet<Logo> LogosDb { get; set; }
+        public DbSet<CountryStates> CountryStatesDb { get; set; }
         
         public DbSet<DieticianOffice> DieticianOffices { get; set; }
         public DbSet<ReportTemplate> ReportTemplatesDb { get; set; }
