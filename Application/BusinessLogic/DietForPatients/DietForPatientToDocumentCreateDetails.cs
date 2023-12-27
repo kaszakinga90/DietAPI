@@ -60,7 +60,7 @@ namespace Application.BusinessLogic.DietForPatients
                                 Calories = mt.Dish.Calories,
                                 ServingQuantity = mt.Dish.ServingQuantity,
                                 MeasureName = mt.Dish.Measure.Symbol,
-                                Weight = mt.Dish.Weight,
+                                Weight = mt.Dish.Weight, 
                                 UnitName = mt.Dish.Unit.Symbol,
                                 GlycemicIndex = mt.Dish.GlycemicIndex,
                                 DishPhotoUrl = mt.Dish.DishPhotoUrl,
