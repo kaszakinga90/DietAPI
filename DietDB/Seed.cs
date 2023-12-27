@@ -624,16 +624,16 @@ namespace DietDB
             #region DaneTestowe - do bazy tymczasowe
             #region MealTimes
             // Sprawdzanie i dodawanie testowych danych dla MealTimes
-            if (!context.MealTimesDb.Any())
-            {
-                var mealTimes = new List<MealTimeToXYAxis>()
-                {
-                    new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 12, 13), DietId = 2, DishId = 1 },
-                    new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 12, 13), DietId = 2, DishId = 2  },
-                    new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 12, 13), DietId = 2, DishId = 3  },
-                    new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 12, 14), DietId = 2, DishId = 2  },
-                    new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 12, 14), DietId = 2, DishId = 3  },
-                    new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 12, 14), DietId = 2, DishId = 1  },
+            //if (!context.MealTimesDb.Any())
+            //{
+            //    var mealTimes = new List<MealTimeToXYAxis>()
+            //    {
+            //        new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 12, 13), DietId = 2, DishId = 1 },
+            //        new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 12, 13), DietId = 2, DishId = 2  },
+            //        new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 12, 13), DietId = 2, DishId = 3  },
+            //        new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 12, 14), DietId = 2, DishId = 2  },
+            //        new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 12, 14), DietId = 2, DishId = 3  },
+            //        new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 12, 14), DietId = 2, DishId = 1  },
                     //new MealTimeToXYAxis { MealId = 2, MealTime = new DateTime(2023, 11, 16) },
                     //new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 11, 17) },
                     //new MealTimeToXYAxis { MealId = 4, MealTime = new DateTime(2023, 11, 18) },
@@ -643,9 +643,9 @@ namespace DietDB
                     //new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 11, 22) },
                     //new MealTimeToXYAxis { MealId = 4, MealTime = new DateTime(2023, 11, 23) },
                     //new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 11, 24) }
-                };
-                await context.MealTimesDb.AddRangeAsync(mealTimes);
-            }
+            //    };
+            //    await context.MealTimesDb.AddRangeAsync(mealTimes);
+            //}
             #endregion
             #endregion
 
