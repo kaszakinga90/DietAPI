@@ -5,8 +5,8 @@ namespace ModelsDB.Functionality
     public class DieticianPatient
     {
         // TODO : pole Id do usunięcia
-        [Key]
-        public int Id { get; set; }
+        //[Key]
+        //public int Id { get; set; }
         public int PatientId { get; set; }
         public Patient Patient { get; set; }
         public int DieticianId { get; set; }

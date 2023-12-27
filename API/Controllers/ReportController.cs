@@ -28,7 +28,7 @@ namespace API.Controllers
         }
 
         // templateId - zakres 1-3 (wizualna część, OBOJĘTNE),   reportType, zakres 0-2, (2 dla szczegółowej diety)
-        [HttpGet("generate/{templateId}/{reportType}")]
+        [HttpGet("generate/{templateId}/{reportType}/{dieticianId}/{dietId}")]
         public async Task<IActionResult> GenerateReport(int templateId, ReportTypeEnum reportType, int? dieticianId = null, int? dietId = null)
         {
             var template = _context.ReportTemplatesDb.Find(templateId);
