@@ -1,4 +1,5 @@
 ﻿using Application.Core;
+using Application.FiltersExtensions.Diets;
 using DietDB;
 using MediatR;
 
@@ -9,7 +10,7 @@ namespace Application.CQRS.Diets
         public class Query : IRequest<Result<PagedList<DietGetDTO>>>
         {
             public int DieticianId { get; set; }
-            public PagingParams Params { get; set; }
+            public DietParams Params { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Result<PagedList<DietGetDTO>>>
@@ -37,6 +38,16 @@ namespace Application.CQRS.Diets
                         DieteticanName =d.Dietician.FirstName + " " + d.Dietician.LastName,
                     })
                     .AsQueryable();
+
+                dietsList = dietsList.DietSort(request.Params.OrderBy);
+                dietsList = dietsList.DietFilter(request.Params.PatientNames);
+                dietsList = dietsList.DietSearch(request.Params.SearchTerm);
+
+                //if (dietsList == null)
+                //{
+                //    return Result<PagedList<DietGetDTO>>.Failure("no results.");
+                //}
+
                 return Result<PagedList<DietGetDTO>>.Success(
                     await PagedList<DietGetDTO>.CreateAsync(dietsList, request.Params.PageNumber, request.Params.PageSize)
                     );
