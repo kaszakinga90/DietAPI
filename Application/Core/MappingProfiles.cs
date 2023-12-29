@@ -340,10 +340,10 @@ namespace Application.Core
                     },
                 }).ToList()));
 
-            CreateMap<DieticianPatient, DietsForPatientDTO>()
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Diet.Name))
-                .ForMember(dest => dest.DieticianName, opt => opt.MapFrom(src => $"{src.Dietician.FirstName} {src.Dietician.LastName}"))
-                .ForMember(dest => dest.Period, opt => opt.MapFrom(src => $"{src.Diet.StartDate.Date.ToShortDateString()} - {src.Diet.EndDate.Date.ToShortDateString()}"));
+            //CreateMap<DieticianPatient, DietsForPatientDTO>()
+            //    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Diet.Name))
+            //    .ForMember(dest => dest.DieticianName, opt => opt.MapFrom(src => $"{src.Dietician.FirstName} {src.Dietician.LastName}"))
+            //    .ForMember(dest => dest.Period, opt => opt.MapFrom(src => $"{src.Diet.StartDate.Date.ToShortDateString()} - {src.Diet.EndDate.Date.ToShortDateString()}"));
 
         }
     }
