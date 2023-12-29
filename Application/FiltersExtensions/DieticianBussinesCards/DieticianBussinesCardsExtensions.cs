@@ -1,44 +1,42 @@
-﻿using Application.DTOs.AddressDTO;
-using Application.DTOs.CountryStateDTO;
-using Application.DTOs.DieticianBusinessCardDTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Application.DTOs.DieticianBusinessCardDTO;
 
 namespace Application.FiltersExtensions.DieticianBussinesCards
 {
     public static class DieticianBussinesCardsExtensions
     {
-        //public static IQueryable<MessageToDTO> PatientSort(this IQueryable<MessageToDTO> query, string orderBy)
-        //{
-        //    if (string.IsNullOrWhiteSpace(orderBy)) return query.OrderBy(d => d.PatientName);
-        //    query = orderBy switch
-        //    {
-        //        "dateAdded" => query.OrderBy(d => d.dateAdded),
-        //        "dateAddedDesc" => query.OrderByDescending(d => d.dateAdded),
-        //        _ => query.OrderBy(d => d.PatientName)
-        //    };
-        //    return query;
-        //}
-        //public static IQueryable<DieticianBusinessCardGetDTO> Search(this IQueryable<DieticianBusinessCardGetDTO> query, string searchTerm)
-        //{
-        //    if (string.IsNullOrWhiteSpace(searchTerm)) return query;
-        //    var lowerCaseSearchTerm = searchTerm.Trim().ToLower();
-        //    return query.Where(p => p.City.ToLower().Contains(lowerCaseSearchTerm) ||
-        //                    p.Country.ToLower().Contains(lowerCaseSearchTerm) ||
-        //                    p.Street.ToLower().Contains(lowerCaseSearchTerm));
-        //}
-        public static IQueryable<CountryStateGetDTO> Filter(this IQueryable<CountryStateGetDTO> query, string stateName)
+        public static IQueryable<DieticianBusinessCardGetDTO> BusinessCardSort(this IQueryable<DieticianBusinessCardGetDTO> query, string orderBy)
         {
-            var countryStateList = new List<string>();
-            if (!string.IsNullOrEmpty(stateName))
-                countryStateList.AddRange(stateName.ToLower().Split(",").ToList());
-
-            query = query.Where(m => countryStateList.Count == 0 || countryStateList.Contains(m.StateName.ToLower()));
-
+            if (string.IsNullOrWhiteSpace(orderBy)) return query.OrderBy(d => d.DieticianName);
+            query = orderBy switch
+            {
+                "name" => query.OrderBy(d => d.DieticianName),
+                "officeName" => query.OrderBy(d => d.DieticianOffices.FirstOrDefault().OfficeName),
+                "specialization" => query.OrderBy(d => d.DieticianSpecializations.FirstOrDefault().SpecializationName),
+                "countryState" => query.OrderBy(d => d.DieticianOffices.FirstOrDefault().AddressDTO.StateName),
+                _ => query.OrderBy(d => d.DieticianName)
+            };
             return query;
         }
+
+        public static IQueryable<DieticianBusinessCardGetDTO> BusinessCardSearch(this IQueryable<DieticianBusinessCardGetDTO> query, string searchTerm)
+        {
+            if (string.IsNullOrWhiteSpace(searchTerm)) return query;
+            var lowerCaseSearchTerm = searchTerm.Trim().ToLower();
+            return query.Where(d => d.DieticianName.ToLower().Contains(lowerCaseSearchTerm) ||
+                                    d.DieticianSpecializations.FirstOrDefault().SpecializationName.ToLower().Contains(lowerCaseSearchTerm)
+                              );
+        }
+
+        public static IQueryable<DieticianBusinessCardGetDTO> BusinessCardFilter(this IQueryable<DieticianBusinessCardGetDTO> query, string specializationNames, string stateNames)
+        {
+            var specializationNameList = new List<string>();
+            if (!string.IsNullOrEmpty(specializationNames))
+                specializationNameList.AddRange(specializationNames.ToLower().Split(",").ToList());
+
+            query = query.Where(d => 
+                specializationNameList.Count == 0 || d.DieticianSpecializations.Any(s => specializationNameList.Contains(s.SpecializationName.ToLower()))
+                && (stateNames == null || d.DieticianOffices.Any(o => o.AddressDTO.StateName == stateNames)));
+            return query;
+        } 
     }
 }
