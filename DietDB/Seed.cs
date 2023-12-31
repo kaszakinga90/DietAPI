@@ -284,20 +284,6 @@ namespace DietDB
                 await context.AddressesDb.AddRangeAsync(addresses);
             }
             #endregion
-            #region Dishes
-            // Sprawdzanie i dodawanie testowych danych dla Dish
-            if (!context.DishesDb.Any())
-            {
-                var dishes = new List<Dish>()
-                {
-                    new Dish { Name = "Pasta Bolognese", MeasureId = 1, UnitId = 4, RecipeId = null, isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
-                    new Dish { Name = "Grilled Chicken Salad",  MeasureId = 3, UnitId = 7, RecipeId = null, isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
-                    new Dish { Name = "Margherita Pizza",  MeasureId = 2, UnitId = 2, RecipeId = null, isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
-                };
-                await context.DishesDb.AddRangeAsync(dishes);
-            }
-            #endregion
-
             #region Users
             if (!userManager.Users.Any())
             {
@@ -316,7 +302,6 @@ namespace DietDB
                     EmailConfirmed = true
                 };
                 await userManager.CreateAsync(admin, "Pa$$w0rd5555555554!");
-                //await userManager.AddToRoleAsync(admin, "Admin");
 
                 var admin1 = new Admin
                 {
@@ -333,7 +318,7 @@ namespace DietDB
                     EmailConfirmed = true
                 };
                 await userManager.CreateAsync(admin1, "Pa$$w0rd5555555554!");
-                //await userManager.AddToRoleAsync(admin1, "Admin");
+
                 //***********************************************PATIENT************************
                 var patient1 = new Patient
                 {
@@ -351,7 +336,6 @@ namespace DietDB
                     //PatientCardId = 1,
                 };
                 await userManager.CreateAsync(patient1, "Pa$$w0rd5555555554!");
-                //await userManager.AddToRoleAsync(patient1, "Patient");
 
                 var patient2 = new Patient
                 {
@@ -369,7 +353,6 @@ namespace DietDB
                     //PatientCardId = 2,
                 };
                 await userManager.CreateAsync(patient2, "Pa$$w0rd5555555554!");
-                //await userManager.AddToRoleAsync(patient2, "Patient");
 
                 var patient3 = new Patient
                 {
@@ -387,7 +370,6 @@ namespace DietDB
                     //PatientCardId = 3,
                 };
                 await userManager.CreateAsync(patient3, "Pa$$w0rd5555555554!");
-                //await userManager.AddToRoleAsync(patient3, "Patient");
 
                 //*****************************DIETICIAN******************************************
                 var dietician1 = new Dietician
@@ -406,7 +388,6 @@ namespace DietDB
                     //RatingId = 1
                 };
                 await userManager.CreateAsync(dietician1, "Pa$$w0rd5555555554!");
-                //await userManager.AddToRoleAsync(dietician1, "Dietetician");
 
                 var dietician2 = new Dietician
                 {
@@ -424,7 +405,6 @@ namespace DietDB
                     //RatingId = 2
                 };
                 await userManager.CreateAsync(dietician2, "Pa$$w0rd5555555554!");
-                //await userManager.AddToRoleAsync(dietician2, "Dietetician");
 
                 var dietician3 = new Dietician
                 {
@@ -442,11 +422,9 @@ namespace DietDB
                     //RatingId = 5
                 };
                 await userManager.CreateAsync(dietician3, "Pa$$w0rd5555555554!");
-                //await userManager.AddToRoleAsync(dietician3, "Dietetician");
             }
 
             await context.SaveChangesAsync();
-
 
             #endregion
             #region Nutrient
@@ -621,14 +599,12 @@ namespace DietDB
             }
             #endregion
 
-            
-
             await context.SaveChangesAsync();
-    }
+        }
 
-    // ******************** DANE Z KLUCZAMI KLUCZY OBCYCH **************************************** //
-    private static async Task SeedSecondClassesWithForeignKey(DietContext context)
-    {
+        // ******************** DANE Z KLUCZAMI KLUCZY OBCYCH **************************************** //
+        private static async Task SeedSecondClassesWithForeignKey(DietContext context)
+        {
             #region Dishes
             // Sprawdzanie i dodawanie testowych danych dla Dish
             List<Dish> dishes;
@@ -664,9 +640,6 @@ namespace DietDB
                 #endregion
             }
             #endregion
-
-
-
             #region FoodCatalogs
             if (!context.FoodCatalogsDb.Any())
         {
@@ -681,49 +654,49 @@ namespace DietDB
             await context.FoodCatalogsDb.AddRangeAsync(foodCatalogs);
         }
         #endregion
-        #region MessagesToDietician
+            #region MessagesToDietician
         //Sprawdzanie i dodawanie testowych wiadomości do dietetyka
         if (!context.MessageToDb.Any())
         {
             var messages = new List<MessageTo>()
                 {
-                    new MessageTo { Title = "Pytanie o dietę 1", Description = "Mam pytanie odnośnie ilości węglowodanów w diecie.", DieticianId = 1, PatientId = 1, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Kwestia alergii", Description = "Czy produkt X jest odpowiedni dla osoby z alergią na orzechy?", DieticianId = 2, PatientId = 1, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Porada dla sportowca", Description = "Jakie produkty zalecasz dla aktywnych fizycznie osób?", DieticianId = 3, PatientId = 3, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Suplementacja", Description = "Czy warto suplementować witaminę D w okresie zimowym?", DieticianId = 1, PatientId = 2, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Pytanie o jadłospis", Description = "Czy możesz mi pomóc skomponować jadłospis na nadchodzący tydzień?", DieticianId = 2, PatientId = 2, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Pytanie o dietę 1", Description = "Mam pytanie odnośnie ilości węglowodanów w diecie.", DieticianId = 6, PatientId = 3, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Kwestia alergii", Description = "Czy produkt X jest odpowiedni dla osoby z alergią na orzechy?", DieticianId = 7, PatientId = 3, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Porada dla sportowca", Description = "Jakie produkty zalecasz dla aktywnych fizycznie osób?", DieticianId = 8, PatientId = 5, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Suplementacja", Description = "Czy warto suplementować witaminę D w okresie zimowym?", DieticianId = 6, PatientId = 4, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Pytanie o jadłospis", Description = "Czy możesz mi pomóc skomponować jadłospis na nadchodzący tydzień?", DieticianId = 7, PatientId = 4, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
                 };
             await context.MessageToDb.AddRangeAsync(messages);
         }
         #endregion
-        #region MessageToPatient
+            #region MessageToPatient
         // Sprawdzanie i dodawanie testowych wiadomości do pacjentów
         if (!context.MessageToDb.Any())
         {
             var messagesToPatients = new List<MessageTo>()
                 {
-                    new MessageTo { Title = "Konsultacja dietetyczna", Description = "Witaj! Zapraszam na konsultację dietetyczną w przyszłym tygodniu. Daj mi znać, kiedy Ci pasuje.", PatientId = 1, AdminId = 1, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Zmiana planu dietetycznego", Description = "Witam! Zaktualizowałem Twój plan dietetyczny. Sprawdź go w aplikacji i daj mi znać, czy wszystko jest jasne.", PatientId = 1, AdminId = 2, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Przypomnienie o wizycie", Description = "Przypominam o jutrzejszej wizycie. Jeśli nie możesz przyjść, daj mi znać jak najszybciej.", PatientId = 2, AdminId = 1, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Wyniki badań", Description = "Twoje wyniki badań są już dostępne. Zalecam omówienie ich podczas najbliższej wizyty.", PatientId = 2, AdminId = 2, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Zalecenia po wizycie", Description = "Witaj! Po naszej ostatniej wizycie przygotowałem kilka zaleceń. Sprawdź je w aplikacji i postępuj zgodnie z nimi.", PatientId = 3, AdminId = 2, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Konsultacja dietetyczna", Description = "Witaj! Zapraszam na konsultację dietetyczną w przyszłym tygodniu. Daj mi znać, kiedy Ci pasuje.", PatientId = 3, AdminId = 1, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Zmiana planu dietetycznego", Description = "Witam! Zaktualizowałem Twój plan dietetyczny. Sprawdź go w aplikacji i daj mi znać, czy wszystko jest jasne.", PatientId = 3, AdminId = 2, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Przypomnienie o wizycie", Description = "Przypominam o jutrzejszej wizycie. Jeśli nie możesz przyjść, daj mi znać jak najszybciej.", PatientId = 4, AdminId = 1, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Wyniki badań", Description = "Twoje wyniki badań są już dostępne. Zalecam omówienie ich podczas najbliższej wizyty.", PatientId = 4, AdminId = 2, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Zalecenia po wizycie", Description = "Witaj! Po naszej ostatniej wizycie przygotowałem kilka zaleceń. Sprawdź je w aplikacji i postępuj zgodnie z nimi.", PatientId = 5, AdminId = 2, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
                 };
             await context.MessageToDb.AddRangeAsync(messagesToPatients);
         }
         #endregion
-        #region MessagesToAdmin
+            #region MessagesToAdmin
         if (!context.MessageToDb.Any())
         {
             var messagesToAdmins = new List<MessageTo>()
                 {
-                    new MessageTo { Title = "Zgłoszenie problemu technicznego", Description = "Witaj! Napotkaliśmy problem z funkcją wysyłania wiadomości w aplikacji. Prosimy o szybką interwencję.", AdminId = 1, DieticianId = 2, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Aktualizacja polityki prywatności", Description = "Witaj! Przesyłam aktualizację polityki prywatności. Proszę o jej przejrzenie i zatwierdzenie.", AdminId = 2, DieticianId = 3, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Propozycja współpracy", Description = "Dzień dobry! Mamy propozycję współpracy, która może być interesująca dla naszej platformy. Proszę o kontakt.", AdminId = 1, DieticianId = 1, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Zgłoszenie problemu technicznego", Description = "Witaj! Napotkaliśmy problem z funkcją wysyłania wiadomości w aplikacji. Prosimy o szybką interwencję.", AdminId = 1, DieticianId = 7, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Aktualizacja polityki prywatności", Description = "Witaj! Przesyłam aktualizację polityki prywatności. Proszę o jej przejrzenie i zatwierdzenie.", AdminId = 2, DieticianId = 8, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Propozycja współpracy", Description = "Dzień dobry! Mamy propozycję współpracy, która może być interesująca dla naszej platformy. Proszę o kontakt.", AdminId = 1, DieticianId = 6, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
                 };
             await context.MessageToDb.AddRangeAsync(messagesToAdmins);
         }
             #endregion
-        #region PatientCards
+            #region PatientCards
             if (!context.PatientCardsDb.Any())
             {
                 var patientCards = new List<PatientCard>
@@ -763,7 +736,7 @@ namespace DietDB
                 context.SaveChanges();
             }
             #endregion
-        #region Diets
+            #region Diets
             if (!context.DietsDb.Any())
             {
                 var diets = new List<Diet>()
@@ -777,8 +750,7 @@ namespace DietDB
             }
          #endregion
 
-
-        #region DaneTestowe - Ingredients
+            #region DaneTestowe - Ingredients
             if (!context.IngredientsDb.Any())
             {
                 var ingredients = new List<Ingredient>()
@@ -804,8 +776,8 @@ namespace DietDB
             }
         #endregion
 
-        await context.SaveChangesAsync();
-    }
+            await context.SaveChangesAsync();
+        }
 
         private static async Task SeedThirdClassesWithForeignKey(DietContext context)
         {
@@ -846,7 +818,7 @@ namespace DietDB
             //#region DieticianPatients
             //if (!context.DieticianPatientsDb.Any())
             //{
-            //    var dieticianPatients = new List<DieticianPatient> 
+            //    var dieticianPatients = new List<DieticianPatient>
             //    {
             //        new DieticianPatient { PatientId = 3, DieticianId = 6 },
             //        new DieticianPatient { PatientId = 4, DieticianId = 7 },
