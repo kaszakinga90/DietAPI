@@ -7,6 +7,7 @@
             if (string.IsNullOrWhiteSpace(orderBy)) return query.OrderBy(d => d.DieticianName);
             query = orderBy switch
             {
+                "name" => query.OrderBy(d => d.DieticianName),
                 "dateAdded" => query.OrderBy(d => d.dateAdded),
                 "dateAddedDesc" => query.OrderByDescending(d => d.dateAdded),
                 _ => query.OrderBy(d => d.DieticianName)
@@ -25,7 +26,7 @@
             if (!string.IsNullOrEmpty(dieticianName))
                 dieticianNameList.AddRange(dieticianName.ToLower().Split(",").ToList());
 
-            query = query.Where(m => dieticianNameList.Count == 0 || dieticianNameList.Contains(m.DieticianName.ToLower()));
+            query = query.Where(m => dieticianNameList.Count == 0 ||  dieticianNameList.Contains(m.DieticianName.ToLower()));
 
             return query;
         }
