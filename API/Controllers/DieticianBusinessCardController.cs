@@ -1,9 +1,6 @@
 ﻿using Application.CQRS.DieticiansBusinessesCards;
-using Application.CQRS.Offices;
 using Application.DTOs.DieticianBusinessCardDTO;
-using Application.DTOs.OfficeDTO;
 using Application.FiltersExtensions.DieticianBussinesCards;
-using Application.FiltersExtensions.Diets;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

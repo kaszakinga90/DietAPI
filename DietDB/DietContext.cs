@@ -88,6 +88,7 @@ namespace DietDB
         public DbSet<ReportTemplate> ReportTemplatesDb { get; set; }
 
         public DbSet<Meal> MealsDb { get; set; }
+        public DbSet<Invitation> InvitationsDb { get; set; }
         //public DbSet<Role> Role { get; set; }
         //public DbSet<MealTimeToXYAxis> MealTimeToXYAxis { get; set; }
 
@@ -383,6 +384,22 @@ namespace DietDB
                 .HasForeignKey<Logo>(l => l.DieticianId)
                 .IsRequired(false);
 
+            // ---------------------------------------------------------------------------------------- //
+
+            modelBuilder.Entity<Invitation>()
+                .HasKey(e => e.Id);
+
+            modelBuilder.Entity<Invitation>()
+                .HasOne(i => i.Patient)
+                .WithMany(i => i.Invitations)
+                .HasForeignKey(i => i.PatientId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Invitation>()
+                .HasOne(i => i.Dietician)
+                .WithMany(i => i.Invitations)
+                .HasForeignKey(i => i.DieticianId)
+                .OnDelete(DeleteBehavior.Restrict);
 
         }
         #endregion

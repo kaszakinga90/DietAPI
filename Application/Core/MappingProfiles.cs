@@ -12,6 +12,7 @@ using Application.DTOs.DishIngredientDTO;
 using Application.DTOs.FoodCatalogDTO;
 using Application.DTOs.IngredientDTO;
 using Application.DTOs.IngredientDTO.IngredientNutritionixDTO;
+using Application.DTOs.InvitationDTO;
 using Application.DTOs.LogoDTO;
 using Application.DTOs.MealTimeToXYAxisDTO;
 using Application.DTOs.MeasureDTO;
@@ -237,6 +238,10 @@ namespace Application.Core
                        .ReverseMap();
 
             CreateMap<Address, AddressesDTO>().ReverseMap();
+
+            CreateMap<InvitationPostDTO, Invitation>().ReverseMap();
+            CreateMap<Invitation, InvitationPutDTO>().ReverseMap();
+            CreateMap<Invitation, InvitationGetDTO>().ReverseMap();
 
             CreateMap<Dietician, DieticianBusinessCardGetDTO>()
                       .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))

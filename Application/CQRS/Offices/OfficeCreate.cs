@@ -5,8 +5,6 @@ using ModelsDB.Functionality;
 using ModelsDB;
 using Application.DTOs.OfficeDTO;
 using Application.DTOs.AddressDTO;
-using System.Threading.Tasks;
-using System;
 
 namespace Application.Functionality
 {
@@ -55,7 +53,7 @@ namespace Application.Functionality
                 _context.DieticianOffices.Add(dieticianOffice);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                var officeDto = _mapper.Map<OfficePostDTO>(office); // Przykład mapowania, dostosuj do swoich potrzeb
+                var officeDto = _mapper.Map<OfficePostDTO>(office); 
                 return officeDto;
 
             }

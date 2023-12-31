@@ -16,5 +16,6 @@ namespace ModelsDB
         public List<Diet> Diets { get; set; }
         public List<TestResult> TestEquals { get; set; }
         public List<DieticianPatientRating> DieticianRatings { get; set; }
+        public List<Invitation> Invitations { get; set; }
     }
 }
