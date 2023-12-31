@@ -1,7 +1,5 @@
 ﻿using Application.Core;
-using Application.DTOs.AddressDTO;
 using Application.DTOs.DieticianBusinessCardDTO;
-using Application.DTOs.OfficeDTO;
 using AutoMapper;
 using DietDB;
 using MediatR;

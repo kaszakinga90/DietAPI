@@ -1,13 +1,9 @@
 ﻿using Application.Core;
 using Application.CQRS.Dieticians;
 using Application.CQRS.Diplomas;
-using Application.CQRS.Logos;
-using Application.CQRS.Patients;
 using Application.DTOs.DieticianDTO;
 using Application.DTOs.DiplomaDTO;
-using Application.DTOs.LogoDTO;
 using Application.DTOs.MessagesDTO;
-using Application.DTOs.PatientDTO;
 using Application.FiltersExtensions.DieticianMessages;
 using Application.Services;
 using DietDB;

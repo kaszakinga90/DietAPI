@@ -17,5 +17,6 @@ namespace ModelsDB
         public List<DieticianSpecialization> DieticianSpecializations { get; set; }
         public List<Ingredient> Ingredients { get; set; }
         public List<DieticianPatientRating> DieticianRatings { get; set; }
+        public List<Invitation> Invitations { get; set; }
     }
 }

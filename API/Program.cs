@@ -24,6 +24,19 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using Application.Services.EmailSends;
+using Application.CQRS.CountryStates;
+using Application.CQRS.DieticiansBusinessesCards;
+using Application.CQRS.DieticiansPatients;
+using Application.CQRS.DietsForPatients;
+using Application.CQRS.Diplomas;
+using Application.CQRS.FoodCatalogs;
+using Application.CQRS.Ingredients;
+using Application.CQRS.Meals;
+using Application.CQRS.Offices;
+using Application.CQRS.ReportTemplates;
+using Application.CQRS.Sexes;
+using Application.CQRS.Specializations;
+using Application.CQRS.Invitations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -106,16 +119,38 @@ builder.Services.AddScoped<TokenService>();
 /// Dodaje i konfiguruje MediatR.
 /// </summary>
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
-    //typeof(ExampleList.Handler).Assembly,
-    typeof(DayWeekList.Handler).Assembly,
-    typeof(CategoryOfDietList.Handler).Assembly,
-    typeof(MealTimeList.Handler).Assembly,
-    typeof(PatientList.Handler).Assembly,
     typeof(AdminList.Handler).Assembly,
+    typeof(AdminMessageList.Handler).Assembly,
+    typeof(CategoryOfDietList.Handler).Assembly,
+    typeof(CountryStateList.Handler).Assembly,
+    typeof(DayWeekList.Handler).Assembly,
     typeof(DieticianList.Handler).Assembly,
-    typeof(DishesList.Handler).Assembly,
+    typeof(DieticianMessageList.Handler).Assembly,
+    typeof(DieticianBusinessCardList.Handler).Assembly,
+    typeof(FromDieticianToPatientList.Handler).Assembly,
+    typeof(FromPatientToDieteticianList.Handler).Assembly,
     typeof(DietList.Handler).Assembly,
+    typeof(DietsForDieticianList.Handler).Assembly,
+    typeof(DietsForPatientFromDieticianList.Handler).Assembly,
+    typeof(DietsForPatientList.Handler).Assembly,
+    //typeof(DiplomasDieticianList.Handler).Assembly,
+    typeof(DishesList.Handler).Assembly,
+    typeof(FoodCatalogList.Handler).Assembly,
+    //typeof(IngredientDieticianList.Handler).Assembly,
+    //typeof(IngredientONLYDieticianList.Handler).Assembly,
+    typeof(IngredientsAllListNOpagination.Handler).Assembly,
+    //typeof(InvitationsDieticianList.Handler).Assembly,
+    //typeof(InvitationsList.Handler).Assembly,
+    //typeof(InvitationsPatientList.Handler).Assembly,
+    //typeof(MealList.Handler).Assembly,
+    typeof(MealTimeList.Handler).Assembly,
     typeof(MeasureList.Handler).Assembly,
+    typeof(OfficeList.Handler).Assembly,
+    typeof(PatientList.Handler).Assembly,
+    typeof(PatientMessageList.Handler).Assembly,
+    typeof(ReportTemplatesList.Handler).Assembly,
+    typeof(SexesList.Handler).Assembly,
+    //typeof(SpecializationsList.Handler).Assembly,
     typeof(UnitList.Handler).Assembly
     ));
 

@@ -18,6 +18,7 @@ namespace API.Controllers
         public OfficeController(IMediator mediator) : base(mediator)
         {
         }
+
         [HttpPost("addoffice")]
         public async Task<IActionResult> CreateOffice([FromBody] OfficeCreationDTO officeCreationDto)
         {
@@ -31,18 +32,23 @@ namespace API.Controllers
             var result = await _mediator.Send(command);
             return Ok(result); 
         }
+
         [HttpGet("getalldieticianoffices/{dieticianId}")]
         public async Task<IActionResult> GetOfficesList(int dieticianId)
         {
             var result = await _mediator.Send(new OfficeList.Query { DieteticianId = dieticianId });
             return HandleResult(result);
         }
+
+        // TODO : zmiana nazwy metody
         [HttpGet("details/{officeId}")]
         public async Task<ActionResult<OfficeGetDTO>> GetIngredient(int officeId)
         {
             var result = await _mediator.Send(new OfficeDetails.Query { OfficeId = officeId });
             return HandleResult(result);
         }
+
+        // TODO : zmiana nazwy metody
         [HttpPut("edit/{officeId}")]
         public async Task<IActionResult> EditPatientData(int officeId, OfficeEditDTO officeEdit)
         {
