@@ -1,6 +1,6 @@
 ﻿namespace ModelsDB.Functionality
 {
-    public class DietPatient
+    public class DietPatient : BaseModel
     {
         public int PatientId { get; set; }
         public Patient Patient { get; set; }

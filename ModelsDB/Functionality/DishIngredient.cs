@@ -3,7 +3,7 @@
 namespace ModelsDB.Functionality
 {
     [Table("DishIngredient")]
-    public class DishIngredient
+    public class DishIngredient : BaseModel
     {
         public int Quantity { get; set; }
         public Unit Unit { get; set; }

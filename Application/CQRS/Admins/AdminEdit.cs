@@ -105,6 +105,7 @@ namespace Application.CQRS.Admins
                 }
                 catch (Exception ex)
                 {
+                    // TODO : Debug.Log zamiast exceptiona
                     return Result<AdminDTO>.Failure("Wystąpił błąd podczas edycji admina.");
                 }
                 return Result<AdminDTO>.Success(_mapper.Map<AdminDTO>(admin));

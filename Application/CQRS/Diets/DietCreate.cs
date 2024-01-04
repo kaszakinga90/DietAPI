@@ -12,6 +12,7 @@ public class DietCreate
         public DietDTO DietDTO { get; set; }
     }
 
+    // może dodać result do obsługi poniżej w metodzie Handle
     public class Handler : IRequestHandler<Command>
     {
         private readonly DietContext _context;
@@ -41,6 +42,7 @@ public class DietCreate
             var startDate = diet.StartDate;
             var endDate = diet.EndDate;
 
+            // TODO : zamknąc poniższe w try catch
             for (var date = startDate; date <= endDate; date = date.AddDays(1))
             {
                 foreach (var mealTimeDto in mealTimesDto)

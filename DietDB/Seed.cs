@@ -39,24 +39,25 @@ namespace DietDB
             if (!context.CountryStatesDb.Any())
             {
                 // Lista województw w Polsce
-                var states = new List<CountryStates>()
+                var states = new List<CountryState>()
             {
-                new CountryStates { StateName = "Dolnośląskie" },
-                new CountryStates { StateName = "Kujawsko-Pomorskie" },
-                new CountryStates { StateName = "Lubelskie" },
-                new CountryStates { StateName = "Lubuskie" },
-                new CountryStates { StateName = "Łódzkie" },
-                new CountryStates { StateName = "Małopolskie" },
-                new CountryStates { StateName = "Mazowieckie" },
-                new CountryStates { StateName = "Opolskie" },
-                new CountryStates { StateName = "Podkarpackie" },
-                new CountryStates { StateName = "Podlaskie" },
-                new CountryStates { StateName = "Pomorskie" },
-                new CountryStates { StateName = "Śląskie" },
-                new CountryStates { StateName = "Świętokrzyskie" },
-                new CountryStates { StateName = "Warmińsko-Mazurskie" },
-                new CountryStates { StateName = "Wielkopolskie" },
-                new CountryStates { StateName = "Zachodniopomorskie" }
+                new CountryState { StateName = "-- uzupelnij dane --" },
+                new CountryState { StateName = "Dolnośląskie" },
+                new CountryState { StateName = "Kujawsko-Pomorskie" },
+                new CountryState { StateName = "Lubelskie" },
+                new CountryState { StateName = "Lubuskie" },
+                new CountryState { StateName = "Łódzkie" },
+                new CountryState { StateName = "Małopolskie" },
+                new CountryState { StateName = "Mazowieckie" },
+                new CountryState { StateName = "Opolskie" },
+                new CountryState { StateName = "Podkarpackie" },
+                new CountryState { StateName = "Podlaskie" },
+                new CountryState { StateName = "Pomorskie" },
+                new CountryState { StateName = "Śląskie" },
+                new CountryState { StateName = "Świętokrzyskie" },
+                new CountryState { StateName = "Warmińsko-Mazurskie" },
+                new CountryState { StateName = "Wielkopolskie" },
+                new CountryState { StateName = "Zachodniopomorskie" }
             };
 
                 await context.CountryStatesDb.AddRangeAsync(states);
@@ -116,6 +117,7 @@ namespace DietDB
             {
                 var roles = new List<Role>()
                 {
+                    new Role{Name="SuperAdmin", NormalizedName="SUPERADMIN"},
                     new Role{Name="Admin", NormalizedName="ADMIN"},
                     new Role{Name="Patient", NormalizedName="PATIENT"},
                     new Role{Name="Dietetician", NormalizedName="DIETETICIAN"},
@@ -270,16 +272,16 @@ namespace DietDB
             {
                 var addresses = new List<Address>()
                 {
-                    new Address { City = "Warszawa", CountryStatesId = 1, ZipCode = "00-001", Country = "Polska", Street = "Marszałkowska", LocalNo = "24A" },
-                    new Address { City = "Kraków", CountryStatesId = 2, ZipCode = "30-002", Country = "Polska", Street = "Floriańska", LocalNo = "15B" },
-                    new Address { City = "Wrocław", CountryStatesId = 2, ZipCode = "50-002", Country = "Polska", Street = "Rynek", LocalNo = "12C" },
-                    new Address { City = "Poznań", CountryStatesId = 8, ZipCode = "60-002", Country = "Polska", Street = "Stawna", LocalNo = "8D" },
-                    new Address { City = "Gdańsk", CountryStatesId = 4, ZipCode = "80-002", Country = "Polska", Street = "Długa", LocalNo = "5E" },
-                    new Address { City = "Lublin", CountryStatesId = 4, ZipCode = "20-001", Country = "Polska", Street = "Lipowa", LocalNo = "3F" },
-                    new Address { City = "Katowice", CountryStatesId = 8, ZipCode = "40-001", Country = "Polska", Street = "Mariacka", LocalNo = "2G" },
-                    new Address { City = "Bydgoszcz", CountryStatesId = 9, ZipCode = "85-001", Country = "Polska", Street = "Długa", LocalNo = "6H" },
-                    new Address { City = "Białystok", CountryStatesId = 12, ZipCode = "15-001", Country = "Polska", Street = "Lipowa", LocalNo = "9I" },
-                    new Address { City = "Rzeszów", CountryStatesId = 7, ZipCode = "35-001", Country = "Polska", Street = "3 Maja", LocalNo = "4J" },
+                    new Address { City = "Warszawa", CountryStateId = 1, ZipCode = "00-001", Country = "Polska", Street = "Marszałkowska", LocalNo = "24A" },
+                    new Address { City = "Kraków", CountryStateId = 2, ZipCode = "30-002", Country = "Polska", Street = "Floriańska", LocalNo = "15B" },
+                    new Address { City = "Wrocław", CountryStateId = 2, ZipCode = "50-002", Country = "Polska", Street = "Rynek", LocalNo = "12C" },
+                    new Address { City = "Poznań", CountryStateId = 8, ZipCode = "60-002", Country = "Polska", Street = "Stawna", LocalNo = "8D" },
+                    new Address { City = "Gdańsk", CountryStateId = 4, ZipCode = "80-002", Country = "Polska", Street = "Długa", LocalNo = "5E" },
+                    new Address { City = "Lublin", CountryStateId = 4, ZipCode = "20-001", Country = "Polska", Street = "Lipowa", LocalNo = "3F" },
+                    new Address { City = "Katowice", CountryStateId = 8, ZipCode = "40-001", Country = "Polska", Street = "Mariacka", LocalNo = "2G" },
+                    new Address { City = "Bydgoszcz", CountryStateId = 9, ZipCode = "85-001", Country = "Polska", Street = "Długa", LocalNo = "6H" },
+                    new Address { City = "Białystok", CountryStateId = 12, ZipCode = "15-001", Country = "Polska", Street = "Lipowa", LocalNo = "9I" },
+                    new Address { City = "Rzeszów", CountryStateId = 7, ZipCode = "35-001", Country = "Polska", Street = "3 Maja", LocalNo = "4J" },
                 };
                 await context.AddressesDb.AddRangeAsync(addresses);
             }
@@ -287,6 +289,23 @@ namespace DietDB
             #region Users
             if (!userManager.Users.Any())
             {
+                var superAdmin = new Admin
+                {
+                    UserName = "darth.vader@example.com",
+                    FirstName = "Darth",
+                    LastName = "Vader",
+                    Email = "darth.vader@example.com",
+                    Phone = "1111111111",
+                    isPatient = false,
+                    isDietician = false,
+                    isAdmin = true,
+                    isSuperAdmin = true,
+                    BirthDate = new DateTime(1970, 10, 12),
+                    AddressId = 8,
+                    EmailConfirmed = true
+                };
+                await userManager.CreateAsync(superAdmin, "Pa$$w0rd5555555554!");
+
                 var admin = new Admin
                 {
                     UserName = "jannzz.kowalski@example.com",
@@ -297,6 +316,7 @@ namespace DietDB
                     isPatient = false,
                     isDietician = false,
                     isAdmin = true,
+                    isSuperAdmin = false,
                     BirthDate = new DateTime(1980, 1, 1),
                     AddressId = 1,
                     EmailConfirmed = true
@@ -313,6 +333,7 @@ namespace DietDB
                     isPatient = false,
                     isDietician = false,
                     isAdmin = true,
+                    isSuperAdmin = false,
                     BirthDate = new DateTime(1982, 5, 10),
                     AddressId = 2,
                     EmailConfirmed = true
@@ -333,7 +354,6 @@ namespace DietDB
                     BirthDate = new DateTime(1985, 6, 15),
                     AddressId = 3,
                     EmailConfirmed = true
-                    //PatientCardId = 1,
                 };
                 await userManager.CreateAsync(patient1, "Pa$$w0rd5555555554!");
 
@@ -350,7 +370,6 @@ namespace DietDB
                     BirthDate = new DateTime(1990, 2, 20),
                     AddressId = 4,
                     EmailConfirmed = true
-                    //PatientCardId = 2,
                 };
                 await userManager.CreateAsync(patient2, "Pa$$w0rd5555555554!");
 
@@ -367,7 +386,6 @@ namespace DietDB
                     BirthDate = new DateTime(1988, 5, 5),
                     AddressId = 5,
                     EmailConfirmed = true
-                    //PatientCardId = 3,
                 };
                 await userManager.CreateAsync(patient3, "Pa$$w0rd5555555554!");
 
@@ -385,7 +403,6 @@ namespace DietDB
                     BirthDate = new DateTime(1985, 2, 2),
                     AddressId = 6,
                     EmailConfirmed = true
-                    //RatingId = 1
                 };
                 await userManager.CreateAsync(dietician1, "Pa$$w0rd5555555554!");
 
@@ -402,7 +419,6 @@ namespace DietDB
                     BirthDate = new DateTime(1984, 3, 3),
                     AddressId = 7,
                     EmailConfirmed = true
-                    //RatingId = 2
                 };
                 await userManager.CreateAsync(dietician2, "Pa$$w0rd5555555554!");
 
@@ -419,7 +435,6 @@ namespace DietDB
                     BirthDate = new DateTime(1990, 10, 10),
                     AddressId = 10,
                     EmailConfirmed = true
-                    //RatingId = 5
                 };
                 await userManager.CreateAsync(dietician3, "Pa$$w0rd5555555554!");
             }
@@ -879,8 +894,8 @@ namespace DietDB
 
                         IF (@isDietician = 1 OR @isPatient = 1 OR @isAdmin = 1) 
                         BEGIN 
-                            INSERT INTO dbo.Address (City, CountryStatesId, ZipCode, Country, Street, LocalNo, isActive, dateAdded) 
-                            VALUES ('Uzupelnij dane', 'Uzupelnij dane', 'Uzupelnij dane', 'Uzupelnij dane', 'Uzupelnij dane', 'Uzupelnij dane', 1, CURRENT_TIMESTAMP); 
+                            INSERT INTO dbo.Address (City, CountryStateId, ZipCode, Country, Street, LocalNo, isActive, dateAdded) 
+                            VALUES ('Uzupelnij dane', 1, 'Uzupelnij dane', 'Uzupelnij dane', 'Uzupelnij dane', 'Uzupelnij dane', 1, CURRENT_TIMESTAMP); 
                             
                             SET @AddressId = SCOPE_IDENTITY(); 
 
@@ -891,17 +906,17 @@ namespace DietDB
                             IF @isDietician = 1 
                             BEGIN 
                                 INSERT INTO dbo.UserRoles (UserId, RoleId) 
-                                VALUES (@UserId, 3); 
+                                VALUES (@UserId, 4); 
                             END 
                             ELSE IF @isAdmin = 1 
                             BEGIN 
                                 INSERT INTO dbo.UserRoles (UserId, RoleId) 
-                                VALUES (@UserId, 1); 
+                                VALUES (@UserId, 2); 
                             END 
                             ELSE IF @isPatient = 1 
                             BEGIN 
                                 INSERT INTO dbo.UserRoles (UserId, RoleId) 
-                                VALUES (@UserId, 2); 
+                                VALUES (@UserId, 3); 
                             END 
                         END 
                     END 
@@ -921,7 +936,7 @@ namespace DietDB
                     INSERT INTO PatientCard (PatientId, DieticianId, SexId, isActive, dateAdded)
                     VALUES (@PatientId, @DieticianId, @SexId, 1, CURRENT_TIMESTAMP);
 
-                    -- Zwróć identyfikator nowo dodanego wpisu (opcjonalne, jeśli chcesz)
+                    -- pobranie identyfikatora nowo dodanego wpisu (opcjonalne)
                     SELECT SCOPE_IDENTITY() AS NewPatientCardId;
                 END;
                 "

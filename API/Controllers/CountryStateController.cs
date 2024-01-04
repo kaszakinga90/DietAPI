@@ -12,7 +12,7 @@ namespace API.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<List<CountryStateGetDTO>>> GetMeasures()
+        public async Task<ActionResult<List<CountryStateGetDTO>>> GetContryStates()
         {
             var result = await _mediator.Send(new CountryStateList.Query());
             return HandleResult(result);

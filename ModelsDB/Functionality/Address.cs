@@ -11,8 +11,8 @@ namespace ModelsDB
         [Key]
         public int Id { get; set; }
         public string City { get; set; }
-        public CountryStates CountryStates { get; set; }
-        public int CountryStatesId { get; set; }
+        public CountryState CountryState { get; set; }
+        public int CountryStateId { get; set; }
         public string ZipCode { get; set; }
         public string Country { get; set; }
         public string Street { get; set; }

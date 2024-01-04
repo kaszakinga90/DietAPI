@@ -21,7 +21,7 @@ namespace Application.DTOs.DishDTO
         public int UnitId { get; set; }
         public int? GlycemicIndex { get; set; }  // TODO: jak obliczany?
         //public IFormFile File { get; set; }
-        public string PreparingTime { get; set; }   // TODO: jaki format?
+        public string PreparingTime { get; set; }
         public int? RecipeId { get; set; } = null;
         public int DieteticianId { get; set; }
         public List<RecipeStepPostDTO> RecipeSteps { get; set; }

@@ -55,8 +55,8 @@ namespace Application.CQRS.DieticiansBusinessesCards
                                 Country = o.Office.Address.Country,
                                 Street = o.Office.Address.Street,
                                 LocalNo = o.Office.Address.LocalNo,
-                                CountryStatesId = o.Office.Address.CountryStatesId,
-                                StateName = o.Office.Address.CountryStates.StateName
+                                CountryStatesId = o.Office.Address.CountryStateId,
+                                StateName = o.Office.Address.CountryState.StateName
                             }
                         }).ToList(),
                         DieticianDiplomas = d.Diplomas.Select(di => new DiplomaGetDTO

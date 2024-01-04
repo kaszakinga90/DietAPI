@@ -1,4 +1,7 @@
-﻿using Application.DTOs.LoginsDTO;
+﻿using Application.CQRS.Admins;
+using Application.CQRS.Dieticians;
+using Application.CQRS.Patients;
+using Application.DTOs.LoginsDTO;
 using Application.DTOs.RegistersDTO;
 using Application.DTOs.UsersDTO;
 using Application.Services;
@@ -230,5 +233,25 @@ namespace API.Controllers
             }
         }
 
+        [HttpDelete("deleteDietician/{id}")]
+        public async Task<IActionResult> DeleteDietician(int id)
+        {
+            var command = new DieticianDelete.Command { Id = id };
+            return HandleResult(await _mediator.Send(command));
+        }
+
+        [HttpDelete("deletePatient/{id}")]
+        public async Task<IActionResult> DeletePatient(int id)
+        {
+            var command = new PatientDelete.Command { Id = id };
+            return HandleResult(await _mediator.Send(command));
+        }
+
+        [HttpDelete("deleteAdmin/{id}")]
+        public async Task<IActionResult> DeleteAdmin(int id)
+        {
+            var command = new AdminDelete.Command { Id = id };
+            return HandleResult(await _mediator.Send(command));
+        }
     }
 }

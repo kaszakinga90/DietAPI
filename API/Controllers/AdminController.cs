@@ -9,9 +9,6 @@ using ModelsDB;
 
 namespace API.Controllers
 {
-    /// <summary>
-    /// Kontroler odpowiedzialny za zarządzanie adminami.
-    /// </summary>
     public class AdminController : BaseApiController
     {
         private readonly ImageService _imageService;
@@ -23,10 +20,6 @@ namespace API.Controllers
             _context = context;
         }
 
-        /// <summary>
-        /// Pobiera listę wszystkich adminów.
-        /// </summary>
-        /// <returns>Lista adminów.</returns>
         [HttpGet]
         [Route("all")]
         public async Task<ActionResult<List<Admin>>> GetAdmins()
@@ -34,22 +27,12 @@ namespace API.Controllers
             return await _mediator.Send(new AdminList.Query());
         }
 
-        /// <summary>
-        /// Pobiera szczegóły konkretnego admina na podstawie ID.
-        /// </summary>
-        /// <param name="id">ID admina.</param>
-        /// <returns>Szczegóły admina.</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<AdminGetDTO>> GetAdmin(int id)
         {
             return await _mediator.Send(new AdminDetails.Query { Id = id });
         }
 
-        /// <summary>
-        /// Tworzy nowego admina.
-        /// </summary>
-        /// <param name="Admin">Dane admina do utworzenia.</param>
-        /// <returns>Status operacji.</returns>
         [HttpPost]
         public async Task<IActionResult> CreateAdmin(Admin Admin)
         {
@@ -57,12 +40,6 @@ namespace API.Controllers
             return Ok();
         }
 
-        /// <summary>
-        /// Aktualizuje dane admina.
-        /// </summary>
-        /// <param name="id">ID admina.</param>
-        /// <param name="admin">Nowe dane admina.</param>
-        /// <returns>Status operacji.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> EditAdmin(int id, [FromForm] AdminDTO adminDTO, [FromForm] IFormFile file)
         {
@@ -76,11 +53,6 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
-        /// <summary>
-        /// Pobiera listę wiadomości dla admina o podanym ID.
-        /// </summary>
-        /// <param name="adminId">ID admina.</param>
-        /// <returns>Lista wiadomości dla admina.</returns>
         [HttpGet("{adminId}/messages")]
         public async Task<ActionResult<PagedList<MessageToDTO>>> GetMessagesForAdmin(int adminId, [FromQuery] PagingParams param)
         {

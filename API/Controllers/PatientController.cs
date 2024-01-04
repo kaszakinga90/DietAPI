@@ -36,6 +36,7 @@ namespace API.Controllers
             return Ok();
         }
 
+        //zmiana zdjêcia, bo zagnie¿d¿ony adres
         [HttpPut("{id}")]
         public async Task<IActionResult> EditPatient(int id, [FromForm] PatientDTO patientDTO, [FromForm] IFormFile file)
         {
@@ -49,6 +50,7 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
+        //pospolita zmiana danych
         [HttpPut("{patientId}/editdata")]
         public async Task<IActionResult> EditPatientData(int patientId, PatientEditDataDTO patient)
         {

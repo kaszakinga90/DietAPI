@@ -3,7 +3,7 @@
 namespace ModelsDB.Functionality
 {
     [Table("DieticianNote")]
-    public class DieticianNote
+    public class DieticianNote : BaseModel
     {
         public int DieticianId { get; set; }
         public Dietician Dietician { get; set; }
