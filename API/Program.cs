@@ -93,6 +93,7 @@ builder.Services.AddCors();
 builder.Services.AddIdentityCore<User>(opt =>
 {
     opt.User.RequireUniqueEmail = true;
+    // TODO : można poniższe wprowadzić
     //opt.SignIn.RequireConfirmedEmail = true;
 })
     .AddRoles<Role>()

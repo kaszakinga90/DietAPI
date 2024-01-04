@@ -1,7 +1,9 @@
-﻿using AutoMapper;
+﻿using Application.Core;
+using AutoMapper;
 using DietDB;
 using MediatR;
 using ModelsDB.Functionality;
+using System.Diagnostics;
 
 namespace Application.CQRS.Patients
 {
@@ -13,7 +15,7 @@ namespace Application.CQRS.Patients
         /// <summary>
         /// Reprezentuje komendę służącą do tworzenia wiadomości dla admina.
         /// </summary>
-        public class Command : IRequest
+        public class Command : IRequest<Result<MessageToDTO>>
         {
             /// <summary>
             /// Pobiera lub ustawia DTO wiadomości skierowanej do admina.
@@ -25,7 +27,7 @@ namespace Application.CQRS.Patients
         /// <summary>
         /// Obsługuje proces tworzenia wiadomości dla admina.
         /// </summary>
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, Result<MessageToDTO>>
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
@@ -46,11 +48,11 @@ namespace Application.CQRS.Patients
             /// </summary>
             /// <param name="request">Komenda do przetworzenia.</param>
             /// <param name="cancellationToken">Token anulowania operacji.</param>
-            public async Task Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<MessageToDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 if (!request.MessageDTO.AdminId.HasValue)
                 {
-                    throw new ArgumentException("ID admina jest wymagane");
+                    return Result<MessageToDTO>.Failure("ID admina jest wymagane.");
                 }
 
                 var message = _mapper.Map<MessageTo>(request.MessageDTO);
@@ -61,11 +63,26 @@ namespace Application.CQRS.Patients
                 var admin = await _context.AdminsDb.FindAsync(request.MessageDTO.AdminId.Value);
                 if (admin == null)
                 {
-                    throw new Exception("Admin nie został znaleziony");
+                    return Result<MessageToDTO>.Failure("Admin nie został znaleziony.");
                 }
 
                 _context.MessageToDb.Add(message);
-                await _context.SaveChangesAsync();
+
+                try
+                {
+                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    if (!result)
+                    {
+                        return Result<MessageToDTO>.Failure("Operacja nie powiodła się.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<MessageToDTO>.Failure("Wystąpił błąd podczas wysyłania wiadomości.");
+                }
+
+                return Result<MessageToDTO>.Success(_mapper.Map<MessageToDTO>(message));
             }
         }
     }

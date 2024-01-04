@@ -4,6 +4,7 @@ using AutoMapper;
 using DietDB;
 using MediatR;
 using ModelsDB;
+using System.Diagnostics;
 
 namespace Application.CQRS.FoodCatalogs
 {
@@ -29,7 +30,20 @@ namespace Application.CQRS.FoodCatalogs
                 var foodCatalog = _mapper.Map<FoodCatalog>(request.FoodCatalogPostDTO);
                 _context.FoodCatalogsDb.Add(foodCatalog);
 
-                await _context.SaveChangesAsync();
+                try
+                {
+                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    if (!result)
+                    {
+                        return Result<FoodCatalogPostDTO>.Failure("Operacja nie powiodła się.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<FoodCatalogPostDTO>.Failure("Wystąpił błąd podczas dodawania food catalog.");
+                }
+
                 return Result<FoodCatalogPostDTO>.Success(_mapper.Map<FoodCatalogPostDTO>(foodCatalog));
             }
         }

@@ -83,6 +83,9 @@ namespace Application.Core
                 .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageTo));
 
             CreateMap<AdminDTO, Admin>();
+
+            CreateMap<Admin, AdminPostDTO>()
+                .ReverseMap();
             
             CreateMap<Admin, AdminDeleteDTO>()
                 .ForMember(dest => dest.AddressDeleteDTO, opt => opt.MapFrom(src => src.Address))

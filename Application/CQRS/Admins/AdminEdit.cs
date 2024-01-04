@@ -6,6 +6,7 @@ using DietDB;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using System.Diagnostics;
 
 namespace Application.CQRS.Admins
 {
@@ -105,9 +106,10 @@ namespace Application.CQRS.Admins
                 }
                 catch (Exception ex)
                 {
-                    // TODO : Debug.Log zamiast exceptiona
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
                     return Result<AdminDTO>.Failure("Wystąpił błąd podczas edycji admina.");
                 }
+
                 return Result<AdminDTO>.Success(_mapper.Map<AdminDTO>(admin));
             }
         }

@@ -81,15 +81,25 @@ namespace API.Controllers
         [HttpPost("messageToDietician/{patientId}")]
         public async Task<IActionResult> MessageToDietetician(int patientId, MessageToDTO message)
         {
-            await _mediator.Send(new MessageToDieteticianFromPatientCreate.Command { MessageDTO = message, PatientId = patientId });
-            return Ok();
+            var command = new MessageToDieteticianFromPatientCreate.Command
+            {
+                MessageDTO = message,
+                PatientId = patientId
+            };
+
+            return HandleResult(await _mediator.Send(command));
         }
 
         [HttpPost("{patientId}/messageToAdmin")]
         public async Task<IActionResult> MessageToAdmin(int patientId, MessageToDTO message)
         {
-            await _mediator.Send(new MessageToAdminFromPatientCreate.Command { MessageDTO = message, PatientId = patientId });
-            return Ok();
+            var command = new MessageToAdminFromPatientCreate.Command
+            {
+                MessageDTO = message,
+                PatientId = patientId
+            };
+
+            return HandleResult(await _mediator.Send(command));
         }
     }
 }

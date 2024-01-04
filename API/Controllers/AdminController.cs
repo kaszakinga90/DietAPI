@@ -34,10 +34,10 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAdmin(Admin Admin)
+        public async Task<IActionResult> CreateAdmin(AdminPostDTO AdminPostDTO)
         {
-            await _mediator.Send(new AdminCreate.Command { Admin = Admin });
-            return Ok();
+            var result = await _mediator.Send(new AdminCreate.Command { AdminPostDTO = AdminPostDTO });
+            return Ok(result.Value);
         }
 
         [HttpPut("{id}")]
@@ -56,7 +56,11 @@ namespace API.Controllers
         [HttpGet("{adminId}/messages")]
         public async Task<ActionResult<PagedList<MessageToDTO>>> GetMessagesForAdmin(int adminId, [FromQuery] PagingParams param)
         {
-            var result = await _mediator.Send(new AdminMessageList.Query { AdminId = adminId, Params = param });
+            var result = await _mediator.Send(new AdminMessageList.Query 
+            { 
+                AdminId = adminId, 
+                Params = param 
+            });
 
             return HandlePagedResult(result);
         }
@@ -69,8 +73,13 @@ namespace API.Controllers
         [HttpPost("{adminId}/messageToDietician")]
         public async Task<IActionResult> MessageToDietetician(int adminId, MessageToDTO message)
         {
-            await _mediator.Send(new MessageToDieteticianFromAdminCreate.Command { MessageDTO = message, AdminId = adminId });
-            return Ok();
+            var command = new MessageToDieteticianFromAdminCreate.Command 
+            { 
+                MessageDTO = message, 
+                AdminId = adminId 
+            };
+
+            return HandleResult(await _mediator.Send(command));
         }
 
         /// <summary>
@@ -81,8 +90,13 @@ namespace API.Controllers
         [HttpPost("{adminId}/messageToPatient")]
         public async Task<IActionResult> MessageToPatient(int adminId, MessageToDTO message)
         {
-            await _mediator.Send(new MessageToPatientFromAdminCreate.Command { MessageDTO = message, AdminId = adminId });
-            return Ok();
+            var command = new MessageToPatientFromAdminCreate.Command
+            {
+                MessageDTO = message,
+                AdminId = adminId
+            };
+
+            return HandleResult(await _mediator.Send(command));
         }
     }
 }

@@ -272,16 +272,16 @@ namespace DietDB
             {
                 var addresses = new List<Address>()
                 {
-                    new Address { City = "Warszawa", CountryStateId = 1, ZipCode = "00-001", Country = "Polska", Street = "Marszałkowska", LocalNo = "24A" },
-                    new Address { City = "Kraków", CountryStateId = 2, ZipCode = "30-002", Country = "Polska", Street = "Floriańska", LocalNo = "15B" },
-                    new Address { City = "Wrocław", CountryStateId = 2, ZipCode = "50-002", Country = "Polska", Street = "Rynek", LocalNo = "12C" },
-                    new Address { City = "Poznań", CountryStateId = 8, ZipCode = "60-002", Country = "Polska", Street = "Stawna", LocalNo = "8D" },
-                    new Address { City = "Gdańsk", CountryStateId = 4, ZipCode = "80-002", Country = "Polska", Street = "Długa", LocalNo = "5E" },
-                    new Address { City = "Lublin", CountryStateId = 4, ZipCode = "20-001", Country = "Polska", Street = "Lipowa", LocalNo = "3F" },
-                    new Address { City = "Katowice", CountryStateId = 8, ZipCode = "40-001", Country = "Polska", Street = "Mariacka", LocalNo = "2G" },
-                    new Address { City = "Bydgoszcz", CountryStateId = 9, ZipCode = "85-001", Country = "Polska", Street = "Długa", LocalNo = "6H" },
-                    new Address { City = "Białystok", CountryStateId = 12, ZipCode = "15-001", Country = "Polska", Street = "Lipowa", LocalNo = "9I" },
-                    new Address { City = "Rzeszów", CountryStateId = 7, ZipCode = "35-001", Country = "Polska", Street = "3 Maja", LocalNo = "4J" },
+                    new Address { City = "Warszawa", CountryStateId = 2, ZipCode = "00-001", Country = "Polska", Street = "Marszałkowska", LocalNo = "24A" },
+                    new Address { City = "Kraków", CountryStateId = 3, ZipCode = "30-002", Country = "Polska", Street = "Floriańska", LocalNo = "15B" },
+                    new Address { City = "Wrocław", CountryStateId = 3, ZipCode = "50-002", Country = "Polska", Street = "Rynek", LocalNo = "12C" },
+                    new Address { City = "Poznań", CountryStateId = 9, ZipCode = "60-002", Country = "Polska", Street = "Stawna", LocalNo = "8D" },
+                    new Address { City = "Gdańsk", CountryStateId = 5, ZipCode = "80-002", Country = "Polska", Street = "Długa", LocalNo = "5E" },
+                    new Address { City = "Lublin", CountryStateId = 5, ZipCode = "20-001", Country = "Polska", Street = "Lipowa", LocalNo = "3F" },
+                    new Address { City = "Katowice", CountryStateId = 9, ZipCode = "40-001", Country = "Polska", Street = "Mariacka", LocalNo = "2G" },
+                    new Address { City = "Bydgoszcz", CountryStateId = 10, ZipCode = "85-001", Country = "Polska", Street = "Długa", LocalNo = "6H" },
+                    new Address { City = "Białystok", CountryStateId = 13, ZipCode = "15-001", Country = "Polska", Street = "Lipowa", LocalNo = "9I" },
+                    new Address { City = "Rzeszów", CountryStateId = 8, ZipCode = "35-001", Country = "Polska", Street = "3 Maja", LocalNo = "4J" },
                 };
                 await context.AddressesDb.AddRangeAsync(addresses);
             }
@@ -295,7 +295,7 @@ namespace DietDB
                     FirstName = "Darth",
                     LastName = "Vader",
                     Email = "darth.vader@example.com",
-                    Phone = "1111111111",
+                    PhoneNumber = "1111111111",
                     isPatient = false,
                     isDietician = false,
                     isAdmin = true,
@@ -312,7 +312,7 @@ namespace DietDB
                     FirstName = "Janusz",
                     LastName = "Kowalski",
                     Email = "jannzz.kowalski@example.com",
-                    Phone = "500100200",
+                    PhoneNumber = "500100200",
                     isPatient = false,
                     isDietician = false,
                     isAdmin = true,
@@ -329,7 +329,7 @@ namespace DietDB
                     FirstName = "Ewa",
                     LastName = "Nowak",
                     Email = "ewa.nowak@example.com",
-                    Phone = "500100201",
+                    PhoneNumber = "500100201",
                     isPatient = false,
                     isDietician = false,
                     isAdmin = true,
@@ -347,7 +347,7 @@ namespace DietDB
                     FirstName = "Tomasz",
                     LastName = "Zieliński",
                     Email = "tomasz.zielinski@example.com",
-                    Phone = "500600700",
+                    PhoneNumber = "500600700",
                     isPatient = true,
                     isDietician = false,
                     isAdmin = false,
@@ -363,7 +363,7 @@ namespace DietDB
                     FirstName = "Aleksandra",
                     LastName = "Nowak",
                     Email = "aleksandra.nowak@example.com",
-                    Phone = "501601701",
+                    PhoneNumber = "501601701",
                     isPatient = true,
                     isDietician = false,
                     isAdmin = false,
@@ -379,7 +379,7 @@ namespace DietDB
                     FirstName = "Piotr",
                     LastName = "Kowal",
                     Email = "piotr.kowal@example.com",
-                    Phone = "502602702",
+                    PhoneNumber = "502602702",
                     isPatient = true,
                     isDietician = false,
                     isAdmin = false,
@@ -396,7 +396,7 @@ namespace DietDB
                     FirstName = "Anna",
                     LastName = "Nowak",
                     Email = "anna.nowak1@example.com",
-                    Phone = "987654321",
+                    PhoneNumber = "987654321",
                     isPatient = false,
                     isDietician = true,
                     isAdmin = false,
@@ -412,7 +412,7 @@ namespace DietDB
                     FirstName = "Marek",
                     LastName = "Kowalski",
                     Email = "marek.kowalski@example.com",
-                    Phone = "987654322",
+                    PhoneNumber = "987654322",
                     isPatient = false,
                     isDietician = true,
                     isAdmin = false,
@@ -428,7 +428,7 @@ namespace DietDB
                     FirstName = "Oliwia",
                     LastName = "Wiśniewska",
                     Email = "oliwia.wisniewska@example.com",
-                    Phone = "987654330",
+                    PhoneNumber = "987654330",
                     isPatient = false,
                     isDietician = true,
                     isAdmin = false,
@@ -620,29 +620,48 @@ namespace DietDB
         // ******************** DANE Z KLUCZAMI KLUCZY OBCYCH **************************************** //
         private static async Task SeedSecondClassesWithForeignKey(DietContext context)
         {
+            #region UserRoles
+            if (!context.UserRoles.Any())
+            {
+                var userRoles = new List<IdentityUserRole<int>>()
+                {
+                    new IdentityUserRole<int> { UserId = 1, RoleId = 1 },
+                    new IdentityUserRole<int> { UserId = 1, RoleId = 2 },
+                    new IdentityUserRole<int> { UserId = 2, RoleId = 2 },
+                    new IdentityUserRole<int> { UserId = 3, RoleId = 2 },
+                    new IdentityUserRole<int> { UserId = 4, RoleId = 3 },
+                    new IdentityUserRole<int> { UserId = 5, RoleId = 3 },
+                    new IdentityUserRole<int> { UserId = 6, RoleId = 3 },
+                    new IdentityUserRole<int> { UserId = 7, RoleId = 4 },
+                    new IdentityUserRole<int> { UserId = 8, RoleId = 4 },
+                    new IdentityUserRole<int> { UserId = 9, RoleId = 4 }
+                };
+                await context.UserRoles.AddRangeAsync(userRoles);
+            }
+            #endregion
             #region Dishes
             // Sprawdzanie i dodawanie testowych danych dla Dish
             List<Dish> dishes;
 
             if (!context.DishesDb.Any())
-        {
-             dishes = new List<Dish>()
             {
-                new Dish { Name = "Makaron Bolognese", NameEN="Pasta Bolognese", Calories = 123, ServingQuantity = 1, MeasureId = 1, Weight = 34, UnitId = 4, GlycemicIndex = 98, PreparingTime = "3:20", isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
-                new Dish { Name = "salatka z grillow kurcz", NameEN="Grilled Chicken Salad",  Calories = 250, ServingQuantity = 1, MeasureId = 3, Weight = 25, UnitId = 7, GlycemicIndex = 69, PreparingTime = "1:15", isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
-                new Dish { Name = "Margherita Pizza", NameEN="Margherita Pizza", Calories = 698, ServingQuantity = 1, MeasureId = 2, Weight = 168, UnitId = 2, GlycemicIndex = 22, PreparingTime = "0:50", isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
-            };
-            await context.DishesDb.AddRangeAsync(dishes);
+                dishes = new List<Dish>()
+                {
+                    new Dish { Name = "Makaron Bolognese", NameEN="Pasta Bolognese", Calories = 123, ServingQuantity = 1, MeasureId = 1, Weight = 34, UnitId = 4, GlycemicIndex = 98, PreparingTime = "3:20", isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
+                    new Dish { Name = "salatka z grillow kurcz", NameEN="Grilled Chicken Salad",  Calories = 250, ServingQuantity = 1, MeasureId = 3, Weight = 25, UnitId = 7, GlycemicIndex = 69, PreparingTime = "1:15", isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
+                    new Dish { Name = "Margherita Pizza", NameEN="Margherita Pizza", Calories = 698, ServingQuantity = 1, MeasureId = 2, Weight = 168, UnitId = 2, GlycemicIndex = 22, PreparingTime = "0:50", isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
+                };
+                await context.DishesDb.AddRangeAsync(dishes);
                 context.SaveChanges();
                 #region Recipes
                 if (!context.RecipesDb.Any())
                 {
                     var recipes = new List<Recipe>()
-            {
-                new Recipe { DishId = dishes[0].Id, isActive = true, dateAdded = DateTime.Now },
-                new Recipe { DishId = dishes[1].Id, isActive = true, dateAdded = DateTime.Now },
-                new Recipe { DishId = dishes[2].Id, isActive = true, dateAdded = DateTime.Now }
-            };
+                    {
+                        new Recipe { DishId = dishes[0].Id, isActive = true, dateAdded = DateTime.Now },
+                        new Recipe { DishId = dishes[1].Id, isActive = true, dateAdded = DateTime.Now },
+                        new Recipe { DishId = dishes[2].Id, isActive = true, dateAdded = DateTime.Now }
+                    };
                     await context.RecipesDb.AddRangeAsync(recipes);
                     context.SaveChanges();
 
@@ -657,8 +676,8 @@ namespace DietDB
             #endregion
             #region FoodCatalogs
             if (!context.FoodCatalogsDb.Any())
-        {
-            var foodCatalogs = new List<FoodCatalog>()
+            {
+                var foodCatalogs = new List<FoodCatalog>()
                 {
                     new FoodCatalog { CatalogName = "Wegetariańskie" },
                     new FoodCatalog { CatalogName = "Bezmleczne" },
@@ -666,86 +685,86 @@ namespace DietDB
                     new FoodCatalog { CatalogName = "Keto" },
                     new FoodCatalog { CatalogName = "Hashimoto" }
                 };
-            await context.FoodCatalogsDb.AddRangeAsync(foodCatalogs);
-        }
-        #endregion
+                await context.FoodCatalogsDb.AddRangeAsync(foodCatalogs);
+            }
+            #endregion
             #region MessagesToDietician
-        //Sprawdzanie i dodawanie testowych wiadomości do dietetyka
-        if (!context.MessageToDb.Any())
-        {
-            var messages = new List<MessageTo>()
+            //Sprawdzanie i dodawanie testowych wiadomości do dietetyka
+            if (!context.MessageToDb.Any())
+            {
+                var messages = new List<MessageTo>()
                 {
-                    new MessageTo { Title = "Pytanie o dietę 1", Description = "Mam pytanie odnośnie ilości węglowodanów w diecie.", DieticianId = 6, PatientId = 3, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Kwestia alergii", Description = "Czy produkt X jest odpowiedni dla osoby z alergią na orzechy?", DieticianId = 7, PatientId = 3, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Porada dla sportowca", Description = "Jakie produkty zalecasz dla aktywnych fizycznie osób?", DieticianId = 8, PatientId = 5, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Suplementacja", Description = "Czy warto suplementować witaminę D w okresie zimowym?", DieticianId = 6, PatientId = 4, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Pytanie o jadłospis", Description = "Czy możesz mi pomóc skomponować jadłospis na nadchodzący tydzień?", DieticianId = 7, PatientId = 4, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Pytanie o dietę 1", Description = "Mam pytanie odnośnie ilości węglowodanów w diecie.", DieticianId = 7, PatientId = 4, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Kwestia alergii", Description = "Czy produkt X jest odpowiedni dla osoby z alergią na orzechy?", DieticianId = 8, PatientId = 4, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Porada dla sportowca", Description = "Jakie produkty zalecasz dla aktywnych fizycznie osób?", DieticianId = 8, PatientId = 6, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Suplementacja", Description = "Czy warto suplementować witaminę D w okresie zimowym?", DieticianId = 7, PatientId = 5, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Pytanie o jadłospis", Description = "Czy możesz mi pomóc skomponować jadłospis na nadchodzący tydzień?", DieticianId = 8, PatientId = 5, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
                 };
-            await context.MessageToDb.AddRangeAsync(messages);
-        }
-        #endregion
+                await context.MessageToDb.AddRangeAsync(messages);
+            }
+            #endregion
             #region MessageToPatient
-        // Sprawdzanie i dodawanie testowych wiadomości do pacjentów
-        if (!context.MessageToDb.Any())
-        {
-            var messagesToPatients = new List<MessageTo>()
+            // Sprawdzanie i dodawanie testowych wiadomości do pacjentów
+            if (!context.MessageToDb.Any())
+            {
+                var messagesToPatients = new List<MessageTo>()
                 {
-                    new MessageTo { Title = "Konsultacja dietetyczna", Description = "Witaj! Zapraszam na konsultację dietetyczną w przyszłym tygodniu. Daj mi znać, kiedy Ci pasuje.", PatientId = 3, AdminId = 1, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Zmiana planu dietetycznego", Description = "Witam! Zaktualizowałem Twój plan dietetyczny. Sprawdź go w aplikacji i daj mi znać, czy wszystko jest jasne.", PatientId = 3, AdminId = 2, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Przypomnienie o wizycie", Description = "Przypominam o jutrzejszej wizycie. Jeśli nie możesz przyjść, daj mi znać jak najszybciej.", PatientId = 4, AdminId = 1, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Wyniki badań", Description = "Twoje wyniki badań są już dostępne. Zalecam omówienie ich podczas najbliższej wizyty.", PatientId = 4, AdminId = 2, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Zalecenia po wizycie", Description = "Witaj! Po naszej ostatniej wizycie przygotowałem kilka zaleceń. Sprawdź je w aplikacji i postępuj zgodnie z nimi.", PatientId = 5, AdminId = 2, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Konsultacja dietetyczna", Description = "Witaj! Zapraszam na konsultację dietetyczną w przyszłym tygodniu. Daj mi znać, kiedy Ci pasuje.", PatientId = 4, AdminId = 2, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Zmiana planu dietetycznego", Description = "Witam! Zaktualizowałem Twój plan dietetyczny. Sprawdź go w aplikacji i daj mi znać, czy wszystko jest jasne.", PatientId = 4, AdminId = 3, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Przypomnienie o wizycie", Description = "Przypominam o jutrzejszej wizycie. Jeśli nie możesz przyjść, daj mi znać jak najszybciej.", PatientId = 5, AdminId = 2, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Wyniki badań", Description = "Twoje wyniki badań są już dostępne. Zalecam omówienie ich podczas najbliższej wizyty.", PatientId = 5, AdminId = 3, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Zalecenia po wizycie", Description = "Witaj! Po naszej ostatniej wizycie przygotowałem kilka zaleceń. Sprawdź je w aplikacji i postępuj zgodnie z nimi.", PatientId = 6, AdminId = 3, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
                 };
-            await context.MessageToDb.AddRangeAsync(messagesToPatients);
-        }
-        #endregion
+                await context.MessageToDb.AddRangeAsync(messagesToPatients);
+            }
+            #endregion
             #region MessagesToAdmin
-        if (!context.MessageToDb.Any())
-        {
-            var messagesToAdmins = new List<MessageTo>()
+            if (!context.MessageToDb.Any())
+            {
+                var messagesToAdmins = new List<MessageTo>()
                 {
-                    new MessageTo { Title = "Zgłoszenie problemu technicznego", Description = "Witaj! Napotkaliśmy problem z funkcją wysyłania wiadomości w aplikacji. Prosimy o szybką interwencję.", AdminId = 1, DieticianId = 7, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Aktualizacja polityki prywatności", Description = "Witaj! Przesyłam aktualizację polityki prywatności. Proszę o jej przejrzenie i zatwierdzenie.", AdminId = 2, DieticianId = 8, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Propozycja współpracy", Description = "Dzień dobry! Mamy propozycję współpracy, która może być interesująca dla naszej platformy. Proszę o kontakt.", AdminId = 1, DieticianId = 6, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Zgłoszenie problemu technicznego", Description = "Witaj! Napotkaliśmy problem z funkcją wysyłania wiadomości w aplikacji. Prosimy o szybką interwencję.", AdminId = 2, DieticianId = 8, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Aktualizacja polityki prywatności", Description = "Witaj! Przesyłam aktualizację polityki prywatności. Proszę o jej przejrzenie i zatwierdzenie.", AdminId = 3, DieticianId = 9, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Propozycja współpracy", Description = "Dzień dobry! Mamy propozycję współpracy, która może być interesująca dla naszej platformy. Proszę o kontakt.", AdminId = 2, DieticianId = 7, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
                 };
-            await context.MessageToDb.AddRangeAsync(messagesToAdmins);
-        }
+                await context.MessageToDb.AddRangeAsync(messagesToAdmins);
+            }
             #endregion
             #region PatientCards
             if (!context.PatientCardsDb.Any())
             {
                 var patientCards = new List<PatientCard>
-            {
-                new PatientCard { PatientId = 3, SexId = 1, DieticianId = 6 },
-                new PatientCard { PatientId = 4, SexId = 1, DieticianId = 7 },
-                new PatientCard { PatientId = 5, SexId = 2, DieticianId = 8 },
-                new PatientCard { PatientId = 3, SexId = 1, DieticianId = 7 },
-                new PatientCard { PatientId = 3, SexId = 1, DieticianId = 8 }
-            };
+                {
+                    new PatientCard { PatientId = 4, SexId = 1, DieticianId = 7 },
+                    new PatientCard { PatientId = 5, SexId = 1, DieticianId = 8 },
+                    new PatientCard { PatientId = 6, SexId = 2, DieticianId = 9 },
+                    new PatientCard { PatientId = 4, SexId = 1, DieticianId = 8 },
+                    new PatientCard { PatientId = 4, SexId = 1, DieticianId = 9 }
+                };
 
                 await context.PatientCardsDb.AddRangeAsync(patientCards);
                 context.SaveChanges();
 
                 var surveys = new List<Survey>
-            {
-                new Survey { Heigth = 170, Weith = 70, MeasureTime = DateTime.Now.AddDays(-30) },
-                new Survey { Heigth = 165, Weith = 65, MeasureTime = DateTime.Now.AddDays(-20) },
-                new Survey { Heigth = 180, Weith = 80, MeasureTime = DateTime.Now.AddDays(-10) },
-                new Survey { Heigth = 170, Weith = 65, MeasureTime = DateTime.Now.AddDays(-20) },
-                new Survey { Heigth = 170, Weith = 62, MeasureTime = DateTime.Now.AddDays(-10) }
-            };
+                {
+                    new Survey { Heigth = 170, Weith = 70, MeasureTime = DateTime.Now.AddDays(-30) },
+                    new Survey { Heigth = 165, Weith = 65, MeasureTime = DateTime.Now.AddDays(-20) },
+                    new Survey { Heigth = 180, Weith = 80, MeasureTime = DateTime.Now.AddDays(-10) },
+                    new Survey { Heigth = 170, Weith = 65, MeasureTime = DateTime.Now.AddDays(-20) },
+                    new Survey { Heigth = 170, Weith = 62, MeasureTime = DateTime.Now.AddDays(-10) }
+                };
 
                 await context.SurveysDb.AddRangeAsync(surveys);
                 context.SaveChanges();
 
                 var patientCardSurveys = new List<PatientCardSurvey>
-            {
-                new PatientCardSurvey { PatientCardId = 1, SurveyId = 1 },
-                new PatientCardSurvey { PatientCardId = 2, SurveyId = 2 },
-                new PatientCardSurvey { PatientCardId = 3, SurveyId = 3 },
-                new PatientCardSurvey { PatientCardId = 4, SurveyId = 4 },
-                new PatientCardSurvey { PatientCardId = 5, SurveyId = 5 }
-            };
+                {
+                    new PatientCardSurvey { PatientCardId = 1, SurveyId = 1 },
+                    new PatientCardSurvey { PatientCardId = 2, SurveyId = 2 },
+                    new PatientCardSurvey { PatientCardId = 3, SurveyId = 3 },
+                    new PatientCardSurvey { PatientCardId = 4, SurveyId = 4 },
+                    new PatientCardSurvey { PatientCardId = 5, SurveyId = 5 }
+                };
 
                 await context.PatientCardSurveysDb.AddRangeAsync(patientCardSurveys);
                 context.SaveChanges();
@@ -756,40 +775,39 @@ namespace DietDB
             {
                 var diets = new List<Diet>()
                 {
-                    new Diet { Name = "Dieta1", StartDate = new DateTime(2023, 12, 13), EndDate = new DateTime(2023, 12, 14), PatientId = 3, numberOfMeals = 4, DieteticianId = 6, isActive = true, dateAdded = DateTime.Now },
-                    new Diet { Name = "Dieta2", StartDate = new DateTime(2023, 12, 10), EndDate = new DateTime(2023, 12, 11), PatientId = 4, numberOfMeals = 2, DieteticianId = 6, isActive = true, dateAdded = DateTime.Now },
-                    new Diet { Name = "Dieta3", StartDate = new DateTime(2023, 12, 14), EndDate = new DateTime(2023, 12, 24), PatientId = 4, numberOfMeals = 5, DieteticianId = 6, isActive = true, dateAdded = DateTime.Now },
-                    new Diet { Name = "Dieta4", StartDate = new DateTime(2023, 12, 15), EndDate = new DateTime(2023, 12, 31), PatientId = 5, numberOfMeals = 4, DieteticianId = 7, isActive = true, dateAdded = DateTime.Now },
+                    new Diet { Name = "Dieta1", StartDate = new DateTime(2023, 12, 13), EndDate = new DateTime(2023, 12, 14), PatientId = 4, numberOfMeals = 4, DieteticianId = 7, isActive = true, dateAdded = DateTime.Now },
+                    new Diet { Name = "Dieta2", StartDate = new DateTime(2023, 12, 10), EndDate = new DateTime(2023, 12, 11), PatientId = 5, numberOfMeals = 2, DieteticianId = 7, isActive = true, dateAdded = DateTime.Now },
+                    new Diet { Name = "Dieta3", StartDate = new DateTime(2023, 12, 14), EndDate = new DateTime(2023, 12, 24), PatientId = 5, numberOfMeals = 5, DieteticianId = 7, isActive = true, dateAdded = DateTime.Now },
+                    new Diet { Name = "Dieta4", StartDate = new DateTime(2023, 12, 15), EndDate = new DateTime(2023, 12, 31), PatientId = 6, numberOfMeals = 4, DieteticianId = 8, isActive = true, dateAdded = DateTime.Now },
                 };
                 await context.DietsDb.AddRangeAsync(diets);
             }
-         #endregion
-
-            #region DaneTestowe - Ingredients
+            #endregion
+            #region Ingredients
             if (!context.IngredientsDb.Any())
             {
                 var ingredients = new List<Ingredient>()
                 {
-                        new Ingredient { Name = "Ser Biały", Calories = 100, ServingQuantity = 1, MeasureId = 1, Weight = 28, UnitId = 1, DieticianId = 1, GlycemicIndex = 30, PublicId = string.Empty, PictureUrl = "https://example.com/ser-bialy.jpg" },
-                        new Ingredient { Name = "Jogurt Naturalny", Calories = 50, ServingQuantity = 1, MeasureId = 2, Weight = 200, UnitId = 1, DieticianId = 2, GlycemicIndex = 40, PublicId = string.Empty, PictureUrl = "https://example.com/jogurt-naturalny.jpg" },
-                        new Ingredient { Name = "Oliwa z Oliwek", Calories = 120, ServingQuantity = 1, MeasureId = 3, Weight = 15, UnitId = 1, DieticianId = 3, GlycemicIndex = 10, PublicId = string.Empty, PictureUrl = "https://example.com/oliwa.jpg" },
-                        new Ingredient { Name = "Pierś Kurczaka", Calories = 150, ServingQuantity = 1, MeasureId = 4, Weight = 100, UnitId = 2, DieticianId = 1, GlycemicIndex = 20, PublicId = string.Empty, PictureUrl = "https://example.com/piers-kurczaka.jpg" },
+                        new Ingredient { Name = "Ser Biały", Calories = 100, ServingQuantity = 1, MeasureId = 1, Weight = 28, UnitId = 1, DieticianId = 7, GlycemicIndex = 30, PublicId = string.Empty, PictureUrl = "https://example.com/ser-bialy.jpg" },
+                        new Ingredient { Name = "Jogurt Naturalny", Calories = 50, ServingQuantity = 1, MeasureId = 2, Weight = 200, UnitId = 1, DieticianId = 8, GlycemicIndex = 40, PublicId = string.Empty, PictureUrl = "https://example.com/jogurt-naturalny.jpg" },
+                        new Ingredient { Name = "Oliwa z Oliwek", Calories = 120, ServingQuantity = 1, MeasureId = 3, Weight = 15, UnitId = 1, DieticianId = 9, GlycemicIndex = 10, PublicId = string.Empty, PictureUrl = "https://example.com/oliwa.jpg" },
+                        new Ingredient { Name = "Pierś Kurczaka", Calories = 150, ServingQuantity = 1, MeasureId = 4, Weight = 100, UnitId = 2, DieticianId = 7, GlycemicIndex = 20, PublicId = string.Empty, PictureUrl = "https://example.com/piers-kurczaka.jpg" },
                         new Ingredient { Name = "Mleko 2%", NameEN = "2% milk", Calories = 122f, MeasureId = 1, Weight = 244, UnitId = 1, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/377_thumb.jpg", DieticianId = null },
-                        new Ingredient { Name = "Pomidor", Calories = 20, ServingQuantity = 1, MeasureId = 1, Weight = 150, UnitId = 3, DieticianId = 2, GlycemicIndex = 15, PublicId = string.Empty, PictureUrl = "https://example.com/pomidor.jpg" },
-                        new Ingredient { Name = "Owsianka", Calories = 120, ServingQuantity = 1, MeasureId = 2, Weight = 40, UnitId = 1, DieticianId = 3, GlycemicIndex = 50, PublicId = string.Empty, PictureUrl = "https://example.com/owsianka.jpg" },
+                        new Ingredient { Name = "Pomidor", Calories = 20, ServingQuantity = 1, MeasureId = 1, Weight = 150, UnitId = 3, DieticianId = 8, GlycemicIndex = 15, PublicId = string.Empty, PictureUrl = "https://example.com/pomidor.jpg" },
+                        new Ingredient { Name = "Owsianka", Calories = 120, ServingQuantity = 1, MeasureId = 2, Weight = 40, UnitId = 1, DieticianId = 9, GlycemicIndex = 50, PublicId = string.Empty, PictureUrl = "https://example.com/owsianka.jpg" },
                         new Ingredient { Name = "Ziemniaki", NameEN = "potato", Calories = 160.89f, MeasureId = 1, Weight = 21, UnitId = 5, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/752_thumb.jpg", DieticianId = null },
                         new Ingredient { Name = "Ogórek", NameEN = "cucumber", Calories = 30.15f, MeasureId = 1, Weight = 10, UnitId = 7, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/522_thumb.jpg", DieticianId = null },
-                        new Ingredient { Name = "Banany", Calories = 90, ServingQuantity = 1, MeasureId = 3, Weight = 120, UnitId = 1, DieticianId = 1, GlycemicIndex = 60, PublicId = string.Empty, PictureUrl = "https://example.com/banany.jpg" },
-                        new Ingredient { Name = "Orzechy Włoskie", Calories = 200, ServingQuantity = 1, MeasureId = 4, Weight = 30, UnitId = 1, DieticianId = 2, GlycemicIndex = 25, PublicId = string.Empty, PictureUrl = "https://example.com/orzechy.jpg" },
-                        new Ingredient { Name = "Brokuły", Calories = 30, ServingQuantity = 1, MeasureId = 1, Weight = 150, UnitId = 1, DieticianId = 3, GlycemicIndex = 15, PublicId = string.Empty, PictureUrl = "https://example.com/brokuly.jpg" },
-                        new Ingredient { Name = "Chleb Pełnoziarnisty", Calories = 80, ServingQuantity = 1, MeasureId = 2, Weight = 40, UnitId = 1, DieticianId = 1, GlycemicIndex = 35, PublicId = string.Empty, PictureUrl = "https://example.com/chleb.jpg" },
+                        new Ingredient { Name = "Banany", Calories = 90, ServingQuantity = 1, MeasureId = 3, Weight = 120, UnitId = 1, DieticianId = 7, GlycemicIndex = 60, PublicId = string.Empty, PictureUrl = "https://example.com/banany.jpg" },
+                        new Ingredient { Name = "Orzechy Włoskie", Calories = 200, ServingQuantity = 1, MeasureId = 4, Weight = 30, UnitId = 1, DieticianId = 8, GlycemicIndex = 25, PublicId = string.Empty, PictureUrl = "https://example.com/orzechy.jpg" },
+                        new Ingredient { Name = "Brokuły", Calories = 30, ServingQuantity = 1, MeasureId = 1, Weight = 150, UnitId = 1, DieticianId = 9, GlycemicIndex = 15, PublicId = string.Empty, PictureUrl = "https://example.com/brokuly.jpg" },
+                        new Ingredient { Name = "Chleb Pełnoziarnisty", Calories = 80, ServingQuantity = 1, MeasureId = 2, Weight = 40, UnitId = 1, DieticianId = 7, GlycemicIndex = 35, PublicId = string.Empty, PictureUrl = "https://example.com/chleb.jpg" },
                         new Ingredient { Name = "Ser", NameEN = "cheese", Calories = 113.12f, MeasureId = 1, Weight = 28, UnitId = 1, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/1034_thumb.jpg", DieticianId = null },
                         new Ingredient { Name = "Kapusta surowa", NameEN = "cabbage, raw", Calories = 22.25f, MeasureId = 1, Weight = 17, UnitId = 4, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/8083_thumb.jpg", DieticianId = null },
                         new Ingredient { Name = "Bardzo duże jajko", NameEN = "extra large egg", Calories = 90.09f, MeasureId = 1, Weight = 34, UnitId = 1, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/775_thumb.jpg", DieticianId = null },
                 };
                 await context.IngredientsDb.AddRangeAsync(ingredients);
             }
-        #endregion
+            #endregion
 
             await context.SaveChangesAsync();
         }
@@ -814,7 +832,7 @@ namespace DietDB
                 await context.RecipeStepsDb.AddRangeAsync(recipeSteps);
             }
             #endregion
-            #region DaneTestowe - MealTimesToXYAxis
+            #region MealTimesToXYAxis
             // Sprawdzanie i dodawanie testowych danych dla MealTimes
             if (!context.MealTimesDb.Any())
             {
@@ -835,11 +853,11 @@ namespace DietDB
             //{
             //    var dieticianPatients = new List<DieticianPatient>
             //    {
-            //        new DieticianPatient { PatientId = 3, DieticianId = 6 },
             //        new DieticianPatient { PatientId = 4, DieticianId = 7 },
             //        new DieticianPatient { PatientId = 5, DieticianId = 8 },
-            //        new DieticianPatient { PatientId = 3, DieticianId = 6 },
-            //        new DieticianPatient { PatientId = 3, DieticianId = 8 }
+            //        new DieticianPatient { PatientId = 6, DieticianId = 9 },
+            //        new DieticianPatient { PatientId = 4, DieticianId = 7 },
+            //        new DieticianPatient { PatientId = 4, DieticianId = 9 }
             //    };
             //    await context.DieticianPatientsDb.AddRangeAsync(dieticianPatients);
             //};
@@ -874,7 +892,6 @@ namespace DietDB
                         DECLARE @AddressId INT; 
                         DECLARE @FirstName NVARCHAR(MAX); 
                         DECLARE @LastName NVARCHAR(MAX); 
-                        DECLARE @Phone NVARCHAR(MAX); 
                         DECLARE @BirthDate DATETIME; 
                         DECLARE @isPatient BIT; 
                         DECLARE @isDietician BIT; 
@@ -885,7 +902,6 @@ namespace DietDB
                             @AddressId = AddressId, 
                             @FirstName = FirstName, 
                             @LastName = LastName, 
-                            @Phone = Phone, 
                             @BirthDate = BirthDate, 
                             @isPatient = isPatient, 
                             @isDietician = isDietician, 
