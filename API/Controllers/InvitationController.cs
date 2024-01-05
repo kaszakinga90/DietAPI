@@ -40,7 +40,7 @@ namespace API.Controllers
         }
 
         [HttpPost("send")]
-        public async Task<IActionResult> InvitationMessageToDietetician([FromForm] InvitationPostDTO invitationPostDto)
+        public async Task<IActionResult> InvitationMessageToDietetician(InvitationPostDTO invitationPostDto)
         {
             var command = new InvitationCreate.Command
             {

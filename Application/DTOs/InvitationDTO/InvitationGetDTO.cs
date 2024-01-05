@@ -8,5 +8,6 @@
         public bool IsAccepted { get; set; }
         public bool IsSended { get; set; }
         public bool IsDeclined { get; set; }
+        public string PatientName { get; set; }
     }
 }

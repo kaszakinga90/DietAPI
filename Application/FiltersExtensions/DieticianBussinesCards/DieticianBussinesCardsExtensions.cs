@@ -35,7 +35,7 @@ namespace Application.FiltersExtensions.DieticianBussinesCards
 
             query = query.Where(d => 
                 specializationNameList.Count == 0 || d.DieticianSpecializations.Any(s => specializationNameList.Contains(s.SpecializationName.ToLower()))
-                && (stateNames == null || d.DieticianOffices.Any(o => o.AddressDTO.StateName == stateNames)));
+                || (stateNames == null || d.DieticianOffices.Any(o => o.AddressDTO.StateName == stateNames)));
             return query;
         } 
     }
