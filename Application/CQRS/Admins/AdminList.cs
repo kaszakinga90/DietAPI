@@ -35,7 +35,7 @@ namespace Application.CQRS.Admins
                         Id = a.Id,
                         AdminName = a.FirstName + " " + a.LastName,
                         Email = a.Email,
-                        Phone = a.PhoneNumber,
+                        PhoneNumber = a.PhoneNumber,
                         BirthDate = a.BirthDate,
                         AddressDTO = new AddressesDTO
                         {

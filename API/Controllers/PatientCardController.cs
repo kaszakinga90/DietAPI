@@ -27,5 +27,8 @@ namespace API.Controllers
             await _mediator.Send(new PatientCardCreate.Command { PatientCardPostDTO = pc, PatientId = patientId, DieticianId = dieticianId, SexId = sexId });
             return Ok();
         }
+
+        // TODO : lista wszystkich kart pacjentów u danego dietetyka + filtry i paginacja (u dietetyka, filtr po nazwie pacjenta)
+        // edycja karty pacjenta
     }
 }

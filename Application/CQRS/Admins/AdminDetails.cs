@@ -37,7 +37,7 @@ namespace Application.CQRS.Admins
                                    Id = a.Id,
                                    AdminName = a.FirstName + " " + a.LastName,
                                    Email = a.Email,
-                                   Phone = a.PhoneNumber,
+                                   PhoneNumber = a.PhoneNumber,
                                    BirthDate = a.BirthDate,
                                    AddressDTO = new AddressesDTO
                                    {
@@ -47,7 +47,7 @@ namespace Application.CQRS.Admins
                                        Country = a.Address.Country,
                                        Street = a.Address.Street,
                                        LocalNo = a.Address.LocalNo,
-                                       CountryStatesId = a.Address.CountryStateId,
+                                       CountryStateId = a.Address.CountryStateId,
                                        StateName = a.Address.CountryState.StateName
                                    },
                                    MessagesDTO = a.MessageTo.Select(m => new MessageToDTO

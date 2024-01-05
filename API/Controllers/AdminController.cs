@@ -49,7 +49,7 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
-        [HttpGet("{adminId}/messages")]
+        [HttpGet("messages/{adminId}")]
         public async Task<ActionResult<PagedList<MessageToDTO>>> GetMessagesForAdmin(int adminId, [FromQuery] PagingParams param)
         {
             var result = await _mediator.Send(new AdminMessageList.Query 
@@ -66,7 +66,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="message">Wiadomość dla dietetyka.</param>
         /// <returns>Status operacji.</returns>
-        [HttpPost("{adminId}/messageToDietician")]
+        [HttpPost("messageToDietician/{adminId}")]
         public async Task<IActionResult> MessageToDietetician(int adminId, MessageToDTO message)
         {
             var command = new MessageToDieteticianFromAdminCreate.Command 
@@ -83,7 +83,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="message">Wiadomość dla pacjenta.</param>
         /// <returns>Status operacji.</returns>
-        [HttpPost("{adminId}/messageToPatient")]
+        [HttpPost("messageToPatient/{adminId}")]
         public async Task<IActionResult> MessageToPatient(int adminId, MessageToDTO message)
         {
             var command = new MessageToPatientFromAdminCreate.Command

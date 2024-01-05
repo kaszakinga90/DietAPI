@@ -25,6 +25,7 @@ namespace API.Controllers
 
             return Ok();
         }
+
         [HttpGet("getlogo/{dieticianId}")]
         public async Task<ActionResult<LogoGetDTO>> GetLogo(int dieticianId)
         {

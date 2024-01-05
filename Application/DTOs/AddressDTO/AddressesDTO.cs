@@ -15,7 +15,7 @@ namespace Application.DTOs.AddressDTO
         public string Country { get; set; }
         public string Street { get; set; }
         public string LocalNo { get; set; }
-        public int CountryStatesId { get; set; }
+        public int CountryStateId { get; set; }
         public string StateName { get; set; }
     }
 }

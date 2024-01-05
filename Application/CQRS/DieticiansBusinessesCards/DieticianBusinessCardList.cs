@@ -55,7 +55,7 @@ namespace Application.CQRS.DieticiansBusinessesCards
                                 Country = o.Office.Address.Country,
                                 Street = o.Office.Address.Street,
                                 LocalNo = o.Office.Address.LocalNo,
-                                CountryStatesId = o.Office.Address.CountryStateId,
+                                CountryStateId = o.Office.Address.CountryStateId,
                                 StateName = o.Office.Address.CountryState.StateName
                             }
                         }).ToList(),
