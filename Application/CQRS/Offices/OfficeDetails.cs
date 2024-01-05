@@ -42,7 +42,7 @@ namespace Application.CQRS.Offices
                             {
                                 Id = m.Address.Id,
                                 City = m.Address.City,
-                                CountryStatesId = m.Address.CountryStateId,
+                                CountryStateId = m.Address.CountryStateId,
                                 StateName=m.Address.CountryState.StateName,
                                 ZipCode = m.Address.ZipCode,
                                 Country = m.Address.Country,

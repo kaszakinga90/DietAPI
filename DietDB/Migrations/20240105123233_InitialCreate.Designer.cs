@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietDB.Migrations
 {
     [DbContext(typeof(DietContext))]
-    [Migration("20240104180611_InitialCreate")]
+    [Migration("20240105123233_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,29 +120,29 @@ namespace DietDB.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8b884e2f-ac3d-4bb9-8ddd-a3f6bfaf3870",
-                            ConcurrencyStamp = "4dd077c5-0a37-4de7-86a6-087c5079c898",
+                            Id = "1684e8f9-21b0-4d27-958f-cf464f9d67e9",
+                            ConcurrencyStamp = "0e0c8d04-0744-45c1-880d-3670a0a4ceb0",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "0a220cbd-0191-49c4-9ccc-6994cc77d5d5",
-                            ConcurrencyStamp = "12233a77-2536-472c-9c4a-a59e235e98a9",
+                            Id = "e449d579-d91d-444f-9a3d-e11cd55fa2c7",
+                            ConcurrencyStamp = "7c89b675-f707-42fc-87c1-f0f4e1e80d40",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "c3f4449c-679f-426d-8c8a-096e2f3988ae",
-                            ConcurrencyStamp = "1f07f4d3-2e41-41e1-8c35-0abed4340451",
+                            Id = "1c3cdbdd-4e4c-4050-a16a-7f521fad35df",
+                            ConcurrencyStamp = "7d886cf4-1dd7-4b69-817c-eab312875c8c",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = "1cb71ab1-461e-47e3-ba31-484a678b4dce",
-                            ConcurrencyStamp = "4a5f1cb5-eed0-40f4-b0b2-64cd32bed7b0",
+                            Id = "ab463165-1d15-4daf-b72c-1c12ca0a3697",
+                            ConcurrencyStamp = "81dddbcc-dd43-43e4-b790-8d7068941041",
                             Name = "Dietetician",
                             NormalizedName = "DIETETICIAN"
                         });
