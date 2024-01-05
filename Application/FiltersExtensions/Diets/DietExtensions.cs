@@ -14,6 +14,7 @@
             };
             return query;
         }
+
         public static IQueryable<DietGetDTO> DietSortByDietician(this IQueryable<DietGetDTO> query, string orderBy)
         {
             if (string.IsNullOrWhiteSpace(orderBy)) return query.OrderBy(d => d.DieteticanName);
@@ -25,6 +26,7 @@
             };
             return query;
         }
+
         public static IQueryable<DietGetDTO> DietSortByDieticianToPatientCard(this IQueryable<DietGetDTO> query, string orderBy)
         {
             if (string.IsNullOrWhiteSpace(orderBy)) return query.OrderBy(d => d.Name);
@@ -36,12 +38,14 @@
             };
             return query;
         }
+
         public static IQueryable<DietGetDTO> DietSearch(this IQueryable<DietGetDTO> query, string searchTerm)
         {
             if (string.IsNullOrWhiteSpace(searchTerm)) return query;
             var lowerCaseSearchTerm = searchTerm.Trim().ToLower();
             return query.Where(p => p.Name.ToLower().Contains(lowerCaseSearchTerm));
         }
+
         public static IQueryable<DietGetDTO> DietFilter(this IQueryable<DietGetDTO> query, string patientName)
         {
             var patientNameList = new List<string>();
@@ -52,6 +56,7 @@
 
             return query;
         }
+
         public static IQueryable<DietGetDTO> DietFilterDietician(this IQueryable<DietGetDTO> query, string dieticianName)
         {
             var dieticianNameList = new List<string>();

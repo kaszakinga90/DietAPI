@@ -1,6 +1,6 @@
 ﻿namespace ModelsDB.Functionality
 {
-    public class PatientCardSurvey
+    public class PatientCardSurvey : BaseModel
     {
         public int PatientCardId { get; set; }
         public PatientCard PatientCard { get; set; }

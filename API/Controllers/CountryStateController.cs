@@ -1,5 +1,4 @@
 ﻿using Application.CQRS.CountryStates;
-using Application.DTOs.CountryStateDTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,10 +11,12 @@ namespace API.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<List<CountryStateGetDTO>>> GetMeasures()
+        public async Task<IActionResult> GetCountryStates()
         {
             var result = await _mediator.Send(new CountryStateList.Query());
             return HandleResult(result);
         }
+
+        // TODO : pozostałe metody - create, detail, update, delete - tylko superadmin
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using ModelsDB;
 using ModelsDB.Functionality;
 using ModelsDB.Layout;
@@ -82,7 +83,7 @@ namespace DietDB
         public DbSet<PatientCardSurvey> PatientCardSurveysDb { get; set; }
         public DbSet<DieticianPatientRating> DieticianPatientRatings { get; set; }
         public DbSet<Logo> LogosDb { get; set; }
-        public DbSet<CountryStates> CountryStatesDb { get; set; }
+        public DbSet<CountryState> CountryStatesDb { get; set; }
         
         public DbSet<DieticianOffice> DieticianOffices { get; set; }
         public DbSet<ReportTemplate> ReportTemplatesDb { get; set; }
@@ -112,6 +113,7 @@ namespace DietDB
 
             modelBuilder.Entity<IdentityRole>()
                 .HasData(
+                new IdentityRole { Name = "SuperAdmin", NormalizedName = "SUPERADMIN" },
                 new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" },
                 new IdentityRole { Name = "Patient", NormalizedName = "PATIENT" },
                 new IdentityRole { Name = "Dietetician", NormalizedName = "DIETETICIAN" }
@@ -407,7 +409,8 @@ namespace DietDB
         {
             // Konfiguracja dodatkowych opcji DbContext, np. logowania zapytań SQL.
             optionsBuilder.LogTo(item => Debug.WriteLine(item));
-            //optionsBuilder.ConfigureWarnings(w => w.Ignore(SqlServerEventId.SavepointsDisabledBecauseOfMARS));
+            // TODO : do usunięcia w wersji produkcyjnej
+            optionsBuilder.ConfigureWarnings(w => w.Ignore(SqlServerEventId.SavepointsDisabledBecauseOfMARS));
             base.OnConfiguring(optionsBuilder);
         }
     }

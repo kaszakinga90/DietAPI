@@ -16,7 +16,7 @@
         public int? GlycemicIndex { get; set; }  // TODO: jak obliczany?
         public string PublicId { get; set; }
         public string DishPhotoUrl { get; set; }
-        public string PreparingTime { get; set; }   // TODO: jaki format?
+        public string PreparingTime { get; set; }
         //public int? RecipeId { get; set; }
         public RecipeToReportDTO Recipe { get; set; }
         public List<DishIngredientToReportDTO> Ingredients { get; set; }

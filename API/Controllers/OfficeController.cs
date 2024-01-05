@@ -40,17 +40,15 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        // TODO : zmiana nazwy metody
         [HttpGet("details/{officeId}")]
-        public async Task<ActionResult<OfficeGetDTO>> GetIngredient(int officeId)
+        public async Task<ActionResult<OfficeGetDTO>> GetOffice(int officeId)
         {
             var result = await _mediator.Send(new OfficeDetails.Query { OfficeId = officeId });
             return HandleResult(result);
         }
 
-        // TODO : zmiana nazwy metody
         [HttpPut("edit/{officeId}")]
-        public async Task<IActionResult> EditPatientData(int officeId, OfficeEditDTO officeEdit)
+        public async Task<IActionResult> EditOfficeData(int officeId, OfficeEditDTO officeEdit)
         {
             var command = new OfficeEdit.Command
             {

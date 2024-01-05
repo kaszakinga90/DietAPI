@@ -1,68 +1,41 @@
 ﻿using Application.Core;
 using Application.CQRS.Admins;
 using Application.DTOs.AdminDTO;
-using Application.Services;
-using DietDB;
+using Application.FiltersExtensions.Admins;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ModelsDB;
 
 namespace API.Controllers
 {
-    /// <summary>
-    /// Kontroler odpowiedzialny za zarządzanie adminami.
-    /// </summary>
     public class AdminController : BaseApiController
     {
-        private readonly ImageService _imageService;
-        private readonly DietContext _context;
-
-        public AdminController(ImageService imageService, DietContext context, IMediator mediator) : base(mediator)
+        public AdminController(IMediator mediator) : base(mediator)
         {
-            _imageService = imageService;
-            _context = context;
         }
 
-        /// <summary>
-        /// Pobiera listę wszystkich adminów.
-        /// </summary>
-        /// <returns>Lista adminów.</returns>
-        [HttpGet]
-        [Route("all")]
-        public async Task<ActionResult<List<Admin>>> GetAdmins()
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAdmins([FromQuery] AdminParams pagingParams)
         {
-            return await _mediator.Send(new AdminList.Query());
+            var query = await _mediator.Send(new AdminList.Query { Params = pagingParams });
+            return HandlePagedResult(query);
         }
 
-        /// <summary>
-        /// Pobiera szczegóły konkretnego admina na podstawie ID.
-        /// </summary>
-        /// <param name="id">ID admina.</param>
-        /// <returns>Szczegóły admina.</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<AdminGetDTO>> GetAdmin(int id)
+        public async Task<IActionResult> GetAdmin(int id)
         {
-            return await _mediator.Send(new AdminDetails.Query { Id = id });
+            var query = new AdminDetails.Query { AdminId = id };
+
+            return HandleResult(await _mediator.Send(query));
         }
 
-        /// <summary>
-        /// Tworzy nowego admina.
-        /// </summary>
-        /// <param name="Admin">Dane admina do utworzenia.</param>
-        /// <returns>Status operacji.</returns>
+        //metoda tylko dla superadmina
         [HttpPost]
-        public async Task<IActionResult> CreateAdmin(Admin Admin)
+        public async Task<IActionResult> CreateAdmin(AdminPostDTO AdminPostDTO)
         {
-            await _mediator.Send(new AdminCreate.Command { Admin = Admin });
-            return Ok();
+            var result = await _mediator.Send(new AdminCreate.Command { AdminPostDTO = AdminPostDTO });
+            return Ok(result.Value);
         }
 
-        /// <summary>
-        /// Aktualizuje dane admina.
-        /// </summary>
-        /// <param name="id">ID admina.</param>
-        /// <param name="admin">Nowe dane admina.</param>
-        /// <returns>Status operacji.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> EditAdmin(int id, [FromForm] AdminDTO adminDTO, [FromForm] IFormFile file)
         {
@@ -76,15 +49,14 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
-        /// <summary>
-        /// Pobiera listę wiadomości dla admina o podanym ID.
-        /// </summary>
-        /// <param name="adminId">ID admina.</param>
-        /// <returns>Lista wiadomości dla admina.</returns>
         [HttpGet("{adminId}/messages")]
         public async Task<ActionResult<PagedList<MessageToDTO>>> GetMessagesForAdmin(int adminId, [FromQuery] PagingParams param)
         {
-            var result = await _mediator.Send(new AdminMessageList.Query { AdminId = adminId, Params = param });
+            var result = await _mediator.Send(new AdminMessageList.Query 
+            { 
+                AdminId = adminId, 
+                Params = param 
+            });
 
             return HandlePagedResult(result);
         }
@@ -97,8 +69,13 @@ namespace API.Controllers
         [HttpPost("{adminId}/messageToDietician")]
         public async Task<IActionResult> MessageToDietetician(int adminId, MessageToDTO message)
         {
-            await _mediator.Send(new MessageToDieteticianFromAdminCreate.Command { MessageDTO = message, AdminId = adminId });
-            return Ok();
+            var command = new MessageToDieteticianFromAdminCreate.Command 
+            { 
+                MessageDTO = message, 
+                AdminId = adminId 
+            };
+
+            return HandleResult(await _mediator.Send(command));
         }
 
         /// <summary>
@@ -109,8 +86,13 @@ namespace API.Controllers
         [HttpPost("{adminId}/messageToPatient")]
         public async Task<IActionResult> MessageToPatient(int adminId, MessageToDTO message)
         {
-            await _mediator.Send(new MessageToPatientFromAdminCreate.Command { MessageDTO = message, AdminId = adminId });
-            return Ok();
+            var command = new MessageToPatientFromAdminCreate.Command
+            {
+                MessageDTO = message,
+                AdminId = adminId
+            };
+
+            return HandleResult(await _mediator.Send(command));
         }
     }
 }

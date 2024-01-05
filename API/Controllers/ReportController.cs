@@ -1,4 +1,6 @@
-﻿using Application.CQRS.ReportTemplates;
+﻿using Application.CQRS.DayWeeks;
+using Application.CQRS.ReportTemplates;
+using Application.DTOs.DayWeekDTO;
 using Application.DTOs.ReportTemplateDTO;
 using Application.Services;
 using DietDB;
@@ -62,6 +64,17 @@ namespace API.Controllers
             {
                 return StatusCode(500, "Internal server error");
             }
+        }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteReportTemplate(int id, ReportTemplateDeleteDTO reportTemplate)
+        {
+            var command = new ReportTemplateDelete.Command
+            {
+                Id = id,
+                ReportTemplateDeleteDTO = reportTemplate,
+            };
+            return HandleResult(await _mediator.Send(command));
         }
     }
 }

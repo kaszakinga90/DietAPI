@@ -1,50 +1,53 @@
-﻿using DietDB;
+﻿using Application.Core;
+using Application.DTOs.AdminDTO;
+using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using ModelsDB;
+using System.Diagnostics;
 
 namespace Application.CQRS.Admins
 {
-    /// <summary>
-    /// Zawiera klasy służące do tworzenia nowego admina w bazie danych.
-    /// </summary>
     public class AdminCreate
     {
-        /// <summary>
-        /// Reprezentuje komendę służącą do tworzenia nowego admina.
-        /// </summary>
-        public class Command : IRequest
+        public class Command : IRequest<Result<AdminPostDTO>>
         {
-            /// <summary>
-            /// Pobiera lub ustawia model admina, który ma zostać dodany do bazy danych.
-            /// </summary>
-            public Admin Admin { get; set; }
+            public AdminPostDTO AdminPostDTO { get; set; }
         }
 
-        /// <summary>
-        /// Obsługuje proces dodawania nowego admina do bazy danych.
-        /// </summary>
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, Result<AdminPostDTO>>
         {
-            private readonly DietContext _context;
+            private readonly UserManager<User> _userManager;
+            private readonly IMapper _mapper;
 
-            /// <summary>
-            /// Inicjuje nową instancję klasy <see cref="Handler"/> z podanym kontekstem bazy danych.
-            /// </summary>
-            /// <param name="context">Kontekst bazy danych do obsługi adminów.</param>
-            public Handler(DietContext context)
+            public Handler(UserManager<User> userManager, IMapper mapper)
             {
-                _context = context;
+                _userManager = userManager;
+                _mapper = mapper;
             }
 
-            /// <summary>
-            /// Przetwarza komendę tworzenia nowego admina w bazie danych.
-            /// </summary>
-            /// <param name="request">Komenda do przetworzenia.</param>
-            /// <param name="cancellationToken">Token anulowania operacji.</param>
-            public async Task Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<AdminPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
-                _context.AdminsDb.Add(request.Admin);
-                await _context.SaveChangesAsync();
+                var admin = _mapper.Map<Admin>(request.AdminPostDTO);
+
+                admin.UserName = request.AdminPostDTO.Email;
+                admin.EmailConfirmed = true;
+
+                try
+                {
+                    var createUserResult = await _userManager.CreateAsync(admin, request.AdminPostDTO.Password);
+                    if (!createUserResult.Succeeded)
+                    {
+                        return Result<AdminPostDTO>.Failure("Operacja nie powiodła się.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<AdminPostDTO>.Failure("Wystąpił błąd podczas tworzenia admina.");
+                }
+
+                return Result<AdminPostDTO>.Success(_mapper.Map<AdminPostDTO>(admin));
             }
         }
     }

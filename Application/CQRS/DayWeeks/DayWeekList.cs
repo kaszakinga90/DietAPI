@@ -1,5 +1,5 @@
-﻿using Application.DTOs.DayWeekDTO;
-using AutoMapper;
+﻿using Application.Core;
+using Application.DTOs.DayWeekDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,23 +8,33 @@ namespace Application.CQRS.DayWeeks
 {
     public class DayWeekList
     {
-        public class Query : IRequest<List<DayWeekDTO>> { }
+        public class Query : IRequest<Result<List<DayWeekGetDTO>>> { }
 
-        public class Handler : IRequestHandler<Query, List<DayWeekDTO>>
+        public class Handler : IRequestHandler<Query, Result<List<DayWeekGetDTO>>>
         {
             private readonly DietContext _context;
-            private readonly IMapper _mapper;
 
-            public Handler(DietContext context, IMapper mapper)
+            public Handler(DietContext context)
             {
                 _context = context;
-                _mapper = mapper;
             }
 
-            public async Task<List<DayWeekDTO>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<List<DayWeekGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var dayWeeks = await _context.DayWeeksDb.ToListAsync(cancellationToken);
-                return _mapper.Map<List<DayWeekDTO>>(dayWeeks);
+                var dayWeeksList = await _context.DayWeeksDb
+                    .Select(m => new DayWeekGetDTO
+                    {
+                        Id = m.Id,
+                        Day = m.Day,
+                    })
+                    .ToListAsync(cancellationToken);
+
+                if (dayWeeksList == null)
+                {
+                    return Result<List<DayWeekGetDTO>>.Failure("no results.");
+                }
+
+                return Result<List<DayWeekGetDTO>>.Success(dayWeeksList);
             }
         }
     }

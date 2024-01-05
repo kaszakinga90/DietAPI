@@ -1,4 +1,5 @@
-﻿using Application.CQRS.DayWeekDTOs;
+﻿using Application.CQRS.CountryStates;
+using Application.CQRS.DayWeekDTOs;
 using Application.CQRS.DayWeeks;
 using Application.DTOs.DayWeekDTO;
 using MediatR;
@@ -11,15 +12,32 @@ namespace API.Controllers
         public DayWeekController(IMediator mediator) : base(mediator)
         {
         }
-        [HttpGet]
-        public async Task<ActionResult<List<DayWeekDTO>>> GetDaysWeek()
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetDaysWeek()
         {
-            return await _mediator.Send(new DayWeekList.Query());
+            var result = await _mediator.Send(new DayWeekList.Query());
+            return HandleResult(result);
         }
+
         [HttpGet("{id}")]
-        public async Task<ActionResult<DayWeekDTO>> GetDayWeek(int id)
+        public async Task<IActionResult> GetDayWeek(int id)
         {
-            return await _mediator.Send(new DayWeekDetails.Query { Id = id });
+            var result = await _mediator.Send(new DayWeekDetails.Query { Id = id });
+            return HandleResult(result);
         }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteDayWeek(int id, DayWeekDeleteDTO dayWeek)
+        {
+            var command = new DayWeekDelete.Command
+            {
+                Id = id,
+                DayWeekDeleteDTO = dayWeek,
+            };
+            return HandleResult(await _mediator.Send(command));
+        }
+
+        // TODO : create i update ale dla superadmina
     }
 }

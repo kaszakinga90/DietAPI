@@ -1,4 +1,5 @@
 ﻿using Application.Core;
+using Application.CQRS.Admins;
 using Application.CQRS.Dieticians;
 using Application.CQRS.Diplomas;
 using Application.DTOs.DieticianDTO;
@@ -113,27 +114,37 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Wysyła wiadomość do pacjenta.
+        /// Wysyła wiadomość do admina.
         /// </summary>
         /// <param name="message">Wiadomość od dietetyka.</param>
         /// <returns>Status operacji.</returns>
         [HttpPost("{dieticianId}/messageToAdmin")]
         public async Task<IActionResult> MessageToAdmin(int dieticianId, MessageToDTO message)
         {
-            await _mediator.Send(new MessageToAdminFromDieticianCreate.Command { MessageDTO = message, DieticianId = dieticianId });
-            return Ok();
+            var command = new MessageToAdminFromDieticianCreate.Command
+            {
+                MessageDTO = message,
+                DieticianId = dieticianId
+            };
+
+            return HandleResult(await _mediator.Send(command));
         }
 
         /// <summary>
-        /// Wysyła wiadomość do admina.
+        /// Wysyła wiadomość do pacjenta.
         /// </summary>
         /// <param name="message">Wiadomość od dietetyka.</param>
         /// <returns>Status operacji.</returns>
         [HttpPost("messageToPatient/{dieticianId}")]
         public async Task<IActionResult> MessageToPatient(int dieticianId, MessageToDTO message)
         {
-            await _mediator.Send(new MessageToPatientFromDieticianCreate.Command { MessageDTO = message, DieticianId = dieticianId });
-            return Ok();
+            var command = new MessageToPatientFromDieticianCreate.Command
+            {
+                MessageDTO = message,
+                DieticianId = dieticianId
+            };
+
+            return HandleResult(await _mediator.Send(command));
         }
 
         [HttpPost("diploma")]
@@ -149,9 +160,5 @@ namespace API.Controllers
 
             return Ok();
         }
-
-
-
-
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace ModelsDB.Functionality
 {
-    public class CountryStates
+    public class CountryState : BaseModel
     {
         public int Id { get; set; }
         public string StateName { get; set; }
