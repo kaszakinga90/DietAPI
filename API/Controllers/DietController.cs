@@ -1,6 +1,8 @@
 ﻿using Application.Core;
 using Application.CQRS.Diets;
 using Application.CQRS.DietsForPatients;
+using Application.DTOs.DietDTO;
+using Application.DTOs.MessagesDTO;
 using Application.FiltersExtensions.Diets;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -47,6 +49,13 @@ namespace API.Controllers
         {
             var result = await _mediator.Send(new DietsForPatientFromDieticianList.Query { PatientId = patientId, DieticianId = dieticianId, Params = pagingParams });
             return HandlePagedResult(result);
+        }
+
+        [HttpGet("filters/{dieticianId}")]
+        public async Task<ActionResult<DietFiltersDTO>> GetFilters(int dieticianId)
+        {
+            var result = await _mediator.Send(new DietFilters.Query { DieticianId = dieticianId });
+            return HandleResult(result);
         }
     }
 }

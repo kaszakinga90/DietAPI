@@ -35,8 +35,6 @@ using Application.CQRS.Meals;
 using Application.CQRS.Offices;
 using Application.CQRS.ReportTemplates;
 using Application.CQRS.Sexes;
-using Application.CQRS.Specializations;
-using Application.CQRS.Invitations;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -7,6 +7,7 @@
             if (string.IsNullOrWhiteSpace(orderBy)) return query.OrderBy(d => d.PatientName);
             query = orderBy switch
             {
+                "name" => query.OrderBy(d => d.PatientName),
                 "dateAdded" => query.OrderBy(d => d.dateAdded),
                 "dateAddedDesc" => query.OrderByDescending(d => d.dateAdded),
                 _ => query.OrderBy(d => d.PatientName)

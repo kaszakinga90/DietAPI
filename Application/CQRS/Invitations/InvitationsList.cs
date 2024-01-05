@@ -29,6 +29,7 @@ namespace Application.CQRS.Invitations
                             IsSended = m.IsSended,
                             IsAccepted = m.IsAccepted,
                             IsDeclined = m.IsDeclined,
+                            PatientName = m.Patient.FirstName + " " + m.Patient.LastName,
                         })
                         .ToListAsync();
                     return Result<List<InvitationGetDTO>>.Success(invitationsList);
