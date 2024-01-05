@@ -282,6 +282,12 @@ namespace DietDB
                     new Address { City = "Bydgoszcz", CountryStateId = 10, ZipCode = "85-001", Country = "Polska", Street = "Długa", LocalNo = "6H" },
                     new Address { City = "Białystok", CountryStateId = 13, ZipCode = "15-001", Country = "Polska", Street = "Lipowa", LocalNo = "9I" },
                     new Address { City = "Rzeszów", CountryStateId = 8, ZipCode = "35-001", Country = "Polska", Street = "3 Maja", LocalNo = "4J" },
+                    //Office addresses
+                    new Address { City = "Kraków", CountryStateId = 7, ZipCode = "30-011", Country = "Polska", Street = "Floriańska", LocalNo = "15A" },
+                    new Address { City = "Kraków", CountryStateId = 7, ZipCode = "30-011", Country = "Polska", Street = "Marszałkowska", LocalNo = "27B" },
+                    new Address { City = "Gdańsk", CountryStateId = 17, ZipCode = "80-802", Country = "Polska", Street = "Długa", LocalNo = "12/5" },
+                    new Address { City = "Katowice", CountryStateId = 13, ZipCode = "40-001", Country = "Polska", Street = "Oławska", LocalNo = "33" },
+                    new Address { City = "Katowice", CountryStateId = 13, ZipCode = "40-001", Country = "Polska", Street = "Półwiejska", LocalNo = "20/7" }
                 };
                 await context.AddressesDb.AddRangeAsync(addresses);
             }
@@ -353,7 +359,10 @@ namespace DietDB
                     isAdmin = false,
                     BirthDate = new DateTime(1985, 6, 15),
                     AddressId = 3,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    PublicId = "uamsvfuzxfdw64jetcpg",
+                    PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704441212/uamsvfuzxfdw64jetcpg.jpg",
+                    //PatientCardId = 1,
                 };
                 await userManager.CreateAsync(patient1, "Pa$$w0rd5555555554!");
 
@@ -369,7 +378,10 @@ namespace DietDB
                     isAdmin = false,
                     BirthDate = new DateTime(1990, 2, 20),
                     AddressId = 4,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    PublicId = "wxb3pnjaiknxg96v46ck",
+                    PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704441271/wxb3pnjaiknxg96v46ck.jpg",
+                    //PatientCardId = 2,
                 };
                 await userManager.CreateAsync(patient2, "Pa$$w0rd5555555554!");
 
@@ -385,7 +397,10 @@ namespace DietDB
                     isAdmin = false,
                     BirthDate = new DateTime(1988, 5, 5),
                     AddressId = 5,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    PublicId = "vg3nmqdvdho3pbwwhpkc",
+                    PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704441318/vg3nmqdvdho3pbwwhpkc.jpg",
+                    //PatientCardId = 3,
                 };
                 await userManager.CreateAsync(patient3, "Pa$$w0rd5555555554!");
 
@@ -402,7 +417,10 @@ namespace DietDB
                     isAdmin = false,
                     BirthDate = new DateTime(1985, 2, 2),
                     AddressId = 6,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    PublicId = "z2ljp7qhkuis0nwdpohf",
+                    PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704273249/z2ljp7qhkuis0nwdpohf.jpg",
+                    //RatingId = 1
                 };
                 await userManager.CreateAsync(dietician1, "Pa$$w0rd5555555554!");
 
@@ -418,7 +436,10 @@ namespace DietDB
                     isAdmin = false,
                     BirthDate = new DateTime(1984, 3, 3),
                     AddressId = 7,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    PublicId = "cbjoqw8sf59dwg06p6vt",
+                    PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704273373/cbjoqw8sf59dwg06p6vt.jpg",
+                    //RatingId = 2
                 };
                 await userManager.CreateAsync(dietician2, "Pa$$w0rd5555555554!");
 
@@ -434,7 +455,10 @@ namespace DietDB
                     isAdmin = false,
                     BirthDate = new DateTime(1990, 10, 10),
                     AddressId = 10,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    PublicId = "uq3skdkbnykebsuvewop",
+                    PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704273746/uq3skdkbnykebsuvewop.jpg",
+                    //RatingId = 5
                 };
                 await userManager.CreateAsync(dietician3, "Pa$$w0rd5555555554!");
             }
@@ -653,6 +677,7 @@ namespace DietDB
                 };
                 await context.DishesDb.AddRangeAsync(dishes);
                 context.SaveChanges();
+              
                 #region Recipes
                 if (!context.RecipesDb.Any())
                 {
@@ -783,6 +808,166 @@ namespace DietDB
                 await context.DietsDb.AddRangeAsync(diets);
             }
             #endregion
+            #region Diplomas
+            // Dodawanie testowych danych dla Diploma
+            if (!context.DiplomasDb.Any())
+            {
+                var diplomas = new List<Diploma>()
+                    {
+                        new Diploma {
+                            Title = "Certyfikat Specjalisty ds. Dietetyki Klinicznej",
+                            Description = "Specjalizacja w planowaniu diet i programów żywieniowych dla pacjentów szpitalnych, z uwzględnieniem różnych stanów zdrowia i chorób.",
+                            DieticianId = 7,
+                            PublicId = "purg0amnvsmjptath0hh",
+                            PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704272720/purg0amnvsmjptath0hh.jpg"
+                        },
+                        new Diploma {
+                            Title = "Certyfikowany Doradca Żywieniowy dla Sportowców",
+                            Description = "Ekspertyza w tworzeniu planów żywieniowych dla sportowców, skupiająca się na optymalizacji wydajności i regeneracji po wysiłku.",
+                            DieticianId = 7,
+                            PublicId = "qmxrzg4siseewwslninx",
+                            PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704272763/qmxrzg4siseewwslninx.jpg"
+                        },
+                        new Diploma {
+                            Title = "Certyfikowany Ekspert Dietetyki Dziecięcej",
+                            Description = "Specjalizacja w żywieniu dzieci i młodzieży, z uwzględnieniem ich specyficznych potrzeb rozwojowych i dietetycznych.",
+                            DieticianId = 7,
+                            PublicId = "uqfz3cwaoabbnxljdrpv",
+                            PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704272802/uqfz3cwaoabbnxljdrpv.jpg"
+                        },
+                        new Diploma {
+                            Title = "Certyfikat Specjalisty ds. Dietoterapii",
+                            Description = "Skupienie na wykorzystaniu diety jako części terapii w leczeniu i zapobieganiu różnym schorzeniom.",
+                            DieticianId = 7,
+                            PublicId = "uxlfrbyec2aqehfhhxcd",
+                            PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704272842/uxlfrbyec2aqehfhhxcd.jpg"
+                        },
+                        new Diploma {
+                            Title = "Certyfikowany Dietetyk Integracyjny",
+                            Description = "Połączenie wiedzy z zakresu dietetyki z podejściem holistycznym do zdrowia, uwzględniającym zarówno ciało, jak i umysł.",
+                            DieticianId = 8,
+                            PublicId = "bkqh1fihqj0mghpweecx",
+                            PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704273421/bkqh1fihqj0mghpweecx.jpg"
+                        },
+                        new Diploma {
+                            Title = "Certyfikowany Ekspert Żywienia Wegetariańskiego i Wegańskiego",
+                            Description = "Specjalizacja w tworzeniu zbilansowanych, pełnowartościowych diet bez produktów pochodzenia zwierzęcego.",
+                            DieticianId = 8,
+                            PublicId = "gnmzkvyh9bt1aypbheon",
+                            PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704273454/gnmzkvyh9bt1aypbheon.jpg"
+                        },
+                        new Diploma {
+                            Title = "Certyfikat Specjalisty ds. Żywienia w Chorobach Metabolicznych",
+                            Description = "Ekspertyza w planowaniu diet i programów żywieniowych dla osób cierpiących na choroby metaboliczne, jak cukrzyca czy otyłość.",
+                            DieticianId = 8,
+                            PublicId = "nmuqu11gdm2saqst44h1",
+                            PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704273490/nmuqu11gdm2saqst44h1.jpg"
+                        },
+                        new Diploma {
+                            Title = "Certyfikat Eksperta ds. Żywienia i Suplementacji",
+                            Description = "Skupienie na odpowiednim doborze suplementów diety i wzbogacaniu diety w niezbędne składniki odżywcze.",
+                            DieticianId = 8,
+                            PublicId = "cbrywy2xzomp5ukbn7jv",
+                            PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704273527/cbrywy2xzomp5ukbn7jv.jpg"
+                        },
+                        new Diploma {
+                            Title = "Certyfikowany Doradca Żywieniowy w Geriatrii",
+                            Description = "Specjalizacja w żywieniu osób starszych, z uwzględnieniem ich specyficznych potrzeb zdrowotnych i odżywczych.",
+                            DieticianId = 9,
+                            PublicId = "wsttzfpmlxxwrkyubegt",
+                            PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704273806/wsttzfpmlxxwrkyubegt.jpg"
+                        },
+                        new Diploma {
+                            Title = "Certyfikowany Specjalista Żywienia w Zaburzeniach Odżywiania",
+                            Description = "Ekspertyza w pracy z osobami cierpiącymi na zaburzenia odżywiania, jak anoreksja czy bulimia.",
+                            DieticianId = 9,
+                            PublicId = "robvaza6sdrjz8a4zlyz",
+                            PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704273837/robvaza6sdrjz8a4zlyz.jpg"
+                        },
+                        new Diploma {
+                            Title = "Certyfikat Specjalisty ds. Żywienia w Alergiach Pokarmowych",
+                            Description = "Specjalizacja w tworzeniu diet eliminacyjnych i adaptacyjnych dla osób z alergiami pokarmowymi.",
+                            DieticianId = 9,
+                            PublicId = "oacmi5ncwo7kyisb5bee",
+                            PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704273865/oacmi5ncwo7kyisb5bee.jpg"
+                        },
+                        new Diploma {
+                            Title = "Certyfikowany Konsultant Żywienia Holistycznego",
+                            Description = "Skupienie na łączeniu wiedzy z różnych dziedzin zdrowia i żywienia w celu osiągnięcia ogólnego dobrostanu.",
+                            DieticianId = 9,
+                            PublicId = "iowl5ggpiuvvuhtcuelo",
+                            PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704273894/iowl5ggpiuvvuhtcuelo.jpg"
+                        },
+                    };
+                await context.DiplomasDb.AddRangeAsync(diplomas);
+                context.SaveChanges();
+            }
+            #endregion
+            #region Logos
+            if (!context.LogosDb.Any())
+            {
+                var logos = new List<Logo>()
+                    {
+                        new Logo { DieticianId = 7, PublicId = "tepj7s1sioxelh6tuilv", PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704272864/tepj7s1sioxelh6tuilv.jpg" },
+                        new Logo { DieticianId = 8, PublicId = "wedqtab5lvwpc9odxaws", PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704273542/wedqtab5lvwpc9odxaws.jpg" },
+                        new Logo { DieticianId = 9, PublicId = "wnkixwfsfn4o6ypfg8yx", PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704273911/wnkixwfsfn4o6ypfg8yx.jpg" },
+                    };
+                await context.LogosDb.AddRangeAsync(logos);
+            }
+            #endregion
+            #region Offices
+            // Dodawanie testowych danych dla Office
+            if (!context.OfficesDb.Any())
+            {
+                var offices = new List<Office>()
+                    {
+                        new Office { OfficeName = "DietMax", AddressId = 11 },
+                        new Office { OfficeName = "CreativeMind", AddressId = 12 },
+                        new Office { OfficeName = "DietPlan", AddressId = 13 },
+                        new Office { OfficeName = "DietTrotter", AddressId = 14 },
+                        new Office { OfficeName = "Dr Slump", AddressId = 15 },
+                    };
+                await context.OfficesDb.AddRangeAsync(offices);
+                context.SaveChanges();
+            }
+            #endregion
+            #region DieticianOffices
+            if (!context.DieticianOffices.Any())
+            {
+                var dieticianOffices = new List<DieticianOffice>()
+                    {
+                        new DieticianOffice { DieticianId = 7, OfficeId =1 },
+                        new DieticianOffice { DieticianId = 7, OfficeId =2 },
+                        new DieticianOffice { DieticianId = 8, OfficeId =3 },
+                        new DieticianOffice { DieticianId = 9, OfficeId =4 },
+                        new DieticianOffice { DieticianId = 9, OfficeId =5 },
+                    };
+                await context.DieticianOffices.AddRangeAsync(dieticianOffices);
+                context.SaveChanges();
+            }
+            #endregion
+            #region DieticianSpecializations
+            // Dodawanie testowych danych dla DieticianSpecialization
+            if (!context.DieticianSpecialization.Any())
+            {
+                var dieticianSpecializations = new List<DieticianSpecialization>()
+                    {
+                        new DieticianSpecialization { DieticianId =7 , SpecializationId =7  },
+                        new DieticianSpecialization { DieticianId =7 , SpecializationId =4  },
+                        new DieticianSpecialization { DieticianId =7 , SpecializationId =15  },
+                        new DieticianSpecialization { DieticianId =8 , SpecializationId =18  },
+                        new DieticianSpecialization { DieticianId =8 , SpecializationId =9  },
+                        new DieticianSpecialization { DieticianId =8 , SpecializationId =4  },
+                        new DieticianSpecialization { DieticianId =8 , SpecializationId =12  },
+                        new DieticianSpecialization { DieticianId =8 , SpecializationId =8  },
+                        new DieticianSpecialization { DieticianId =9 , SpecializationId =2  },
+                        new DieticianSpecialization { DieticianId =9 , SpecializationId =1  },
+                        new DieticianSpecialization { DieticianId =9 , SpecializationId =19  },
+                    };
+                await context.DieticianSpecialization.AddRangeAsync(dieticianSpecializations);
+                context.SaveChanges();
+            }
+            #endregion
             #region Ingredients
             if (!context.IngredientsDb.Any())
             {
@@ -875,7 +1060,6 @@ namespace DietDB
             await context.Database.ExecuteSqlRawAsync("CREATE OR ALTER VIEW [dbo].[GetAllSexesFromSqlView] AS " +
                 "SELECT dbo.Sex.*, Id AS Expr1, Name AS Expr2 FROM dbo.Sex;");
 
-            
             // Polecenie CREATE TRIGGER
             await context.Database.ExecuteSqlRawAsync(
                 @"
@@ -911,6 +1095,7 @@ namespace DietDB
                         IF (@isDietician = 1 OR @isPatient = 1 OR @isAdmin = 1) 
                         BEGIN 
                             INSERT INTO dbo.Address (City, CountryStateId, ZipCode, Country, Street, LocalNo, isActive, dateAdded) 
+
                             VALUES ('Uzupelnij dane', 1, 'Uzupelnij dane', 'Uzupelnij dane', 'Uzupelnij dane', 'Uzupelnij dane', 1, CURRENT_TIMESTAMP); 
                             
                             SET @AddressId = SCOPE_IDENTITY(); 

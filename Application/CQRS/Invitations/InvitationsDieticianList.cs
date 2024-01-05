@@ -26,11 +26,13 @@ namespace Application.CQRS.Invitations
                         .Where(m => m.DieticianId == request.DieticianId)
                         .Select(m => new InvitationGetDTO
                         {
+                            Id = m.Id,
                             DieticianId = m.DieticianId,
                             PatientId = m.PatientId,
                             IsSended = m.IsSended,
                             IsAccepted = m.IsAccepted,
                             IsDeclined = m.IsDeclined,
+                            PatientName=m.Patient.FirstName+" "+m.Patient.LastName,
                         })
                         .ToListAsync();
                     return Result<List<InvitationGetDTO>>.Success(invitationsList);
