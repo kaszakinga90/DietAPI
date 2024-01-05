@@ -2023,10 +2023,10 @@ namespace DietDB.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0a220cbd-0191-49c4-9ccc-6994cc77d5d5", "12233a77-2536-472c-9c4a-a59e235e98a9", "Admin", "ADMIN" },
-                    { "1cb71ab1-461e-47e3-ba31-484a678b4dce", "4a5f1cb5-eed0-40f4-b0b2-64cd32bed7b0", "Dietetician", "DIETETICIAN" },
-                    { "8b884e2f-ac3d-4bb9-8ddd-a3f6bfaf3870", "4dd077c5-0a37-4de7-86a6-087c5079c898", "SuperAdmin", "SUPERADMIN" },
-                    { "c3f4449c-679f-426d-8c8a-096e2f3988ae", "1f07f4d3-2e41-41e1-8c35-0abed4340451", "Patient", "PATIENT" }
+                    { "1684e8f9-21b0-4d27-958f-cf464f9d67e9", "0e0c8d04-0744-45c1-880d-3670a0a4ceb0", "SuperAdmin", "SUPERADMIN" },
+                    { "1c3cdbdd-4e4c-4050-a16a-7f521fad35df", "7d886cf4-1dd7-4b69-817c-eab312875c8c", "Patient", "PATIENT" },
+                    { "ab463165-1d15-4daf-b72c-1c12ca0a3697", "81dddbcc-dd43-43e4-b790-8d7068941041", "Dietetician", "DIETETICIAN" },
+                    { "e449d579-d91d-444f-9a3d-e11cd55fa2c7", "7c89b675-f707-42fc-87c1-f0f4e1e80d40", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(

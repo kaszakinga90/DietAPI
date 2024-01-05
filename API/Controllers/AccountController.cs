@@ -195,7 +195,8 @@ namespace API.Controllers
                 Token = await _tokenService.GenerateToken(user),
                 IsPatient = user.isPatient,
                 IsDietician = user.isDietician,
-                IsAdmin = user.isAdmin
+                IsAdmin = user.isAdmin,
+                isSuperAdmin = user.isSuperAdmin,
             };
         }
 
