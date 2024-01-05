@@ -10,6 +10,7 @@ namespace ModelsDB
         public bool isPatient { get; set; }
         public bool isDietician { get; set; }
         public bool isAdmin { get; set; }
+        public bool isSuperAdmin { get; set; } = false;
         public DateTime? BirthDate { get; set; }
         public string PublicId { get; set; }
         public string PictureUrl { get; set; }
