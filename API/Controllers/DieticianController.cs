@@ -1,5 +1,4 @@
 ﻿using Application.Core;
-using Application.CQRS.Admins;
 using Application.CQRS.Dieticians;
 using Application.CQRS.Diplomas;
 using Application.DTOs.DieticianDTO;

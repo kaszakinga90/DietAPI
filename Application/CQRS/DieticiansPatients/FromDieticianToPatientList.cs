@@ -24,7 +24,7 @@ namespace Application.CQRS.DieticiansPatients
 
             public async Task<Result<List<DieteticianPatientDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var diet = await _context.DieticianPatientsDb
+                var dietPatientList = await _context.DieticianPatientsDb
                     .Where(d => d.DieticianId == request.DieticianId)
                     .Select(d => new DieteticianPatientDTO
                     {
@@ -35,7 +35,12 @@ namespace Application.CQRS.DieticiansPatients
                     })
                     .ToListAsync(cancellationToken);
 
-                return Result<List<DieteticianPatientDTO>>.Success(diet);
+                if (dietPatientList == null)
+                {
+                    return Result<List<DieteticianPatientDTO>>.Failure("no results");
+                }
+
+                return Result<List<DieteticianPatientDTO>>.Success(dietPatientList);
             }
         }
     }

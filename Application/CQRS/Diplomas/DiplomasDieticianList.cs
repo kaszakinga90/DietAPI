@@ -33,6 +33,12 @@ namespace Application.CQRS.Diplomas
                             PictureUrl = m.PictureUrl,
                         })
                         .ToListAsync();
+
+                    if (diplomaList == null)
+                    {
+                        return Result<List<DiplomaGetDTO>>.Failure("no results");
+                    }
+
                     return Result<List<DiplomaGetDTO>>.Success(diplomaList);
                 }
             }

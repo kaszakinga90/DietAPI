@@ -24,7 +24,7 @@ namespace Application.CQRS.Dishes
 
             public async Task<Result<List<DishGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var dish = await _context.DishesDb
+                var dishesList = await _context.DishesDb
                     .Where(d => d.DieticianId == null || d.DieticianId == request.DieteticianId)
                     .Select(d => new DishGetDTO
                     {
@@ -33,7 +33,13 @@ namespace Application.CQRS.Dishes
                     })
                     .ToListAsync(cancellationToken);
 
-                return Result<List<DishGetDTO>>.Success(dish);
+                if (dishesList == null)
+                {
+                    return Result<List<DishGetDTO>>.Failure("no results");
+
+                }
+
+                return Result<List<DishGetDTO>>.Success(dishesList);
             }
         }
     }

@@ -50,6 +50,12 @@ namespace Application.CQRS.DieticiansBusinessesCards
                         .Distinct()
                         .ToListAsync(),
                 };
+
+                if (filters == null)
+                {
+                    return Result<BusinessCardFiltersDTO>.Failure("no results");
+                }
+
                 return Result<BusinessCardFiltersDTO>.Success(filters);
             }
         }

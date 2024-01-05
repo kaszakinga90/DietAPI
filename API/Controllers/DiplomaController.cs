@@ -17,6 +17,4 @@ namespace API.Controllers
             return HandleResult(result);
         }
     }
-
-
 }
