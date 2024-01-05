@@ -51,6 +51,17 @@ namespace Application.CQRS.Invitations
                 {
                     return Result<InvitationPutDTO>.Failure("Wystąpił błąd podczas edycji zaproszenia.");
                 }
+                var dieticianPatient = new DieticianPatient
+                {
+                    PatientId = request.InvitationPutDTO.PatientId,
+                    DieticianId = request.InvitationPutDTO.DieticianId
+                };
+                _context.DieticianPatientsDb.Add(dieticianPatient);
+                var saveResult = await _context.SaveChangesAsync(cancellationToken) > 0;
+                if (!saveResult)
+                {
+                    return Result<InvitationPutDTO>.Failure("Nie udało się utworzyć powiązania Dietician-Patient.");
+                }
 
                 return Result<InvitationPutDTO>.Success(_mapper.Map<InvitationPutDTO>(invitation));
             }
