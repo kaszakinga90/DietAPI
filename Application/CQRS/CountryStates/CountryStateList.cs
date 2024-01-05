@@ -1,6 +1,5 @@
 ﻿using Application.Core;
 using Application.DTOs.CountryStateDTO;
-using Application.DTOs.MeasureDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +27,13 @@ namespace Application.CQRS.CountryStates
                         Id = m.Id,
                         StateName=m.StateName,
                     })
-                    .ToListAsync();
+                    .ToListAsync(cancellationToken);
+
+                if (stateList == null)
+                {
+                    return Result<List<CountryStateGetDTO>>.Failure("no results.");
+                }
+
                 return Result<List<CountryStateGetDTO>>.Success(stateList);
             }
         }

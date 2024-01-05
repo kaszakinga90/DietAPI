@@ -46,8 +46,9 @@ namespace Application.Core
             CreateMap<CategoryOfDiet, CategoryOfDietDeleteDTO>()
                 .ReverseMap();
 
-            CreateMap<DayWeekDTO, DayWeek>();
-            CreateMap<DayWeek, DayWeekDTO>();
+            CreateMap<DayWeekGetDTO, DayWeek>()
+                .ReverseMap();
+
             CreateMap<DayWeek, DayWeekDeleteDTO>()
                 .ReverseMap();
 

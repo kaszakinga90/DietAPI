@@ -1,4 +1,5 @@
-﻿using Application.DTOs.DayWeekDTO;
+﻿using Application.Core;
+using Application.DTOs.DayWeekDTO;
 using AutoMapper;
 using DietDB;
 using MediatR;
@@ -8,12 +9,12 @@ namespace Application.CQRS.DayWeekDTOs
 {
     public class DayWeekDetails
     {
-        public class Query : IRequest<DayWeekDTO>
+        public class Query : IRequest<Result<DayWeekGetDTO>>
         {
             public int Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, DayWeekDTO>
+        public class Handler : IRequestHandler<Query, Result<DayWeekGetDTO>>
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
@@ -24,10 +25,16 @@ namespace Application.CQRS.DayWeekDTOs
                 _mapper = mapper;
             }
 
-            public async Task<DayWeekDTO> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<DayWeekGetDTO>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var dayWeek = await _context.DayWeeksDb.SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken); ;
-                return _mapper.Map<DayWeekDTO>(dayWeek);
+
+                if (dayWeek == null)
+                {
+                    return Result<DayWeekGetDTO>.Failure("Day week nie został znaleziony.");
+                }
+
+                return Result<DayWeekGetDTO>.Success(_mapper.Map<DayWeekGetDTO>(dayWeek));
             }
         }
     }

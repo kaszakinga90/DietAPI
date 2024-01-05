@@ -1,7 +1,6 @@
-﻿using Application.CQRS.CategoryOfDiets;
+﻿using Application.CQRS.CountryStates;
 using Application.CQRS.DayWeekDTOs;
 using Application.CQRS.DayWeeks;
-using Application.DTOs.CategoryOfDietDTO;
 using Application.DTOs.DayWeekDTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -14,16 +13,18 @@ namespace API.Controllers
         {
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<DayWeekDTO>>> GetDaysWeek()
+        [HttpGet("all")]
+        public async Task<IActionResult> GetDaysWeek()
         {
-            return await _mediator.Send(new DayWeekList.Query());
+            var result = await _mediator.Send(new DayWeekList.Query());
+            return HandleResult(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<DayWeekDTO>> GetDayWeek(int id)
+        public async Task<IActionResult> GetDayWeek(int id)
         {
-            return await _mediator.Send(new DayWeekDetails.Query { Id = id });
+            var result = await _mediator.Send(new DayWeekDetails.Query { Id = id });
+            return HandleResult(result);
         }
 
         [HttpDelete("delete/{id}")]
@@ -36,5 +37,7 @@ namespace API.Controllers
             };
             return HandleResult(await _mediator.Send(command));
         }
+
+        // TODO : create i update ale dla superadmina
     }
 }
