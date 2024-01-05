@@ -1,38 +1,34 @@
 ﻿using Application.Core;
 using Application.CQRS.Admins;
 using Application.DTOs.AdminDTO;
-using Application.Services;
-using DietDB;
+using Application.FiltersExtensions.Admins;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ModelsDB;
 
 namespace API.Controllers
 {
     public class AdminController : BaseApiController
     {
-        private readonly ImageService _imageService;
-        private readonly DietContext _context;
-
-        public AdminController(ImageService imageService, DietContext context, IMediator mediator) : base(mediator)
+        public AdminController(IMediator mediator) : base(mediator)
         {
-            _imageService = imageService;
-            _context = context;
         }
 
-        [HttpGet]
-        [Route("all")]
-        public async Task<ActionResult<List<Admin>>> GetAdmins()
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAdmins([FromQuery] AdminParams pagingParams)
         {
-            return await _mediator.Send(new AdminList.Query());
+            var query = await _mediator.Send(new AdminList.Query { Params = pagingParams });
+            return HandlePagedResult(query);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<AdminGetDTO>> GetAdmin(int id)
+        public async Task<IActionResult> GetAdmin(int id)
         {
-            return await _mediator.Send(new AdminDetails.Query { Id = id });
+            var query = new AdminDetails.Query { AdminId = id };
+
+            return HandleResult(await _mediator.Send(query));
         }
 
+        //metoda tylko dla superadmina
         [HttpPost]
         public async Task<IActionResult> CreateAdmin(AdminPostDTO AdminPostDTO)
         {

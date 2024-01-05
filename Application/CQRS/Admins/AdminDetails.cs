@@ -1,4 +1,6 @@
-﻿using Application.DTOs.AdminDTO;
+﻿using Application.Core;
+using Application.DTOs.AddressDTO;
+using Application.DTOs.AdminDTO;
 using AutoMapper;
 using DietDB;
 using MediatR;
@@ -6,55 +8,66 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.CQRS.Admins
 {
-    /// <summary>
-    /// Zawiera klasy służące do pobierania szczegółów adminów na podstawie jego identyfikatora.
-    /// </summary>
     public class AdminDetails
     {
-        /// <summary>
-        /// Reprezentuje zapytanie do pobrania szczegółów admina na podstawie identyfikatora.
-        /// </summary>
-        public class Query : IRequest<AdminGetDTO>
+        public class Query : IRequest<Result<AdminGetDTO>>
         {
-            /// <summary>
-            /// Pobiera lub ustawia identyfikator admina, którego szczegóły mają zostać pobrane.
-            /// </summary>
-            public int Id { get; set; }
+            public int AdminId { get; set; }
         }
 
-        /// <summary>
-        /// Obsługuje proces pobierania szczegółów admina z bazy danych.
-        /// </summary>
-        public class Handler : IRequestHandler<Query, AdminGetDTO>
+        public class Handler : IRequestHandler<Query, Result<AdminGetDTO>>
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
 
-            /// <summary>
-            /// Inicjuje nową instancję klasy <see cref="Handler"/> z podanym kontekstem bazy danych i maperem.
-            /// </summary>
-            /// <param name="context">Kontekst bazy danych do obsługi adminów.</param>
-            /// <param name="mapper">Maper służący do mapowania obiektów.</param>
             public Handler(DietContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
-            /// <summary>
-            /// Przetwarza zapytanie i zwraca szczegóły admina na podstawie identyfikatora.
-            /// </summary>
-            /// <param name="request">Zapytanie do przetworzenia.</param>
-            /// <param name="cancellationToken">Token anulowania operacji.</param>
-            /// <returns>Zwraca szczegóły admina w postaci obiektu <see cref="AdminGetDTO"/>.</returns>
-            public async Task<AdminGetDTO> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<AdminGetDTO>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var admin = await _context.AdminsDb
-                                                .Include(a => a.Address)
-                                                .Include(a => a.MessageTo)
-                                                .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+                               .Include(a => a.Address)
+                                    .ThenInclude(a => a.CountryState)
+                               .Include(a => a.MessageTo)
+                               .Select(a => new AdminGetDTO
+                               {
+                                   Id = a.Id,
+                                   AdminName = a.FirstName + " " + a.LastName,
+                                   Email = a.Email,
+                                   Phone = a.PhoneNumber,
+                                   BirthDate = a.BirthDate,
+                                   AddressDTO = new AddressesDTO
+                                   {
+                                       Id = a.Address.Id,
+                                       City = a.Address.City,
+                                       ZipCode = a.Address.ZipCode,
+                                       Country = a.Address.Country,
+                                       Street = a.Address.Street,
+                                       LocalNo = a.Address.LocalNo,
+                                       CountryStatesId = a.Address.CountryStateId,
+                                       StateName = a.Address.CountryState.StateName
+                                   },
+                                   MessagesDTO = a.MessageTo.Select(m => new MessageToDTO
+                                   {
+                                       Id = m.Id,
+                                       Title = m.Title,
+                                       Description = m.Description,
+                                       AdminName = m.Admin.FirstName + " " + m.Admin.LastName,
+                                       DieticianName = m.Dietician.FirstName + " " + m.Dietician.LastName,
+                                       PatientName = m.Patient.FirstName + " " + m.Patient.LastName,
+                                   }).ToList()
+                               })
+                               .SingleOrDefaultAsync(x => x.Id == request.AdminId, cancellationToken);
 
-                return _mapper.Map<AdminGetDTO>(admin);
+                if (admin == null)
+                {
+                    return Result<AdminGetDTO>.Failure("Admin nie został znaleziony.");
+                }
+
+                return Result<AdminGetDTO>.Success(admin);
             }
         }
     }

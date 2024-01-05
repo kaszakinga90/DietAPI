@@ -1,47 +1,67 @@
-﻿using DietDB;
+﻿using Application.Core;
+using Application.DTOs.AddressDTO;
+using Application.DTOs.AdminDTO;
+using Application.FiltersExtensions.Admins;
+using AutoMapper;
+using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using ModelsDB;
 
 namespace Application.CQRS.Admins
 {
-    /// <summary>
-    /// Zawiera klasy służące do pobierania listy adminów z bazy danych.
-    /// </summary>
     public class AdminList
     {
-        /// <summary>
-        /// Reprezentuje zapytanie do pobrania listy adminów.
-        /// </summary>
-        public class Query : IRequest<List<Admin>> { }
+        public class Query : IRequest<Result<PagedList<AdminGetDTO>>> 
+        {
+            public AdminParams Params { get; set; }
+        }
 
-        /// <summary>
-        /// Obsługuje proces pobierania listy adminów z bazy danych.
-        /// </summary>
-        public class Handler : IRequestHandler<Query, List<Admin>>
+        public class Handler : IRequestHandler<Query, Result<PagedList<AdminGetDTO>>>
         {
             private readonly DietContext _context;
 
-            /// <summary>
-            /// Inicjuje nową instancję klasy <see cref="Handler"/> z podanym kontekstem bazy danych.
-            /// </summary>
-            /// <param name="context">Kontekst bazy danych do obsługi adminów.</param>
             public Handler(DietContext context)
             {
                 _context = context;
             }
 
-            /// <summary>
-            /// Przetwarza zapytanie i pobiera listę adminów z bazy danych wraz z ich adresami.
-            /// </summary>
-            /// <param name="request">Zapytanie do przetworzenia.</param>
-            /// <param name="cancellationToken">Token anulowania operacji.</param>
-            /// <returns>Zwraca listę adminów.</returns>
-            public async Task<List<Admin>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<PagedList<AdminGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.AdminsDb
+                var adminsList = _context.AdminsDb
                     .Include(a => a.Address)
-                    .ToListAsync(cancellationToken);
+                        //.ThenInclude(a => a.CountryState)
+                    .Select(a => new AdminGetDTO
+                    {
+                        Id = a.Id,
+                        AdminName = a.FirstName + " " + a.LastName,
+                        Email = a.Email,
+                        Phone = a.PhoneNumber,
+                        BirthDate = a.BirthDate,
+                        AddressDTO = new AddressesDTO
+                        {
+                            //Id = a.Address.Id,
+                            City = a.Address.City,
+                            //ZipCode = a.Address.ZipCode,
+                            //Country = a.Address.Country,
+                            //Street = a.Address.Street,
+                            //LocalNo = a.Address.LocalNo,
+                            //StateName = a.Address.CountryState.StateName
+                        }
+                    })
+                    .AsQueryable();
+
+                if (adminsList == null)
+                {
+                    return Result<PagedList<AdminGetDTO>>.Failure("no results.");
+                }
+
+                adminsList = adminsList.AdminSearch(request.Params.SearchTerm);
+                adminsList = adminsList.AdminSort(request.Params.OrderBy);
+                adminsList = adminsList.AdminFilter(request.Params.AdminNames);
+
+                return Result<PagedList<AdminGetDTO>>.Success(
+                    await PagedList<AdminGetDTO>.CreateAsync(adminsList, request.Params.PageNumber, request.Params.PageSize)
+                    );
             }
         }
     }

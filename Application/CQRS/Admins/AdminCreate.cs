@@ -8,7 +8,6 @@ using System.Diagnostics;
 
 namespace Application.CQRS.Admins
 {
-    //metoda tylko dla superadmina
     public class AdminCreate
     {
         public class Command : IRequest<Result<AdminPostDTO>>
