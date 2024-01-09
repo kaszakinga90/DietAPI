@@ -19,14 +19,14 @@ namespace Application.CQRS.Ingredients
             public IFormFile File { get; set; }
         }
 
-        public class CommandValidator : AbstractValidator<IngredientDTO>
-        {
-            // TODO : przygotowana walidacja????
-            //public CommandValidator()
-            //{
-            //    RuleFor(x => x.Name).NotEmpty().WithMessage("Nazwa wymagana");
-            //}
-        }
+        //public class CommandValidator : AbstractValidator<IngredientDTO>
+        //{
+        //    // TODO : przygotowana walidacja????
+        //    public CommandValidator()
+        //    {
+        //        RuleFor(x => x.IngredientName).NotEmpty().WithMessage("Nazwa wymagana");
+        //    }
+        //}
 
         public class Handler : IRequestHandler<Command, Result<IngredientDTO>>
         {

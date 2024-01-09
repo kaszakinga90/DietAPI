@@ -3,10 +3,10 @@ using MediatR;
 using ModelsDB;
 using Application.DTOs.UsersDTO.UserRoleDTO;
 using Application.Core;
-using Application.DTOs.RoleDTO;
 using Microsoft.AspNetCore.Identity;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using Application.Validators;
 
 namespace Application.CQRS.UserRoles
 {
@@ -14,30 +14,40 @@ namespace Application.CQRS.UserRoles
     {
         public class Command : IRequest<Result<UserRoleCreateDTO>>
         {
-            public int UserId { get; set; }
-            public int RoleId { get; set; }
+            public UserRoleCreateDTO UserRoleCreateDTO { get; set; }
 
             public class Handler : IRequestHandler<Command, Result<UserRoleCreateDTO>>
             {
                 private readonly DietContext _context;
                 private readonly UserManager<User> _userManager;
+                private readonly UserRoleValidate _userRoleValidate;
 
-                public Handler(DietContext context, UserManager<User> userManager)
+                public Handler(DietContext context, UserManager<User> userManager, UserRoleValidate userRoleValidate)
                 {
                     _context = context;
                     _userManager = userManager;
+                    _userRoleValidate = userRoleValidate;
                 }
 
                 public async Task<Result<UserRoleCreateDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
-                    var user = await _userManager.FindByIdAsync(request.UserId.ToString());
+                    var validationResult = await _userRoleValidate.ValidateAsync(request.UserRoleCreateDTO, cancellationToken);
+
+                    if (!validationResult.IsValid)
+                    {
+                        var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                        return Result<UserRoleCreateDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                    }
+
+
+                    var user = await _userManager.FindByIdAsync(request.UserRoleCreateDTO.UserId.ToString());
 
                     if (user == null)
                     {
                         return Result<UserRoleCreateDTO>.Failure("User o podanym id nie został znaleziony.");
                     }
 
-                    var roleToAdd = await _context.Roles.FindAsync(request.RoleId);
+                    var roleToAdd = await _context.Roles.FindAsync(request.UserRoleCreateDTO.RoleId);
 
                     if (roleToAdd == null)
                     {
@@ -60,14 +70,13 @@ namespace Application.CQRS.UserRoles
                     }
 
                     var userAfterAddedRole = await _context.Users
-                            .Where(u => u.Id == request.UserId)
+                            .Where(u => u.Id == request.UserRoleCreateDTO.UserId)
                             .Select(u => new UserRoleCreateDTO
                             {
                                 UserId = u.Id,
-                                Email = u.Email,
-                                RoleId = request.RoleId,
-                                RoleName = _context.Roles
-                                     .Where(r => r.Id == request.RoleId)
+                                RoleId = request.UserRoleCreateDTO.RoleId,
+                                Name = _context.Roles
+                                     .Where(r => r.Id == request.UserRoleCreateDTO.RoleId)
                                      .Select(r => r.Name)
                                      .FirstOrDefault()
                             })

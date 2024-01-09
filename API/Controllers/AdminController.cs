@@ -5,6 +5,7 @@ using Application.CQRS.UserRoles;
 using Application.CQRS.Users;
 using Application.DTOs.AdminDTO;
 using Application.DTOs.RoleDTO;
+using Application.DTOs.UsersDTO.UserRoleDTO;
 using Application.FiltersExtensions.Admins;
 using Application.FiltersExtensions.Roles;
 using Application.FiltersExtensions.UserRoles;
@@ -161,11 +162,12 @@ namespace API.Controllers
 
         // add role to user
         // metoda tylko dla superadmina
-        [HttpPost("rolesManage/userRoles/addRole/{userId}/{userRoleId}")]
-        public async Task<IActionResult> AddUserRole(int userId, int userRoleId)
+        [HttpPost("rolesManage/userRoles/addRole")]
+        public async Task<IActionResult> AddUserRole(UserRoleCreateDTO userRoleCreateDTO)
         {
-            var query = await _mediator.Send(new UserRoleCreate.Command { UserId = userId, RoleId = userRoleId });
+            var query = await _mediator.Send(new UserRoleCreate.Command { UserRoleCreateDTO = userRoleCreateDTO });
             return HandleResult(query);
         }
+
     }
 }

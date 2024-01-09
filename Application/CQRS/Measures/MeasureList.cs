@@ -21,14 +21,20 @@ namespace Application.CQRS.Measures
 
             public async Task<Result<List<MeasureGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var measureList=await _context.MeasuresDb
-                    .Select(m=>new MeasureGetDTO
+                var measureList = await _context.MeasuresDb
+                    .Select(m => new MeasureGetDTO
                     {
                         Id = m.Id,
                         Symbol = m.Symbol,
                         Description = m.Description,
                     })
-                    .ToListAsync();
+                    .ToListAsync(cancellationToken);
+
+                if (measureList == null)
+                {
+                    return Result<List<MeasureGetDTO>>.Failure("No results");
+                }
+
                 return Result<List<MeasureGetDTO>>.Success(measureList);
             }
         }
