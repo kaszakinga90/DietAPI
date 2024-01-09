@@ -3,6 +3,7 @@ using Application.DTOs.DishDTO;
 using AutoMapper;
 using DietDB;
 using MediatR;
+using System.Diagnostics;
 
 namespace Application.CQRS.Dishes
 {
@@ -26,14 +27,23 @@ namespace Application.CQRS.Dishes
 
             public async Task<Result<DishGetDTO>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var dish = await _context.DishesDb.FindAsync(request.Id);
-
-                if (dish == null)
+                try
                 {
-                    return Result<DishGetDTO>.Failure("no results");
-                }
+                    var dish = await _context.DishesDb
+                    .FindAsync(request.Id, cancellationToken);
 
-                return Result<DishGetDTO>.Success(_mapper.Map<DishGetDTO>(dish));
+                    if (dish == null)
+                    {
+                        return Result<DishGetDTO>.Failure("no results");
+                    }
+
+                    return Result<DishGetDTO>.Success(_mapper.Map<DishGetDTO>(dish));
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<DishGetDTO>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

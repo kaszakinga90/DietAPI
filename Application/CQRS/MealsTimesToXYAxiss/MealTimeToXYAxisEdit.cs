@@ -25,7 +25,9 @@ namespace Application.CQRS.MealsTimesToXYAxiss
 
                 public async Task<Result<MealTimeToXYAxisEditDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
-                    var mealShedule = await _context.MealTimesDb.FindAsync(new object[] { request.MealTimeToXYAxis.Id }, cancellationToken);
+                    var mealShedule = await _context.MealTimesDb
+                        .FindAsync(new object[] { request.MealTimeToXYAxis.Id }, cancellationToken);
+
                     if (mealShedule == null)
                     {
                         return Result<MealTimeToXYAxisEditDTO>.Failure("Posilek o podanym ID nie został znaleziony.");

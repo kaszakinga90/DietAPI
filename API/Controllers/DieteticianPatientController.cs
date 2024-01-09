@@ -1,5 +1,4 @@
 ﻿using Application.CQRS.DieticiansPatients;
-using Application.DTOs.DieteticianPatientDTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,14 +11,14 @@ namespace API.Controllers
         }
 
         [HttpGet("patient/{patientId}")]
-        public async Task<ActionResult<List<DieteticianPatientDTO>>> GetDieteticianPatient(int patientId)
+        public async Task<IActionResult> GetDieteticianPatient(int patientId)
         {
             var result = await _mediator.Send(new FromPatientToDieteticianList.Query { PatientId = patientId });
             return HandleResult(result);
         }
 
         [HttpGet("dietician/{dieticianId}")]
-        public async Task<ActionResult<List<DieteticianPatientDTO>>> GetPatientFromDietician(int dieticianId)
+        public async Task<IActionResult> GetPatientFromDietician(int dieticianId)
         {
             var result = await _mediator.Send(new FromDieticianToPatientList.Query { DieticianId = dieticianId });
             return HandleResult(result);

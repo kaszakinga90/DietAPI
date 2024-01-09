@@ -3,6 +3,7 @@ using Application.DTOs.OfficeDTO;
 using AutoMapper;
 using DietDB;
 using MediatR;
+using System.Diagnostics;
 
 namespace Application.CQRS.Offices
 {
@@ -24,10 +25,12 @@ namespace Application.CQRS.Offices
 
                 public async Task<Result<OfficeEditDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
-                    var office = await _context.OfficesDb.FindAsync(new object[] { request.OfficeEdit.Id }, cancellationToken);
+                    var office = await _context.OfficesDb
+                        .FindAsync(new object[] { request.OfficeEdit.Id }, cancellationToken);
+                    
                     if (office == null)
                     {
-                        return Result<OfficeEditDTO>.Failure("Biuro o podanym ID nie został znaleziony.");
+                        return Result<OfficeEditDTO>.Failure("Biuro o podanym ID nie zostało znalezione.");
                     }
 
                     _mapper.Map(request.OfficeEdit, office);
@@ -37,12 +40,13 @@ namespace Application.CQRS.Offices
                         var result = await _context.SaveChangesAsync(cancellationToken) > 0;
                         if (!result)
                         {
-                            return Result<OfficeEditDTO>.Failure("Biuro pacjenta nie powiodła się.");
+                            return Result<OfficeEditDTO>.Failure("Edycja biura nie powiodła się.");
                         }
                     }
                     catch (Exception ex)
                     {
-                        return Result<OfficeEditDTO>.Failure("Wystąpił błąd podczas edycji biura.");
+                        Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                        return Result<OfficeEditDTO>.Failure("Wystąpił błąd podczas edycji biura. " + ex);
                     }
 
                     return Result<OfficeEditDTO>.Success(_mapper.Map<OfficeEditDTO>(office));

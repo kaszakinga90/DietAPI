@@ -34,7 +34,7 @@ namespace API.Controllers
         }
 
         [HttpGet("details/{invitationId}")]
-        public async Task<ActionResult<InvitationGetDTO>> GetInvitation(int invitationId)
+        public async Task<IActionResult> GetInvitation(int invitationId)
         {
             var result = await _mediator.Send(new InvitationDetails.Query { InvitationId = invitationId });
             return HandleResult(result);

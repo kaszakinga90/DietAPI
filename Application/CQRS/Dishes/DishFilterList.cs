@@ -3,6 +3,7 @@ using Application.DTOs.DishDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.Dishes
 {
@@ -24,20 +25,23 @@ namespace Application.CQRS.Dishes
 
             public async Task<Result<DishFiltersDTO>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var filters = new DishFiltersDTO
+                try
                 {
-                    DatesAdded = await _context.DieticiansDb
+                    var filters = new DishFiltersDTO
+                    {
+                        DatesAdded = await _context.DieticiansDb
                         .Select(m => m.dateAdded)
                         .Distinct()
-                        .ToListAsync(),
-                };
+                        .ToListAsync(cancellationToken),
+                    };
 
-                if (filters == null)
-                {
-                    return Result<DishFiltersDTO>.Failure("no results");
+                    return Result<DishFiltersDTO>.Success(filters);
                 }
-
-                return Result<DishFiltersDTO>.Success(filters);
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<DishFiltersDTO>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

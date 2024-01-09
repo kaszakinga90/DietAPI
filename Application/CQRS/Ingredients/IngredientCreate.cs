@@ -3,7 +3,6 @@ using Application.DTOs.IngredientDTO;
 using Application.Services;
 using AutoMapper;
 using DietDB;
-using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using ModelsDB;
@@ -18,15 +17,6 @@ namespace Application.CQRS.Ingredients
             public IngredientDTO IngredientDTO { get; set; }
             public IFormFile File { get; set; }
         }
-
-        //public class CommandValidator : AbstractValidator<IngredientDTO>
-        //{
-        //    // TODO : przygotowana walidacja????
-        //    public CommandValidator()
-        //    {
-        //        RuleFor(x => x.IngredientName).NotEmpty().WithMessage("Nazwa wymagana");
-        //    }
-        //}
 
         public class Handler : IRequestHandler<Command, Result<IngredientDTO>>
         {
@@ -44,6 +34,11 @@ namespace Application.CQRS.Ingredients
             public async Task<Result<IngredientDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var newIngredient = _mapper.Map<Ingredient>(request.IngredientDTO);
+
+                if (newIngredient == null)
+                {
+                    return Result<IngredientDTO>.Failure("Niepowodzenie mapowania.");
+                }
 
                 if (request.IngredientDTO.File != null)
                 {

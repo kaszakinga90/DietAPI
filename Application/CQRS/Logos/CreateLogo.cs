@@ -1,13 +1,11 @@
 ﻿using Application.Core;
 using Application.DTOs.LogoDTO;
-using Application.DTOs.PatientDTO;
 using Application.Services;
 using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using ModelsDB;
 using ModelsDB.Functionality;
 
 // TODO : obsługa - dokończ. funkcjonalności
@@ -33,7 +31,8 @@ namespace Application.CQRS.Logos
             }
             public async Task<Result<LogoPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
-                Logo logo = await _context.LogosDb.FirstOrDefaultAsync(l => l.DieticianId == request.LogoPostDTO.DieticianId);
+                Logo logo = await _context.LogosDb
+                    .FirstOrDefaultAsync(l => l.DieticianId == request.LogoPostDTO.DieticianId);
 
                 if (logo == null)
                 {

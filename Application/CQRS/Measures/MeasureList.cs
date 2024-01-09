@@ -3,6 +3,7 @@ using Application.DTOs.MeasureDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.Measures
 {
@@ -21,7 +22,9 @@ namespace Application.CQRS.Measures
 
             public async Task<Result<List<MeasureGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var measureList = await _context.MeasuresDb
+                try
+                {
+                    var measureList = await _context.MeasuresDb
                     .Select(m => new MeasureGetDTO
                     {
                         Id = m.Id,
@@ -30,12 +33,13 @@ namespace Application.CQRS.Measures
                     })
                     .ToListAsync(cancellationToken);
 
-                if (measureList == null)
-                {
-                    return Result<List<MeasureGetDTO>>.Failure("No results");
+                    return Result<List<MeasureGetDTO>>.Success(measureList);
                 }
-
-                return Result<List<MeasureGetDTO>>.Success(measureList);
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<List<MeasureGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

@@ -28,7 +28,8 @@ namespace Application.CQRS.Logos
 
                 public async Task<Result<LogoPostDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
-                    var logo = await _context.LogosDb.SingleOrDefaultAsync(l => l.DieticianId == request.DieticianId);
+                    var logo = await _context.LogosDb
+                        .SingleOrDefaultAsync(l => l.DieticianId == request.DieticianId);
 
                     if (logo == null)
                     {

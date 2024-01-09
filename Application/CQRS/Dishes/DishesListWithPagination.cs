@@ -3,6 +3,7 @@ using Application.DTOs.DishDTO;
 using Application.FiltersExtensions.Dishes;
 using DietDB;
 using MediatR;
+using System.Diagnostics;
 
 namespace Application.CQRS.Dishes
 {
@@ -25,7 +26,9 @@ namespace Application.CQRS.Dishes
 
             public async Task<Result<PagedList<DishGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var dishesList = _context.DishesDb
+                try
+                {
+                    var dishesList = _context.DishesDb
                     .Where(d => d.DieticianId == null || d.DieticianId == request.DieteticianId)
                     .Select(d => new DishGetDTO
                     {
@@ -34,18 +37,19 @@ namespace Application.CQRS.Dishes
                     })
                     .AsQueryable();
 
-                if (dishesList == null)
-                {
-                    return Result<PagedList<DishGetDTO>>.Failure("no results");
+                    dishesList = dishesList.DishSearch(request.Params.SearchTerm);
+                    dishesList = dishesList.DishSort(request.Params.OrderBy);
+                    dishesList = dishesList.DishFilter(request.Params.DishNames);
+
+                    return Result<PagedList<DishGetDTO>>.Success(
+                        await PagedList<DishGetDTO>.CreateAsync(dishesList, request.Params.PageNumber, request.Params.PageSize)
+                        );
                 }
-
-                dishesList = dishesList.DishSearch(request.Params.SearchTerm);
-                dishesList = dishesList.DishSort(request.Params.OrderBy);
-                dishesList = dishesList.DishFilter(request.Params.DishNames);
-
-                return Result<PagedList<DishGetDTO>>.Success(
-                    await PagedList<DishGetDTO>.CreateAsync(dishesList, request.Params.PageNumber, request.Params.PageSize)
-                    );
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<PagedList<DishGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

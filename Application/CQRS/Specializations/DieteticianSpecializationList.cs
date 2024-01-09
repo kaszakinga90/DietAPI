@@ -3,6 +3,7 @@ using Application.DTOs.SpecializationDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.Specializations
 {
@@ -22,17 +23,26 @@ namespace Application.CQRS.Specializations
 
                 public async Task<Result<List<DieteticianSpecializationGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
                 {
-                    var dieticianSpecializationsList = await _context.DieticianSpecialization
-                        .Where(m=>m.DieticianId == request.DieticianId) 
+                    try
+                    {
+                        var dieticianSpecializationsList = await _context.DieticianSpecialization
+                        .Where(m => m.DieticianId == request.DieticianId)
                         .Select(m => new DieteticianSpecializationGetDTO
                         {
                             DieticianId = m.DieticianId,
                             SpecializationId = m.SpecializationId,
                             SpecializationName = m.Specialization.SpecializationName,
-                            DieticianName=m.Dietician.FirstName+" "+m.Dietician.LastName,
+                            DieticianName = m.Dietician.FirstName + " " + m.Dietician.LastName,
                         })
-                        .ToListAsync();
-                    return Result<List<DieteticianSpecializationGetDTO>>.Success(dieticianSpecializationsList);
+                        .ToListAsync(cancellationToken);
+
+                        return Result<List<DieteticianSpecializationGetDTO>>.Success(dieticianSpecializationsList);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                        return Result<List<DieteticianSpecializationGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                    }
                 }
             }
         }

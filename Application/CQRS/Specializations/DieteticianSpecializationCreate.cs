@@ -5,6 +5,7 @@ using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ModelsDB.Functionality;
+using System.Diagnostics;
 
 namespace Application.CQRS.Specializations
 {
@@ -15,7 +16,7 @@ namespace Application.CQRS.Specializations
             public DieteticianSpecializationPostDTO DieteticianSpecializationPostDTOs { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command,Result<DieteticianSpecializationPostDTO>>
+        public class Handler : IRequestHandler<Command, Result<DieteticianSpecializationPostDTO>>
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
@@ -30,10 +31,20 @@ namespace Application.CQRS.Specializations
             {
                 var ds = _mapper.Map<DieticianSpecialization>(request.DieteticianSpecializationPostDTOs);
 
+                if (ds == null)
+                {
+                    return Result<DieteticianSpecializationPostDTO>.Failure("No results for variable: ds");
+                }
+
                 var specializationName = await _context.SpecializationsDb
                          .Where(s => s.Id == ds.SpecializationId)
                          .Select(s => s.SpecializationName)
-                         .FirstOrDefaultAsync();
+                         .FirstOrDefaultAsync(cancellationToken);
+
+                if (specializationName == null)
+                {
+                    return Result<DieteticianSpecializationPostDTO>.Failure("No results for variable: specializationName");
+                }
 
                 var resultDto = new DieteticianSpecializationPostDTO
                 {
@@ -43,7 +54,21 @@ namespace Application.CQRS.Specializations
                 };
 
                 _context.DieticianSpecialization.Add(ds);
-                await _context.SaveChangesAsync(cancellationToken);
+
+                try
+                {
+                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    if (!result)
+                    {
+                        return Result<DieteticianSpecializationPostDTO>.Failure("Operacja nie powiodła się.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<DieteticianSpecializationPostDTO>.Failure("Wystąpił błąd podczas dodawania dietician specialization.");
+                }
+
                 return Result<DieteticianSpecializationPostDTO>.Success(_mapper.Map<DieteticianSpecializationPostDTO>(resultDto));
             }
         }

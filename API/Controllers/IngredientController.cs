@@ -14,28 +14,28 @@ namespace API.Controllers
         }
 
         [HttpGet("full/{dieticianId}")]
-        public async Task<ActionResult<PagedList<IngredientGetDTO>>> GetFullListIngredients(int dieticianId, [FromQuery] IngredientsParams param)
+        public async Task<IActionResult> GetFullListIngredients(int dieticianId, [FromQuery] IngredientsParams param)
         {
             var result = await _mediator.Send(new IngredientDieticianList.Query { DieticianId = dieticianId, Params = param });
             return HandlePagedResult(result);
         }
 
         [HttpGet("onlydietician/{dieticianId}")]
-        public async Task<ActionResult<PagedList<IngredientGetDTO>>> GetDieticianIngredients(int dieticianId, [FromQuery] IngredientsParams param)
+        public async Task<IActionResult> GetDieticianIngredients(int dieticianId, [FromQuery] IngredientsParams param)
         {
             var result = await _mediator.Send(new IngredientONLYDieticianList.Query { DieticianId = dieticianId, Params = param });
             return HandlePagedResult(result);
         }
 
         [HttpGet("list/{dieticianId}")]
-        public async Task<ActionResult<PagedList<IngredientGetDTO>>> GetIngredients(int dieticianId, [FromQuery] IngredientsParams param)
+        public async Task<IActionResult> GetIngredients(int dieticianId, [FromQuery] IngredientsParams param)
         {
             var result = await _mediator.Send(new IngredientList.Query { DieticianId = dieticianId, Params = param });
             return HandlePagedResult(result);
         }
 
         [HttpGet("{ingredientId}")]
-        public async Task<ActionResult<IngredientGetDTO>> GetIngredient(int ingredientId)
+        public async Task<IActionResult> GetIngredient(int ingredientId)
         {
             var result = await _mediator.Send(new IngredientDetails.Query { IngredientId = ingredientId });
             return HandleResult(result);
@@ -56,7 +56,6 @@ namespace API.Controllers
                 IngredientDTO = IngredientDTO,
                 File = file,
             };
-
             return HandleResult(await _mediator.Send(command));
         }
     }

@@ -33,7 +33,8 @@ namespace Application.CQRS.Invitations
                 invitation.IsDeclined = false;
                 invitation.IsSended = true;
 
-                var dietetician = await _context.DieticiansDb.FindAsync(request.InvitationPostDTO.DieticianId);
+                var dietetician = await _context.DieticiansDb
+                    .FindAsync(request.InvitationPostDTO.DieticianId);
 
                 if (dietetician == null)
                 {

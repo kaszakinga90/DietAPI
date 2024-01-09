@@ -3,6 +3,7 @@ using Application.DTOs.IngredientDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.Ingredients
 {
@@ -24,21 +25,24 @@ namespace Application.CQRS.Ingredients
 
             public async Task<Result<List<IngredientGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var ingredients = await _context.IngredientsDb
+                try
+                {
+                    var ingredients = await _context.IngredientsDb
                     .Where(m => m.DieticianId == null || m.DieticianId == request.DieteticianId)
                     .Select(m => new IngredientGetDTO
                     {
                         Id = m.Id,
-                        IngredientName=m.Name,
+                        IngredientName = m.Name,
                     })
                     .ToListAsync(cancellationToken);
 
-                if (ingredients == null)
-                {
-                    return Result<List<IngredientGetDTO>>.Failure("No results");
+                    return Result<List<IngredientGetDTO>>.Success(ingredients);
                 }
-
-                return Result<List<IngredientGetDTO>>.Success(ingredients);
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<List<IngredientGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

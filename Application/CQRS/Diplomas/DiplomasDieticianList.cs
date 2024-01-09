@@ -3,6 +3,7 @@ using Application.DTOs.DiplomaDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.Diplomas
 {
@@ -23,7 +24,9 @@ namespace Application.CQRS.Diplomas
 
                 public async Task<Result<List<DiplomaGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
                 {
-                    var diplomaList = await _context.DiplomasDb
+                    try
+                    {
+                        var diplomaList = await _context.DiplomasDb
                         .Where(m => m.DieticianId == request.DieticianId)
                         .Select(m => new DiplomaGetDTO
                         {
@@ -32,17 +35,17 @@ namespace Application.CQRS.Diplomas
                             Description = m.Description,
                             PictureUrl = m.PictureUrl,
                         })
-                        .ToListAsync();
+                        .ToListAsync(cancellationToken);
 
-                    if (diplomaList == null)
-                    {
-                        return Result<List<DiplomaGetDTO>>.Failure("no results");
+                        return Result<List<DiplomaGetDTO>>.Success(diplomaList);
                     }
-
-                    return Result<List<DiplomaGetDTO>>.Success(diplomaList);
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                        return Result<List<DiplomaGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                    }
                 }
             }
         }
     }
 }
-

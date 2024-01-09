@@ -1,15 +1,10 @@
 ﻿using Application.Core;
 using Application.DTOs.AddressDTO;
-using Application.DTOs.IngredientDTO;
 using Application.DTOs.OfficeDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Application.CQRS.Offices
 {
@@ -30,34 +25,42 @@ namespace Application.CQRS.Offices
 
                 public async Task<Result<OfficeGetDTO>> Handle(Query request, CancellationToken cancellationToken)
                 {
-                    var office = await _context.OfficesDb
-                        .Include(m=>m.Address)
-                        .Where(m => m.Id == request.OfficeId)
-                        .Select(m => new OfficeGetDTO
-                        {
-                            Id = m.Id,
-                            OfficeName = m.OfficeName,
-                            AddressId = m.AddressId,
-                            AddressDTO = new AddressesDTO
-                            {
-                                Id = m.Address.Id,
-                                City = m.Address.City,
-                                CountryStateId = m.Address.CountryStateId,
-                                StateName=m.Address.CountryState.StateName,
-                                ZipCode = m.Address.ZipCode,
-                                Country = m.Address.Country,
-                                Street = m.Address.Street,
-                                LocalNo = m.Address.LocalNo
-                            }
-                        })
-                        .FirstOrDefaultAsync();
-
-                    if (office == null)
+                    try
                     {
-                        return Result<OfficeGetDTO>.Failure("Office not found.");
-                    }
+                        var office = await _context.OfficesDb
+                             .Include(m => m.Address)
+                             .Where(m => m.Id == request.OfficeId)
+                             .Select(m => new OfficeGetDTO
+                             {
+                                 Id = m.Id,
+                                 OfficeName = m.OfficeName,
+                                 AddressId = m.AddressId,
+                                 AddressDTO = new AddressesDTO
+                                 {
+                                     Id = m.Address.Id,
+                                     City = m.Address.City,
+                                     CountryStateId = m.Address.CountryStateId,
+                                     StateName = m.Address.CountryState.StateName,
+                                     ZipCode = m.Address.ZipCode,
+                                     Country = m.Address.Country,
+                                     Street = m.Address.Street,
+                                     LocalNo = m.Address.LocalNo
+                                 }
+                             })
+                             .FirstOrDefaultAsync(cancellationToken);
 
-                    return Result<OfficeGetDTO>.Success(office);
+                        if (office == null)
+                        {
+                            return Result<OfficeGetDTO>.Failure("Office not found.");
+                        }
+
+                        return Result<OfficeGetDTO>.Success(office);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                        return Result<OfficeGetDTO>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                    }
                 }
             }
         }

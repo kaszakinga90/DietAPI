@@ -25,14 +25,14 @@ namespace API.Controllers
         }
 
         [HttpGet("getlogo/{dieticianId}")]
-        public async Task<ActionResult<LogoGetDTO>> GetLogo(int dieticianId)
+        public async Task<IActionResult> GetLogo(int dieticianId)
         {
             var result = await _mediator.Send(new LogoDieticianDetails.Query { DieticianId = dieticianId });
             return HandleResult(result);
         }
 
         [HttpDelete("{dieticianId}")]
-        public async Task<ActionResult<LogoPostDTO>> DeleteLogo(int dieticianId)
+        public async Task<IActionResult> DeleteLogo(int dieticianId)
         {
             var command = new LogoDieticianDelete.Command { DieticianId = dieticianId };
 

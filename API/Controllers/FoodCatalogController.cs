@@ -11,7 +11,6 @@ namespace API.Controllers
         {
         }
 
-        //pobiera katalog po id
         [HttpGet("getdieticiancatalogs/{dieticianId}")]
         public async Task<IActionResult> GetFoodCatalog(int dieticianId)
         {

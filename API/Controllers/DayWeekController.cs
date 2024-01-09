@@ -1,5 +1,4 @@
-﻿using Application.CQRS.CountryStates;
-using Application.CQRS.DayWeekDTOs;
+﻿using Application.CQRS.DayWeekDTOs;
 using Application.CQRS.DayWeeks;
 using Application.DTOs.DayWeekDTO;
 using MediatR;
@@ -37,7 +36,5 @@ namespace API.Controllers
             };
             return HandleResult(await _mediator.Send(command));
         }
-
-        // TODO : create i update ale dla superadmina
     }
 }

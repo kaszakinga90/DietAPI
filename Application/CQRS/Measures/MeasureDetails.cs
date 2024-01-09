@@ -4,6 +4,7 @@ using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.Measures
 {
@@ -27,15 +28,23 @@ namespace Application.CQRS.Measures
 
             public async Task<Result<MeasureGetDTO>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var measure = await _context.MeasuresDb
+                try
+                {
+                    var measure = await _context.MeasuresDb
                     .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-                if (measure == null)
-                {
-                    return Result<MeasureGetDTO>.Failure("Measure o podanym id nie został odnaleziony");
-                }
+                    if (measure == null)
+                    {
+                        return Result<MeasureGetDTO>.Failure("Measure o podanym id nie został odnaleziony");
+                    }
 
-                return Result<MeasureGetDTO>.Success(_mapper.Map<MeasureGetDTO>(measure));
+                    return Result<MeasureGetDTO>.Success(_mapper.Map<MeasureGetDTO>(measure));
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<MeasureGetDTO>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

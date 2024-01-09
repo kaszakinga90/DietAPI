@@ -1,17 +1,21 @@
-﻿using Application.DTOs.UnitDTO;
+﻿using Application.Core;
+using Application.DTOs.UnitDTO;
 using AutoMapper;
 using DietDB;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
+
 namespace Application.CQRS.Units
 {
     public class UnitDetails
     {
-        public class Query : IRequest<UnitGetDTO>
+        public class Query : IRequest<Result<UnitGetDTO>>
         {
             public int Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, UnitGetDTO>
+        public class Handler : IRequestHandler<Query, Result<UnitGetDTO>>
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
@@ -22,10 +26,25 @@ namespace Application.CQRS.Units
                 _mapper = mapper;
             }
 
-            public async Task<UnitGetDTO> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<UnitGetDTO>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var unit = await _context.UnitsDb.FindAsync(request.Id);
-                return _mapper.Map<UnitGetDTO>(unit);
+                try
+                {
+                    var unit = await _context.UnitsDb
+                    .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+
+                    if (unit == null)
+                    {
+                        return Result<UnitGetDTO>.Failure("Unit o podanym id nie został odnaleziony");
+                    }
+
+                    return Result<UnitGetDTO>.Success(_mapper.Map<UnitGetDTO>(unit));
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<UnitGetDTO>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

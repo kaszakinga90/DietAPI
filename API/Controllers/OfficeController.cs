@@ -1,12 +1,6 @@
-﻿using Application.CQRS.FoodCatalogs;
-using Application.CQRS.Ingredients;
-using Application.CQRS.Offices;
-using Application.CQRS.Patients;
+﻿using Application.CQRS.Offices;
 using Application.DTOs;
-using Application.DTOs.AddressDTO;
-using Application.DTOs.IngredientDTO;
 using Application.DTOs.OfficeDTO;
-using Application.DTOs.PatientDTO;
 using Application.Functionality;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -29,8 +23,7 @@ namespace API.Controllers
                 DieticianId = officeCreationDto.DieticianId
             };
 
-            var result = await _mediator.Send(command);
-            return Ok(result); 
+            return HandleResult(await _mediator.Send(command)); 
         }
 
         [HttpGet("getalldieticianoffices/{dieticianId}")]
@@ -41,7 +34,7 @@ namespace API.Controllers
         }
 
         [HttpGet("details/{officeId}")]
-        public async Task<ActionResult<OfficeGetDTO>> GetOffice(int officeId)
+        public async Task<IActionResult> GetOffice(int officeId)
         {
             var result = await _mediator.Send(new OfficeDetails.Query { OfficeId = officeId });
             return HandleResult(result);

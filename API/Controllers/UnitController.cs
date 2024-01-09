@@ -1,5 +1,5 @@
-﻿using Application.CQRS.Units;
-using Application.DTOs.UnitDTO;
+﻿using Application.Core;
+using Application.CQRS.Units;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,13 +12,14 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<UnitGetDTO>> GetUnit(int id)
+        public async Task<IActionResult> GetUnit(int id)
         {
-            return await _mediator.Send(new UnitDetails.Query { Id = id });
+            var result = await _mediator.Send(new UnitDetails.Query { Id = id });
+            return HandleResult(result);
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<List<UnitGetDTO>>> GetUnits()
+        public async Task<IActionResult> GetUnits()
         {
             var result = await _mediator.Send(new UnitList.Query());
             return HandleResult(result);

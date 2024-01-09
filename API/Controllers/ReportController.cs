@@ -1,11 +1,10 @@
-﻿using Application.CQRS.DayWeeks;
-using Application.CQRS.ReportTemplates;
-using Application.DTOs.DayWeekDTO;
+﻿using Application.CQRS.ReportTemplates;
 using Application.DTOs.ReportTemplateDTO;
 using Application.Services;
 using DietDB;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using static Application.Services.ReportService;
 
 namespace API.Controllers
@@ -21,9 +20,8 @@ namespace API.Controllers
             _reportService = reportService;
         }
 
-        [HttpGet]
-        [Route("reportTemplates")]
-        public async Task<ActionResult<List<ReportTemplateGetDTO>>> GetReportTemplates()
+        [HttpGet("reportTemplates")]
+        public async Task<IActionResult> GetReportTemplates()
         {
             var result = await _mediator.Send(new ReportTemplatesList.Query());
             return HandleResult(result);
@@ -62,6 +60,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
+                Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
                 return StatusCode(500, "Internal server error");
             }
         }

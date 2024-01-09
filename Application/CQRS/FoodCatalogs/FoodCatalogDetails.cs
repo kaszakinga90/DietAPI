@@ -4,6 +4,7 @@ using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.FoodCatalogs
 {
@@ -27,15 +28,23 @@ namespace Application.CQRS.FoodCatalogs
 
             public async Task<Result<FoodCatalogGetDTO>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var foodCatalog = await _context.FoodCatalogsDb
+                try
+                {
+                    var foodCatalog = await _context.FoodCatalogsDb
                     .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-                if (foodCatalog == null)
-                {
-                    return Result<FoodCatalogGetDTO>.Failure("Food catalog o podanym id nie został odnaleziony");
-                }
+                    if (foodCatalog == null)
+                    {
+                        return Result<FoodCatalogGetDTO>.Failure("Food catalog o podanym id nie został odnaleziony");
+                    }
 
-                return Result<FoodCatalogGetDTO>.Success(_mapper.Map<FoodCatalogGetDTO>(foodCatalog));
+                    return Result<FoodCatalogGetDTO>.Success(_mapper.Map<FoodCatalogGetDTO>(foodCatalog));
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<FoodCatalogGetDTO>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

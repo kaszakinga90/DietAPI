@@ -3,6 +3,7 @@ using Application.DTOs.MealDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.Meals
 {
@@ -21,20 +22,23 @@ namespace Application.CQRS.Meals
 
                 public async Task<Result<List<MealGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
                 {
-                    var mealsList = await _context.MealsDb
+                    try
+                    {
+                        var mealsList = await _context.MealsDb
                         .Select(m => new MealGetDTO
                         {
                             Id = m.Id,
-                            Name=m.Name,
+                            Name = m.Name,
                         })
                         .ToListAsync(cancellationToken);
 
-                    if (mealsList == null)
-                    {
-                        return Result<List<MealGetDTO>>.Failure("No results");
+                        return Result<List<MealGetDTO>>.Success(mealsList);
                     }
-
-                    return Result<List<MealGetDTO>>.Success(mealsList);
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                        return Result<List<MealGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                    }
                 }
             }
         }

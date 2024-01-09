@@ -27,7 +27,8 @@ namespace Application.CQRS.Invitations
 
             public async Task<Result<InvitationPutDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var invitation = await _context.InvitationsDb.FindAsync(request.InvitationPutDTO.Id);
+                var invitation = await _context.InvitationsDb
+                    .FindAsync(request.InvitationPutDTO.Id, cancellationToken);
 
                 if (invitation == null)
                 {

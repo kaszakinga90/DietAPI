@@ -3,6 +3,7 @@ using Application.DTOs.LogoDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.Logos
 {
@@ -23,7 +24,9 @@ namespace Application.CQRS.Logos
 
                 public async Task<Result<LogoGetDTO>> Handle(Query request, CancellationToken cancellationToken)
                 {
-                    var logo = await _context.LogosDb
+                    try
+                    {
+                        var logo = await _context.LogosDb
                         .Where(m => m.DieticianId == request.DieticianId)
                         .Select(m => new LogoGetDTO
                         {
@@ -32,12 +35,18 @@ namespace Application.CQRS.Logos
                         })
                         .FirstOrDefaultAsync();
 
-                    if (logo == null)
-                    {
-                        return Result<LogoGetDTO>.Failure("logo not found.");
-                    }
+                        if (logo == null)
+                        {
+                            return Result<LogoGetDTO>.Failure("logo not found.");
+                        }
 
-                    return Result<LogoGetDTO>.Success(logo);
+                        return Result<LogoGetDTO>.Success(logo);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                        return Result<LogoGetDTO>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                    } 
                 }
             }
         }

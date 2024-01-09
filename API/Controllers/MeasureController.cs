@@ -16,7 +16,7 @@ namespace API.Controllers
             var result = await _mediator.Send(new MeasureDetails.Query { Id = id });
             return HandleResult(result);
         }
-
+         
         [HttpGet("all")]
         public async Task<IActionResult> GetMeasures()
         {

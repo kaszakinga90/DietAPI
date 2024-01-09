@@ -3,6 +3,8 @@ using Application.DTOs.InvitationDTO;
 using AutoMapper;
 using DietDB;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.Invitations
 {
@@ -26,16 +28,25 @@ namespace Application.CQRS.Invitations
 
             public async Task<Result<InvitationGetDTO>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var invitation = await _context.InvitationsDb.FindAsync(request.InvitationId);
-
-                if (invitation == null)
+                try
                 {
-                    return Result<InvitationGetDTO>.Failure("Invitation not found.");
+                    var invitation = await _context.InvitationsDb
+                    .SingleOrDefaultAsync(x => x.Id == request.InvitationId, cancellationToken);
+
+                    if (invitation == null)
+                    {
+                        return Result<InvitationGetDTO>.Failure("Invitation not found.");
+                    }
+
+                    var invitationDTO = _mapper.Map<InvitationGetDTO>(invitation);
+
+                    return Result<InvitationGetDTO>.Success(invitationDTO);
                 }
-
-                var invitationDTO = _mapper.Map<InvitationGetDTO>(invitation);
-
-                return Result<InvitationGetDTO>.Success(invitationDTO);
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<InvitationGetDTO>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

@@ -3,6 +3,7 @@ using Application.DTOs.MealTimeToXYAxisDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.MealsTimesToXYAxiss
 {
@@ -24,7 +25,9 @@ namespace Application.CQRS.MealsTimesToXYAxiss
 
             public async Task<Result<List<MealTimeToXYAxisGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var mealTimeToXYAxis = await _context.MealTimesDb
+                try
+                {
+                    var mealTimeToXYAxis = await _context.MealTimesDb
                     .Where(d => d.DietId == request.DietId)
                     .Select(d => new MealTimeToXYAxisGetDTO
                     {
@@ -36,14 +39,14 @@ namespace Application.CQRS.MealsTimesToXYAxiss
                     })
                     .ToListAsync(cancellationToken);
 
-                if (mealTimeToXYAxis == null)
-                {
-                    return Result<List<MealTimeToXYAxisGetDTO>>.Failure("No results");
+                    return Result<List<MealTimeToXYAxisGetDTO>>.Success(mealTimeToXYAxis);
                 }
-
-                return Result<List<MealTimeToXYAxisGetDTO>>.Success(mealTimeToXYAxis);
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<List<MealTimeToXYAxisGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }
 }
-

@@ -28,11 +28,12 @@ namespace Application.CQRS.ReportTemplates
 
             public async Task<Result<ReportTemplateDeleteDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var reportTemplate = await _context.ReportTemplatesDb.FirstOrDefaultAsync(i => i.Id == request.Id);
+                var reportTemplate = await _context.ReportTemplatesDb
+                    .FirstOrDefaultAsync(i => i.Id == request.Id, cancellationToken);
 
                 if (reportTemplate == null)
                 {
-                    return Result<ReportTemplateDeleteDTO>.Failure("report template o podanym ID nie została znaleziona.");
+                    return Result<ReportTemplateDeleteDTO>.Failure("report template o podanym ID nie został znaleziony.");
                 }
 
                 _mapper.Map(request.ReportTemplateDeleteDTO, reportTemplate);

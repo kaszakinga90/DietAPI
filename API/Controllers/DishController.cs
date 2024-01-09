@@ -1,6 +1,4 @@
-﻿using Application.CQRS.DieticiansBusinessesCards;
-using Application.CQRS.Dishes;
-using Application.DTOs.DieticianBusinessCardDTO;
+﻿using Application.CQRS.Dishes;
 using Application.DTOs.DishDTO;
 using Application.FiltersExtensions.Dishes;
 using MediatR;
@@ -53,7 +51,7 @@ namespace API.Controllers
         }
 
         [HttpGet("filters/{dishId}")]
-        public async Task<ActionResult<DishFiltersDTO>> GetFilters(int dishId)
+        public async Task<IActionResult> GetFilters(int dishId)
         {
             var result = await _mediator.Send(new DishFilterList.Query { DishId = dishId });
             return HandleResult(result);
