@@ -36,6 +36,11 @@ namespace Application.CQRS.MealsTimesToXYAxiss
                     })
                     .ToListAsync(cancellationToken);
 
+                if (mealTimeToXYAxis == null)
+                {
+                    return Result<List<MealTimeToXYAxisGetDTO>>.Failure("No results");
+                }
+
                 return Result<List<MealTimeToXYAxisGetDTO>>.Success(mealTimeToXYAxis);
             }
         }

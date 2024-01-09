@@ -3,6 +3,7 @@ using Application.DTOs.MealTimeToXYAxisDTO;
 using AutoMapper;
 using DietDB;
 using MediatR;
+using System.Diagnostics;
 
 namespace Application.CQRS.MealsTimesToXYAxiss
 {
@@ -42,7 +43,8 @@ namespace Application.CQRS.MealsTimesToXYAxiss
                     }
                     catch (Exception ex)
                     {
-                        return Result<MealTimeToXYAxisEditDTO>.Failure("Wystąpił błąd podczas edycji posilku.");
+                        Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                        return Result<MealTimeToXYAxisEditDTO>.Failure("Wystąpił błąd podczas edycji posilku. " + ex);
                     }
 
                     return Result<MealTimeToXYAxisEditDTO>.Success(_mapper.Map<MealTimeToXYAxisEditDTO>(mealShedule));

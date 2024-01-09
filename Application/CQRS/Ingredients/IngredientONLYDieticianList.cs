@@ -38,6 +38,12 @@ namespace Application.CQRS.Ingredients
                              PictureUrl = i.PictureUrl,
                          })
                         .AsQueryable();
+
+                    if (ingridientList == null)
+                    {
+                        return Result<PagedList<IngredientGetDTO>>.Failure("No results");
+                    }
+
                     ingridientList = ingridientList.Search(request.Params.SearchTerm);
                     return Result<PagedList<IngredientGetDTO>>.Success(await PagedList<IngredientGetDTO>.CreateAsync(ingridientList, request.Params.PageNumber, request.Params.PageSize));
                 }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietDB.Migrations
 {
     [DbContext(typeof(DietContext))]
-    [Migration("20240105123233_InitialCreate")]
+    [Migration("20240106121601_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,29 +120,29 @@ namespace DietDB.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1684e8f9-21b0-4d27-958f-cf464f9d67e9",
-                            ConcurrencyStamp = "0e0c8d04-0744-45c1-880d-3670a0a4ceb0",
+                            Id = "65a5a855-f528-4772-964a-ee12ed20dc8c",
+                            ConcurrencyStamp = "2b641fff-15b8-40a8-ab4a-61188e1f1b50",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "e449d579-d91d-444f-9a3d-e11cd55fa2c7",
-                            ConcurrencyStamp = "7c89b675-f707-42fc-87c1-f0f4e1e80d40",
+                            Id = "c7b3ce86-3bfd-4038-bd01-b91bf5aa4da3",
+                            ConcurrencyStamp = "6e10f79b-718e-40b3-99fb-31277ce4a10b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "1c3cdbdd-4e4c-4050-a16a-7f521fad35df",
-                            ConcurrencyStamp = "7d886cf4-1dd7-4b69-817c-eab312875c8c",
+                            Id = "8e16b2d8-e82e-4152-b55e-6d3422f4a3ac",
+                            ConcurrencyStamp = "e8e6ed61-924f-42a1-a94e-a882715ba01d",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = "ab463165-1d15-4daf-b72c-1c12ca0a3697",
-                            ConcurrencyStamp = "81dddbcc-dd43-43e4-b790-8d7068941041",
+                            Id = "835687c6-d752-449e-9fbe-41ce104f1bcb",
+                            ConcurrencyStamp = "b5ed2c42-3fd3-4823-8f38-786b73644504",
                             Name = "Dietetician",
                             NormalizedName = "DIETETICIAN"
                         });
@@ -1480,6 +1480,27 @@ namespace DietDB.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("dateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("dateDeleted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("dateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("whoAdded")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("whoDeleted")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("whoUpdated")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -3035,6 +3056,9 @@ namespace DietDB.Migrations
                     b.Property<bool>("isPatient")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("isSuperAdmin")
+                        .HasColumnType("bit");
+
                     b.Property<string>("whoAdded")
                         .HasColumnType("nvarchar(max)");
 
@@ -3059,9 +3083,6 @@ namespace DietDB.Migrations
             modelBuilder.Entity("ModelsDB.Admin", b =>
                 {
                     b.HasBaseType("ModelsDB.User");
-
-                    b.Property<bool>("isSuperAdmin")
-                        .HasColumnType("bit");
 
                     b.HasIndex("AddressId");
 

@@ -1,4 +1,5 @@
-﻿using Application.DTOs.FoodCatalogDTO;
+﻿using Application.Core;
+using Application.DTOs.FoodCatalogDTO;
 using AutoMapper;
 using DietDB;
 using MediatR;
@@ -8,12 +9,12 @@ namespace Application.CQRS.FoodCatalogs
 {
     public class FoodCatalogDetails
     {
-        public class Query : IRequest<FoodCatalogGetDTO>
+        public class Query : IRequest<Result<FoodCatalogGetDTO>>
         {
             public int Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, FoodCatalogGetDTO>
+        public class Handler : IRequestHandler<Query, Result<FoodCatalogGetDTO>>
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
@@ -24,10 +25,17 @@ namespace Application.CQRS.FoodCatalogs
                 _mapper = mapper;
             }
 
-            public async Task<FoodCatalogGetDTO> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<FoodCatalogGetDTO>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var foodCatalog = await _context.FoodCatalogsDb.SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
-                return _mapper.Map<FoodCatalogGetDTO>(foodCatalog);
+                var foodCatalog = await _context.FoodCatalogsDb
+                    .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+
+                if (foodCatalog == null)
+                {
+                    return Result<FoodCatalogGetDTO>.Failure("Food catalog o podanym id nie został odnaleziony");
+                }
+
+                return Result<FoodCatalogGetDTO>.Success(_mapper.Map<FoodCatalogGetDTO>(foodCatalog));
             }
         }
     }

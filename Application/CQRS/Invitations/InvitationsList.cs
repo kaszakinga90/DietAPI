@@ -31,7 +31,13 @@ namespace Application.CQRS.Invitations
                             IsDeclined = m.IsDeclined,
                             PatientName = m.Patient.FirstName + " " + m.Patient.LastName,
                         })
-                        .ToListAsync();
+                        .ToListAsync(cancellationToken);
+
+                    if (invitationsList == null)
+                    {
+                        return Result<List<InvitationGetDTO>>.Failure("No results");
+                    }
+
                     return Result<List<InvitationGetDTO>>.Success(invitationsList);
                 }
             }

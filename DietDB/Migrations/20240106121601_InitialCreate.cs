@@ -311,6 +311,13 @@ namespace DietDB.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    isActive = table.Column<bool>(type: "bit", nullable: false),
+                    dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -901,6 +908,7 @@ namespace DietDB.Migrations
                     isPatient = table.Column<bool>(type: "bit", nullable: false),
                     isDietician = table.Column<bool>(type: "bit", nullable: false),
                     isAdmin = table.Column<bool>(type: "bit", nullable: false),
+                    isSuperAdmin = table.Column<bool>(type: "bit", nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     PublicId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -915,7 +923,6 @@ namespace DietDB.Migrations
                     whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    isSuperAdmin = table.Column<bool>(type: "bit", nullable: true),
                     AboutMe = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -2023,10 +2030,10 @@ namespace DietDB.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1684e8f9-21b0-4d27-958f-cf464f9d67e9", "0e0c8d04-0744-45c1-880d-3670a0a4ceb0", "SuperAdmin", "SUPERADMIN" },
-                    { "1c3cdbdd-4e4c-4050-a16a-7f521fad35df", "7d886cf4-1dd7-4b69-817c-eab312875c8c", "Patient", "PATIENT" },
-                    { "ab463165-1d15-4daf-b72c-1c12ca0a3697", "81dddbcc-dd43-43e4-b790-8d7068941041", "Dietetician", "DIETETICIAN" },
-                    { "e449d579-d91d-444f-9a3d-e11cd55fa2c7", "7c89b675-f707-42fc-87c1-f0f4e1e80d40", "Admin", "ADMIN" }
+                    { "65a5a855-f528-4772-964a-ee12ed20dc8c", "2b641fff-15b8-40a8-ab4a-61188e1f1b50", "SuperAdmin", "SUPERADMIN" },
+                    { "835687c6-d752-449e-9fbe-41ce104f1bcb", "b5ed2c42-3fd3-4823-8f38-786b73644504", "Dietetician", "DIETETICIAN" },
+                    { "8e16b2d8-e82e-4152-b55e-6d3422f4a3ac", "e8e6ed61-924f-42a1-a94e-a882715ba01d", "Patient", "PATIENT" },
+                    { "c7b3ce86-3bfd-4038-bd01-b91bf5aa4da3", "6e10f79b-718e-40b3-99fb-31277ce4a10b", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(

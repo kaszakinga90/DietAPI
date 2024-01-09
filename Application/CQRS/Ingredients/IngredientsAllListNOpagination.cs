@@ -1,14 +1,8 @@
 ﻿using Application.Core;
-using Application.DTOs.FoodCatalogDTO;
 using Application.DTOs.IngredientDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.CQRS.Ingredients
 {
@@ -38,6 +32,12 @@ namespace Application.CQRS.Ingredients
                         IngredientName=m.Name,
                     })
                     .ToListAsync(cancellationToken);
+
+                if (ingredients == null)
+                {
+                    return Result<List<IngredientGetDTO>>.Failure("No results");
+                }
+
                 return Result<List<IngredientGetDTO>>.Success(ingredients);
             }
         }

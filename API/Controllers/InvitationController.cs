@@ -25,6 +25,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        // TODO : paginglist
         [HttpGet("allForDietician/{dieticianId}")]
         public async Task<IActionResult> GetInvitationsForDietician(int dieticianId)
         {
@@ -46,9 +47,7 @@ namespace API.Controllers
             {
                 InvitationPostDTO = invitationPostDto
             };
-
-            var result = await _mediator.Send(command);
-            return Ok(result);
+            return HandleResult(await _mediator.Send(command));
         }
 
         [HttpPut("confirm/{invitationId}")]

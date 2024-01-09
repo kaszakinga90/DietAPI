@@ -34,9 +34,10 @@ namespace Application.CQRS.Invitations
                 invitation.IsSended = true;
 
                 var dietetician = await _context.DieticiansDb.FindAsync(request.InvitationPostDTO.DieticianId);
+
                 if (dietetician == null)
                 {
-                    throw new Exception("Dietetyk nie został znaleziony");
+                    return Result<InvitationPostDTO>.Failure("Dietetyk nie został znaleziony.");
                 }
 
                 _context.InvitationsDb.Add(invitation);

@@ -41,7 +41,14 @@ namespace Application.CQRS.Ingredients
                          })
                         .AsQueryable();
                     ingridientList = ingridientList.Search(request.Params.SearchTerm);
-                    return Result<PagedList<IngredientGetDTO>>.Success(await PagedList<IngredientGetDTO>.CreateAsync(ingridientList,request.Params.PageNumber,request.Params.PageSize));
+
+                    if (ingridientList == null)
+                    {
+                        return Result<PagedList<IngredientGetDTO>>.Failure("No results");
+                    }
+
+                    return Result<PagedList<IngredientGetDTO>>.Success(
+                        await PagedList<IngredientGetDTO>.CreateAsync(ingridientList,request.Params.PageNumber,request.Params.PageSize));
                 }
             }
         }

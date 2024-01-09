@@ -1,5 +1,4 @@
 ﻿using Application.Core;
-using Application.CQRS.FoodCatalogs;
 using Application.CQRS.Ingredients;
 using Application.DTOs.IngredientDTO;
 using Application.FiltersExtensions.Ingredients;

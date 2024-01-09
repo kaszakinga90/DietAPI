@@ -2,7 +2,6 @@
 using Application.DTOs.AddressDTO;
 using Application.DTOs.AdminDTO;
 using Application.FiltersExtensions.Admins;
-using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

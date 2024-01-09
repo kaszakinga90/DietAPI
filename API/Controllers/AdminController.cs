@@ -1,7 +1,13 @@
 ﻿using Application.Core;
 using Application.CQRS.Admins;
+using Application.CQRS.Roles;
+using Application.CQRS.UserRoles;
+using Application.CQRS.Users;
 using Application.DTOs.AdminDTO;
+using Application.DTOs.RoleDTO;
 using Application.FiltersExtensions.Admins;
+using Application.FiltersExtensions.Roles;
+using Application.FiltersExtensions.UserRoles;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,7 +35,7 @@ namespace API.Controllers
         }
 
         //metoda tylko dla superadmina
-        [HttpPost]
+        [HttpPost("createAdmin")]
         public async Task<IActionResult> CreateAdmin(AdminPostDTO AdminPostDTO)
         {
             var result = await _mediator.Send(new AdminCreate.Command { AdminPostDTO = AdminPostDTO });
@@ -93,6 +99,73 @@ namespace API.Controllers
             };
 
             return HandleResult(await _mediator.Send(command));
+        }
+
+
+        // metoda tylko dla superadmina
+        [HttpPost("rolesManage/create")]
+        public async Task<IActionResult> CreateRole(RolePostDTO rolePostDTO)
+        {
+            var command = new RoleCreate.Command
+            {
+                RolePostDTO = rolePostDTO
+            };
+
+            return HandleResult(await _mediator.Send(command));
+        }
+
+        // metoda tylko dla superadmina
+        [HttpGet("rolesManage/all")]
+        public async Task<IActionResult> GetRoles([FromQuery] RoleParams pagingParams)
+        {
+            var query = await _mediator.Send(new RoleList.Query { Params = pagingParams });
+            return HandlePagedResult(query);
+        }
+
+
+        //get ! bez paginacji   => id ról, nazwa ról (analogicznie do tego co wyżej), wybierane przez select
+        // metoda tylko dla superadmina
+        [HttpGet("rolesManage/noPagination/all")]
+        public async Task<IActionResult> GetRolesNoPagination()
+        {
+            var query = await _mediator.Send(new RoleNoPaginationList.Query());
+            return HandleResult(query);
+        }
+
+        // wyswietlanie wszystkich ludzi, którzy mają role przypisane (imie, nazwisko, email, id)
+        // metoda tylko dla superadmina
+        [HttpGet("rolesManage/users/all")]
+        public async Task<IActionResult> GetUsers([FromQuery] UserWithRoleParams pagingParams)
+        {
+            var query = await _mediator.Send(new UserRoleList.Query { Params = pagingParams });
+            return HandlePagedResult(query);
+        }
+
+        // po kliknięciu edytuj -> wyświetlanie imie, nazwisko + email + wszystkie jego role
+        // metoda tylko dla superadmina
+        [HttpGet("rolesManage/userRoles/{userId}")]
+        public async Task<IActionResult> GetRolesForUser(int userId)
+        {
+            var query = await _mediator.Send(new UserDetails.Query { UserId = userId } );
+            return HandleResult(query);
+        }
+        
+        // delete -> id
+        // metoda tylko dla superadmina
+        [HttpDelete("rolesManage/userRoles/deleteRole/{userId}/{userRoleId}")]
+        public async Task<IActionResult> RemoveUserRole(int userId, int userRoleId)
+        {
+            var query = await _mediator.Send(new UserRoleDelete.Command { UserId = userId, UserRoleId = userRoleId });
+            return HandleResult(query);
+        }
+
+        // add role to user
+        // metoda tylko dla superadmina
+        [HttpPost("rolesManage/userRoles/addRole/{userId}/{userRoleId}")]
+        public async Task<IActionResult> AddUserRole(int userId, int userRoleId)
+        {
+            var query = await _mediator.Send(new UserRoleCreate.Command { UserId = userId, RoleId = userRoleId });
+            return HandleResult(query);
         }
     }
 }

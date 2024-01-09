@@ -1,6 +1,7 @@
-﻿using Application.CQRS.Dishes;
+﻿using Application.CQRS.DieticiansBusinessesCards;
+using Application.CQRS.Dishes;
+using Application.DTOs.DieticianBusinessCardDTO;
 using Application.DTOs.DishDTO;
-using Application.FiltersExtensions.Admins;
 using Application.FiltersExtensions.Dishes;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -49,6 +50,13 @@ namespace API.Controllers
             await _mediator.Send(command);
 
             return Ok();
+        }
+
+        [HttpGet("filters/{dishId}")]
+        public async Task<ActionResult<DishFiltersDTO>> GetFilters(int dishId)
+        {
+            var result = await _mediator.Send(new DishFilterList.Query { DishId = dishId });
+            return HandleResult(result);
         }
     }
 }

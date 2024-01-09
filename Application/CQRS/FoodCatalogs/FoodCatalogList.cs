@@ -31,6 +31,12 @@ namespace Application.CQRS.FoodCatalogs
                         CatalogName = m.CatalogName
                     })
                     .ToListAsync(cancellationToken);
+
+                if (foodCatalog == null)
+                {
+                    return Result<List<FoodCatalogGetDTO>>.Failure("No results");
+                }
+
                 return Result<List<FoodCatalogGetDTO>>.Success(foodCatalog);
             }
         }

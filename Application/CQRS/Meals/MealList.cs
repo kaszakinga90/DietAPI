@@ -27,7 +27,13 @@ namespace Application.CQRS.Meals
                             Id = m.Id,
                             Name=m.Name,
                         })
-                        .ToListAsync();
+                        .ToListAsync(cancellationToken);
+
+                    if (mealsList == null)
+                    {
+                        return Result<List<MealGetDTO>>.Failure("No results");
+                    }
+
                     return Result<List<MealGetDTO>>.Success(mealsList);
                 }
             }

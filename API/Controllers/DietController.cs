@@ -22,6 +22,7 @@ namespace API.Controllers
             return HandlePagedResult(result);
         }
 
+        // TODO : do przerobienia
         [HttpPost("adddiet")]
         public async Task<IActionResult> CreateDiet(DietDTO diet)
         {

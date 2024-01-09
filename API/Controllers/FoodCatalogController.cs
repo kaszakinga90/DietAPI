@@ -13,9 +13,10 @@ namespace API.Controllers
 
         //pobiera katalog po id
         [HttpGet("getdieticiancatalogs/{dieticianId}")]
-        public async Task<ActionResult<FoodCatalogGetDTO>> GetFoodCatalog(int dieticianId)
+        public async Task<IActionResult> GetFoodCatalog(int dieticianId)
         {
-            return await _mediator.Send(new FoodCatalogDetails.Query { Id = dieticianId });
+            var result = await _mediator.Send(new FoodCatalogDetails.Query { Id = dieticianId });
+            return HandleResult(result);
         }
 
         //pobiera katalogi dań dostępne dla dietetyka (czyli z bazy wspólnej, gdzie DieticianID == NULL oraz te utworzone przez tego dietetyka)

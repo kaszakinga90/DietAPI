@@ -3,6 +3,7 @@ using Application.DTOs.InvitationDTO;
 using AutoMapper;
 using DietDB;
 using MediatR;
+using System.Diagnostics;
 
 namespace Application.CQRS.Invitations
 {
@@ -47,7 +48,8 @@ namespace Application.CQRS.Invitations
                 }
                 catch (Exception ex)
                 {
-                    return Result<InvitationPutDTO>.Failure("Wystąpił błąd podczas edycji zaproszenia.");
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<InvitationPutDTO>.Failure("Wystąpił błąd podczas edycji zaproszenia. " + ex);
                 }
 
                 return Result<InvitationPutDTO>.Success(_mapper.Map<InvitationPutDTO>(invitation));
