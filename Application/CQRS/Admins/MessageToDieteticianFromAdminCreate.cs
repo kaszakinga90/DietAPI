@@ -2,7 +2,6 @@
 using AutoMapper;
 using DietDB;
 using MediatR;
-using ModelsDB;
 using ModelsDB.Functionality;
 using System.Diagnostics;
 
@@ -61,7 +60,9 @@ namespace Application.CQRS.Admins
                 message.AdminId = request.AdminId;
                 message.PatientId = null;
 
-                var dietetician = await _context.DieticiansDb.FindAsync(request.MessageDTO.DieticianId.Value);
+                var dietetician = await _context.DieticiansDb
+                    .FindAsync(request.MessageDTO.DieticianId.Value, cancellationToken);
+
                 if (dietetician == null)
                 {
                     return Result<MessageToDTO>.Failure("Dietetyk nie został znaleziony.");

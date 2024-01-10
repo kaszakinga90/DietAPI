@@ -3,6 +3,7 @@ using Application.DTOs.RoleDTO;
 using Application.FiltersExtensions.Roles;
 using DietDB;
 using MediatR;
+using System.Diagnostics;
 
 namespace Application.CQRS.Roles
 {
@@ -24,7 +25,9 @@ namespace Application.CQRS.Roles
 
             public async Task<Result<PagedList<RoleGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var rolesList = _context.Roles
+                try
+                {
+                    var rolesList = _context.Roles
                     .Select(a => new RoleGetDTO
                     {
                         Id = a.Id,
@@ -32,14 +35,15 @@ namespace Application.CQRS.Roles
                     })
                     .AsQueryable();
 
-                if (rolesList == null)
-                {
-                    return Result<PagedList<RoleGetDTO>>.Failure("no results.");
+                    return Result<PagedList<RoleGetDTO>>.Success(
+                        await PagedList<RoleGetDTO>.CreateAsync(rolesList, request.Params.PageNumber, request.Params.PageSize)
+                        );
                 }
-
-                return Result<PagedList<RoleGetDTO>>.Success(
-                    await PagedList<RoleGetDTO>.CreateAsync(rolesList, request.Params.PageNumber, request.Params.PageSize)
-                    );
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<PagedList<RoleGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

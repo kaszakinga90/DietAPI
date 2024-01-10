@@ -44,7 +44,7 @@ namespace API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditAdmin(int id, [FromForm] AdminDTO adminDTO, [FromForm] IFormFile file)
+        public async Task<IActionResult> EditAdmin(int id, [FromForm] AdminEditDTO adminDTO, [FromForm] IFormFile file)
         {
             var command = new AdminEdit.Command
             {
@@ -64,7 +64,6 @@ namespace API.Controllers
                 AdminId = adminId, 
                 Params = param 
             });
-
             return HandlePagedResult(result);
         }
 
@@ -81,7 +80,6 @@ namespace API.Controllers
                 MessageDTO = message, 
                 AdminId = adminId 
             };
-
             return HandleResult(await _mediator.Send(command));
         }
 
@@ -98,10 +96,8 @@ namespace API.Controllers
                 MessageDTO = message,
                 AdminId = adminId
             };
-
             return HandleResult(await _mediator.Send(command));
         }
-
 
         // metoda tylko dla superadmina
         [HttpPost("rolesManage/create")]
@@ -111,7 +107,6 @@ namespace API.Controllers
             {
                 RolePostDTO = rolePostDTO
             };
-
             return HandleResult(await _mediator.Send(command));
         }
 
@@ -123,8 +118,6 @@ namespace API.Controllers
             return HandlePagedResult(query);
         }
 
-
-        //get ! bez paginacji   => id ról, nazwa ról (analogicznie do tego co wyżej), wybierane przez select
         // metoda tylko dla superadmina
         [HttpGet("rolesManage/noPagination/all")]
         public async Task<IActionResult> GetRolesNoPagination()
@@ -133,7 +126,6 @@ namespace API.Controllers
             return HandleResult(query);
         }
 
-        // wyswietlanie wszystkich ludzi, którzy mają role przypisane (imie, nazwisko, email, id)
         // metoda tylko dla superadmina
         [HttpGet("rolesManage/users/all")]
         public async Task<IActionResult> GetUsers([FromQuery] UserWithRoleParams pagingParams)
@@ -142,7 +134,6 @@ namespace API.Controllers
             return HandlePagedResult(query);
         }
 
-        // po kliknięciu edytuj -> wyświetlanie imie, nazwisko + email + wszystkie jego role
         // metoda tylko dla superadmina
         [HttpGet("rolesManage/userRoles/{userId}")]
         public async Task<IActionResult> GetRolesForUser(int userId)
@@ -151,7 +142,6 @@ namespace API.Controllers
             return HandleResult(query);
         }
         
-        // delete -> id
         // metoda tylko dla superadmina
         [HttpDelete("rolesManage/userRoles/deleteRole/{userId}/{userRoleId}")]
         public async Task<IActionResult> RemoveUserRole(int userId, int userRoleId)
@@ -160,7 +150,6 @@ namespace API.Controllers
             return HandleResult(query);
         }
 
-        // add role to user
         // metoda tylko dla superadmina
         [HttpPost("rolesManage/userRoles/addRole")]
         public async Task<IActionResult> AddUserRole(UserRoleCreateDTO userRoleCreateDTO)
@@ -168,6 +157,5 @@ namespace API.Controllers
             var query = await _mediator.Send(new UserRoleCreate.Command { UserRoleCreateDTO = userRoleCreateDTO });
             return HandleResult(query);
         }
-
     }
 }

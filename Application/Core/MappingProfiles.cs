@@ -84,11 +84,11 @@ namespace Application.Core
                 .ForMember(dest => dest.AddressDTO, opt => opt.MapFrom(src => src.Address))
                 .ReverseMap();
 
-            CreateMap<Admin, AdminDTO>()
+            CreateMap<Admin, AdminEditDTO>()
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate.HasValue ? src.BirthDate.Value.Date : (DateTime?)null))
                 .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageTo));
 
-            CreateMap<AdminDTO, Admin>();
+            CreateMap<AdminEditDTO, Admin>();
 
             CreateMap<Admin, AdminPostDTO>()
                 .ReverseMap();

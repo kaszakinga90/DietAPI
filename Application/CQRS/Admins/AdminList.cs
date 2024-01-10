@@ -5,6 +5,7 @@ using Application.FiltersExtensions.Admins;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.Admins
 {
@@ -26,9 +27,11 @@ namespace Application.CQRS.Admins
 
             public async Task<Result<PagedList<AdminGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var adminsList = _context.AdminsDb
+                try
+                {
+                    var adminsList = _context.AdminsDb
                     .Include(a => a.Address)
-                        //.ThenInclude(a => a.CountryState)
+                    //.ThenInclude(a => a.CountryState)
                     .Select(a => new AdminGetDTO
                     {
                         Id = a.Id,
@@ -49,18 +52,19 @@ namespace Application.CQRS.Admins
                     })
                     .AsQueryable();
 
-                if (adminsList == null)
-                {
-                    return Result<PagedList<AdminGetDTO>>.Failure("no results.");
+                    adminsList = adminsList.AdminSearch(request.Params.SearchTerm);
+                    adminsList = adminsList.AdminSort(request.Params.OrderBy);
+                    adminsList = adminsList.AdminFilter(request.Params.AdminNames);
+
+                    return Result<PagedList<AdminGetDTO>>.Success(
+                        await PagedList<AdminGetDTO>.CreateAsync(adminsList, request.Params.PageNumber, request.Params.PageSize)
+                        );
                 }
-
-                adminsList = adminsList.AdminSearch(request.Params.SearchTerm);
-                adminsList = adminsList.AdminSort(request.Params.OrderBy);
-                adminsList = adminsList.AdminFilter(request.Params.AdminNames);
-
-                return Result<PagedList<AdminGetDTO>>.Success(
-                    await PagedList<AdminGetDTO>.CreateAsync(adminsList, request.Params.PageNumber, request.Params.PageSize)
-                    );
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<PagedList<AdminGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

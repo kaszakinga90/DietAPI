@@ -1,14 +1,10 @@
 ﻿using Application.Core;
-using Application.DTOs.AdminDTO;
 using Application.DTOs.RoleDTO;
 using AutoMapper;
 using DietDB;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
-using ModelsDB;
 using ModelsDB.Functionality;
 using System.Diagnostics;
-using System.Threading;
 
 namespace Application.CQRS.Roles
 {
@@ -33,6 +29,11 @@ namespace Application.CQRS.Roles
             public async Task<Result<RolePostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var role = _mapper.Map<Role>(request.RolePostDTO);
+
+                if (role == null)
+                {
+                    return Result<RolePostDTO>.Failure("Coś poszło nie tak z mapowaniem.");
+                }
 
                 role.Name = request.RolePostDTO.Name;
                 role.whoAdded = "superAdmin";

@@ -31,14 +31,14 @@ namespace Application.CQRS.UserRoles
 
                 public async Task<Result<UserRoleCreateDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
-                    var validationResult = await _userRoleValidate.ValidateAsync(request.UserRoleCreateDTO, cancellationToken);
+                    var validationResult = await _userRoleValidate
+                        .ValidateAsync(request.UserRoleCreateDTO, cancellationToken);
 
                     if (!validationResult.IsValid)
                     {
                         var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
                         return Result<UserRoleCreateDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
                     }
-
 
                     var user = await _userManager.FindByIdAsync(request.UserRoleCreateDTO.UserId.ToString());
 

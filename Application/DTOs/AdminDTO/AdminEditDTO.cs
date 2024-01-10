@@ -2,7 +2,7 @@
 
 namespace Application.DTOs.AdminDTO
 {
-    public class AdminDTO
+    public class AdminEditDTO
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
