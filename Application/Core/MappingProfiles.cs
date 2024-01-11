@@ -25,6 +25,7 @@ using Application.DTOs.NutrientDTO;
 using Application.DTOs.OfficeDTO;
 using Application.DTOs.PatientCardDTO;
 using Application.DTOs.PatientDTO;
+using Application.DTOs.PrintoutsDTO;
 using Application.DTOs.RecipeDTO;
 using Application.DTOs.RecipeStepDTO;
 using Application.DTOs.ReportsClassesDTO;
@@ -44,6 +45,7 @@ namespace Application.Core
     {
         public MappingProfiles()
         {
+
             CreateMap<CategoryOfDiet, CategoryOfDiet>();
             CreateMap<CategoryOfDiet, CategoryOfDietDeleteDTO>()
                 .ReverseMap();

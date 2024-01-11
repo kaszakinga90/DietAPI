@@ -251,6 +251,28 @@ namespace DietDB.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Printout",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Data = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    isActive = table.Column<bool>(type: "bit", nullable: false),
+                    dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    dateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    whoAdded = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    whoUpdated = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    whoDeleted = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Printout", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Recipe",
                 columns: table => new
                 {
@@ -2030,10 +2052,10 @@ namespace DietDB.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "65a5a855-f528-4772-964a-ee12ed20dc8c", "2b641fff-15b8-40a8-ab4a-61188e1f1b50", "SuperAdmin", "SUPERADMIN" },
-                    { "835687c6-d752-449e-9fbe-41ce104f1bcb", "b5ed2c42-3fd3-4823-8f38-786b73644504", "Dietetician", "DIETETICIAN" },
-                    { "8e16b2d8-e82e-4152-b55e-6d3422f4a3ac", "e8e6ed61-924f-42a1-a94e-a882715ba01d", "Patient", "PATIENT" },
-                    { "c7b3ce86-3bfd-4038-bd01-b91bf5aa4da3", "6e10f79b-718e-40b3-99fb-31277ce4a10b", "Admin", "ADMIN" }
+                    { "10481deb-0207-4bfb-a72d-7b04b7a18575", "50c70a70-434a-4385-987c-277416184c5c", "Patient", "PATIENT" },
+                    { "413eaf33-b474-42cd-8f18-5a1d826d5937", "6b051356-230e-484e-a9d3-00c39668011a", "SuperAdmin", "SUPERADMIN" },
+                    { "71acc0d1-51d3-40c1-a965-bb1bf77bf514", "05bcd24e-6347-4e75-96cf-58dc34651e9e", "Dietetician", "DIETETICIAN" },
+                    { "fdbfab39-6b2f-4f22-8df5-88e4e5b8651a", "593f2eeb-d790-40a9-8afd-5f1e183f996b", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -2492,6 +2514,9 @@ namespace DietDB.Migrations
 
             migrationBuilder.DropTable(
                 name: "PatientCardSurveysDb");
+
+            migrationBuilder.DropTable(
+                name: "Printout");
 
             migrationBuilder.DropTable(
                 name: "RecipeStep");

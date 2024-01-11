@@ -24,4 +24,8 @@
     <ProjectReference Include="..\ModelsDB\ModelsDB.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="test\" />
+  </ItemGroup>
+
 </Project>

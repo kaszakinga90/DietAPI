@@ -90,6 +90,7 @@ namespace DietDB
 
         public DbSet<Meal> MealsDb { get; set; }
         public DbSet<Invitation> InvitationsDb { get; set; }
+        public DbSet<Printout> PrintoutsDb { get; set; }
         //public DbSet<Role> Role { get; set; }
         //public DbSet<MealTimeToXYAxis> MealTimeToXYAxis { get; set; }
 

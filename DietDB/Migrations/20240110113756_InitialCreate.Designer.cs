@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietDB.Migrations
 {
     [DbContext(typeof(DietContext))]
-    [Migration("20240106121601_InitialCreate")]
+    [Migration("20240110113756_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,29 +120,29 @@ namespace DietDB.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "65a5a855-f528-4772-964a-ee12ed20dc8c",
-                            ConcurrencyStamp = "2b641fff-15b8-40a8-ab4a-61188e1f1b50",
+                            Id = "413eaf33-b474-42cd-8f18-5a1d826d5937",
+                            ConcurrencyStamp = "6b051356-230e-484e-a9d3-00c39668011a",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "c7b3ce86-3bfd-4038-bd01-b91bf5aa4da3",
-                            ConcurrencyStamp = "6e10f79b-718e-40b3-99fb-31277ce4a10b",
+                            Id = "fdbfab39-6b2f-4f22-8df5-88e4e5b8651a",
+                            ConcurrencyStamp = "593f2eeb-d790-40a9-8afd-5f1e183f996b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "8e16b2d8-e82e-4152-b55e-6d3422f4a3ac",
-                            ConcurrencyStamp = "e8e6ed61-924f-42a1-a94e-a882715ba01d",
+                            Id = "10481deb-0207-4bfb-a72d-7b04b7a18575",
+                            ConcurrencyStamp = "50c70a70-434a-4385-987c-277416184c5c",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = "835687c6-d752-449e-9fbe-41ce104f1bcb",
-                            ConcurrencyStamp = "b5ed2c42-3fd3-4823-8f38-786b73644504",
+                            Id = "71acc0d1-51d3-40c1-a965-bb1bf77bf514",
+                            ConcurrencyStamp = "05bcd24e-6347-4e75-96cf-58dc34651e9e",
                             Name = "Dietetician",
                             NormalizedName = "DIETETICIAN"
                         });
@@ -1381,6 +1381,49 @@ namespace DietDB.Migrations
                     b.HasIndex("SurveyId");
 
                     b.ToTable("PatientCardSurveysDb");
+                });
+
+            modelBuilder.Entity("ModelsDB.Functionality.Printout", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Data")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("dateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("dateDeleted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("dateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("whoAdded")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("whoDeleted")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("whoUpdated")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Printout");
                 });
 
             modelBuilder.Entity("ModelsDB.Functionality.RecipeStep", b =>
