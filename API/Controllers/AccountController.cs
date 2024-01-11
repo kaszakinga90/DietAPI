@@ -2,7 +2,7 @@
 using Application.CQRS.Dieticians;
 using Application.CQRS.Patients;
 using Application.DTOs.LoginsDTO;
-using Application.DTOs.RegistersDTO;
+using Application.DTOs.RecipeStepDTO.RegistersDTO;
 using Application.DTOs.UsersDTO;
 using Application.Services;
 using Application.Services.EmailSends;

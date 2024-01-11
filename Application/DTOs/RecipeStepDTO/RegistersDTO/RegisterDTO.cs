@@ -1,6 +1,6 @@
 ﻿using Application.DTOs.LoginsDTO;
 
-namespace Application.DTOs.RegistersDTO
+namespace Application.DTOs.RecipeStepDTO.RegistersDTO
 {
     public class RegisterDTO : LoginDTO
     {
