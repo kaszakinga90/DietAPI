@@ -1,5 +1,6 @@
 ﻿using Application.CQRS.Invitations;
 using Application.DTOs.InvitationDTO;
+using Application.FiltersExtensions.Invitations;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,14 +27,14 @@ namespace API.Controllers
         }
 
         [HttpGet("allForDietician/{dieticianId}")]
-        public async Task<IActionResult> GetInvitationsForDietician(int dieticianId)
+        public async Task<IActionResult> GetInvitationsForDietician([FromQuery] InvitationParams pagingParams, int dieticianId)
         {
-            var result = await _mediator.Send(new InvitationsDieticianList.Query { DieticianId = dieticianId });
-            return HandleResult(result);
+            var result = await _mediator.Send(new InvitationsDieticianList.Query { Params = pagingParams, DieticianId = dieticianId });
+            return HandlePagedResult(result);
         }
 
         [HttpGet("details/{invitationId}")]
-        public async Task<ActionResult<InvitationGetDTO>> GetInvitation(int invitationId)
+        public async Task<IActionResult> GetInvitation(int invitationId)
         {
             var result = await _mediator.Send(new InvitationDetails.Query { InvitationId = invitationId });
             return HandleResult(result);
@@ -46,9 +47,7 @@ namespace API.Controllers
             {
                 InvitationPostDTO = invitationPostDto
             };
-
-            var result = await _mediator.Send(command);
-            return Ok(result);
+            return HandleResult(await _mediator.Send(command));
         }
 
         [HttpPut("confirm/{invitationId}")]

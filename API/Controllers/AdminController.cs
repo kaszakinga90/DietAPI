@@ -1,7 +1,14 @@
 ﻿using Application.Core;
 using Application.CQRS.Admins;
+using Application.CQRS.Roles;
+using Application.CQRS.UserRoles;
+using Application.CQRS.Users;
 using Application.DTOs.AdminDTO;
+using Application.DTOs.RoleDTO;
+using Application.DTOs.UsersDTO.UserRoleDTO;
 using Application.FiltersExtensions.Admins;
+using Application.FiltersExtensions.Roles;
+using Application.FiltersExtensions.UserRoles;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,7 +36,7 @@ namespace API.Controllers
         }
 
         //metoda tylko dla superadmina
-        [HttpPost]
+        [HttpPost("createAdmin")]
         public async Task<IActionResult> CreateAdmin(AdminPostDTO AdminPostDTO)
         {
             var result = await _mediator.Send(new AdminCreate.Command { AdminPostDTO = AdminPostDTO });
@@ -37,7 +44,7 @@ namespace API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditAdmin(int id, [FromForm] AdminDTO adminDTO, [FromForm] IFormFile file)
+        public async Task<IActionResult> EditAdmin(int id, [FromForm] AdminEditDTO adminDTO, [FromForm] IFormFile file)
         {
             var command = new AdminEdit.Command
             {
@@ -49,7 +56,7 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
-        [HttpGet("{adminId}/messages")]
+        [HttpGet("messages/{adminId}")]
         public async Task<ActionResult<PagedList<MessageToDTO>>> GetMessagesForAdmin(int adminId, [FromQuery] PagingParams param)
         {
             var result = await _mediator.Send(new AdminMessageList.Query 
@@ -57,7 +64,6 @@ namespace API.Controllers
                 AdminId = adminId, 
                 Params = param 
             });
-
             return HandlePagedResult(result);
         }
 
@@ -66,7 +72,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="message">Wiadomość dla dietetyka.</param>
         /// <returns>Status operacji.</returns>
-        [HttpPost("{adminId}/messageToDietician")]
+        [HttpPost("messageToDietician/{adminId}")]
         public async Task<IActionResult> MessageToDietetician(int adminId, MessageToDTO message)
         {
             var command = new MessageToDieteticianFromAdminCreate.Command 
@@ -74,7 +80,6 @@ namespace API.Controllers
                 MessageDTO = message, 
                 AdminId = adminId 
             };
-
             return HandleResult(await _mediator.Send(command));
         }
 
@@ -83,7 +88,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="message">Wiadomość dla pacjenta.</param>
         /// <returns>Status operacji.</returns>
-        [HttpPost("{adminId}/messageToPatient")]
+        [HttpPost("messageToPatient/{adminId}")]
         public async Task<IActionResult> MessageToPatient(int adminId, MessageToDTO message)
         {
             var command = new MessageToPatientFromAdminCreate.Command
@@ -91,8 +96,66 @@ namespace API.Controllers
                 MessageDTO = message,
                 AdminId = adminId
             };
-
             return HandleResult(await _mediator.Send(command));
+        }
+
+        // metoda tylko dla superadmina
+        [HttpPost("rolesManage/create")]
+        public async Task<IActionResult> CreateRole(RolePostDTO rolePostDTO)
+        {
+            var command = new RoleCreate.Command
+            {
+                RolePostDTO = rolePostDTO
+            };
+            return HandleResult(await _mediator.Send(command));
+        }
+
+        // metoda tylko dla superadmina
+        [HttpGet("rolesManage/all")]
+        public async Task<IActionResult> GetRoles([FromQuery] RoleParams pagingParams)
+        {
+            var query = await _mediator.Send(new RoleList.Query { Params = pagingParams });
+            return HandlePagedResult(query);
+        }
+
+        // metoda tylko dla superadmina
+        [HttpGet("rolesManage/noPagination/all")]
+        public async Task<IActionResult> GetRolesNoPagination()
+        {
+            var query = await _mediator.Send(new RoleNoPaginationList.Query());
+            return HandleResult(query);
+        }
+
+        // metoda tylko dla superadmina
+        [HttpGet("rolesManage/users/all")]
+        public async Task<IActionResult> GetUsers([FromQuery] UserWithRoleParams pagingParams)
+        {
+            var query = await _mediator.Send(new UserRoleList.Query { Params = pagingParams });
+            return HandlePagedResult(query);
+        }
+
+        // metoda tylko dla superadmina
+        [HttpGet("rolesManage/userRoles/{userId}")]
+        public async Task<IActionResult> GetRolesForUser(int userId)
+        {
+            var query = await _mediator.Send(new UserDetails.Query { UserId = userId } );
+            return HandleResult(query);
+        }
+        
+        // metoda tylko dla superadmina
+        [HttpDelete("rolesManage/userRoles/deleteRole/{userId}/{userRoleId}")]
+        public async Task<IActionResult> RemoveUserRole(int userId, int userRoleId)
+        {
+            var query = await _mediator.Send(new UserRoleDelete.Command { UserId = userId, UserRoleId = userRoleId });
+            return HandleResult(query);
+        }
+
+        // metoda tylko dla superadmina
+        [HttpPost("rolesManage/userRoles/addRole")]
+        public async Task<IActionResult> AddUserRole(UserRoleCreateDTO userRoleCreateDTO)
+        {
+            var query = await _mediator.Send(new UserRoleCreate.Command { UserRoleCreateDTO = userRoleCreateDTO });
+            return HandleResult(query);
         }
     }
 }

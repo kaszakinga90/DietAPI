@@ -4,6 +4,7 @@ using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.DayWeekDTOs
 {
@@ -27,14 +28,23 @@ namespace Application.CQRS.DayWeekDTOs
 
             public async Task<Result<DayWeekGetDTO>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var dayWeek = await _context.DayWeeksDb.SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken); ;
-
-                if (dayWeek == null)
+                try
                 {
-                    return Result<DayWeekGetDTO>.Failure("Day week nie został znaleziony.");
-                }
+                    var dayWeek = await _context.DayWeeksDb
+                    .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-                return Result<DayWeekGetDTO>.Success(_mapper.Map<DayWeekGetDTO>(dayWeek));
+                    if (dayWeek == null)
+                    {
+                        return Result<DayWeekGetDTO>.Failure("Day week nie został znaleziony.");
+                    }
+
+                    return Result<DayWeekGetDTO>.Success(_mapper.Map<DayWeekGetDTO>(dayWeek));
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<DayWeekGetDTO>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                } 
             }
         }
     }

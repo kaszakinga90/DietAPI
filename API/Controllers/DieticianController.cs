@@ -1,5 +1,4 @@
 ﻿using Application.Core;
-using Application.CQRS.Admins;
 using Application.CQRS.Dieticians;
 using Application.CQRS.Diplomas;
 using Application.DTOs.DieticianDTO;
@@ -82,7 +81,8 @@ namespace API.Controllers
 
             return HandleResult(await _mediator.Send(command));
         }
-        [HttpPut("{dieticianId}/editdata")]
+
+        [HttpPut("editdata/{dieticianId}")]
         public async Task<IActionResult> EditDieticianData(int dieticianId, DieticianEditDataDTO dietician)
         {
             var command = new DieticianEditData.Command
@@ -106,6 +106,7 @@ namespace API.Controllers
 
             return HandlePagedResult(result);
         }
+
         [HttpGet("filters/{dieticianId}")]
         public async Task<ActionResult<DieticianMessagesFiltersDTO>> GetFilters(int dieticianId)
         {
@@ -118,7 +119,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="message">Wiadomość od dietetyka.</param>
         /// <returns>Status operacji.</returns>
-        [HttpPost("{dieticianId}/messageToAdmin")]
+        [HttpPost("messageToAdmin/{dieticianId}")]
         public async Task<IActionResult> MessageToAdmin(int dieticianId, MessageToDTO message)
         {
             var command = new MessageToAdminFromDieticianCreate.Command

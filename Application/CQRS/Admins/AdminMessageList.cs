@@ -1,6 +1,7 @@
 ﻿using Application.Core;
 using DietDB;
 using MediatR;
+using System.Diagnostics;
 
 namespace Application.CQRS.Admins
 {
@@ -23,7 +24,9 @@ namespace Application.CQRS.Admins
 
             public async Task<Result<PagedList<MessageToDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var adminMessagesList = _context.MessageToDb
+                try
+                {
+                    var adminMessagesList = _context.MessageToDb
                     .Where(m => m.AdminId == request.AdminId)
                     .Select(m => new MessageToDTO
                     {
@@ -40,9 +43,16 @@ namespace Application.CQRS.Admins
                         IsRead = m.IsRead
                     })
                     .AsQueryable();
-                return Result<PagedList<MessageToDTO>>.Success(
-                    await PagedList<MessageToDTO>.CreateAsync(adminMessagesList, request.Params.PageNumber, request.Params.PageSize)
-                    );
+
+                    return Result<PagedList<MessageToDTO>>.Success(
+                        await PagedList<MessageToDTO>.CreateAsync(adminMessagesList, request.Params.PageNumber, request.Params.PageSize)
+                        );
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<PagedList<MessageToDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

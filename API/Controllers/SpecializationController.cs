@@ -28,7 +28,7 @@ namespace API.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> CreateDiet(DieteticianSpecializationPostDTO ds)
         {
-            var result=await _mediator.Send(new DieteticianSpecializationCreate.Command { DieteticianSpecializationPostDTOs = ds });
+            var result = await _mediator.Send(new DieteticianSpecializationCreate.Command { DieteticianSpecializationPostDTOs = ds });
             return Ok(result.Value);
         }
     }

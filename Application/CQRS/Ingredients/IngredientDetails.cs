@@ -3,6 +3,7 @@ using Application.DTOs.IngredientDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.Ingredients
 {
@@ -23,7 +24,9 @@ namespace Application.CQRS.Ingredients
 
                 public async Task<Result<IngredientGetDTO>> Handle(Query request, CancellationToken cancellationToken)
                 {
-                    var ingredient = await _context.IngredientsDb
+                    try
+                    {
+                        var ingredient = await _context.IngredientsDb
                         .Where(m => m.Id == request.IngredientId)
                         .Select(m => new IngredientGetDTO
                         {
@@ -34,20 +37,25 @@ namespace Application.CQRS.Ingredients
                             ServingQuantity = m.ServingQuantity ?? 0,
                             MeasureId = m.MeasureId,
                             PictureUrl = m.PictureUrl,
-                            Weight = m.Weight??0,
-                            UnitId=m.UnitId,
+                            Weight = m.Weight ?? 0,
+                            UnitId = m.UnitId,
                         })
                         .FirstOrDefaultAsync();
 
-                    if (ingredient == null)
-                    {
-                        return Result<IngredientGetDTO>.Failure("Ingredient not found.");
-                    }
+                        if (ingredient == null)
+                        {
+                            return Result<IngredientGetDTO>.Failure("Ingredient not found.");
+                        }
 
-                    return Result<IngredientGetDTO>.Success(ingredient);
+                        return Result<IngredientGetDTO>.Success(ingredient);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                        return Result<IngredientGetDTO>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                    }
                 }
             }
         }
     }
 }
-

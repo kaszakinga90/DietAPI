@@ -3,6 +3,7 @@ using Application.DTOs.DieteticianPatientDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.DieticiansPatients
 {
@@ -24,20 +25,27 @@ namespace Application.CQRS.DieticiansPatients
 
             public async Task<Result<List<DieteticianPatientDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var diet = await _context.DieticianPatientsDb
-                    .Where(d => d.DieticianId == request.DieticianId)
-                    .Select(d => new DieteticianPatientDTO
-                    {
-                        PatientId = d.PatientId,
-                        DieticianId = d.DieticianId,
-                        DieteticianName = d.Dietician.FirstName + " " + d.Dietician.LastName,
-                        PatientName = d.Patient.FirstName + " " + d.Patient.LastName,
-                    })
-                    .ToListAsync(cancellationToken);
+                try
+                {
+                    var dietPatientList = await _context.DieticianPatientsDb
+                          .Where(d => d.DieticianId == request.DieticianId)
+                          .Select(d => new DieteticianPatientDTO
+                          {
+                              PatientId = d.PatientId,
+                              DieticianId = d.DieticianId,
+                              DieteticianName = d.Dietician.FirstName + " " + d.Dietician.LastName,
+                              PatientName = d.Patient.FirstName + " " + d.Patient.LastName,
+                          })
+                          .ToListAsync(cancellationToken);
 
-                return Result<List<DieteticianPatientDTO>>.Success(diet);
+                    return Result<List<DieteticianPatientDTO>>.Success(dietPatientList);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<List<DieteticianPatientDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }
 }
-

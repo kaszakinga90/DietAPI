@@ -18,17 +18,20 @@ using Application.DTOs.IngredientDTO;
 using Application.DTOs.IngredientDTO.IngredientNutritionixDTO;
 using Application.DTOs.InvitationDTO;
 using Application.DTOs.LogoDTO;
+using Application.DTOs.MealDTO;
 using Application.DTOs.MealTimeToXYAxisDTO;
 using Application.DTOs.MeasureDTO;
 using Application.DTOs.NutrientDTO;
 using Application.DTOs.OfficeDTO;
 using Application.DTOs.PatientCardDTO;
 using Application.DTOs.PatientDTO;
+using Application.DTOs.PrintoutsDTO;
 using Application.DTOs.RecipeDTO;
 using Application.DTOs.RecipeStepDTO;
 using Application.DTOs.ReportsClassesDTO;
 using Application.DTOs.ReportsClassesDTO.Reports;
 using Application.DTOs.ReportTemplateDTO;
+using Application.DTOs.RoleDTO;
 using Application.DTOs.SexDTO;
 using Application.DTOs.SpecializationDTO;
 using Application.DTOs.UnitDTO;
@@ -42,6 +45,7 @@ namespace Application.Core
     {
         public MappingProfiles()
         {
+
             CreateMap<CategoryOfDiet, CategoryOfDiet>();
             CreateMap<CategoryOfDiet, CategoryOfDietDeleteDTO>()
                 .ReverseMap();
@@ -82,11 +86,11 @@ namespace Application.Core
                 .ForMember(dest => dest.AddressDTO, opt => opt.MapFrom(src => src.Address))
                 .ReverseMap();
 
-            CreateMap<Admin, AdminDTO>()
+            CreateMap<Admin, AdminEditDTO>()
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate.HasValue ? src.BirthDate.Value.Date : (DateTime?)null))
                 .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageTo));
 
-            CreateMap<AdminDTO, Admin>();
+            CreateMap<AdminEditDTO, Admin>();
 
             CreateMap<Admin, AdminPostDTO>()
                 .ReverseMap();
@@ -156,6 +160,12 @@ namespace Application.Core
                 .ForMember(dest => dest.isActive, opt => opt.MapFrom(src => src.isActive))
                 .ReverseMap();
 
+            CreateMap<Role, RolePostDTO>()
+                .ReverseMap();
+
+            CreateMap<Role, RoleGetDTO>()
+                .ReverseMap();
+
             //CreateMap<NotePatient, NotePatientDeleteDTO>()
             //    .ForMember(dest => dest.isActive, opt => opt.MapFrom(src => src.isActive))
             //    .ReverseMap();
@@ -184,6 +194,9 @@ namespace Application.Core
                 .ReverseMap();
 
             CreateMap<Dish, DishGetDTO>()
+                .ReverseMap();
+
+            CreateMap<Meal, MealGetDTO>()
                 .ReverseMap();
 
             CreateMap<DieticianPatient, DieteticianPatientDTO>();

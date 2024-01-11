@@ -1,18 +1,21 @@
-﻿using Application.DTOs.MeasureDTO;
+﻿using Application.Core;
+using Application.DTOs.MeasureDTO;
 using AutoMapper;
 using DietDB;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.Measures
 {
     public class MeasureDetails
     {
-        public class Query : IRequest<MeasureGetDTO>
+        public class Query : IRequest<Result<MeasureGetDTO>>
         {
             public int Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, MeasureGetDTO>
+        public class Handler : IRequestHandler<Query, Result<MeasureGetDTO>>
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
@@ -23,10 +26,25 @@ namespace Application.CQRS.Measures
                 _mapper = mapper;
             }
 
-            public async Task<MeasureGetDTO> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<MeasureGetDTO>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var measure = await _context.MeasuresDb.FindAsync(request.Id);
-                return _mapper.Map<MeasureGetDTO>(measure);
+                try
+                {
+                    var measure = await _context.MeasuresDb
+                    .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+
+                    if (measure == null)
+                    {
+                        return Result<MeasureGetDTO>.Failure("Measure o podanym id nie został odnaleziony");
+                    }
+
+                    return Result<MeasureGetDTO>.Success(_mapper.Map<MeasureGetDTO>(measure));
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<MeasureGetDTO>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

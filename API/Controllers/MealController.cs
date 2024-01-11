@@ -1,8 +1,6 @@
 ﻿using Application.CQRS.Meals;
-using Application.DTOs.MealDTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ModelsDB.Functionality;
 
 namespace API.Controllers
 {
@@ -12,17 +10,18 @@ namespace API.Controllers
         {
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<MealGetDTO>>> GetMeals()
+        [HttpGet("all")]
+        public async Task<IActionResult> GetMeals()
         {
             var result = await _mediator.Send(new MealList.Query());
             return HandleResult(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Meal>> GetMeal(int id)
+        public async Task<IActionResult> GetMeal(int id)
         {
-            return await _mediator.Send(new MealDetails.Query { Id = id });
+            var result = await _mediator.Send(new MealDetails.Query { Id = id });
+            return HandleResult(result);
         }
     }
 }

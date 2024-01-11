@@ -5,6 +5,7 @@ using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.Admins
 {
@@ -28,7 +29,9 @@ namespace Application.CQRS.Admins
 
             public async Task<Result<AdminGetDTO>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var admin = await _context.AdminsDb
+                try
+                {
+                    var admin = await _context.AdminsDb
                                .Include(a => a.Address)
                                     .ThenInclude(a => a.CountryState)
                                .Include(a => a.MessageTo)
@@ -37,7 +40,7 @@ namespace Application.CQRS.Admins
                                    Id = a.Id,
                                    AdminName = a.FirstName + " " + a.LastName,
                                    Email = a.Email,
-                                   Phone = a.PhoneNumber,
+                                   PhoneNumber = a.PhoneNumber,
                                    BirthDate = a.BirthDate,
                                    AddressDTO = new AddressesDTO
                                    {
@@ -62,12 +65,18 @@ namespace Application.CQRS.Admins
                                })
                                .SingleOrDefaultAsync(x => x.Id == request.AdminId, cancellationToken);
 
-                if (admin == null)
-                {
-                    return Result<AdminGetDTO>.Failure("Admin nie został znaleziony.");
-                }
+                    if (admin == null)
+                    {
+                        return Result<AdminGetDTO>.Failure("Admin nie został znaleziony.");
+                    }
 
-                return Result<AdminGetDTO>.Success(admin);
+                    return Result<AdminGetDTO>.Success(admin);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<AdminGetDTO>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

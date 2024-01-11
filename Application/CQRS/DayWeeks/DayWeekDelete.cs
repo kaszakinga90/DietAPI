@@ -1,5 +1,4 @@
 ﻿using Application.Core;
-using Application.DTOs.CategoryOfDietDTO;
 using Application.DTOs.DayWeekDTO;
 using AutoMapper;
 using DietDB;
@@ -29,11 +28,12 @@ namespace Application.CQRS.DayWeeks
 
             public async Task<Result<DayWeekDeleteDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var dayWeek = await _context.DayWeeksDb.FirstOrDefaultAsync(i => i.Id == request.Id);
+                var dayWeek = await _context.DayWeeksDb
+                    .FirstOrDefaultAsync(i => i.Id == request.Id);
 
                 if (dayWeek == null)
                 {
-                    return Result<DayWeekDeleteDTO>.Failure("kategoria diety o podanym ID nie została znaleziona.");
+                    return Result<DayWeekDeleteDTO>.Failure("Dzień o podanym ID nie został znaleziony.");
                 }
 
                 _mapper.Map(request.DayWeekDeleteDTO, dayWeek);
@@ -45,12 +45,12 @@ namespace Application.CQRS.DayWeeks
                     var result = await _context.SaveChangesAsync(cancellationToken) > 0;
                     if (!result)
                     {
-                        return Result<DayWeekDeleteDTO>.Failure("Usunięcie kategorii nie powiodło się.");
+                        return Result<DayWeekDeleteDTO>.Failure("Usunięcie dnia nie powiodło się.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    return Result<DayWeekDeleteDTO>.Failure("Wystąpił błąd podczas usuwania kategorii.");
+                    return Result<DayWeekDeleteDTO>.Failure("Wystąpił błąd podczas usuwania dnia.");
                 }
 
                 return Result<DayWeekDeleteDTO>.Success(_mapper.Map<DayWeekDeleteDTO>(dayWeek));

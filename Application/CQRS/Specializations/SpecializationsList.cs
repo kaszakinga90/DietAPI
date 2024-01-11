@@ -3,6 +3,7 @@ using Application.DTOs.SpecializationDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.Specializations
 {
@@ -21,14 +22,23 @@ namespace Application.CQRS.Specializations
 
                 public async Task<Result<List<SpecializationGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
                 {
-                    var specializationsList = await _context.SpecializationsDb
+                    try
+                    {
+                        var specializationsList = await _context.SpecializationsDb
                         .Select(m => new SpecializationGetDTO
                         {
                             Id = m.Id,
-                            SpecializationName=m.SpecializationName
+                            SpecializationName = m.SpecializationName
                         })
-                        .ToListAsync();
-                    return Result<List<SpecializationGetDTO>>.Success(specializationsList);
+                        .ToListAsync(cancellationToken);
+
+                        return Result<List<SpecializationGetDTO>>.Success(specializationsList);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                        return Result<List<SpecializationGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                    }
                 }
             }
         }

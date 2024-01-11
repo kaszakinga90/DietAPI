@@ -4,6 +4,7 @@ using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.Logos
 {
@@ -27,7 +28,8 @@ namespace Application.CQRS.Logos
 
                 public async Task<Result<LogoPostDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
-                    var logo = await _context.LogosDb.SingleOrDefaultAsync(l => l.DieticianId == request.DieticianId);
+                    var logo = await _context.LogosDb
+                        .SingleOrDefaultAsync(l => l.DieticianId == request.DieticianId);
 
                     if (logo == null)
                     {
@@ -39,9 +41,21 @@ namespace Application.CQRS.Logos
                     if (logo != null)
                     {
                         logo.isActive = false;
-                        await _context.SaveChangesAsync();
-                    }
 
+                        try
+                        {
+                            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                            if (!result)
+                            {
+                                return Result<LogoPostDTO>.Failure("Operacja nie powiodła się.");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                            return Result<LogoPostDTO>.Failure("Wystąpił błąd podczas usuwania logo.");
+                        }
+                    }
                     return Result<LogoPostDTO>.Success(_mapper.Map<LogoPostDTO>(logo));
                 }
             }

@@ -28,6 +28,12 @@ namespace Application.CQRS.FoodCatalogs
             public async Task<Result<FoodCatalogPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var foodCatalog = _mapper.Map<FoodCatalog>(request.FoodCatalogPostDTO);
+
+                if (foodCatalog == null)
+                {
+                    return Result<FoodCatalogPostDTO>.Failure("Niepowodzenie mapowania.");
+                }
+
                 _context.FoodCatalogsDb.Add(foodCatalog);
 
                 try

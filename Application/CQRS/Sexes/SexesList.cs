@@ -4,6 +4,7 @@ using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.Sexes
 {
@@ -24,12 +25,26 @@ namespace Application.CQRS.Sexes
 
             public async Task<Result<List<SexGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var sexesListFromDb = await _context.SexesDb.FromSqlRaw("SELECT * FROM GetAllSexesFromSqlView").ToListAsync();
-                var sexesList = _mapper.Map<List<SexGetDTO>>(sexesListFromDb);
+                try
+                {
+                    var sexesListFromDb = await _context.SexesDb
+                    .FromSqlRaw("SELECT * FROM GetAllSexesFromSqlView")
+                    .ToListAsync();
 
-                return Result<List<SexGetDTO>>.Success(sexesList);
+                    if (sexesListFromDb == null)
+                    {
+                        return Result<List<SexGetDTO>>.Failure("No results");
+                    }
 
-               
+                    var sexesList = _mapper.Map<List<SexGetDTO>>(sexesListFromDb);
+
+                    return Result<List<SexGetDTO>>.Success(sexesList);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<List<SexGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

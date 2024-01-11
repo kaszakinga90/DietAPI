@@ -3,6 +3,7 @@ using Application.DTOs.CountryStateDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.CountryStates
 {
@@ -21,20 +22,23 @@ namespace Application.CQRS.CountryStates
 
             public async Task<Result<List<CountryStateGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var stateList = await _context.CountryStatesDb
-                    .Select(m => new CountryStateGetDTO
-                    {
-                        Id = m.Id,
-                        StateName=m.StateName,
-                    })
-                    .ToListAsync(cancellationToken);
-
-                if (stateList == null)
+                try
                 {
-                    return Result<List<CountryStateGetDTO>>.Failure("no results.");
-                }
+                    var stateList = await _context.CountryStatesDb
+                          .Select(m => new CountryStateGetDTO
+                          {
+                              Id = m.Id,
+                              StateName = m.StateName,
+                          })
+                          .ToListAsync(cancellationToken);
 
-                return Result<List<CountryStateGetDTO>>.Success(stateList);
+                    return Result<List<CountryStateGetDTO>>.Success(stateList);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<List<CountryStateGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

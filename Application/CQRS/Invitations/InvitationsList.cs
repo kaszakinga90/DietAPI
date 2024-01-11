@@ -3,6 +3,7 @@ using Application.DTOs.InvitationDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.Invitations
 {
@@ -21,7 +22,9 @@ namespace Application.CQRS.Invitations
 
                 public async Task<Result<List<InvitationGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
                 {
-                    var invitationsList = await _context.InvitationsDb
+                    try
+                    {
+                        var invitationsList = await _context.InvitationsDb
                         .Select(m => new InvitationGetDTO
                         {
                             DieticianId = m.DieticianId,
@@ -31,8 +34,15 @@ namespace Application.CQRS.Invitations
                             IsDeclined = m.IsDeclined,
                             PatientName = m.Patient.FirstName + " " + m.Patient.LastName,
                         })
-                        .ToListAsync();
-                    return Result<List<InvitationGetDTO>>.Success(invitationsList);
+                        .ToListAsync(cancellationToken);
+
+                        return Result<List<InvitationGetDTO>>.Success(invitationsList);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                        return Result<List<InvitationGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                    }
                 }
             }
         }

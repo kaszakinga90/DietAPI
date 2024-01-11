@@ -16,8 +16,7 @@ namespace API.Controllers
         {
         }
 
-        [HttpGet]
-        [Route("all")]
+        [HttpGet("all")]
         public async Task<ActionResult<List<Patient>>> GetPatients()
         {
             return await _mediator.Send(new PatientList.Query());
@@ -51,7 +50,7 @@ namespace API.Controllers
         }
 
         //pospolita zmiana danych
-        [HttpPut("{patientId}/editdata")]
+        [HttpPut("editdata/{patientId}")]
         public async Task<IActionResult> EditPatientData(int patientId, PatientEditDataDTO patient)
         {
             var command = new PatientEditData.Command
@@ -63,7 +62,7 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
-        [HttpGet("{patientId}/messages")]
+        [HttpGet("messages/{patientId}")]
         public async Task<ActionResult<PagedList<MessageToDTO>>> GetMessagesForPatient(int patientId, [FromQuery] PatientMessagesParams param)
         {
             var result = await _mediator.Send(new PatientMessageList.Query { PatientId = patientId, Params = param });
@@ -90,7 +89,7 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
-        [HttpPost("{patientId}/messageToAdmin")]
+        [HttpPost("messageToAdmin/{patientId}")]
         public async Task<IActionResult> MessageToAdmin(int patientId, MessageToDTO message)
         {
             var command = new MessageToAdminFromPatientCreate.Command

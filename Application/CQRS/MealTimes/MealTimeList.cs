@@ -5,6 +5,7 @@ using ModelsDB.Functionality;
 
 namespace Application.CQRS.MealTimes
 {
+    // TODO : do sprawdzenia czy wykorzystywane?
     public class MealTimeList
     {
         public class Query : IRequest<List<MealTimeToXYAxis>> { }

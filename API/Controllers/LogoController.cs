@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    // TODO : sposób przedstawienia nagłówków autoryzacyjnych
     //[Authorize(Roles = "Admin, Dietetician")]
     public class LogoController : BaseApiController
     {
@@ -20,20 +21,18 @@ namespace API.Controllers
                 LogoPostDTO = logoDto,
                 File = file,
             };
-
-            await _mediator.Send(command);
-
-            return Ok();
+            return HandleResult(await _mediator.Send(command));
         }
+
         [HttpGet("getlogo/{dieticianId}")]
-        public async Task<ActionResult<LogoGetDTO>> GetLogo(int dieticianId)
+        public async Task<IActionResult> GetLogo(int dieticianId)
         {
             var result = await _mediator.Send(new LogoDieticianDetails.Query { DieticianId = dieticianId });
             return HandleResult(result);
         }
 
         [HttpDelete("{dieticianId}")]
-        public async Task<ActionResult<LogoPostDTO>> DeleteLogo(int dieticianId)
+        public async Task<IActionResult> DeleteLogo(int dieticianId)
         {
             var command = new LogoDieticianDelete.Command { DieticianId = dieticianId };
 

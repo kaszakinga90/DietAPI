@@ -60,7 +60,9 @@ namespace Application.CQRS.Admins
                 message.AdminId = request.AdminId;
                 message.DieticianId = null;
 
-                var patient = await _context.PatientsDb.FindAsync(request.MessageDTO.PatientId.Value);
+                var patient = await _context.PatientsDb
+                    .FindAsync(request.MessageDTO.PatientId.Value, cancellationToken);
+
                 if (patient == null)
                 {
                     return Result<MessageToDTO>.Failure("Pacjent nie został znaleziony.");

@@ -24,7 +24,8 @@ namespace Application.CQRS.ReportTemplates
 
             public async Task<Result<List<ReportTemplateGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var reportTemplateFromDb = await _context.ReportTemplatesDb.ToListAsync();
+                var reportTemplateFromDb = await _context.ReportTemplatesDb
+                    .ToListAsync(cancellationToken);
 
                 if (reportTemplateFromDb.Count == 0 || reportTemplateFromDb == null) {
                     return Result<List<ReportTemplateGetDTO>>.Failure("report templates not found.");

@@ -1,15 +1,9 @@
 ﻿using Application.Core;
 using Application.DTOs.DieticianOfficeDTO;
-using Application.DTOs.FoodCatalogDTO;
-using Application.DTOs.OfficeDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Application.CQRS.Offices
 {
@@ -31,15 +25,24 @@ namespace Application.CQRS.Offices
 
             public async Task<Result<List<DieticianOfficesGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var offices = await _context.DieticianOffices
+                try
+                {
+                    var offices = await _context.DieticianOffices
                     .Where(m => m.DieticianId == request.DieteticianId)
                     .Select(m => new DieticianOfficesGetDTO
                     {
-                        Id=m.OfficeId,
-                        OfficeName=m.Office.OfficeName,
+                        Id = m.OfficeId,
+                        OfficeName = m.Office.OfficeName,
                     })
                     .ToListAsync(cancellationToken);
-                return Result<List<DieticianOfficesGetDTO>>.Success(offices);
+
+                    return Result<List<DieticianOfficesGetDTO>>.Success(offices);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<List<DieticianOfficesGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

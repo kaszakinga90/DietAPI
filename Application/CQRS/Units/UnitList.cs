@@ -3,6 +3,7 @@ using Application.DTOs.UnitDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.Units
 {
@@ -21,15 +22,24 @@ namespace Application.CQRS.Units
 
             public async Task<Result<List<UnitGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var unitList = await _context.UnitsDb
+                try
+                {
+                    var unitList = await _context.UnitsDb
                     .Select(m => new UnitGetDTO
                     {
                         Id = m.Id,
                         Symbol = m.Symbol,
                         Description = m.Description,
                     })
-                    .ToListAsync();
-                return Result<List<UnitGetDTO>>.Success(unitList);
+                    .ToListAsync(cancellationToken);
+
+                    return Result<List<UnitGetDTO>>.Success(unitList);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<List<UnitGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

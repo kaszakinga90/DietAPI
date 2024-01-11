@@ -9,12 +9,12 @@ namespace API.Controllers
     {
         public MealTimeToXYAxisController(IMediator mediator):base(mediator)
         {
-            
         }
-        [HttpGet("details/{dietId}")]
-        public async Task<ActionResult<List<MealTimeToXYAxisGetDTO>>> GetDiets(int dietId)
-        {
 
+        [HttpGet("details/{dietId}")]
+        public async Task<IActionResult> GetDiets(int dietId)
+        {
+            // TODO : referencje dla nazwy MealTimeToXYAxisDetails - bo to jest lista
             var result = await _mediator.Send(new MealTimeToXYAxisDetails.Query { DietId = dietId });
             return HandleResult(result);
         }

@@ -9,6 +9,7 @@ namespace API.Controllers
         public DiplomaController(IMediator mediator) : base(mediator)
         {
         }
+         
         [HttpGet("{dieticianId}")]
         public async Task<IActionResult> GetDiplomas(int dieticianId)
         {
@@ -16,6 +17,4 @@ namespace API.Controllers
             return HandleResult(result);
         }
     }
-
-
 }

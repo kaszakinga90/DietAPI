@@ -35,6 +35,7 @@ using Application.CQRS.Meals;
 using Application.CQRS.Offices;
 using Application.CQRS.ReportTemplates;
 using Application.CQRS.Sexes;
+using Application.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -167,6 +168,8 @@ builder.Services.AddScoped<ReportService>();
 /// Dodaje wsparcie dla walidacji z FluentValidation.
 /// </summary>
 builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddTransient<UserRoleValidate>();
+
 
 var emailSendConfiguration = builder.Configuration
     .GetSection("EmailSenderConfiguration")

@@ -30,6 +30,11 @@ namespace Application.CQRS.Admins
             {
                 var admin = _mapper.Map<Admin>(request.AdminPostDTO);
 
+                if (admin == null)
+                {
+                    return Result<AdminPostDTO>.Failure("Admin nie został znaleziony.");
+                }
+
                 admin.UserName = request.AdminPostDTO.Email;
                 admin.EmailConfirmed = true;
 
