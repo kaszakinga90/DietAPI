@@ -1,4 +1,5 @@
 ﻿using Application.Core;
+using Application.CQRS.Ingredients;
 using Application.DTOs.UsersDTO;
 using Application.FiltersExtensions.UserRoles;
 using DietDB;
@@ -36,6 +37,7 @@ namespace Application.CQRS.UserRoles
                         Email = a.Email
                     })
                     .AsQueryable();
+                    rolesList = rolesList.Search(request.Params.SearchTerm);
 
                     return Result<PagedList<UserWithRoleGetDTO>>.Success(
                         await PagedList<UserWithRoleGetDTO>.CreateAsync(rolesList, request.Params.PageNumber, request.Params.PageSize)

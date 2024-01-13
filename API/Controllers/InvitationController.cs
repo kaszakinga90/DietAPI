@@ -47,7 +47,10 @@ namespace API.Controllers
             {
                 InvitationPostDTO = invitationPostDto
             };
-            return HandleResult(await _mediator.Send(command));
+
+            var result = await _mediator.Send(command);
+            return Ok(result);
+            //    return HandleResult(await _mediator.Send(command));
         }
 
         [HttpPut("confirm/{invitationId}")]
