@@ -8,10 +8,9 @@ namespace ModelsDB
     {
         [Key]
         public int Id { get; set; }
-        public DateTime TestDate { get; set; }
-        public int PatientId { get; set; }
-        public Patient Patient { get; set; }
-        public List<SingleTestResults> SingleTestEqual { get; set; }
+        public int DieticianId { get; set; }
+        public SingleTestResults SingleTestResults { get; set; }
+        public int SingleTestResultsId { get; set; }
         public int PatientCardId { get; set; }
         public PatientCard PatientCard { get; set; }
     }

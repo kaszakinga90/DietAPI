@@ -34,6 +34,8 @@ using Application.DTOs.ReportTemplateDTO;
 using Application.DTOs.RoleDTO;
 using Application.DTOs.SexDTO;
 using Application.DTOs.SpecializationDTO;
+using Application.DTOs.Surveys;
+using Application.DTOs.TestsResultsDTO;
 using Application.DTOs.UnitDTO;
 using AutoMapper;
 using ModelsDB;
@@ -198,6 +200,12 @@ namespace Application.Core
 
             CreateMap<Meal, MealGetDTO>()
                 .ReverseMap();
+            
+            CreateMap<Survey, SurveyPostDTO>()
+                .ReverseMap();
+            
+            CreateMap<SingleTestResults, TestResultPostDTO>()
+                .ReverseMap();
 
             CreateMap<DieticianPatient, DieteticianPatientDTO>();
             CreateMap<DieteticianPatientDTO, DieticianPatient>();
@@ -324,6 +332,9 @@ namespace Application.Core
                 .ReverseMap();
 
             CreateMap<Dietician, DieticianEditDataDTO>()
+                .ReverseMap();
+            
+            CreateMap<PatientCard, PatientCardGetDTO>()
                 .ReverseMap();
 
             CreateMap<Office, OfficeEditDTO>()
