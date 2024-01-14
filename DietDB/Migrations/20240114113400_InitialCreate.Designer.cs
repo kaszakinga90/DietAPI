@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietDB.Migrations
 {
     [DbContext(typeof(DietContext))]
-    [Migration("20240110113756_InitialCreate")]
+    [Migration("20240114113400_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,29 +120,29 @@ namespace DietDB.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "413eaf33-b474-42cd-8f18-5a1d826d5937",
-                            ConcurrencyStamp = "6b051356-230e-484e-a9d3-00c39668011a",
+                            Id = "2ae7e039-9793-4cd8-9695-15875d0dc4f5",
+                            ConcurrencyStamp = "bc6cecbe-6d41-4a1d-abf1-e4b283c763b1",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "fdbfab39-6b2f-4f22-8df5-88e4e5b8651a",
-                            ConcurrencyStamp = "593f2eeb-d790-40a9-8afd-5f1e183f996b",
+                            Id = "828bc459-4974-470b-a5a2-088ffd34cd16",
+                            ConcurrencyStamp = "1fdfa21c-fc57-4002-9e35-7ad2cdb25184",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "10481deb-0207-4bfb-a72d-7b04b7a18575",
-                            ConcurrencyStamp = "50c70a70-434a-4385-987c-277416184c5c",
+                            Id = "759a35f5-cbc9-49cb-bbb5-975a74c709b8",
+                            ConcurrencyStamp = "e2405bf1-f08f-4da0-90ad-09252c9404af",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = "71acc0d1-51d3-40c1-a965-bb1bf77bf514",
-                            ConcurrencyStamp = "05bcd24e-6347-4e75-96cf-58dc34651e9e",
+                            Id = "78dcf667-3400-4481-9f5b-7cfeb1a23576",
+                            ConcurrencyStamp = "d7334bd1-1d0b-4e79-89e0-4c46cc46ff77",
                             Name = "Dietetician",
                             NormalizedName = "DIETETICIAN"
                         });
@@ -1353,6 +1353,9 @@ namespace DietDB.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("SurveyId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DieticianId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("dateAdded")
@@ -2867,11 +2870,11 @@ namespace DietDB.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("TestEqualId")
+                    b.Property<int>("DieticianId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TestResultId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("TestDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
@@ -2905,8 +2908,6 @@ namespace DietDB.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TestResultId");
-
                     b.ToTable("SingleTestResults");
                 });
 
@@ -2917,6 +2918,9 @@ namespace DietDB.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("DieticianId")
+                        .HasColumnType("int");
 
                     b.Property<float>("Heigth")
                         .HasColumnType("real");
@@ -2961,14 +2965,17 @@ namespace DietDB.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("DieticianId")
+                        .HasColumnType("int");
+
                     b.Property<int>("PatientCardId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PatientId")
+                    b.Property<int?>("PatientId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("TestDate")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("SingleTestResultsId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
@@ -2996,6 +3003,8 @@ namespace DietDB.Migrations
                     b.HasIndex("PatientCardId");
 
                     b.HasIndex("PatientId");
+
+                    b.HasIndex("SingleTestResultsId");
 
                     b.ToTable("TestResult");
                 });
@@ -3874,15 +3883,6 @@ namespace DietDB.Migrations
                         .HasForeignKey("PatientId");
                 });
 
-            modelBuilder.Entity("ModelsDB.SingleTestResults", b =>
-                {
-                    b.HasOne("ModelsDB.TestResult", "TestResult")
-                        .WithMany("SingleTestEqual")
-                        .HasForeignKey("TestResultId");
-
-                    b.Navigation("TestResult");
-                });
-
             modelBuilder.Entity("ModelsDB.TestResult", b =>
                 {
                     b.HasOne("ModelsDB.PatientCard", "PatientCard")
@@ -3891,15 +3891,19 @@ namespace DietDB.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ModelsDB.Patient", "Patient")
+                    b.HasOne("ModelsDB.Patient", null)
                         .WithMany("TestEquals")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("PatientId");
+
+                    b.HasOne("ModelsDB.SingleTestResults", "SingleTestResults")
+                        .WithMany("TestResult")
+                        .HasForeignKey("SingleTestResultsId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Patient");
-
                     b.Navigation("PatientCard");
+
+                    b.Navigation("SingleTestResults");
                 });
 
             modelBuilder.Entity("ModelsDB.User", b =>
@@ -4096,14 +4100,14 @@ namespace DietDB.Migrations
                     b.Navigation("Steps");
                 });
 
+            modelBuilder.Entity("ModelsDB.SingleTestResults", b =>
+                {
+                    b.Navigation("TestResult");
+                });
+
             modelBuilder.Entity("ModelsDB.Survey", b =>
                 {
                     b.Navigation("PatientCardSurveys");
-                });
-
-            modelBuilder.Entity("ModelsDB.TestResult", b =>
-                {
-                    b.Navigation("SingleTestEqual");
                 });
 
             modelBuilder.Entity("ModelsDB.User", b =>

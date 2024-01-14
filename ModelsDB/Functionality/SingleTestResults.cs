@@ -14,7 +14,8 @@ namespace ModelsDB
         public float test1 { get; set; }
         public float test2 { get; set; }
         public float test3 { get; set; }
-        public int TestEqualId { get; set; }
-        public TestResult TestResult { get; set; }
+        public DateTime TestDate { get; set; }
+        public int DieticianId { get; set; }
+        public List<TestResult> TestResult { get; set; }
     }
 }

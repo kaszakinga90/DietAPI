@@ -204,11 +204,11 @@ namespace DietDB
 
             // ---------------------------------------------------------------------------------------- //
 
-            modelBuilder.Entity<TestResult>()
-                .HasOne(te => te.Patient)
-                .WithMany(p => p.TestEquals)
-                .HasForeignKey(te => te.PatientId)
-                .OnDelete(DeleteBehavior.Restrict);
+            //modelBuilder.Entity<TestResult>()
+            //    .HasOne(te => te.Patient)
+            //    .WithMany(p => p.TestEquals)
+            //    .HasForeignKey(te => te.PatientId)
+            //    .OnDelete(DeleteBehavior.Restrict);
 
             // ---------------------------------------------------------------------------------------- //
 
