@@ -1,13 +1,12 @@
 ﻿using Application.Core;
 using Application.DTOs.DishDTO;
-using Application.Services;
 using Application.Validators.Dish;
 using AutoMapper;
 using DietDB;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using ModelsDB;
 using ModelsDB.Functionality;
+using System.Diagnostics;
 
 // TODO : obsługa - dokończ.
 namespace Application.CQRS.Dishes
@@ -17,20 +16,17 @@ namespace Application.CQRS.Dishes
         public class Command : IRequest<Result<DishPostDTO>>
         {
             public DishPostDTO DishPostDTO { get; set; }
-            public IFormFile File { get; set; }
         }
         public class Handler : IRequestHandler<Command, Result<DishPostDTO>>
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
-            private readonly ImageService _imageService;
             private readonly DishCreateValidator _validator;
 
-            public Handler(DietContext context, IMapper mapper, ImageService imageService, DishCreateValidator validator)
+            public Handler(DietContext context, IMapper mapper, DishCreateValidator validator)
             {
                 _context = context;
                 _mapper = mapper;
-                _imageService = imageService;
                 _validator = validator;
             }
 
@@ -47,32 +43,25 @@ namespace Application.CQRS.Dishes
 
                 var requestDish = request.DishPostDTO;
 
-                var dish = new Dish
-                {
-                    Id = requestDish.Id,
-                    Name = requestDish.Name,
-                    Calories = requestDish.Calories,
-                    ServingQuantity = requestDish.ServingQuantity,
-                    MeasureId = requestDish.MeasureId,
-                    Weight = requestDish.Weight,
-                    UnitId = requestDish.UnitId,
-                    GlycemicIndex = requestDish.GlycemicIndex,
-                    PreparingTime = requestDish.PreparingTime,
-                    DieticianId = requestDish.DieteticianId,
-                    DishFoodCatalogs = requestDish.DishFoodCatalogs?.Select(dto => _mapper.Map<DishFoodCatalog>(dto)).ToList(),
-                    DishIngredients = requestDish.DishIngredients?.Select(dto => _mapper.Map<DishIngredient>(dto)).ToList(),
-                    //MealTimes = requestDish.MealTimes?.Select(dto => _mapper.Map<MealTimeToXYAxisEditDTO>(dto)).ToList(),
-                };
+                    try
+                    {
 
-                //if (requestDish.File != null)
-                //{
-                //    var imageResult = await _imageService.AddImageAsync(requestDish.File);
+                        var dish = new Dish
+                        {
+                            Id = requestDish.Id,
+                            Name = requestDish.Name,
+                            Calories = requestDish.Calories,
+                            ServingQuantity = requestDish.ServingQuantity,
+                            MeasureId = requestDish.MeasureId,
+                            UnitId = requestDish.UnitId,
+                            GlycemicIndex = requestDish.GlycemicIndex,
+                            PreparingTime = requestDish.PreparingTime,
+                            DieticianId = requestDish.DieteticianId,
+                            DishFoodCatalogs = requestDish.DishFoodCatalogs?.Select(dto => _mapper.Map<DishFoodCatalog>(dto)).ToList(),
+                            DishIngredients = requestDish.DishIngredients?.Select(dto => _mapper.Map<DishIngredient>(dto)).ToList(),
+                        };
 
-                //    dish.DishPhotoUrl = imageResult.SecureUrl.ToString();
-                //    dish.PublicId = imageResult.PublicId;
-                //}
-
-                _context.DishesDb.Add(dish);
+                        _context.DishesDb.Add(dish);
                         await _context.SaveChangesAsync();
 
                         var recipe = new Recipe()
@@ -92,9 +81,15 @@ namespace Application.CQRS.Dishes
                         existingRecipe.Steps = _mapper.Map<List<RecipeStep>>(requestDish.RecipeSteps);
                         await _context.SaveChangesAsync();
 
-                return Result<DishPostDTO>.Success(_mapper.Map<DishPostDTO>(dish));
-            }
+                        return Result<DishPostDTO>.Success(_mapper.Map<DishPostDTO>(dish));
 
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                        return Result<DishPostDTO>.Failure("Wystąpił błąd podczas przetwarzania danych.");
+                    }
+            }
         }
     }
 }

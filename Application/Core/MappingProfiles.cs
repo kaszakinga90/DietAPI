@@ -372,7 +372,7 @@ namespace Application.Core
             //            //Id = mt.Id,
             //            //DietId = mt.DietId,
             //            //DishId = mt.DishId,
-            //            DishName = mt.Dish.Name,
+            //            Name = mt.Dish.Name,
             //            MealTime = mt.MealTime.ToString()
             //        }).ToList()))
             //        .ForMember(dest => dest.DishesDTO, opt => opt.MapFrom(src => src.MealTimesToXYAxis.Select(mt => mt.Dish).Select(dish => new DishGetDTO
@@ -416,10 +416,8 @@ namespace Application.Core
                         Calories = mt.Dish.Calories,
                         ServingQuantity = mt.Dish.ServingQuantity,
                         MeasureName = mt.Dish.Measure.Symbol,
-                        Weight = mt.Dish.Weight,
                         UnitName = mt.Dish.Unit.Symbol,
                         GlycemicIndex = mt.Dish.GlycemicIndex,
-                        DishPhotoUrl = mt.Dish.DishPhotoUrl,
                         PreparingTime = mt.Dish.PreparingTime,
                         Recipe = new RecipeToReportDTO
                         {

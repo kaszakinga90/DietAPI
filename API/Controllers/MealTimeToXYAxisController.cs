@@ -11,13 +11,21 @@ namespace API.Controllers
         {
         }
 
+        //[HttpGet("details/{dietId}")]
+        //public async Task<IActionResult> GetDiets(int dietId)
+        //{
+        //    // TODO : referencje dla nazwy MealTimeToXYAxisDetails - bo to jest lista
+        //    var result = await _mediator.Send(new MealTimeToXYAxisDetails.Query { DietId = dietId });
+        //    return HandleResult(result);
+        //}
         [HttpGet("details/{dietId}")]
-        public async Task<IActionResult> GetDiets(int dietId)
+        public async Task<ActionResult<List<MealTimeToXYAxisGetDTO>>> GetDiets(int dietId)
         {
-            // TODO : referencje dla nazwy MealTimeToXYAxisDetails - bo to jest lista
+
             var result = await _mediator.Send(new MealTimeToXYAxisDetails.Query { DietId = dietId });
             return HandleResult(result);
         }
+
 
         [HttpPut("edit/{id}")]
         public async Task<IActionResult> EditMealShedule(int id, MealTimeToXYAxisEditDTO meal)

@@ -35,18 +35,12 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        // TODO : poniżej nalezy dodać [FromForm]
         [HttpPost("create")]
         public async Task<IActionResult> CreateDish(DishPostDTO dishDto)
         {
-            var command = new DishCreate.Command
-            {
-                DishPostDTO = dishDto,
-                //File = file,
-            };
+            var command = new DishCreate.Command { DishPostDTO = dishDto };
 
             await _mediator.Send(command);
-
             return Ok();
         }
 

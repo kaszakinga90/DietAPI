@@ -78,23 +78,6 @@ namespace Application.CQRS.Ingredients
 
                 _mapper.Map(request.Ingredient, ingredient);
 
-                if (request.File != null)
-                {
-                    var imageResult = await _imageService.AddImageAsync(request.File);
-                    if (imageResult.Error != null)
-                    {
-                        return Result<IngredientDTO>.Failure(imageResult.Error.Message);
-                    }
-
-                    if (!string.IsNullOrEmpty(ingredient.PublicId))
-                    {
-                        await _imageService.DeleteImageAsync(ingredient.PublicId);
-                    }
-
-                    ingredient.PictureUrl = imageResult.SecureUrl.ToString();
-                    ingredient.PublicId = imageResult.PublicId;
-                }
-
                 try
                 {
                     var result = await _context.SaveChangesAsync(cancellationToken) > 0;

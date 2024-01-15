@@ -674,9 +674,9 @@ namespace DietDB
             {
                 dishes = new List<Dish>()
                 {
-                    new Dish { Name = "Makaron Bolognese", NameEN="Pasta Bolognese", Calories = 123, ServingQuantity = 1, MeasureId = 1, Weight = 34, UnitId = 4, GlycemicIndex = 98, PreparingTime = "3:20", isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
-                    new Dish { Name = "salatka z grillow kurcz", NameEN="Grilled Chicken Salad",  Calories = 250, ServingQuantity = 1, MeasureId = 3, Weight = 25, UnitId = 7, GlycemicIndex = 69, PreparingTime = "1:15", isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
-                    new Dish { Name = "Margherita Pizza", NameEN="Margherita Pizza", Calories = 698, ServingQuantity = 1, MeasureId = 2, Weight = 168, UnitId = 2, GlycemicIndex = 22, PreparingTime = "0:50", isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
+                    new Dish { Name = "Makaron Bolognese", NameEN="Pasta Bolognese", Calories = 123, ServingQuantity = 1, MeasureId = 1, UnitId = 4, GlycemicIndex = 98, PreparingTime = "3:20", isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
+                    new Dish { Name = "salatka z grillow kurcz", NameEN="Grilled Chicken Salad",  Calories = 250, ServingQuantity = 1, MeasureId = 3, UnitId = 7, GlycemicIndex = 69, PreparingTime = "1:15", isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
+                    new Dish { Name = "Margherita Pizza", NameEN="Margherita Pizza", Calories = 698, ServingQuantity = 1, MeasureId = 2, UnitId = 2, GlycemicIndex = 22, PreparingTime = "0:50", isActive = true, dateAdded = DateTime.Now, dateUpdated = null, dateDeleted = null, whoAdded = "Admin", whoUpdated = null, whoDeleted = null },
                 };
                 await context.DishesDb.AddRangeAsync(dishes);
                 context.SaveChanges();
@@ -976,22 +976,22 @@ namespace DietDB
             {
                 var ingredients = new List<Ingredient>()
                 {
-                        new Ingredient { Name = "Ser Biały", Calories = 100, ServingQuantity = 1, MeasureId = 1, Weight = 28, UnitId = 1, DieticianId = 7, GlycemicIndex = 30, PublicId = string.Empty, PictureUrl = "https://example.com/ser-bialy.jpg" },
-                        new Ingredient { Name = "Jogurt Naturalny", Calories = 50, ServingQuantity = 1, MeasureId = 2, Weight = 200, UnitId = 1, DieticianId = 8, GlycemicIndex = 40, PublicId = string.Empty, PictureUrl = "https://example.com/jogurt-naturalny.jpg" },
-                        new Ingredient { Name = "Oliwa z Oliwek", Calories = 120, ServingQuantity = 1, MeasureId = 3, Weight = 15, UnitId = 1, DieticianId = 9, GlycemicIndex = 10, PublicId = string.Empty, PictureUrl = "https://example.com/oliwa.jpg" },
-                        new Ingredient { Name = "Pierś Kurczaka", Calories = 150, ServingQuantity = 1, MeasureId = 4, Weight = 100, UnitId = 2, DieticianId = 7, GlycemicIndex = 20, PublicId = string.Empty, PictureUrl = "https://example.com/piers-kurczaka.jpg" },
-                        new Ingredient { Name = "Mleko 2%", NameEN = "2% milk", Calories = 122f, MeasureId = 1, Weight = 244, UnitId = 1, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/377_thumb.jpg", DieticianId = null },
-                        new Ingredient { Name = "Pomidor", Calories = 20, ServingQuantity = 1, MeasureId = 1, Weight = 150, UnitId = 3, DieticianId = 8, GlycemicIndex = 15, PublicId = string.Empty, PictureUrl = "https://example.com/pomidor.jpg" },
-                        new Ingredient { Name = "Owsianka", Calories = 120, ServingQuantity = 1, MeasureId = 2, Weight = 40, UnitId = 1, DieticianId = 9, GlycemicIndex = 50, PublicId = string.Empty, PictureUrl = "https://example.com/owsianka.jpg" },
-                        new Ingredient { Name = "Ziemniaki", NameEN = "potato", Calories = 160.89f, MeasureId = 1, Weight = 21, UnitId = 5, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/752_thumb.jpg", DieticianId = null },
-                        new Ingredient { Name = "Ogórek", NameEN = "cucumber", Calories = 30.15f, MeasureId = 1, Weight = 10, UnitId = 7, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/522_thumb.jpg", DieticianId = null },
-                        new Ingredient { Name = "Banany", Calories = 90, ServingQuantity = 1, MeasureId = 3, Weight = 120, UnitId = 1, DieticianId = 7, GlycemicIndex = 60, PublicId = string.Empty, PictureUrl = "https://example.com/banany.jpg" },
-                        new Ingredient { Name = "Orzechy Włoskie", Calories = 200, ServingQuantity = 1, MeasureId = 4, Weight = 30, UnitId = 1, DieticianId = 8, GlycemicIndex = 25, PublicId = string.Empty, PictureUrl = "https://example.com/orzechy.jpg" },
-                        new Ingredient { Name = "Brokuły", Calories = 30, ServingQuantity = 1, MeasureId = 1, Weight = 150, UnitId = 1, DieticianId = 9, GlycemicIndex = 15, PublicId = string.Empty, PictureUrl = "https://example.com/brokuly.jpg" },
-                        new Ingredient { Name = "Chleb Pełnoziarnisty", Calories = 80, ServingQuantity = 1, MeasureId = 2, Weight = 40, UnitId = 1, DieticianId = 7, GlycemicIndex = 35, PublicId = string.Empty, PictureUrl = "https://example.com/chleb.jpg" },
-                        new Ingredient { Name = "Ser", NameEN = "cheese", Calories = 113.12f, MeasureId = 1, Weight = 28, UnitId = 1, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/1034_thumb.jpg", DieticianId = null },
-                        new Ingredient { Name = "Kapusta surowa", NameEN = "cabbage, raw", Calories = 22.25f, MeasureId = 1, Weight = 17, UnitId = 4, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/8083_thumb.jpg", DieticianId = null },
-                        new Ingredient { Name = "Bardzo duże jajko", NameEN = "extra large egg", Calories = 90.09f, MeasureId = 1, Weight = 34, UnitId = 1, GlycemicIndex = null, PublicId = string.Empty, PictureUrl = "https://nix-tag-images.s3.amazonaws.com/775_thumb.jpg", DieticianId = null },
+                        new Ingredient { Name = "Ser Biały", Calories = 100, ServingQuantity = 1, MeasureId = 1, Weight = 28, UnitId = 1, DieticianId = 7, GlycemicIndex = 30 },
+                        new Ingredient { Name = "Jogurt Naturalny", Calories = 50, ServingQuantity = 1, MeasureId = 2, Weight = 200, UnitId = 1, DieticianId = 8, GlycemicIndex = 40 },
+                        new Ingredient { Name = "Oliwa z Oliwek", Calories = 120, ServingQuantity = 1, MeasureId = 3, Weight = 15, UnitId = 1, DieticianId = 9, GlycemicIndex = 10 },
+                        new Ingredient { Name = "Pierś Kurczaka", Calories = 150, ServingQuantity = 1, MeasureId = 4, Weight = 100, UnitId = 2, DieticianId = 7, GlycemicIndex = 20 },
+                        new Ingredient { Name = "Mleko 2%", NameEN = "2% milk", Calories = 122f, MeasureId = 1, Weight = 244, UnitId = 1, GlycemicIndex = null, DieticianId = null },
+                        new Ingredient { Name = "Pomidor", Calories = 20, ServingQuantity = 1, MeasureId = 1, Weight = 150, UnitId = 3, DieticianId = 8, GlycemicIndex = 15 },
+                        new Ingredient { Name = "Owsianka", Calories = 120, ServingQuantity = 1, MeasureId = 2, Weight = 40, UnitId = 1, DieticianId = 9, GlycemicIndex = 50 },
+                        new Ingredient { Name = "Ziemniaki", NameEN = "potato", Calories = 160.89f, MeasureId = 1, Weight = 21, UnitId = 5, GlycemicIndex = null, DieticianId = null },
+                        new Ingredient { Name = "Ogórek", NameEN = "cucumber", Calories = 30.15f, MeasureId = 1, Weight = 10, UnitId = 7, GlycemicIndex = null, DieticianId = null },
+                        new Ingredient { Name = "Banany", Calories = 90, ServingQuantity = 1, MeasureId = 3, Weight = 120, UnitId = 1, DieticianId = 7, GlycemicIndex = 60 },
+                        new Ingredient { Name = "Orzechy Włoskie", Calories = 200, ServingQuantity = 1, MeasureId = 4, Weight = 30, UnitId = 1, DieticianId = 8, GlycemicIndex = 25 },
+                        new Ingredient { Name = "Brokuły", Calories = 30, ServingQuantity = 1, MeasureId = 1, Weight = 150, UnitId = 1, DieticianId = 9, GlycemicIndex = 15 },
+                        new Ingredient { Name = "Chleb Pełnoziarnisty", Calories = 80, ServingQuantity = 1, MeasureId = 2, Weight = 40, UnitId = 1, DieticianId = 7, GlycemicIndex = 35 },
+                        new Ingredient { Name = "Ser", NameEN = "cheese", Calories = 113.12f, MeasureId = 1, Weight = 28, UnitId = 1, GlycemicIndex = null, DieticianId = null },
+                        new Ingredient { Name = "Kapusta surowa", NameEN = "cabbage, raw", Calories = 22.25f, MeasureId = 1, Weight = 17, UnitId = 4, GlycemicIndex = null, DieticianId = null },
+                        new Ingredient { Name = "Bardzo duże jajko", NameEN = "extra large egg", Calories = 90.09f, MeasureId = 1, Weight = 34, UnitId = 1, GlycemicIndex = null, DieticianId = null },
                 };
                 await context.IngredientsDb.AddRangeAsync(ingredients);
             }

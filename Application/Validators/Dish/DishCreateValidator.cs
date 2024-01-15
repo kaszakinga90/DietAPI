@@ -24,19 +24,17 @@ namespace Application.Validators.Dish
                 .NotNull().WithMessage("Pole UnitId nie może przyjmować null.")
                 .GreaterThan(0).WithMessage("Pole UnitId musi być liczbą całkowitą większą niż 0.");
 
-            // TODO : poniższe reguły do przetestowania
+            RuleFor(dto => dto.ServingQuantity)
+                .Null().When(sq => sq == null)
+                    .WithMessage("Pole ServingQuantity nie może mieć wartości, gdy jest puste.")
+                .GreaterThan(0).When(sq => sq != null)
+                    .WithMessage("Wartość pola ServingQuantity musi być większa niż 0.");
 
-            //RuleFor(dto => dto.ServingQuantity)
-            //    .Null().When(sq => sq == null)
-            //        .WithMessage("Pole ServingQuantity nie może mieć wartości, gdy jest puste.")
-            //    .GreaterThan(0).When(sq => sq != null)
-            //        .WithMessage("Wartość pola ServingQuantity musi być większa niż 0.");
-
-            //RuleFor(dto => dto.MeasureId)
-            //    .Null().When(measureId => measureId == null)
-            //        .WithMessage("Pole MeasureId nie może mieć wartości, gdy jest puste.")
-            //    .GreaterThan(0).When(measureId => measureId != null)
-            //        .WithMessage("Wartość pola MeasureId musi być większa niż 0.");
+            RuleFor(dto => dto.MeasureId)
+                .Null().When(measureId => measureId == null)
+                    .WithMessage("Pole MeasureId nie może mieć wartości, gdy jest puste.")
+                .GreaterThan(0).When(measureId => measureId != null)
+                    .WithMessage("Wartość pola MeasureId musi być większa niż 0.");
 
             //RuleFor(dto => dto.Weight)
             //    .Null().When(w => w == null)
@@ -45,12 +43,6 @@ namespace Application.Validators.Dish
             //        .WithMessage("Wartość pola Weight musi być większa niż 0.");
 
             ////public string PreparingTime { get; set; }    - TODO ?
-
-            //RuleFor(dto => dto.RecipeId)
-            //    .Null().When(r => r == null)
-            //        .WithMessage("Pole RecipeId nie może mieć wartości, gdy jest puste.")
-            //    .GreaterThan(0).When(r => r != null)
-            //        .WithMessage("Wartość pola RecipeId musi być większa niż 0.");
         }
     }
 }

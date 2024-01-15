@@ -60,10 +60,8 @@ namespace Application.BusinessLogic.DietForPatients
                                 Calories = mt.Dish.Calories,
                                 ServingQuantity = mt.Dish.ServingQuantity,
                                 MeasureName = mt.Dish.Measure.Symbol,
-                                Weight = mt.Dish.Weight, 
                                 UnitName = mt.Dish.Unit.Symbol,
                                 GlycemicIndex = mt.Dish.GlycemicIndex,
-                                DishPhotoUrl = mt.Dish.DishPhotoUrl,
                                 PreparingTime = mt.Dish.PreparingTime,
                                 Recipe = new RecipeToReportDTO
                                 {
@@ -121,7 +119,7 @@ namespace Application.BusinessLogic.DietForPatients
             //            MealTimesToXYAxisDTO = d.MealTimesToXYAxis.Select(mt => new MealTimeToXYAxisToReportDTO
             //            {
             //                MealTime = mt.MealTime.ToString(),
-            //                DishName = mt.Dish.Name,
+            //                Name = mt.Dish.Name,
             //            }).ToList(),
             //            DishesDTO = d.MealTimesToXYAxis.Select(mt => mt.Dish).Select(dish => new DishGetDTO
             //            {
@@ -145,7 +143,7 @@ namespace Application.BusinessLogic.DietForPatients
             //                DishIngredients = dish.DishIngredients.Select(di => new DishIngredientGetDTO
             //                {
             //                    DishId = di.DishId,
-            //                    DishName = di.Dish.Name,
+            //                    Name = di.Dish.Name,
             //                    IngredientId = di.IngredientId,
             //                    IngredientName = di.Ingredient.Name,
             //                    Quantity = di.Quantity,
