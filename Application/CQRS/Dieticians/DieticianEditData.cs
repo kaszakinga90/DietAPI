@@ -37,7 +37,9 @@ namespace Application.CQRS.Dieticians
                         return Result<DieticianEditDataDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
                     }
 
-                    var dietician = await _context.DieticiansDb.FindAsync(new object[] { request.DieticianEditData.Id }, cancellationToken);
+                    var dietician = await _context.DieticiansDb
+                        .FindAsync(new object[] { request.DieticianEditData.Id }, cancellationToken);
+
                     if (dietician == null)
                     {
                         return Result<DieticianEditDataDTO>.Failure("Dietetyk o podanym ID nie został znaleziony.");

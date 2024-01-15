@@ -7,6 +7,7 @@ using DietDB;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using ModelsDB;
+using System.Diagnostics;
 
 namespace Application.CQRS.Diplomas
 {
@@ -41,23 +42,31 @@ namespace Application.CQRS.Diplomas
                     return Result<DiplomaPostDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
                 }
 
-                var diploma = _mapper.Map<Diploma>(request.DiplomaPostDTO);
-
-                if (request.DiplomaPostDTO.File != null)
+                try
                 {
-                    var imageResult = await _imageService.AddImageAsync(request.DiplomaPostDTO.File);
-                    // TODO : obsługa błędów
-                    //if (imageResult.Error != null)
-                    //{
-                    //    return OkResult();
-                    //}
+                    var diploma = _mapper.Map<Diploma>(request.DiplomaPostDTO);
 
-                    diploma.PictureUrl = imageResult.SecureUrl.ToString();
-                    diploma.PublicId = imageResult.PublicId;
+                    if (request.DiplomaPostDTO.File != null)
+                    {
+                        var imageResult = await _imageService.AddImageAsync(request.DiplomaPostDTO.File);
+
+                        if (imageResult.Error != null)
+                        {
+                            return Result<DiplomaPostDTO>.Failure(imageResult.Error.Message);
+                        }
+
+                        diploma.PictureUrl = imageResult.SecureUrl.ToString();
+                        diploma.PublicId = imageResult.PublicId;
+                    }
+                    _context.DiplomasDb.Add(diploma);
+                    await _context.SaveChangesAsync();
+                    return Result<DiplomaPostDTO>.Success(_mapper.Map<DiplomaPostDTO>(diploma));
                 }
-                _context.DiplomasDb.Add(diploma);
-                 await _context.SaveChangesAsync();
-                return Result<DiplomaPostDTO>.Success(_mapper.Map<DiplomaPostDTO>(diploma));
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<DiplomaPostDTO>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

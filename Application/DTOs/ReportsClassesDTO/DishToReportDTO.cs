@@ -4,7 +4,7 @@
     {
         public string Name { get; set; }
         public string NameEN { get; set; } = null;
-        public int? Calories { get; set; }   // TODO: zliczane?
+        public int? Calories { get; set; }
         public float? ServingQuantity { get; set; }
         //public int? MeasureId { get; set; }
         //public Measure Measure { get; set; }
@@ -13,7 +13,7 @@
         //public int? UnitId { get; set; }
         //public Unit Unit { get; set; }
         public string UnitName { get; set; }
-        public int? GlycemicIndex { get; set; }  // TODO: jak obliczany?
+        public int? GlycemicIndex { get; set; }
         public string PublicId { get; set; }
         public string DishPhotoUrl { get; set; }
         public string PreparingTime { get; set; }

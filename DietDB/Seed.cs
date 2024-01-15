@@ -1164,7 +1164,10 @@ namespace DietDB
                 s2.Weith AS Weith,
                 s2.MeasureTime AS MeasureTime,
                 tr.Id AS TestResultId,
-                tr.TestDate
+                str.test1 AS Test1,
+                str.test2 AS Test2,
+                str.test3 AS Test3,
+                str.TestDate AS SingleTestResultDate
                 FROM
                 PatientCard pc
                 JOIN
@@ -1177,6 +1180,8 @@ namespace DietDB
                 Survey s2 ON pcs.SurveyId = s2.Id
                 LEFT JOIN
                 TestResult tr ON pc.Id = tr.PatientCardId
+                LEFT JOIN
+                SingleTestResults str ON tr.SingleTestResultsId = str.Id 
                 WHERE p.Id = @PatientId;
                 END;"
                 );

@@ -1,8 +1,6 @@
 ﻿using Application.DTOs.DishDTO;
 using FluentValidation;
 
-// TODO : z encji Dish do usunięcia zdjęcie i we wszystkich korzystających z tego klasach
-// TODO : z encji Ingredient do usunięcia zdjęcie i we wszystkich korzystających z tego klasach
 namespace Application.Validators.Dish
 {
     public class DishCreateValidator : AbstractValidator<DishPostDTO>

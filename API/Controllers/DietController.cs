@@ -2,7 +2,6 @@
 using Application.CQRS.Diets;
 using Application.CQRS.DietsForPatients;
 using Application.DTOs.DietDTO;
-using Application.DTOs.MessagesDTO;
 using Application.FiltersExtensions.Diets;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +13,7 @@ namespace API.Controllers
         public DietController(IMediator mediator) : base(mediator)
         {
         }
-        // TODO : to będzie do usunięcia
+
         [HttpGet("{dieticianId}")]
         public async Task<ActionResult<PagedList<DietGetDTO>>> GetDiets(int dieticianId, [FromQuery] DietParams pagingParams)
         {
@@ -22,7 +21,6 @@ namespace API.Controllers
             return HandlePagedResult(result);
         }
 
-        // TODO : do przerobienia
         [HttpPost("adddiet")]
         public async Task<IActionResult> CreateDiet(DietPostDTO diet)
         {

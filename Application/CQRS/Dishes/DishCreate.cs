@@ -8,7 +8,6 @@ using ModelsDB;
 using ModelsDB.Functionality;
 using System.Diagnostics;
 
-// TODO : obsługa - dokończ.
 namespace Application.CQRS.Dishes
 {
     public class DishCreate
@@ -93,38 +92,3 @@ namespace Application.CQRS.Dishes
         }
     }
 }
-
-// TODO : optymalizacja
-// powyższa metoda po optymalizacji - propozycja:
-//public async Task<Result<DishPostDTO>> Handle(Command request, CancellationToken cancellationToken)
-//{
-//    using (var transaction = await _context.Database.BeginTransactionAsync())
-//    {
-//        try
-//        {
-//            var dish = _mapper.Map<Dish>(request.DishPostDTO);
-//            _context.DishesDb.Add(dish);
-//            await _context.SaveChangesAsync();
-
-//            var recipe = new Recipe() { DishId = dish.Id };
-//            _context.RecipesDb.Add(recipe);
-//            await _context.SaveChangesAsync();
-
-//            dish.RecipeId = recipe.Id;
-//            await _context.SaveChangesAsync();
-
-//            var existingRecipe = await _context.RecipesDb.FindAsync(recipe.Id);
-//            existingRecipe.Steps = _mapper.Map<List<RecipeStep>>(request.DishPostDTO.RecipeSteps);
-//            await _context.SaveChangesAsync();
-
-//            await transaction.Commit();
-//            return Result<DishPostDTO>.Success(_mapper.Map<DishPostDTO>(dish));
-//        }
-//        catch (Exception ex)
-//        {
-//            await transaction.RollbackAsync();
-//            Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
-//            return Result<DishPostDTO>.Failure("Wystąpił błąd podczas przetwarzania danych.");
-//        }
-//    }
-//}

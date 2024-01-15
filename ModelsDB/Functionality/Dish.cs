@@ -11,16 +11,15 @@ namespace ModelsDB
         public int Id { get; set; }
         public string Name { get; set; }
         public string NameEN { get; set; } = null;
-        public int? Calories { get; set; }   // TODO: zliczane?
+        public int? Calories { get; set; }
         //odpowiednik "serving_qty"  odp. np 1
         public float? ServingQuantity { get; set; }
         //odpowiednik "serving_unit"  odp. np. "slice (1 oz)"
         public int? MeasureId { get; set; }
         public Measure Measure { get; set; }
-        //odpowiednik "serving_weight_grams"  odp. np 28
         public int? UnitId { get; set; }
         public Unit Unit { get; set; }
-        public int? GlycemicIndex { get; set; }  // TODO: jak obliczany?
+        public int? GlycemicIndex { get; set; }
         public string PreparingTime { get; set; }   // TODO: jaki format?
         public int? RecipeId { get; set; }
         public Recipe Recipe { get; set; }

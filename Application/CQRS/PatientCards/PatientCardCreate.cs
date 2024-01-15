@@ -7,7 +7,6 @@ using MediatR;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
-// TODO : obsługa - dokończ. funkcjonalności (czy należy zmapować? )
 // TODO : tu musi być inna obsługa handle żeby walidacja działała
 namespace Application.CQRS.PatientCards
 {

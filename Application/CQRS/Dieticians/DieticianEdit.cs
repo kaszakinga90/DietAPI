@@ -35,16 +35,18 @@ namespace Application.CQRS.Dieticians
 
             public async Task<Result<DieticianEditDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var validationResult = await _validator
-                    .ValidateAsync(request.DieticianEditDTO, cancellationToken);
+                //var validationResult = await _validator
+                //    .ValidateAsync(request.DieticianEditDTO, cancellationToken);
 
-                if (!validationResult.IsValid)
-                {
-                    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
-                    return Result<DieticianEditDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
-                }
+                //if (!validationResult.IsValid)
+                //{
+                //    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                //    return Result<DieticianEditDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                //}
 
-                var dietician = await _context.DieticiansDb.FindAsync(new object[] { request.DieticianEditDTO.Id }, cancellationToken);
+                var dietician = await _context.DieticiansDb
+                    .FindAsync(new object[] { request.DieticianEditDTO.Id }, cancellationToken);
+
                 if (dietician == null)
                 {
                     return Result<DieticianEditDTO>.Failure("Dietetyk o podanym ID nie został znaleziony.");

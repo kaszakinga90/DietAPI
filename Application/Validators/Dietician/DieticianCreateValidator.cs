@@ -20,5 +20,3 @@ namespace Application.Validators.Dietician
 }
 
 // TODO : walidacja dla hasła do uzupełnienia
-
-// TODO : przy tworzeniu dietetyka powinien od razu  Logo(przykładowy opbrazek)
