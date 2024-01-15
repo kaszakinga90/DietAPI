@@ -16,9 +16,6 @@ namespace Application.CQRS.PatientCards
         public class Command : IRequest
         {
             public PatientCardPostDTO PatientCardPostDTO { get; set; }
-            public int PatientId { get; set; }
-            public int DieticianId { get; set; }
-            public int SexId { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -47,11 +44,12 @@ namespace Application.CQRS.PatientCards
 
                 try
                 {
+                    var pc = request.PatientCardPostDTO;
                     var parameters = new[]
                     {
-                        new SqlParameter("@PatientId", request.PatientId),
-                        new SqlParameter("@DieticianId", request.DieticianId),
-                        new SqlParameter("@SexId", request.SexId)
+                         new SqlParameter("@PatientId", pc.PatientId),
+                        new SqlParameter("@DieticianId", pc.DieticianId),
+                        new SqlParameter("@SexId", pc.SexId)
                     };
 
                     await _context.Database.ExecuteSqlRawAsync("EXEC CreatePatientCard @PatientId, @DieticianId, @SexId", parameters);

@@ -7,6 +7,8 @@ namespace Application.DTOs.PatientCardDTO
     {
         public int Id { get; set; }
         public int PatientId { get; set; }
+        public string PatientName { get; set; }
+        public string DieticianName { get; set; }
         public int SexId { get; set; }
         public int DieticianId { get; set; }
         public List<PatientCardSurvey> PatientCardSurveys { get; set; }

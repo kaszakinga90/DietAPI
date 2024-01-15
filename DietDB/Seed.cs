@@ -680,7 +680,7 @@ namespace DietDB
                 };
                 await context.DishesDb.AddRangeAsync(dishes);
                 context.SaveChanges();
-              
+
                 #region Recipes
                 if (!context.RecipesDb.Any())
                 {
@@ -775,11 +775,11 @@ namespace DietDB
 
                 var surveys = new List<Survey>
                 {
-                    new Survey { Heigth = 170, Weith = 70, MeasureTime = DateTime.Now.AddDays(-30) },
-                    new Survey { Heigth = 165, Weith = 65, MeasureTime = DateTime.Now.AddDays(-20) },
-                    new Survey { Heigth = 180, Weith = 80, MeasureTime = DateTime.Now.AddDays(-10) },
-                    new Survey { Heigth = 170, Weith = 65, MeasureTime = DateTime.Now.AddDays(-20) },
-                    new Survey { Heigth = 170, Weith = 62, MeasureTime = DateTime.Now.AddDays(-10) }
+                    new Survey { Heigth = 170, Weith = 70, MeasureTime = DateTime.Now.AddDays(-30), DieticianId = 7 },
+                    new Survey { Heigth = 165, Weith = 65, MeasureTime = DateTime.Now.AddDays(-20), DieticianId = 8 },
+                    new Survey { Heigth = 180, Weith = 80, MeasureTime = DateTime.Now.AddDays(-10), DieticianId = 9 },
+                    new Survey { Heigth = 170, Weith = 65, MeasureTime = DateTime.Now.AddDays(-20), DieticianId = 7 },
+                    new Survey { Heigth = 170, Weith = 62, MeasureTime = DateTime.Now.AddDays(-10), DieticianId = 7 }
                 };
 
                 await context.SurveysDb.AddRangeAsync(surveys);
@@ -787,11 +787,11 @@ namespace DietDB
 
                 var patientCardSurveys = new List<PatientCardSurvey>
                 {
-                    new PatientCardSurvey { PatientCardId = 1, SurveyId = 1 },
-                    new PatientCardSurvey { PatientCardId = 2, SurveyId = 2 },
-                    new PatientCardSurvey { PatientCardId = 3, SurveyId = 3 },
-                    new PatientCardSurvey { PatientCardId = 4, SurveyId = 4 },
-                    new PatientCardSurvey { PatientCardId = 5, SurveyId = 5 }
+                    new PatientCardSurvey { PatientCardId = 1, SurveyId = 1, DieticianId = 7},
+                    new PatientCardSurvey { PatientCardId = 2, SurveyId = 2, DieticianId = 7},
+                    new PatientCardSurvey { PatientCardId = 3, SurveyId = 3, DieticianId = 7},
+                    new PatientCardSurvey { PatientCardId = 4, SurveyId = 4, DieticianId = 8},
+                    new PatientCardSurvey { PatientCardId = 5, SurveyId = 5, DieticianId = 8}
                 };
 
                 await context.PatientCardSurveysDb.AddRangeAsync(patientCardSurveys);
