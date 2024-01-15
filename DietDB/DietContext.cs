@@ -237,9 +237,9 @@ namespace DietDB
             //**************************************************************************************************
 
             modelBuilder.Entity<Diet>()
-                .HasOne(d => d.Dietician) // Diet ma jeden Dietician
-                .WithMany(di => di.Diets) // Dietician ma wiele Diet
-                .HasForeignKey(d => d.DieteticianId); // Klucz obcy w Diet to DieteticianId
+                .HasOne(d => d.Dietician) 
+                .WithMany(di => di.Diets) 
+                .HasForeignKey(d => d.DieteticianId); 
 
             //**************************************************************************************************
 
@@ -264,13 +264,13 @@ namespace DietDB
                 .HasOne(di => di.Dish)
                 .WithMany(d => d.DishIngredients)
                 .HasForeignKey(di => di.DishId)
-                .OnDelete(DeleteBehavior.Restrict); // Specify the desired behavior
+                .OnDelete(DeleteBehavior.Restrict); 
 
             modelBuilder.Entity<DishIngredient>()
                 .HasOne(di => di.Ingredient)
                 .WithMany(i => i.DishIngredients)
                 .HasForeignKey(di => di.IngredientId)
-                .OnDelete(DeleteBehavior.Restrict); // Specify the desired behavior
+                .OnDelete(DeleteBehavior.Restrict);
 
             //**************************************************************************************************
 

@@ -93,10 +93,10 @@ namespace Application.CQRS.Dieticians
                                     dieticianOffice.Office.Address.isActive = false;
                                 }
 
-                                _context.OfficesDb.Update(dieticianOffice.Office); // Update Office in context
+                                _context.OfficesDb.Update(dieticianOffice.Office);
                             }
 
-                            _context.DieticianOffices.Update(dieticianOffice); // Update DieticianOffice in context
+                            _context.DieticianOffices.Update(dieticianOffice);
                         }
                     }
 

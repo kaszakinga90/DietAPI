@@ -54,8 +54,6 @@ using Application.Validators.Specialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Dodaje uslugi do kontenera.
-
 /// <summary>
 /// Dodaje kontrolery i konfiguruje opcje serializacji JSON.
 /// </summary>
@@ -216,9 +214,6 @@ builder.Services.AddScoped<IEmailSender, EmailService>();
 
 var app = builder.Build();
 
-/// <summary>
-/// Konfiguruje potok ¿¹dañ HTTP.
-/// </summary>
 app.UseMiddleware<ExceptionMiddleware>();
 if (app.Environment.IsDevelopment())
 {

@@ -77,5 +77,3 @@ namespace API.Controllers
         }
     }
 }
-
-// TODO :  przeanalizować co jest do uzupełnienia z metod

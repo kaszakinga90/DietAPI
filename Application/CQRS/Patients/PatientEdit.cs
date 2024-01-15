@@ -52,7 +52,6 @@ namespace Application.CQRS.Patients
 
                 _mapper.Map(request.PatientEditDTO, patient);
 
-                // Obsługa obrazu
                 if (request.File != null)
                 {
                     var imageResult = await _imageService.AddImageAsync(request.File);

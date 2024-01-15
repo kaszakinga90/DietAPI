@@ -3,7 +3,7 @@ using DietDB;
 using MediatR;
 using ModelsDB;
 
-// TODO : przerobić na DTO, i zmiana obsługi Handle żeby walidacja dzialała
+// TODO : do usuni ecia
 namespace Application.CQRS.Patients
 {
     public class PatientCreate

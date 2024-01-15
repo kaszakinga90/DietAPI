@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using ModelsDB.Functionality;
 
-// TODO : obsługa - dokończ. funkcjonalności
 namespace Application.CQRS.Logos
 {
     public class LogoCreate

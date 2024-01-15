@@ -30,7 +30,7 @@ namespace API.Controllers
         public async Task<IActionResult> CreateFoodCatalog(FoodCatalogPostDTO FoodCatalogPostDTO)
         {
             var result = await _mediator.Send(new FoodCatalogCreate.Command { FoodCatalogPostDTO = FoodCatalogPostDTO });
-            return Ok(result.Value); // Zwraca obiekt DTO z ID
+            return Ok(result.Value);
         }
 
         // TODO: edycja

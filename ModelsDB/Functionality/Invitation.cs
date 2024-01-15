@@ -15,6 +15,5 @@ namespace ModelsDB.Functionality
         public bool IsAccepted { get; set; } = false;
         public bool IsSended { get; set; } = false;
         public bool IsDeclined { get; set; } = false;
-        //  0 - false, 1 - true
     }
 }

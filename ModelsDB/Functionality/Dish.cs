@@ -20,7 +20,7 @@ namespace ModelsDB
         public int? UnitId { get; set; }
         public Unit Unit { get; set; }
         public int? GlycemicIndex { get; set; }
-        public string PreparingTime { get; set; }   // TODO: jaki format?
+        public string PreparingTime { get; set; }
         public int? RecipeId { get; set; }
         public Recipe Recipe { get; set; }
         public int? DieticianId { get; set; }

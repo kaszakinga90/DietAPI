@@ -46,12 +46,10 @@ namespace Application.Functionality
 
                 try
                 {
-                    // Tworzenie adresu
                     var address = _mapper.Map<Address>(request.AddressPostDTO);
                     _context.AddressesDb.Add(address);
                     await _context.SaveChangesAsync(cancellationToken);
 
-                    // Tworzenie biura
                     var office = new Office
                     {
                         OfficeName = request.OfficePostDTO.OfficeName,
@@ -60,7 +58,6 @@ namespace Application.Functionality
                     _context.OfficesDb.Add(office);
                     await _context.SaveChangesAsync(cancellationToken);
 
-                    // Tworzenie rekordu w tabeli DieticianOffice
                     var dieticianOffice = new DieticianOffice
                     {
                         DieticianId = request.DieticianId,

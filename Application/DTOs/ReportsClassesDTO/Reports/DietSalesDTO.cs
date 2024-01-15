@@ -7,6 +7,5 @@
         public string PatientName { get; set; }
         public int Period { get; set; }
 
-        //another properties
     }
 }

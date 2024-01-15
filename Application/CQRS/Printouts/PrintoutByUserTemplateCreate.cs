@@ -35,7 +35,6 @@ namespace Application.CQRS.Printouts
                     await request.Data.TemplateFile.CopyToAsync(memoryStream);
                     using (var doc = DocX.Load(memoryStream))
                     {
-                        // Tutaj możesz zastąpić placeholdery danymi użytkownika
                         doc.ReplaceText("{FirstName}", user.FirstName ?? string.Empty);
                         doc.ReplaceText("{LastName}", user.LastName ?? string.Empty);
 

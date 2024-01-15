@@ -1,8 +1,5 @@
 ﻿using Application.CQRS.Printouts;
-using Application.CQRS.Specializations;
-using Application.CQRS.UserRoles;
 using Application.DTOs.PrintoutsDTO;
-using Application.DTOs.UsersDTO.UserRoleDTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -33,27 +30,12 @@ namespace API.Controllers
         }
 
         // obróbka pliku word na podstawie dostarczonego przez nas szablonu.
-        //[HttpPost("generatePrintoutDocument/byTemplate")]
-        //public async Task<IActionResult> GenerateDocument([FromForm] PrintoutDocumentPostDTO printout)
-        //{
-        //    var query = await _mediator.Send(new PrintoutDocumentCreate.Command { Data = printout });
-        //    return HandleResult(query);
-        //}
-
-
-
-        // obróbka pliku word na podstawie dostarczonego przez nas szablonu.
         [HttpPost("generatePrintoutDocument/byTemplate")]
         public async Task<IActionResult> GenerateDocument(PrintoutDocumentPostDTO printout)
         {
             Console.WriteLine($"Received request with PrintoutDocumentPostDTO: {JsonConvert.SerializeObject(printout)}");
 
             var result = await _mediator.Send(new PrintoutDocumentCreate.Command { Data = printout });
-
-            //if (!result.IsSuccess)
-            //{
-            //    return BadRequest(result.Error);
-            //}
 
             string filePath = result.Value;
 
