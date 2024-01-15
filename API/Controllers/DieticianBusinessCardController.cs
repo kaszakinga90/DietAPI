@@ -1,4 +1,5 @@
 ﻿using Application.CQRS.DieticiansBusinessesCards;
+using Application.CQRS.Specializations;
 using Application.DTOs.DieticianBusinessCardDTO;
 using Application.FiltersExtensions.DieticianBussinesCards;
 using MediatR;
@@ -17,6 +18,12 @@ namespace API.Controllers
         {
             var result = await _mediator.Send(new DieticianBusinessCardList.Query { Params = pagingParams });
             return HandlePagedResult(result);
+        }
+        [HttpGet("allnopagination")]
+        public async Task<IActionResult> GetBusinessCardsNoPagination()
+        {
+            var result = await _mediator.Send(new DieticianBusinessCardsNoPaginationList.Query());
+            return HandleResult(result);
         }
 
         [HttpGet("details/{dieticianId}")]
