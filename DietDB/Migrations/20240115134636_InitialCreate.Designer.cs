@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietDB.Migrations
 {
     [DbContext(typeof(DietContext))]
-    [Migration("20240114113400_InitialCreate")]
+    [Migration("20240115134636_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,29 +120,29 @@ namespace DietDB.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2ae7e039-9793-4cd8-9695-15875d0dc4f5",
-                            ConcurrencyStamp = "bc6cecbe-6d41-4a1d-abf1-e4b283c763b1",
+                            Id = "c23f19e0-6932-4405-b99f-08ee6ac35ec6",
+                            ConcurrencyStamp = "bb87758a-1565-4f6e-8e55-1d47a1ca4727",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "828bc459-4974-470b-a5a2-088ffd34cd16",
-                            ConcurrencyStamp = "1fdfa21c-fc57-4002-9e35-7ad2cdb25184",
+                            Id = "8f149ef0-614d-4b78-8491-935529208a6d",
+                            ConcurrencyStamp = "21ed5e20-d88c-4935-bddf-f201a1868313",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "759a35f5-cbc9-49cb-bbb5-975a74c709b8",
-                            ConcurrencyStamp = "e2405bf1-f08f-4da0-90ad-09252c9404af",
+                            Id = "96f06f64-4410-460c-8a1c-2cb34751835a",
+                            ConcurrencyStamp = "87275344-2c2e-4788-abf2-9a632ef12c14",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = "78dcf667-3400-4481-9f5b-7cfeb1a23576",
-                            ConcurrencyStamp = "d7334bd1-1d0b-4e79-89e0-4c46cc46ff77",
+                            Id = "d69a2e3a-6edd-4acb-beb5-c1fe9f1a47ee",
+                            ConcurrencyStamp = "273d2eec-123d-4c37-8d23-2dd57060ac61",
                             Name = "Dietetician",
                             NormalizedName = "DIETETICIAN"
                         });
@@ -471,9 +471,6 @@ namespace DietDB.Migrations
                     b.Property<int?>("DieticianId")
                         .HasColumnType("int");
 
-                    b.Property<string>("DishPhotoUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("GlycemicIndex")
                         .HasColumnType("int");
 
@@ -489,9 +486,6 @@ namespace DietDB.Migrations
                     b.Property<string>("PreparingTime")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PublicId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("RecipeId")
                         .HasColumnType("int");
 
@@ -500,9 +494,6 @@ namespace DietDB.Migrations
 
                     b.Property<int?>("UnitId")
                         .HasColumnType("int");
-
-                    b.Property<float?>("Weight")
-                        .HasColumnType("real");
 
                     b.Property<DateTime>("dateAdded")
                         .HasColumnType("datetime2");
@@ -1823,12 +1814,6 @@ namespace DietDB.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("NameEN")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PictureUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PublicId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<float?>("ServingQuantity")

@@ -16,7 +16,7 @@ namespace API.Controllers
         [HttpPost("logocreateorupdate")]
         public async Task<IActionResult> CreateLogo([FromForm] LogoPostDTO logoDto, [FromForm] IFormFile file)
         {
-            var command = new CreateLogo.Command
+            var command = new LogoCreate.Command
             {
                 LogoPostDTO = logoDto,
                 File = file,

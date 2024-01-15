@@ -1,5 +1,6 @@
 ﻿using Application.Core;
 using Application.DTOs.InvitationDTO;
+using Application.Validators.Invitation;
 using AutoMapper;
 using DietDB;
 using MediatR;
@@ -18,15 +19,26 @@ namespace Application.CQRS.Invitations
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
+            private readonly InvitationUpdateValidator _validator;
 
-            public Handler(DietContext context, IMapper mapper)
+            public Handler(DietContext context, IMapper mapper, InvitationUpdateValidator validator)
             {
                 _context = context;
                 _mapper = mapper;
+                _validator = validator;
             }
 
             public async Task<Result<InvitationPutDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
+                var validationResult = await _validator
+                    .ValidateAsync(request.InvitationPutDTO, cancellationToken);
+
+                if (!validationResult.IsValid)
+                {
+                    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                    return Result<InvitationPutDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                }
+
                 var invitation = await _context.InvitationsDb
                     .FindAsync(request.InvitationPutDTO.Id, cancellationToken);
 

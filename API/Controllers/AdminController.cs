@@ -67,11 +67,6 @@ namespace API.Controllers
             return HandlePagedResult(result);
         }
 
-        /// <summary>
-        /// Wysyła wiadomość do dietetyka.
-        /// </summary>
-        /// <param name="message">Wiadomość dla dietetyka.</param>
-        /// <returns>Status operacji.</returns>
         [HttpPost("messageToDietician/{adminId}")]
         public async Task<IActionResult> MessageToDietetician(int adminId, MessageToDTO message)
         {
@@ -83,11 +78,6 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
-        /// <summary>
-        /// Wysyła wiadomość do pacjenta.
-        /// </summary>
-        /// <param name="message">Wiadomość dla pacjenta.</param>
-        /// <returns>Status operacji.</returns>
         [HttpPost("messageToPatient/{adminId}")]
         public async Task<IActionResult> MessageToPatient(int adminId, MessageToDTO message)
         {

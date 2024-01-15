@@ -25,11 +25,17 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        // tylko dla admina
         [HttpPost("create")]
-        public async Task<IActionResult> CreateDiet(DieteticianSpecializationPostDTO ds)
+        public async Task<IActionResult> AddSpecialization(DieteticianSpecializationPostDTO ds)
         {
             var result = await _mediator.Send(new DieteticianSpecializationCreate.Command { DieteticianSpecializationPostDTOs = ds });
             return Ok(result.Value);
         }
+
+
+
+        // TODO: edycja specjalizacji - metoda tylko dla admina
+        // + usuwanie
     }
 }

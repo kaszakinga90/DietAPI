@@ -38,7 +38,6 @@ namespace Application.CQRS.Ingredients
                              ServingQuantity = i.ServingQuantity ?? 0,
                              MeasureId = i.MeasureId,
                              UnitId = i.UnitId,
-                             PictureUrl = i.PictureUrl,
                          })
                         .AsQueryable();
 

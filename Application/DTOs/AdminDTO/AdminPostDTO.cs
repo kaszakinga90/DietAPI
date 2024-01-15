@@ -10,5 +10,6 @@ namespace Application.DTOs.AdminDTO
         public bool isDietician { get; set; } = false;
         public bool isAdmin { get; set; } = true;
         public bool isSuperAdmin { get; set; } = false;
+        public string PictureUrl { get; set; }
     }
 }

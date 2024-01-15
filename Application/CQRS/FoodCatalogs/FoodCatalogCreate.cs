@@ -1,5 +1,7 @@
 ﻿using Application.Core;
+using Application.DTOs.AdminDTO;
 using Application.DTOs.FoodCatalogDTO;
+using Application.Validators.FoodCatalog;
 using AutoMapper;
 using DietDB;
 using MediatR;
@@ -18,15 +20,26 @@ namespace Application.CQRS.FoodCatalogs
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
+            private readonly FoodCatalogCreateValidator _validator;
 
-            public Hendler(DietContext context, IMapper mapper)
+            public Hendler(DietContext context, IMapper mapper, FoodCatalogCreateValidator validator)
             {
                 _context = context;
                 _mapper = mapper;
+                _validator = validator;
             }
 
             public async Task<Result<FoodCatalogPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
+                var validationResult = await _validator
+                    .ValidateAsync(request.FoodCatalogPostDTO, cancellationToken);
+
+                if (!validationResult.IsValid)
+                {
+                    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                    return Result<FoodCatalogPostDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                }
+
                 var foodCatalog = _mapper.Map<FoodCatalog>(request.FoodCatalogPostDTO);
 
                 if (foodCatalog == null)

@@ -4,6 +4,7 @@ using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.ReportTemplates
 {
@@ -50,7 +51,8 @@ namespace Application.CQRS.ReportTemplates
                 }
                 catch (Exception ex)
                 {
-                    return Result<ReportTemplateDeleteDTO>.Failure("Wystąpił błąd podczas usuwania report template.");
+                    Debug.WriteLine("Przyczyna niepowodzenie: " + ex);
+                    return Result<ReportTemplateDeleteDTO>.Failure("Wystąpił błąd podczas usuwania report template. " + ex);
                 }
 
                 return Result<ReportTemplateDeleteDTO>.Success(_mapper.Map<ReportTemplateDeleteDTO>(reportTemplate));

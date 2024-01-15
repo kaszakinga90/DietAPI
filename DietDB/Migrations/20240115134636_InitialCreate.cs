@@ -1372,11 +1372,8 @@ namespace DietDB.Migrations
                     Calories = table.Column<int>(type: "int", nullable: true),
                     ServingQuantity = table.Column<float>(type: "real", nullable: true),
                     MeasureId = table.Column<int>(type: "int", nullable: true),
-                    Weight = table.Column<float>(type: "real", nullable: true),
                     UnitId = table.Column<int>(type: "int", nullable: true),
                     GlycemicIndex = table.Column<int>(type: "int", nullable: true),
-                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DishPhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PreparingTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RecipeId = table.Column<int>(type: "int", nullable: true),
                     DieticianId = table.Column<int>(type: "int", nullable: true),
@@ -1455,8 +1452,6 @@ namespace DietDB.Migrations
                     UnitId = table.Column<int>(type: "int", nullable: false),
                     DieticianId = table.Column<int>(type: "int", nullable: true),
                     GlycemicIndex = table.Column<int>(type: "int", nullable: true),
-                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     dateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
                     dateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -2055,10 +2050,10 @@ namespace DietDB.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "2ae7e039-9793-4cd8-9695-15875d0dc4f5", "bc6cecbe-6d41-4a1d-abf1-e4b283c763b1", "SuperAdmin", "SUPERADMIN" },
-                    { "759a35f5-cbc9-49cb-bbb5-975a74c709b8", "e2405bf1-f08f-4da0-90ad-09252c9404af", "Patient", "PATIENT" },
-                    { "78dcf667-3400-4481-9f5b-7cfeb1a23576", "d7334bd1-1d0b-4e79-89e0-4c46cc46ff77", "Dietetician", "DIETETICIAN" },
-                    { "828bc459-4974-470b-a5a2-088ffd34cd16", "1fdfa21c-fc57-4002-9e35-7ad2cdb25184", "Admin", "ADMIN" }
+                    { "8f149ef0-614d-4b78-8491-935529208a6d", "21ed5e20-d88c-4935-bddf-f201a1868313", "Admin", "ADMIN" },
+                    { "96f06f64-4410-460c-8a1c-2cb34751835a", "87275344-2c2e-4788-abf2-9a632ef12c14", "Patient", "PATIENT" },
+                    { "c23f19e0-6932-4405-b99f-08ee6ac35ec6", "bb87758a-1565-4f6e-8e55-1d47a1ca4727", "SuperAdmin", "SUPERADMIN" },
+                    { "d69a2e3a-6edd-4acb-beb5-c1fe9f1a47ee", "273d2eec-123d-4c37-8d23-2dd57060ac61", "Dietetician", "DIETETICIAN" }
                 });
 
             migrationBuilder.CreateIndex(

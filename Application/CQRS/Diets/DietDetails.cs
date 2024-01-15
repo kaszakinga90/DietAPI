@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Application.CQRS.Diets
 {
-    // TODO
+
     /// <summary>
     /// Zawiera klasy służące do pobierania szczegółów dietetyka na podstawie jego identyfikatora.
     /// </summary>

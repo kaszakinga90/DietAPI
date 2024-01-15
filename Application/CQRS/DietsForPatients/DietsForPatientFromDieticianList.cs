@@ -3,6 +3,7 @@ using Application.FiltersExtensions.Diets;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.DietsForPatients
 {
@@ -26,7 +27,9 @@ namespace Application.CQRS.DietsForPatients
 
             public async Task<Result<PagedList<DietGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var dietsList = _context.DietsDb
+                try
+                {
+                    var dietsList = _context.DietsDb
                     .Where(d => d.PatientId == request.PatientId && d.DieteticianId == request.DieticianId)
                     .Include(d => d.Dietician)
                     .Select(d => new DietGetDTO
@@ -39,17 +42,18 @@ namespace Application.CQRS.DietsForPatients
                     })
                     .AsQueryable();
 
-                dietsList = dietsList.DietSortByDieticianToPatientCard(request.Params.OrderBy);
-                dietsList = dietsList.DietFilter(request.Params.PatientNames);
-                dietsList = dietsList.DietSearch(request.Params.SearchTerm);
+                    dietsList = dietsList.DietSortByDieticianToPatientCard(request.Params.OrderBy);
+                    dietsList = dietsList.DietFilter(request.Params.PatientNames);
+                    dietsList = dietsList.DietSearch(request.Params.SearchTerm);
 
-                if (dietsList == null)
-                {
-                    return Result<PagedList<DietGetDTO>>.Failure("no results.");
+                    return Result<PagedList<DietGetDTO>>.Success(
+                        await PagedList<DietGetDTO>.CreateAsync(dietsList, request.Params.PageNumber, request.Params.PageSize));
                 }
-
-                return Result<PagedList<DietGetDTO>>.Success(
-                    await PagedList<DietGetDTO>.CreateAsync(dietsList, request.Params.PageNumber, request.Params.PageSize));
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<PagedList<DietGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

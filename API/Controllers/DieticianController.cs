@@ -5,8 +5,6 @@ using Application.DTOs.DieticianDTO;
 using Application.DTOs.DiplomaDTO;
 using Application.DTOs.MessagesDTO;
 using Application.FiltersExtensions.DieticianMessages;
-using Application.Services;
-using DietDB;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB;
@@ -14,69 +12,35 @@ using static Application.CQRS.Dieticians.MessagesFilters;
 
 namespace API.Controllers
 {
-    /// <summary>
-    /// Kontroler odpowiedzialny za zarządzanie dietetykami.
-    /// </summary>
     public class DieticianController : BaseApiController
     {
-        private readonly ImageService _imageService;
-        private readonly DietContext _context;
 
-        public DieticianController(ImageService imageService, DietContext context, IMediator mediator) : base(mediator)
+        public DieticianController(IMediator mediator) : base(mediator)
         {
-            _imageService = imageService;
-            _context = context;
         }
 
-        /// <summary>
-        /// Pobiera listę wszystkich dietetyków.
-        /// </summary>
-        /// <returns>Lista dietetyków.</returns>
-        [HttpGet]
-        [Route("all")]
+        [HttpGet("all")]
         public async Task<ActionResult<List<Dietician>>> GetDieticians()
         {
             return await _mediator.Send(new DieticianList.Query());
         }
 
-        /// <summary>
-        /// Pobiera szczegóły konkretnego dietetyka na podstawie ID.
-        /// </summary>
-        /// <param name="id">ID dietetyka.</param>
-        /// <returns>Szczegóły dietetyka.</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<DieticianGetDTO>> GetDietician(int id)
+        public async Task<IActionResult> GetDietician(int id)
         {
-            return await _mediator.Send(new DieticianDetails.Query { Id = id });
+            var result = await _mediator.Send(new DieticianDetails.Query { Id = id } );
+            return HandleResult(result);
         }
 
-        /// <summary>
-        /// Tworzy nowego dietetyka.
-        /// </summary>
-        /// <param name="Dietician">Dane dietetyka do utworzenia.</param>
-        /// <returns>StatusesDb operacji.</returns>
-        [HttpPost]
-        public async Task<IActionResult> CreateDietician(Dietician Dietician)
-        {
-            await _mediator.Send(new DieticianCreate.Command { Dietician = Dietician });
-            return Ok();
-        }
-
-        /// <summary>
-        /// Aktualizuje dane dietetyka.
-        /// </summary>
-        /// <param name="id">ID dietetyka.</param>
-        /// <param name="dietician">Nowe dane dietetyka.</param>
-        /// <returns>StatusesDb operacji.</returns>
         [HttpPut("{dieticianId}")]
-        public async Task<IActionResult> EditDietician(int dieticianId, [FromForm] DieticianDTO dieticianDto, [FromForm] IFormFile file)
+        public async Task<IActionResult> EditDietician(int dieticianId, [FromForm] DieticianEditDTO dieticianDto, [FromForm] IFormFile file)
         {
             var command = new DieticianEdit.Command
             {
-                Dietician = dieticianDto,
+                DieticianEditDTO = dieticianDto,
                 File = file
             };
-            command.Dietician.Id = dieticianId;
+            command.DieticianEditDTO.Id = dieticianId;
 
 
             return HandleResult(await _mediator.Send(command));
@@ -94,11 +58,6 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
-        /// <summary>
-        /// Pobiera listę wiadomości dla dietetyka o podanym ID.
-        /// </summary>
-        /// <param name="dieticianId">ID dietetyka.</param>
-        /// <returns>Lista wiadomości dla dietetyka.</returns>
         [HttpGet("messages/{dieticianId}")]
         public async Task<ActionResult<PagedList<MessageToDTO>>> GetMessagesForDietician(int dieticianId, [FromQuery] DieticianMessagesParams param)
         {
@@ -114,11 +73,6 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        /// <summary>
-        /// Wysyła wiadomość do admina.
-        /// </summary>
-        /// <param name="message">Wiadomość od dietetyka.</param>
-        /// <returns>Status operacji.</returns>
         [HttpPost("messageToAdmin/{dieticianId}")]
         public async Task<IActionResult> MessageToAdmin(int dieticianId, MessageToDTO message)
         {
@@ -131,11 +85,6 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
-        /// <summary>
-        /// Wysyła wiadomość do pacjenta.
-        /// </summary>
-        /// <param name="message">Wiadomość od dietetyka.</param>
-        /// <returns>Status operacji.</returns>
         [HttpPost("messageToPatient/{dieticianId}")]
         public async Task<IActionResult> MessageToPatient(int dieticianId, MessageToDTO message)
         {
@@ -151,9 +100,9 @@ namespace API.Controllers
         [HttpPost("diploma")]
         public async Task<IActionResult> CreateDiploma([FromForm] DiplomaPostDTO diplomaDto, [FromForm] IFormFile file)
         {
-            var command = new CreateDiploma.Command
+            var command = new DiplomaCreate.Command
             {
-                DiplomaDTO = diplomaDto,
+                DiplomaPostDTO = diplomaDto,
                 File = file,
             };
 

@@ -1,6 +1,4 @@
-﻿using Application.CQRS.DayWeekDTOs;
-using Application.CQRS.DayWeeks;
-using Application.DTOs.DayWeekDTO;
+﻿using Application.CQRS.DayWeeks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,24 +15,6 @@ namespace API.Controllers
         {
             var result = await _mediator.Send(new DayWeekList.Query());
             return HandleResult(result);
-        }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetDayWeek(int id)
-        {
-            var result = await _mediator.Send(new DayWeekDetails.Query { Id = id });
-            return HandleResult(result);
-        }
-
-        [HttpDelete("delete/{id}")]
-        public async Task<IActionResult> DeleteDayWeek(int id, DayWeekDeleteDTO dayWeek)
-        {
-            var command = new DayWeekDelete.Command
-            {
-                Id = id,
-                DayWeekDeleteDTO = dayWeek,
-            };
-            return HandleResult(await _mediator.Send(command));
         }
     }
 }

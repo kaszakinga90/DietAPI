@@ -1,81 +1,58 @@
 ﻿using Application.Core;
 using Application.DTOs.DieticianDTO;
 using Application.Services;
+using Application.Validators.Dietician;
 using AutoMapper;
 using DietDB;
-using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using System.Diagnostics;
 
 namespace Application.CQRS.Dieticians
 {
-    /// <summary>
-    /// Zawiera klasy służące do edycji informacji o dietetyku.
-    /// </summary>
     public class DieticianEdit
     {
-        /// <summary>
-        /// Reprezentuje polecenie do edycji informacji o dietetyku.
-        /// </summary>
-        public class Command : IRequest<Result<DieticianDTO>>
+        public class Command : IRequest<Result<DieticianEditDTO>>
         {
-            /// <summary>
-            /// Pobiera lub ustawia informacje o dietetyku do edycji.
-            /// </summary>
-            public DieticianDTO Dietician { get; set; }
+            public DieticianEditDTO DieticianEditDTO { get; set; }
             public IFormFile File { get; set; }
         }
 
-        /// <summary>
-        /// Walidator do sprawdzania poprawności danych dietetyka przed ich edycją.
-        /// </summary>
-        public class CommandValidator : AbstractValidator<DieticianDTO>
-        {
-            /// <summary>
-            /// Inicjalizuje walidator i definiuje reguły walidacji.
-            /// </summary>
-            public CommandValidator()
-            {
-                RuleFor(x => x.FirstName).NotEmpty().WithMessage("Imie wymagane");
-            }
-        }
-
-        /// <summary>
-        /// Obsługuje proces edycji informacji o dietetyku w bazie danych.
-        /// </summary>
-        public class Handler : IRequestHandler<Command, Result<DieticianDTO>>
+        public class Handler : IRequestHandler<Command, Result<DieticianEditDTO>>
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
             private readonly ImageService _imageService;
+            private readonly DieticianUpdateValidator _validator;
 
-            /// <summary>
-            /// Inicjuje nową instancję klasy <see cref="Handler"/> z podanym kontekstem bazy danych i maperem.
-            /// </summary>
-            /// <param name="context">Kontekst bazy danych do obsługi dietetyków.</param>
-            /// <param name="mapper">Maper służący do mapowania obiektów.</param>
-            public Handler(DietContext context, IMapper mapper, ImageService imageService)
+            public Handler(DietContext context, IMapper mapper, ImageService imageService, DieticianUpdateValidator validator)
             {
                 _context = context;
                 _mapper = mapper;
                 _imageService = imageService;
+                _validator = validator;
             }
 
-            /// <summary>
-            /// Przetwarza polecenie edycji informacji o dietetyku i zapisuje zmiany w bazie danych.
-            /// </summary>
-            /// <param name="request">Polecenie do przetworzenia.</param>
-            /// <param name="cancellationToken">Token anulowania operacji.</param>
-            /// <returns>Zwraca wynik operacji edycji w postaci obiektu <see cref="DieticianDTO"/>.</returns>
-            public async Task<Result<DieticianDTO>> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<DieticianEditDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var dietician = await _context.DieticiansDb.FindAsync(new object[] { request.Dietician.Id }, cancellationToken);
+                //var validationResult = await _validator
+                //    .ValidateAsync(request.DieticianEditDTO, cancellationToken);
+
+                //if (!validationResult.IsValid)
+                //{
+                //    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                //    return Result<DieticianEditDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                //}
+
+                var dietician = await _context.DieticiansDb
+                    .FindAsync(new object[] { request.DieticianEditDTO.Id }, cancellationToken);
+
                 if (dietician == null)
                 {
-                    return Result<DieticianDTO>.Failure("Dietetyk o podanym ID nie został znaleziony.");
+                    return Result<DieticianEditDTO>.Failure("Dietetyk o podanym ID nie został znaleziony.");
                 }
 
-                _mapper.Map(request.Dietician, dietician);
+                _mapper.Map(request.DieticianEditDTO, dietician);
 
                 // Obsługa obrazu
                 if (request.File != null)
@@ -83,7 +60,7 @@ namespace Application.CQRS.Dieticians
                     var imageResult = await _imageService.AddImageAsync(request.File);
                     if (imageResult.Error != null)
                     {
-                        return Result<DieticianDTO>.Failure(imageResult.Error.Message);
+                        return Result<DieticianEditDTO>.Failure(imageResult.Error.Message);
                     }
 
                     if (!string.IsNullOrEmpty(dietician.PublicId))
@@ -100,14 +77,15 @@ namespace Application.CQRS.Dieticians
                     var result = await _context.SaveChangesAsync(cancellationToken) > 0;
                     if (!result)
                     {
-                        return Result<DieticianDTO>.Failure("Edycja dietetyka nie powiodła się.");
+                        return Result<DieticianEditDTO>.Failure("Edycja dietetyka nie powiodła się.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    return Result<DieticianDTO>.Failure("Wystąpił błąd podczas edycji dietetyka.");
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<DieticianEditDTO>.Failure("Wystąpił błąd podczas edycji dietetyka. " + ex);
                 }
-                return Result<DieticianDTO>.Success(_mapper.Map<DieticianDTO>(dietician));
+                return Result<DieticianEditDTO>.Success(_mapper.Map<DieticianEditDTO>(dietician));
             }
         }
     }

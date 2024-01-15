@@ -72,11 +72,11 @@ namespace Application.Core
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate.HasValue ? src.BirthDate.Value.Date : (DateTime?)null))
                 .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageTo));
 
-            CreateMap<Patient, PatientDTO>()
+            CreateMap<Patient, PatientEditDTO>()
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate.HasValue ? src.BirthDate.Value.Date : (DateTime?)null))
                 .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageTo));
 
-            CreateMap<PatientDTO, Patient>();
+            CreateMap<PatientEditDTO, Patient>();
 
             CreateMap<PatientEditDataDTO, Patient>();
             CreateMap<Patient, PatientEditDataDTO>();
@@ -176,18 +176,18 @@ namespace Application.Core
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate.HasValue ? src.BirthDate.Value.Date : (DateTime?)null))
                 .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageTo));
 
-            CreateMap<Dietician, DieticianDTO>()
+            CreateMap<Dietician, DieticianEditDTO>()
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate.HasValue ? src.BirthDate.Value.Date : (DateTime?)null))
                 .ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageTo));
 
-            CreateMap<DieticianDTO, Dietician>();
+            CreateMap<DieticianEditDTO, Dietician>();
 
             CreateMap<MealTimeToXYAxisPostDTO, MealTimeToXYAxis>();
             CreateMap<MealTimeToXYAxis, MealTimeToXYAxisPostDTO>();
 
-            CreateMap<Diet, DietDTO>();
+            CreateMap<Diet, DietPostDTO>();
 
-            CreateMap<DietDTO, Diet>()
+            CreateMap<DietPostDTO, Diet>()
                 .ForMember(dest => dest.MealTimesToXYAxis, opt => opt.MapFrom(src => src.MealTimesToXYAxisDTO));
 
             CreateMap<Diet, DietGetDTO>()
@@ -372,8 +372,8 @@ namespace Application.Core
 
             //CreateMap<Diet, DietForPatientToDocumentDTO>()
             //        .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-            //        .ForMember(dest => dest.PatientName, opt => opt.MapFrom(src => src.Patient.FirstName + " " + src.Patient.LastName))
-            //        .ForMember(dest => dest.DieticianName, opt => opt.MapFrom(src => src.Dietician.FirstName + " " + src.Dietician.LastName))
+            //        .ForMember(dest => dest.PatientName, opt => opt.MapFrom(src => src.PatientEditDTO.FirstName + " " + src.PatientEditDTO.LastName))
+            //        .ForMember(dest => dest.DieticianName, opt => opt.MapFrom(src => src.DieticianEditDTO.FirstName + " " + src.DieticianEditDTO.LastName))
             //        .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate))
             //        .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDate))
             //        .ForMember(dest => dest.numberOfMeals, opt => opt.MapFrom(src => src.numberOfMeals))
@@ -383,7 +383,7 @@ namespace Application.Core
             //            //Id = mt.Id,
             //            //DietId = mt.DietId,
             //            //DishId = mt.DishId,
-            //            DishName = mt.Dish.Name,
+            //            Name = mt.Dish.Name,
             //            MealTime = mt.MealTime.ToString()
             //        }).ToList()))
             //        .ForMember(dest => dest.DishesDTO, opt => opt.MapFrom(src => src.MealTimesToXYAxis.Select(mt => mt.Dish).Select(dish => new DishGetDTO
@@ -427,10 +427,8 @@ namespace Application.Core
                         Calories = mt.Dish.Calories,
                         ServingQuantity = mt.Dish.ServingQuantity,
                         MeasureName = mt.Dish.Measure.Symbol,
-                        Weight = mt.Dish.Weight,
                         UnitName = mt.Dish.Unit.Symbol,
                         GlycemicIndex = mt.Dish.GlycemicIndex,
-                        DishPhotoUrl = mt.Dish.DishPhotoUrl,
                         PreparingTime = mt.Dish.PreparingTime,
                         Recipe = new RecipeToReportDTO
                         {
@@ -451,7 +449,7 @@ namespace Application.Core
 
             //CreateMap<DieticianPatient, DietsForPatientDTO>()
             //    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Diet.Name))
-            //    .ForMember(dest => dest.DieticianName, opt => opt.MapFrom(src => $"{src.Dietician.FirstName} {src.Dietician.LastName}"))
+            //    .ForMember(dest => dest.DieticianName, opt => opt.MapFrom(src => $"{src.DieticianEditDTO.FirstName} {src.DieticianEditDTO.LastName}"))
             //    .ForMember(dest => dest.Period, opt => opt.MapFrom(src => $"{src.Diet.StartDate.Date.ToShortDateString()} - {src.Diet.EndDate.Date.ToShortDateString()}"));
 
         }

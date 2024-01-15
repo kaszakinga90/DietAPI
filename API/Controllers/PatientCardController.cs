@@ -1,12 +1,8 @@
 ﻿using Application.Core;
-using Application.CQRS.FoodCatalogs;
 using Application.CQRS.PatientCards;
-using Application.CQRS.Patients;
-using Application.CQRS.Specializations;
 using Application.DTOs.PatientCardDTO;
 using Application.DTOs.Surveys;
 using Application.DTOs.TestsResultsDTO;
-using Application.FiltersExtensions.PatientMessages;
 using Application.FiltersExtensions.PatientsCards;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -102,3 +98,7 @@ namespace API.Controllers
         // edycja karty pacjenta
     }
 }
+
+
+
+// TODO - delete do uzupełnienia do survey i testresult

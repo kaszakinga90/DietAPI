@@ -7,6 +7,7 @@ using Application.DTOs.OfficeDTO;
 using Application.DTOs.AddressDTO;
 using Application.Core;
 using System.Diagnostics;
+using Application.Validators.Office;
 
 namespace Application.Functionality
 {
@@ -23,23 +24,32 @@ namespace Application.Functionality
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
+            private readonly OfficeCreateValidator _validator;
 
-            public Handler(DietContext context, IMapper mapper)
+            public Handler(DietContext context, IMapper mapper, OfficeCreateValidator validator)
             {
                 _context = context;
                 _mapper = mapper;
+                _validator = validator;
             }
 
             public async Task<Result<OfficePostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
+                var validationResult = await _validator
+                    .ValidateAsync(request.OfficePostDTO, cancellationToken);
+
+                if (!validationResult.IsValid)
+                {
+                    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                    return Result<OfficePostDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                }
+
                 try
                 {
-                    // Tworzenie adresu
                     var address = _mapper.Map<Address>(request.AddressPostDTO);
                     _context.AddressesDb.Add(address);
                     await _context.SaveChangesAsync(cancellationToken);
 
-                    // Tworzenie biura
                     var office = new Office
                     {
                         OfficeName = request.OfficePostDTO.OfficeName,
@@ -48,7 +58,6 @@ namespace Application.Functionality
                     _context.OfficesDb.Add(office);
                     await _context.SaveChangesAsync(cancellationToken);
 
-                    // Tworzenie rekordu w tabeli DieticianOffice
                     var dieticianOffice = new DieticianOffice
                     {
                         DieticianId = request.DieticianId,

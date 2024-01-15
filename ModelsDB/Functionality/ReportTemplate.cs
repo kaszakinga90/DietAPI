@@ -9,8 +9,5 @@ namespace ModelsDB.Functionality
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        // TODO : - jaka struktura dla ReportTemplate ?
-        //public bool? Content { get; set; }
-        //public bool? Table { get; set; }
     }
 }

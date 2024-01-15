@@ -2,7 +2,6 @@
 using Application.CQRS.Diets;
 using Application.CQRS.DietsForPatients;
 using Application.DTOs.DietDTO;
-using Application.DTOs.MessagesDTO;
 using Application.FiltersExtensions.Diets;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +13,7 @@ namespace API.Controllers
         public DietController(IMediator mediator) : base(mediator)
         {
         }
-        // TODO : to będzie do usunięcia
+
         [HttpGet("{dieticianId}")]
         public async Task<ActionResult<PagedList<DietGetDTO>>> GetDiets(int dieticianId, [FromQuery] DietParams pagingParams)
         {
@@ -22,11 +21,10 @@ namespace API.Controllers
             return HandlePagedResult(result);
         }
 
-        // TODO : do przerobienia
         [HttpPost("adddiet")]
-        public async Task<IActionResult> CreateDiet(DietDTO diet)
+        public async Task<IActionResult> CreateDiet(DietPostDTO diet)
         {
-            await _mediator.Send(new DietCreate.Command { DietDTO = diet });
+            await _mediator.Send(new DietCreate.Command { DietPostDTO = diet });
             return Ok();
         }
 
@@ -58,5 +56,17 @@ namespace API.Controllers
             var result = await _mediator.Send(new DietFilters.Query { DieticianId = dieticianId });
             return HandleResult(result);
         }
+
+        // TODO:
+        // usuwanie diety
+
+        // TODO :
+        // metoda wyślij, argumenty: dieticianId, dietId i? patientId
+        // post
+        //tabela DietPatient - tabela pośrednia, żeby obsłużyć widoczność diety dla pacjenta
+        //
+
+        // get, argumenty patientId, dietId - wyświetli listę wszystkich diet  dla apcjenta (z tabeli DietPatient)
+        // w getDTO, DietName, DieticianName, dietId  - generate pdf (szczegóły diety + export do pdf)
     }
 }

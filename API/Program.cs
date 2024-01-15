@@ -35,11 +35,24 @@ using Application.CQRS.Meals;
 using Application.CQRS.Offices;
 using Application.CQRS.ReportTemplates;
 using Application.CQRS.Sexes;
-using Application.Validators;
+using Application.Validators.Admin;
+using Application.Validators.Messages;
+using Application.Validators.Dietician;
+using Application.Validators.Diet;
+using Application.Validators.UserRole;
+using Application.Validators.Diploma;
+using Application.Validators.Dish;
+using Application.Validators.FoodCatalog;
+using Application.Validators.Invitation;
+using Application.Validators.Logo;
+using Application.Validators.MealTimeToXYAxis;
+using Application.Validators.Office;
+using Application.Validators.PatientCard;
+using Application.Validators.Patient;
+using Application.Validators.Role;
+using Application.Validators.Specialization;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Dodaje uslugi do kontenera.
 
 /// <summary>
 /// Dodaje kontrolery i konfiguruje opcje serializacji JSON.
@@ -168,7 +181,29 @@ builder.Services.AddScoped<ReportService>();
 /// Dodaje wsparcie dla walidacji z FluentValidation.
 /// </summary>
 builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddTransient<UserRoleValidate>();
+builder.Services.AddTransient<UserRoleCreateValidate>();
+builder.Services.AddTransient<AdminCreateValidator>();
+builder.Services.AddTransient<AdminUpdateValidator>();
+builder.Services.AddTransient<MessageCreateValidator>();
+builder.Services.AddTransient<DieticianCreateValidator>();
+builder.Services.AddTransient<DieticianUpdateDataValidator>();
+builder.Services.AddTransient<DieticianUpdateValidator>();
+builder.Services.AddTransient<DietCreateValidator>();
+builder.Services.AddTransient<DiplomaCreateValidator>();
+builder.Services.AddTransient<DishCreateValidator>();
+builder.Services.AddTransient<FoodCatalogCreateValidator>();
+builder.Services.AddTransient<InvitationCreateValidator>();
+builder.Services.AddTransient<InvitationUpdateValidator>();
+builder.Services.AddTransient<LogoCreateValidator>();
+builder.Services.AddTransient<MealTimeToXYAxisUpdateValidator>();
+builder.Services.AddTransient<OfficeCreateValidator>();
+builder.Services.AddTransient<OfficeUpdateValidator>();
+builder.Services.AddTransient<PatientCardCreateValidator>();
+builder.Services.AddTransient<PatientCreateValidator>();
+builder.Services.AddTransient<PatientUpdateDataValidator>();
+builder.Services.AddTransient<PatientUpdateValidator>();
+builder.Services.AddTransient<RoleCreateValidator>();
+builder.Services.AddTransient<DieticianSpecializationCreateValidator>();
 
 
 var emailSendConfiguration = builder.Configuration
@@ -179,9 +214,6 @@ builder.Services.AddScoped<IEmailSender, EmailService>();
 
 var app = builder.Build();
 
-/// <summary>
-/// Konfiguruje potok ¿¹dañ HTTP.
-/// </summary>
 app.UseMiddleware<ExceptionMiddleware>();
 if (app.Environment.IsDevelopment())
 {

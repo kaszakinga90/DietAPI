@@ -35,18 +35,12 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        // TODO : poniżej nalezy dodać [FromForm]
         [HttpPost("create")]
         public async Task<IActionResult> CreateDish(DishPostDTO dishDto)
         {
-            var command = new DishCreate.Command
-            {
-                DishPostDTO = dishDto,
-                //File = file,
-            };
+            var command = new DishCreate.Command { DishPostDTO = dishDto };
 
             await _mediator.Send(command);
-
             return Ok();
         }
 
@@ -58,3 +52,7 @@ namespace API.Controllers
         }
     }
 }
+
+// TODO : usuwanie dish
+// - tam, gdzie jest pobierana lista dań do wyboru do diety to warunek isActive == true
+// - a przy szczegółach diety już bez warunku

@@ -62,7 +62,8 @@ namespace API.Controllers
                 isAdmin = false,
                 isActive = false,
                 isDarkMode = false,
-                AddressId = null
+                AddressId = null,
+                PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705234573/qc1pclrxojm3arwfkrif.jpg"
             };
 
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
@@ -104,7 +105,12 @@ namespace API.Controllers
                 isDietician = true,
                 isAdmin = false,
                 isDarkMode=false,
-                AddressId = null
+                AddressId = null,
+                PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705234573/qc1pclrxojm3arwfkrif.jpg",
+                Logo = new ModelsDB.Functionality.Logo
+                {
+                    PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705234573/qc1pclrxojm3arwfkrif.jpg"
+                }
             };
 
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
@@ -146,7 +152,8 @@ namespace API.Controllers
                 isDietician = false,
                 isAdmin = true,
                 isDarkMode=false,
-                AddressId = null
+                AddressId = null,
+                PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705234573/qc1pclrxojm3arwfkrif.jpg"
             };
 
             var result = await _userManager.CreateAsync(user, registerDTO.Password);

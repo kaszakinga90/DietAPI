@@ -27,8 +27,6 @@ namespace ModelsDB
         public int? DieticianId { get; set; } = null;
         public Dietician Dietician { get; set; }
         public int? GlycemicIndex { get; set; }
-        public string PublicId { get; set; }
-        public string PictureUrl { get; set; }
         public List<IngredientNutrient> Nutrients { get; set; }
         public List<DishIngredient> DishIngredients { get; set; }
     }

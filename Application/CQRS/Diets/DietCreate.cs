@@ -4,12 +4,14 @@ using MediatR;
 using ModelsDB.Functionality;
 using ModelsDB;
 using Application.DTOs.MealTimeToXYAxisDTO;
+using Application.Validators.Diet;
 
+// TODO : sygnatura Handle do przerobienia tak, żeby można było dać walidację
 public class DietCreate
 {
     public class Command : IRequest
     {
-        public DietDTO DietDTO { get; set; }
+        public DietPostDTO DietPostDTO { get; set; }
     }
 
     // może dodać result do obsługi poniżej w metodzie Handle
@@ -17,19 +19,30 @@ public class DietCreate
     {
         private readonly DietContext _context;
         private readonly IMapper _mapper;
+        private readonly DietCreateValidator _validator;
 
-        public Handler(DietContext context, IMapper mapper)
+        public Handler(DietContext context, IMapper mapper, DietCreateValidator validator)
         {
             _context = context;
             _mapper = mapper;
+            _validator = validator;
         }
 
         public async Task Handle(Command request, CancellationToken cancellationToken)
         {
-            var mealTimesDtoList = request.DietDTO.MealTimesToXYAxisDTO;
+            //var validationResult = await _validator
+            //        .ValidateAsync(request.DietPostDTO, cancellationToken);
 
-            request.DietDTO.MealTimesToXYAxisDTO = null;
-            var diet = _mapper.Map<Diet>(request.DietDTO);
+            //if (!validationResult.IsValid)
+            //{
+            //    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+            //    return Result<DietPostDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+            //}
+
+            var mealTimesDtoList = request.DietPostDTO.MealTimesToXYAxisDTO;
+
+            request.DietPostDTO.MealTimesToXYAxisDTO = null;
+            var diet = _mapper.Map<Diet>(request.DietPostDTO);
 
             _context.DietsDb.Add(diet);
             await _context.SaveChangesAsync(cancellationToken);

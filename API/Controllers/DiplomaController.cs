@@ -16,5 +16,7 @@ namespace API.Controllers
             var result = await _mediator.Send(new DiplomasDieticianList.Query { DieticianId = dieticianId });
             return HandleResult(result);
         }
+
+        // TODO : usuwanie dyplomu
     }
 }

@@ -4,6 +4,7 @@ using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.DayWeeks
 {
@@ -50,7 +51,8 @@ namespace Application.CQRS.DayWeeks
                 }
                 catch (Exception ex)
                 {
-                    return Result<DayWeekDeleteDTO>.Failure("Wystąpił błąd podczas usuwania dnia.");
+                    Debug.WriteLine("Przyczyna niepowodzenie: " + ex);
+                    return Result<DayWeekDeleteDTO>.Failure("Wystąpił błąd podczas usuwania dnia. " + ex);
                 }
 
                 return Result<DayWeekDeleteDTO>.Success(_mapper.Map<DayWeekDeleteDTO>(dayWeek));

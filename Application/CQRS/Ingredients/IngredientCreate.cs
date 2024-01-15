@@ -40,18 +40,6 @@ namespace Application.CQRS.Ingredients
                     return Result<IngredientDTO>.Failure("Niepowodzenie mapowania.");
                 }
 
-                if (request.IngredientDTO.File != null)
-                {
-                    var imageResult = await _imageService.AddImageAsync(request.IngredientDTO.File);
-                    if (imageResult.Error != null)
-                    {
-                        return Result<IngredientDTO>.Failure(imageResult.Error.Message);
-                    }
-
-                    newIngredient.PictureUrl = imageResult.SecureUrl.ToString();
-                    newIngredient.PublicId = imageResult.PublicId;
-                }
-
                 _context.IngredientsDb.Add(newIngredient);
 
                 try

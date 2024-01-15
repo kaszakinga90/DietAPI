@@ -12,21 +12,22 @@ namespace API.Controllers
         }
 
         [HttpGet("details/{dietId}")]
-        public async Task<IActionResult> GetDiets(int dietId)
+        public async Task<ActionResult<List<MealTimeToXYAxisGetDTO>>> GetDiets(int dietId)
         {
             // TODO : referencje dla nazwy MealTimeToXYAxisDetails - bo to jest lista
             var result = await _mediator.Send(new MealTimeToXYAxisDetails.Query { DietId = dietId });
             return HandleResult(result);
         }
 
+
         [HttpPut("edit/{id}")]
         public async Task<IActionResult> EditMealShedule(int id, MealTimeToXYAxisEditDTO meal)
         {
             var command = new MealTimeToXYAxisEdit.Command
             {
-                MealTimeToXYAxis = meal,
+                MealTimeToXYAxisEditDTO = meal,
             };
-            command.MealTimeToXYAxis.Id = id;
+            command.MealTimeToXYAxisEditDTO.Id = id;
 
             return HandleResult(await _mediator.Send(command));
         }

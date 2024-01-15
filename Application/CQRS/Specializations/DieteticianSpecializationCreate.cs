@@ -1,5 +1,6 @@
 ﻿using Application.Core;
 using Application.DTOs.SpecializationDTO;
+using Application.Validators.Specialization;
 using AutoMapper;
 using DietDB;
 using MediatR;
@@ -20,15 +21,26 @@ namespace Application.CQRS.Specializations
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
+            private readonly DieticianSpecializationCreateValidator _validator;
 
-            public Handler(DietContext context, IMapper mapper)
+            public Handler(DietContext context, IMapper mapper, DieticianSpecializationCreateValidator validator)
             {
                 _context = context;
                 _mapper = mapper;
+                _validator = validator;
             }
 
             public async Task<Result<DieteticianSpecializationPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
+                var validationResult = await _validator
+                    .ValidateAsync(request.DieteticianSpecializationPostDTOs, cancellationToken);
+
+                if (!validationResult.IsValid)
+                {
+                    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                    return Result<DieteticianSpecializationPostDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                }
+
                 var ds = _mapper.Map<DieticianSpecialization>(request.DieteticianSpecializationPostDTOs);
 
                 if (ds == null)

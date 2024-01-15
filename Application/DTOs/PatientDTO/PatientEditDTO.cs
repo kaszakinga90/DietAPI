@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using ModelsDB;
 
-namespace Application.DTOs.DieticianDTO
+namespace Application.DTOs.PatientDTO
 {
-    public class DieticianDTO
+    public class PatientEditDTO
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

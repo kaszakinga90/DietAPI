@@ -1,89 +1,63 @@
 ﻿using Application.Core;
 using Application.DTOs.PatientDTO;
 using Application.Services;
+using Application.Validators.Patient;
 using AutoMapper;
 using DietDB;
-using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using System.Diagnostics;
 
 namespace Application.CQRS.Patients
 {
-    /// <summary>
-    /// Zawiera klasy służące do edycji informacji o pacjencie.
-    /// </summary>
     public class PatientEdit
     {
-        /// <summary>
-        /// Reprezentuje polecenie do edycji informacji o pacjencie.
-        /// </summary>
-        public class Command : IRequest<Result<PatientDTO>>
+        public class Command : IRequest<Result<PatientEditDTO>>
         {
-            /// <summary>
-            /// Pobiera lub ustawia informacje o pacjencie do edycji.
-            /// </summary>
-            public PatientDTO Patient { get; set; }
+            public PatientEditDTO PatientEditDTO { get; set; }
             public IFormFile File { get; set; }
         }
 
-        /// <summary>
-        /// Walidator do sprawdzania poprawności danych pacjenta przed ich edycją.
-        /// </summary>
-        public class CommandValidator : AbstractValidator<PatientDTO>
-        {
-            /// <summary>
-            /// Inicjalizuje walidator i definiuje reguły walidacji.
-            /// </summary>
-            public CommandValidator()
-            {
-                RuleFor(x => x.FirstName).NotEmpty().WithMessage("Imie wymagane");
-            }
-        }
-
-        /// <summary>
-        /// Obsługuje proces edycji informacji o pacjencie w bazie danych.
-        /// </summary>
-        public class Handler : IRequestHandler<Command, Result<PatientDTO>>
+        public class Handler : IRequestHandler<Command, Result<PatientEditDTO>>
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
             private readonly ImageService _imageService;
+            private readonly PatientUpdateValidator _validator;
 
-            /// <summary>
-            /// Inicjuje nową instancję klasy <see cref="Handler"/> z podanym kontekstem bazy danych i maperem.
-            /// </summary>
-            /// <param name="context">Kontekst bazy danych do obsługi pacjentów.</param>
-            /// <param name="mapper">Maper służący do mapowania obiektów.</param>
-            public Handler(DietContext context, IMapper mapper, ImageService imageService)
+            public Handler(DietContext context, IMapper mapper, ImageService imageService, PatientUpdateValidator validator)
             {
                 _context = context;
                 _mapper = mapper;
                 _imageService = imageService;
+                _validator = validator;
             }
 
-            /// <summary>
-            /// Przetwarza polecenie edycji informacji o pacjencie i zapisuje zmiany w bazie danych.
-            /// </summary>
-            /// <param name="request">Polecenie do przetworzenia.</param>
-            /// <param name="cancellationToken">Token anulowania operacji.</param>
-            /// <returns>Zwraca wynik operacji edycji w postaci obiektu <see cref="PatientDTO"/>.</returns>
-            public async Task<Result<PatientDTO>> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<PatientEditDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var patient = await _context.PatientsDb.FindAsync(new object[] { request.Patient.Id }, cancellationToken);
-                if (patient == null)
+                var validationResult = await _validator
+                    .ValidateAsync(request.PatientEditDTO, cancellationToken);
+
+                if (!validationResult.IsValid)
                 {
-                    return Result<PatientDTO>.Failure("Pacjent o podanym ID nie został znaleziony.");
+                    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                    return Result<PatientEditDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
                 }
 
-                _mapper.Map(request.Patient, patient);
+                var patient = await _context.PatientsDb.FindAsync(new object[] { request.PatientEditDTO.Id }, cancellationToken);
+                if (patient == null)
+                {
+                    return Result<PatientEditDTO>.Failure("Pacjent o podanym ID nie został znaleziony.");
+                }
 
-                // Obsługa obrazu
+                _mapper.Map(request.PatientEditDTO, patient);
+
                 if (request.File != null)
                 {
                     var imageResult = await _imageService.AddImageAsync(request.File);
                     if (imageResult.Error != null)
                     {
-                        return Result<PatientDTO>.Failure(imageResult.Error.Message);
+                        return Result<PatientEditDTO>.Failure(imageResult.Error.Message);
                     }
 
                     if (!string.IsNullOrEmpty(patient.PublicId))
@@ -100,15 +74,16 @@ namespace Application.CQRS.Patients
                     var result = await _context.SaveChangesAsync(cancellationToken) > 0;
                     if (!result)
                     {
-                        return Result<PatientDTO>.Failure("Edycja pacjenta nie powiodła się.");
+                        return Result<PatientEditDTO>.Failure("Edycja pacjenta nie powiodła się.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    return Result<PatientDTO>.Failure("Wystąpił błąd podczas edycji pacjenta.");
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<PatientEditDTO>.Failure("Wystąpił błąd podczas edycji pacjenta. " + ex);
                 }
 
-                return Result<PatientDTO>.Success(_mapper.Map<PatientDTO>(patient));
+                return Result<PatientEditDTO>.Success(_mapper.Map<PatientEditDTO>(patient));
             }
         }
     }

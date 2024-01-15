@@ -1,4 +1,5 @@
 ﻿using Application.Core;
+using Application.Validators.Messages;
 using AutoMapper;
 using DietDB;
 using MediatR;
@@ -31,16 +32,18 @@ namespace Application.CQRS.Admins
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
+            private readonly MessageCreateValidator _validator;
 
             /// <summary>
             /// Inicjuje nową instancję klasy <see cref="Handler"/> z podanym kontekstem i maperem.
             /// </summary>
             /// <param name="context">Kontekst bazy danych do obsługi wiadomości dla pacjentów.</param>
             /// <param name="mapper">Obiekt służący do mapowania obiektów.</param>
-            public Handler(DietContext context, IMapper mapper)
+            public Handler(DietContext context, IMapper mapper, MessageCreateValidator validator)
             {
                 _context = context;
                 _mapper = mapper;
+                _validator = validator;
             }
 
             /// <summary>
@@ -50,6 +53,15 @@ namespace Application.CQRS.Admins
             /// <param name="cancellationToken">Token anulowania operacji.</param>
             public async Task<Result<MessageToDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
+                var validationResult = await _validator
+                    .ValidateAsync(request.MessageDTO, cancellationToken);
+
+                if (!validationResult.IsValid)
+                {
+                    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                    return Result<MessageToDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                }
+
                 if (!request.MessageDTO.PatientId.HasValue)
                 {
                     return Result<MessageToDTO>.Failure("ID pacjenta jest wymagane.");

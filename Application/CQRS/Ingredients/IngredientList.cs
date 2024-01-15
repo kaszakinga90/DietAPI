@@ -37,7 +37,6 @@ namespace Application.CQRS.Ingredients
                              GlycemicIndex = i.GlycemicIndex ?? 0,
                              ServingQuantity = i.ServingQuantity ?? 0,
                              MeasureId = i.MeasureId,
-                             PictureUrl = i.PictureUrl,
                              Weight = i.Weight,
                          })
                         .AsQueryable();

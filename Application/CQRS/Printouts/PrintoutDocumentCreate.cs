@@ -24,18 +24,16 @@ namespace Application.CQRS.Printouts
 
             public async Task<Result<string>> Handle(Command request, CancellationToken cancellationToken)
             {
-                // Znajdź szablon w bazie danych
                 var printoutTemplate = await _context.PrintoutsDb
                     .FindAsync(request.Data.Id);
 
-                var user = await _context.Users.FindAsync(request.Data.DieticianId); // Przykład, zakładam, że UserId jest częścią DTO
+                var user = await _context.Users.FindAsync(request.Data.DieticianId);
 
                 if (printoutTemplate == null || user == null)
                 {
                     return Result<string>.Failure("Szablon lub użytkownik nie został znaleziony.");
                 }
 
-                // Generuj dokument
                 string filePath = GenerateWordDocument(printoutTemplate.Data, user.FirstName, user.LastName);
 
                 return Result<string>.Success(filePath);
@@ -45,7 +43,6 @@ namespace Application.CQRS.Printouts
             {
                 var doc = DocX.Create("output.docx");
 
-                // Zastąpienie znaczników w szablonie odpowiednimi wartościami
                 templateData = templateData.Replace("{FirstName}", firstName ?? string.Empty);
                 templateData = templateData.Replace("{LastName}", lastName ?? string.Empty);
 
@@ -56,21 +53,6 @@ namespace Application.CQRS.Printouts
 
                 return filePath;
             }
-
-            //private string GenerateWordDocument(string templateData, string data)
-            //{
-            //    var doc = DocX.Create("output.docx");
-
-            //    // Tutaj możesz dodać logikę manipulowania zawartością dokumentu na podstawie templateData i data
-            //    doc.InsertParagraph(templateData);
-            //    doc.InsertParagraph(data);
-
-            //    string filePath = Path.Combine("test", "output.docx");
-            //    doc.SaveAs(filePath);
-
-            //    return filePath;
-            //}
         }
-
     }
 }
