@@ -32,3 +32,7 @@ namespace API.Controllers
         // edycja karty pacjenta
     }
 }
+
+
+
+// TODO - delete do uzupełnienia do survey i testresult

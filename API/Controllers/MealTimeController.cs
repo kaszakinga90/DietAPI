@@ -11,23 +11,23 @@ namespace API.Controllers
         {
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<MealTimeToXYAxis>>> GetMealTimes()
-        {
-            return await _mediator.Send(new MealTimeList.Query());
-        }
+        //[HttpGet]
+        //public async Task<ActionResult<List<MealTimeToXYAxis>>> GetMealTimes()
+        //{
+        //    return await _mediator.Send(new MealTimeList.Query());
+        //}
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<MealTimeToXYAxis>> GetMealTime(int id)
-        {
-            return await _mediator.Send(new MealTimeDetails.Query { Id = id });
-        }
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<MealTimeToXYAxis>> GetMealTime(int id)
+        //{
+        //    return await _mediator.Send(new MealTimeDetails.Query { Id = id });
+        //}
 
-        [HttpPost]
-        public async Task<IActionResult> CreateMealTime(MealTimeToXYAxis MealTime)
-        {
-            await _mediator.Send(new MealTimeCreate.Command { MealTime = MealTime });
-            return Ok();
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> CreateMealTime(MealTimeToXYAxis MealTime)
+        //{
+        //    await _mediator.Send(new MealTimeCreate.Command { MealTime = MealTime });
+        //    return Ok();
+        //}
     }
 }

@@ -50,6 +50,7 @@ namespace API.Controllers
             return await _mediator.Send(new DieticianDetails.Query { Id = id });
         }
 
+        // TODO : poniższe do usunięcia
         /// <summary>
         /// Tworzy nowego dietetyka.
         /// </summary>
@@ -69,14 +70,14 @@ namespace API.Controllers
         /// <param name="dietician">Nowe dane dietetyka.</param>
         /// <returns>StatusesDb operacji.</returns>
         [HttpPut("{dieticianId}")]
-        public async Task<IActionResult> EditDietician(int dieticianId, [FromForm] DieticianDTO dieticianDto, [FromForm] IFormFile file)
+        public async Task<IActionResult> EditDietician(int dieticianId, [FromForm] DieticianEditDTO dieticianDto, [FromForm] IFormFile file)
         {
             var command = new DieticianEdit.Command
             {
-                Dietician = dieticianDto,
+                DieticianEditDTO = dieticianDto,
                 File = file
             };
-            command.Dietician.Id = dieticianId;
+            command.DieticianEditDTO.Id = dieticianId;
 
 
             return HandleResult(await _mediator.Send(command));
@@ -151,9 +152,9 @@ namespace API.Controllers
         [HttpPost("diploma")]
         public async Task<IActionResult> CreateDiploma([FromForm] DiplomaPostDTO diplomaDto, [FromForm] IFormFile file)
         {
-            var command = new CreateDiploma.Command
+            var command = new DiplomaCreate.Command
             {
-                DiplomaDTO = diplomaDto,
+                DiplomaPostDTO = diplomaDto,
                 File = file,
             };
 

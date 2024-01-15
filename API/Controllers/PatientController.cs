@@ -28,6 +28,7 @@ namespace API.Controllers
             return await _mediator.Send(new PatientDetails.Query { Id = id });
         }
 
+        // TODO : do usuniêcia
         [HttpPost]
         public async Task<IActionResult> CreatePatient(Patient Patient)
         {
@@ -37,14 +38,14 @@ namespace API.Controllers
 
         //zmiana zdjêcia, bo zagnie¿d¿ony adres
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditPatient(int id, [FromForm] PatientDTO patientDTO, [FromForm] IFormFile file)
+        public async Task<IActionResult> EditPatient(int id, [FromForm] PatientEditDTO patientDTO, [FromForm] IFormFile file)
         {
             var command = new PatientEdit.Command
             {
-                Patient = patientDTO,
+                PatientEditDTO = patientDTO,
                 File = file
             };
-            command.Patient.Id = id;
+            command.PatientEditDTO.Id = id;
 
             return HandleResult(await _mediator.Send(command));
         }
@@ -55,9 +56,9 @@ namespace API.Controllers
         {
             var command = new PatientEditData.Command
             {
-                PatientEditData = patient,
+                PatientEditDataDTO = patient,
             };
-            command.PatientEditData.Id = patientId;
+            command.PatientEditDataDTO.Id = patientId;
 
             return HandleResult(await _mediator.Send(command));
         }

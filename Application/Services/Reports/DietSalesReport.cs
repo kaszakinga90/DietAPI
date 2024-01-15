@@ -28,7 +28,7 @@ namespace Application.Services.Reports
             //{
             //    reportContent.AppendLine($"Diet Name: {data.DietName}");
             //    reportContent.AppendLine($"CreateTime: {data.CreateTime}");
-            //    reportContent.AppendLine($"Patient Name: {data.PatientName}");
+            //    reportContent.AppendLine($"PatientEditDTO Name: {data.PatientName}");
             //    reportContent.AppendLine($"Period: {data.Period}");
             //    reportContent.AppendLine("------------------------------");
 

@@ -308,7 +308,8 @@ namespace DietDB
                     isSuperAdmin = true,
                     BirthDate = new DateTime(1970, 10, 12),
                     AddressId = 8,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705234573/qc1pclrxojm3arwfkrif.jpg"
                 };
                 await userManager.CreateAsync(superAdmin, "Pa$$w0rd5555555554!");
 
@@ -325,7 +326,8 @@ namespace DietDB
                     isSuperAdmin = false,
                     BirthDate = new DateTime(1980, 1, 1),
                     AddressId = 1,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705234573/qc1pclrxojm3arwfkrif.jpg"
                 };
                 await userManager.CreateAsync(admin, "Pa$$w0rd5555555554!");
 
@@ -342,7 +344,8 @@ namespace DietDB
                     isSuperAdmin = false,
                     BirthDate = new DateTime(1982, 5, 10),
                     AddressId = 2,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705234573/qc1pclrxojm3arwfkrif.jpg"
                 };
                 await userManager.CreateAsync(admin1, "Pa$$w0rd5555555554!");
 

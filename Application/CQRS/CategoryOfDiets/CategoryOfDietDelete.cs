@@ -6,6 +6,7 @@ using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.CategoryOfDiets
 {
@@ -52,7 +53,8 @@ namespace Application.CQRS.CategoryOfDiets
                 }
                 catch (Exception ex)
                 {
-                    return Result<CategoryOfDietDeleteDTO>.Failure("Wystąpił błąd podczas usuwania kategorii.");
+                    Debug.WriteLine("Przyczyna niepowodzenie: " + ex);
+                    return Result<CategoryOfDietDeleteDTO>.Failure("Wystąpił błąd podczas usuwania kategorii. " + ex);
                 }
 
                 return Result<CategoryOfDietDeleteDTO>.Success(_mapper.Map<CategoryOfDietDeleteDTO>(categoryOfDiet));

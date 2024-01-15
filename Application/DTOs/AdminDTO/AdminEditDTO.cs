@@ -1,4 +1,5 @@
-﻿using ModelsDB;
+﻿using Microsoft.AspNetCore.Http;
+using ModelsDB;
 
 namespace Application.DTOs.AdminDTO
 {
@@ -17,6 +18,7 @@ namespace Application.DTOs.AdminDTO
         public DateTime? BirthDate { get; set; }
         public Address Address { get; set; }
         public int AddressId { get; set; }
+        public IFormFile File { get; set; }
         public List<MessageToDTO> Messages { get; set; }
     }
 }

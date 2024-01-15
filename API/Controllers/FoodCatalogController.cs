@@ -32,5 +32,9 @@ namespace API.Controllers
             var result = await _mediator.Send(new FoodCatalogCreate.Command { FoodCatalogPostDTO = FoodCatalogPostDTO });
             return Ok(result.Value); // Zwraca obiekt DTO z ID
         }
+
+        // TODO: edycja
+
+        // TODO: delete, ale jeśli będzie funkcja przenieś do innego folderu i dopiero można usunąć, jeśli folder pusty
     }
 }

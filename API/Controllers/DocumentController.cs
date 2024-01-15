@@ -77,5 +77,7 @@ namespace API.Controllers
 
             return File(result.Value, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "filledTemplate.docx");
         }
+
+        // TODO : usuwanie szablonu
     }
 }

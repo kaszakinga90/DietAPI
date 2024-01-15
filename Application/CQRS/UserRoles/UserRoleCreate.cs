@@ -6,7 +6,7 @@ using Application.Core;
 using Microsoft.AspNetCore.Identity;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
-using Application.Validators;
+using Application.Validators.UserRole;
 
 namespace Application.CQRS.UserRoles
 {
@@ -20,9 +20,9 @@ namespace Application.CQRS.UserRoles
             {
                 private readonly DietContext _context;
                 private readonly UserManager<User> _userManager;
-                private readonly UserRoleValidate _userRoleValidate;
+                private readonly UserRoleCreateValidate _userRoleValidate;
 
-                public Handler(DietContext context, UserManager<User> userManager, UserRoleValidate userRoleValidate)
+                public Handler(DietContext context, UserManager<User> userManager, UserRoleCreateValidate userRoleValidate)
                 {
                     _context = context;
                     _userManager = userManager;

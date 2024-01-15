@@ -1,5 +1,6 @@
 ﻿using Application.Core;
 using Application.DTOs.MealTimeToXYAxisDTO;
+using Application.Validators.MealTimeToXYAxis;
 using AutoMapper;
 using DietDB;
 using MediatR;
@@ -11,29 +12,40 @@ namespace Application.CQRS.MealsTimesToXYAxiss
     {
         public class Command : IRequest<Result<MealTimeToXYAxisEditDTO>>
         {
-            public MealTimeToXYAxisEditDTO MealTimeToXYAxis{ get; set; }
+            public MealTimeToXYAxisEditDTO MealTimeToXYAxisEditDTO{ get; set; }
             public class Handler : IRequestHandler<Command, Result<MealTimeToXYAxisEditDTO>>
             {
                 private readonly DietContext _context;
                 private readonly IMapper _mapper;
+                private readonly MealTimeToXYAxisUpdateValidator _validator;
 
-                public Handler(DietContext context, IMapper mapper)
+                public Handler(DietContext context, IMapper mapper, MealTimeToXYAxisUpdateValidator validator)
                 {
                     _context = context;
                     _mapper = mapper;
+                    _validator = validator;
                 }
 
                 public async Task<Result<MealTimeToXYAxisEditDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
+                    var validationResult = await _validator
+                    .ValidateAsync(request.MealTimeToXYAxisEditDTO, cancellationToken);
+
+                    if (!validationResult.IsValid)
+                    {
+                        var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                        return Result<MealTimeToXYAxisEditDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                    }
+
                     var mealShedule = await _context.MealTimesDb
-                        .FindAsync(new object[] { request.MealTimeToXYAxis.Id }, cancellationToken);
+                        .FindAsync(new object[] { request.MealTimeToXYAxisEditDTO.Id }, cancellationToken);
 
                     if (mealShedule == null)
                     {
                         return Result<MealTimeToXYAxisEditDTO>.Failure("Posilek o podanym ID nie został znaleziony.");
                     }
 
-                    _mapper.Map(request.MealTimeToXYAxis, mealShedule);
+                    _mapper.Map(request.MealTimeToXYAxisEditDTO, mealShedule);
 
                     try
                     {

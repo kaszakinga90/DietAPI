@@ -1,5 +1,6 @@
 ﻿using Application.Core;
 using Application.DTOs.RoleDTO;
+using Application.Validators.Role;
 using AutoMapper;
 using DietDB;
 using MediatR;
@@ -19,15 +20,26 @@ namespace Application.CQRS.Roles
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
+            private readonly RoleCreateValidator _validator;
 
-            public Handler(DietContext context, IMapper mapper)
+            public Handler(DietContext context, IMapper mapper, RoleCreateValidator validator)
             {
                 _context = context;
                 _mapper = mapper;
+                _validator = validator;
             }
 
             public async Task<Result<RolePostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
+                var validationResult = await _validator
+                    .ValidateAsync(request.RolePostDTO, cancellationToken);
+
+                if (!validationResult.IsValid)
+                {
+                    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                    return Result<RolePostDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                }
+
                 var role = _mapper.Map<Role>(request.RolePostDTO);
 
                 if (role == null)

@@ -1,8 +1,10 @@
 ﻿using Application.Core;
 using Application.DTOs.PatientDTO;
+using Application.Validators.Patient;
 using AutoMapper;
 using DietDB;
 using MediatR;
+using System.Diagnostics;
 
 namespace Application.CQRS.Patients
 {
@@ -10,27 +12,38 @@ namespace Application.CQRS.Patients
     {
         public class Command : IRequest<Result<PatientEditDataDTO>>
         {
-            public PatientEditDataDTO PatientEditData { get; set; }
+            public PatientEditDataDTO PatientEditDataDTO { get; set; }
             public class Handler : IRequestHandler<Command, Result<PatientEditDataDTO>>
             {
                 private readonly DietContext _context;
                 private readonly IMapper _mapper;
+                private readonly PatientUpdateDataValidator _validator;
 
-                public Handler(DietContext context, IMapper mapper)
+                public Handler(DietContext context, IMapper mapper, PatientUpdateDataValidator validator)
                 {
                     _context = context;
                     _mapper = mapper;
+                    _validator = validator;
                 }
 
                 public async Task<Result<PatientEditDataDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
-                    var patient = await _context.PatientsDb.FindAsync(new object[] { request.PatientEditData.Id }, cancellationToken);
+                    var validationResult = await _validator
+                    .ValidateAsync(request.PatientEditDataDTO, cancellationToken);
+
+                    if (!validationResult.IsValid)
+                    {
+                        var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                        return Result<PatientEditDataDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                    }
+
+                    var patient = await _context.PatientsDb.FindAsync(new object[] { request.PatientEditDataDTO.Id }, cancellationToken);
                     if (patient == null)
                     {
                         return Result<PatientEditDataDTO>.Failure("Pacjent o podanym ID nie został znaleziony.");
                     }
 
-                    _mapper.Map(request.PatientEditData, patient);
+                    _mapper.Map(request.PatientEditDataDTO, patient);
 
                     try
                     {
@@ -42,7 +55,8 @@ namespace Application.CQRS.Patients
                     }
                     catch (Exception ex)
                     {
-                        return Result<PatientEditDataDTO>.Failure("Wystąpił błąd podczas edycji pacjenta.");
+                        Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                        return Result<PatientEditDataDTO>.Failure("Wystąpił błąd podczas edycji pacjenta. " + ex);
                     }
 
                     return Result<PatientEditDataDTO>.Success(_mapper.Map<PatientEditDataDTO>(patient));

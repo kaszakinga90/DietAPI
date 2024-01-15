@@ -27,10 +27,14 @@ namespace API.Controllers
         }
 
         [HttpGet("allForDietician/{dieticianId}")]
-        public async Task<IActionResult> GetInvitationsForDietician([FromQuery] InvitationParams pagingParams, int dieticianId)
+        public async Task<IActionResult> GetInvitationsForDietician(int dieticianId)
+        //public async Task<IActionResult> GetInvitationsForDietician([FromQuery] InvitationParams pagingParams, int dieticianId)
         {
-            var result = await _mediator.Send(new InvitationsDieticianList.Query { Params = pagingParams, DieticianId = dieticianId });
-            return HandlePagedResult(result);
+            var result = await _mediator.Send(new InvitationsDieticianList.Query { DieticianId = dieticianId });
+            //var result = await _mediator.Send(new InvitationsDieticianList.Query { Params = pagingParams, DieticianId = dieticianId });
+            //return Ok();
+            //return HandlePagedResult(result);
+            return HandleResult(result);
         }
 
         [HttpGet("details/{invitationId}")]
@@ -49,6 +53,10 @@ namespace API.Controllers
             };
 
             var result = await _mediator.Send(command);
+
+
+
+
             return Ok(result);
             //    return HandleResult(await _mediator.Send(command));
         }

@@ -24,9 +24,9 @@ namespace API.Controllers
         {
             var command = new MealTimeToXYAxisEdit.Command
             {
-                MealTimeToXYAxis = meal,
+                MealTimeToXYAxisEditDTO = meal,
             };
-            command.MealTimeToXYAxis.Id = id;
+            command.MealTimeToXYAxisEditDTO.Id = id;
 
             return HandleResult(await _mediator.Send(command));
         }

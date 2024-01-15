@@ -7,6 +7,7 @@ using Application.DTOs.OfficeDTO;
 using Application.DTOs.AddressDTO;
 using Application.Core;
 using System.Diagnostics;
+using Application.Validators.Office;
 
 namespace Application.Functionality
 {
@@ -23,15 +24,26 @@ namespace Application.Functionality
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
+            private readonly OfficeCreateValidator _validator;
 
-            public Handler(DietContext context, IMapper mapper)
+            public Handler(DietContext context, IMapper mapper, OfficeCreateValidator validator)
             {
                 _context = context;
                 _mapper = mapper;
+                _validator = validator;
             }
 
             public async Task<Result<OfficePostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
+                var validationResult = await _validator
+                    .ValidateAsync(request.OfficePostDTO, cancellationToken);
+
+                if (!validationResult.IsValid)
+                {
+                    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                    return Result<OfficePostDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                }
+
                 try
                 {
                     // Tworzenie adresu

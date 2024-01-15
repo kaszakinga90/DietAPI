@@ -58,3 +58,7 @@ namespace API.Controllers
         }
     }
 }
+
+// TODO : usuwanie dish
+// - tam, gdzie jest pobierana lista dań do wyboru do diety to warunek isActive == true
+// - a przy szczegółach diety już bez warunku

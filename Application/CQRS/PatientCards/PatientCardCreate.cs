@@ -1,4 +1,6 @@
-﻿using Application.DTOs.PatientCardDTO;
+﻿using Application.Core;
+using Application.DTOs.PatientCardDTO;
+using Application.Validators.PatientCard;
 using AutoMapper;
 using DietDB;
 using MediatR;
@@ -6,6 +8,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 // TODO : obsługa - dokończ. funkcjonalności (czy należy zmapować? )
+// TODO : tu musi być inna obsługa handle żeby walidacja działała
 namespace Application.CQRS.PatientCards
 {
     public class PatientCardCreate
@@ -22,15 +25,25 @@ namespace Application.CQRS.PatientCards
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
+            private readonly PatientCardCreateValidator _validator;
 
-            public Handler(DietContext context, IMapper mapper)
+            public Handler(DietContext context, IMapper mapper, PatientCardCreateValidator validator)
             {
                 _context = context;
                 _mapper = mapper;
+                _validator = validator;
             }
 
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
+                //var validationResult = await _validator
+                //    .ValidateAsync(request.PatientCardPostDTO, cancellationToken);
+
+                //if (!validationResult.IsValid)
+                //{
+                //    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                //    return Result<PatientCardPostDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                //}
 
                 try
                 {

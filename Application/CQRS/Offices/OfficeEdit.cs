@@ -1,5 +1,6 @@
 ﻿using Application.Core;
 using Application.DTOs.OfficeDTO;
+using Application.Validators.Office;
 using AutoMapper;
 using DietDB;
 using MediatR;
@@ -11,29 +12,40 @@ namespace Application.CQRS.Offices
     {
         public class Command : IRequest<Result<OfficeEditDTO>>
         {
-            public OfficeEditDTO OfficeEdit { get; set; }
+            public OfficeEditDTO OfficeEditDTO { get; set; }
             public class Handler : IRequestHandler<Command, Result<OfficeEditDTO>>
             {
                 private readonly DietContext _context;
                 private readonly IMapper _mapper;
+                private readonly OfficeUpdateValidator _validator;
 
-                public Handler(DietContext context, IMapper mapper)
+                public Handler(DietContext context, IMapper mapper, OfficeUpdateValidator validator)
                 {
                     _context = context;
                     _mapper = mapper;
+                    _validator = validator;
                 }
 
                 public async Task<Result<OfficeEditDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
+                    var validationResult = await _validator
+                    .ValidateAsync(request.OfficeEditDTO, cancellationToken);
+
+                    if (!validationResult.IsValid)
+                    {
+                        var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                        return Result<OfficeEditDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                    }
+
                     var office = await _context.OfficesDb
-                        .FindAsync(new object[] { request.OfficeEdit.Id }, cancellationToken);
+                        .FindAsync(new object[] { request.OfficeEditDTO.Id }, cancellationToken);
                     
                     if (office == null)
                     {
                         return Result<OfficeEditDTO>.Failure("Biuro o podanym ID nie zostało znalezione.");
                     }
 
-                    _mapper.Map(request.OfficeEdit, office);
+                    _mapper.Map(request.OfficeEditDTO, office);
 
                     try
                     {

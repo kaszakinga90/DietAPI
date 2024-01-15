@@ -1,6 +1,7 @@
 ﻿using Application.Core;
 using Application.DTOs.LogoDTO;
 using Application.Services;
+using Application.Validators.Logo;
 using AutoMapper;
 using DietDB;
 using MediatR;
@@ -11,7 +12,7 @@ using ModelsDB.Functionality;
 // TODO : obsługa - dokończ. funkcjonalności
 namespace Application.CQRS.Logos
 {
-    public class CreateLogo
+    public class LogoCreate
     {
         public class Command : IRequest<Result<LogoPostDTO>>
         {
@@ -23,14 +24,26 @@ namespace Application.CQRS.Logos
             private readonly DietContext _context;
             private readonly IMapper _mapper;
             private readonly ImageService _imageService;
-            public Handler(DietContext context, IMapper mapper, ImageService imageService)
+            private readonly LogoCreateValidator _validator;
+
+            public Handler(DietContext context, IMapper mapper, ImageService imageService, LogoCreateValidator validator)
             {
                 _context = context;
                 _mapper = mapper;
                 _imageService = imageService;
+                _validator = validator;
             }
             public async Task<Result<LogoPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
+                var validationResult = await _validator
+                    .ValidateAsync(request.LogoPostDTO, cancellationToken);
+
+                if (!validationResult.IsValid)
+                {
+                    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                    return Result<LogoPostDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                }
+
                 Logo logo = await _context.LogosDb
                     .FirstOrDefaultAsync(l => l.DieticianId == request.LogoPostDTO.DieticianId);
 

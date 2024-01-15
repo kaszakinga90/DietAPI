@@ -6,6 +6,7 @@ using DietDB;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using System.Diagnostics;
 
 namespace Application.CQRS.Ingredients
 {
@@ -104,7 +105,8 @@ namespace Application.CQRS.Ingredients
                 }
                 catch (Exception ex)
                 {
-                    return Result<IngredientDTO>.Failure("Wystąpił błąd podczas edycji produktu.");
+                    Debug.WriteLine("Przyczyna niepowodzenie: " + ex);
+                    return Result<IngredientDTO>.Failure("Wystąpił błąd podczas edycji produktu. " + ex);
                 }
                 return Result<IngredientDTO>.Success(_mapper.Map<IngredientDTO>(ingredient));
             }

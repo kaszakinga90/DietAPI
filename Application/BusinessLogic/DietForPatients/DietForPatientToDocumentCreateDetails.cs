@@ -97,7 +97,7 @@ namespace Application.BusinessLogic.DietForPatients
             //{
             //    var dietForPatient = await _context.DietsDb
             //        .Where(m => m.Id == request.DietId)
-            //        .Include(diet => diet.Patient)
+            //        .Include(diet => diet.PatientEditDTO)
             //        .Include(mt => mt.MealTimesToXYAxis)
             //            .ThenInclude(mt => mt.Meal)
             //        .Include(diet => diet.MealTimesToXYAxis)
@@ -111,9 +111,9 @@ namespace Application.BusinessLogic.DietForPatients
             //        .Select(d => new DietForPatientToDocumentDTO
             //        {
             //            Name = d.Name,
-            //            PatientName = d.Patient.FirstName + " " + d.Patient.LastName,
-            //            DieticianName = d.Dietician.FirstName + " " + d.Dietician.LastName,
-            //            DieticianLogoUrl = d.Dietician.Logo.PictureUrl,
+            //            PatientName = d.PatientEditDTO.FirstName + " " + d.PatientEditDTO.LastName,
+            //            DieticianName = d.DieticianEditDTO.FirstName + " " + d.DieticianEditDTO.LastName,
+            //            DieticianLogoUrl = d.DieticianEditDTO.Logo.PictureUrl,
             //            StartDate = d.StartDate.ToShortDateString(),
             //            EndDate = d.EndDate.ToShortDateString(),
             //            numberOfMeals = d.numberOfMeals,

@@ -45,11 +45,13 @@ namespace API.Controllers
         {
             var command = new OfficeEdit.Command
             {
-                OfficeEdit = officeEdit,
+                OfficeEditDTO = officeEdit,
             };
-            command.OfficeEdit.Id = officeId;
+            command.OfficeEditDTO.Id = officeId;
 
             return HandleResult(await _mediator.Send(command));
         }
+
+        // TODO : usuwanie
     }
 }

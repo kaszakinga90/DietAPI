@@ -16,7 +16,5 @@ namespace API.Controllers
             var result = await _mediator.Send(new CountryStateList.Query());
             return HandleResult(result);
         }
-
-        // TODO : pozostałe metody - create, detail, update, delete - tylko superadmin
     }
 }

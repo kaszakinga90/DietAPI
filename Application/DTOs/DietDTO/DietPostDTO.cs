@@ -1,6 +1,6 @@
 ﻿using Application.DTOs.MealTimeToXYAxisDTO;
 
-public class DietDTO
+public class DietPostDTO
 {
     public int Id { get; set; }
     public string Name { get; set; }
