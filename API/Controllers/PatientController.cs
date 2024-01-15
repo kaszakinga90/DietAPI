@@ -1,5 +1,6 @@
 using Application.Core;
 using Application.CQRS.Patients;
+using Application.CQRS.Specializations;
 using Application.DTOs.MessagesDTO;
 using Application.DTOs.PatientDTO;
 using Application.FiltersExtensions.PatientMessages;
@@ -69,6 +70,12 @@ namespace API.Controllers
             var result = await _mediator.Send(new PatientMessageList.Query { PatientId = patientId, Params = param });
 
             return HandlePagedResult(result);
+        }
+        [HttpGet("messagesnopagination/{patientId}")]
+        public async Task<IActionResult> GetMessagesForPatientNoPagination(int patientId)
+        {
+            var result = await _mediator.Send(new PatientMessageNoPaginationList.Query { PatientId = patientId });
+            return HandleResult(result);
         }
 
         [HttpGet("filters/{patientId}")]

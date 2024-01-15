@@ -2,6 +2,7 @@
 using Application.CQRS.FoodCatalogs;
 using Application.CQRS.PatientCards;
 using Application.CQRS.Patients;
+using Application.CQRS.Specializations;
 using Application.DTOs.PatientCardDTO;
 using Application.DTOs.Surveys;
 using Application.DTOs.TestsResultsDTO;
@@ -53,10 +54,23 @@ namespace API.Controllers
         {
             var result = await _mediator.Send(new PatientCardSurveysList.Query { DieteticianId = dieticianId, PatientCardId=patientCardId });
             return HandleResult(result);
-        }[HttpGet("getallpatienttestresults/{dieticianId}/{patientCardId}")]
+        }
+        [HttpGet("getallpatientsurveysforpatient/{patientCardId}")]
+        public async Task<IActionResult> GetAllPatientSurveysForPatient(int patientCardId)
+        {
+            var result = await _mediator.Send(new PatientCardSurveysForPatientList.Query {  PatientCardId=patientCardId });
+            return HandleResult(result);
+        }
+        [HttpGet("getallpatienttestresults/{dieticianId}/{patientCardId}")]
         public async Task<IActionResult> GetAllPatientTestResults(int dieticianId,int patientCardId)
         {
             var result = await _mediator.Send(new PatientCardTestsResultList.Query { DieteticianId = dieticianId, PatientCardId=patientCardId });
+            return HandleResult(result);
+        } 
+        [HttpGet("getallpatienttestresultsforpatient/{patientCardId}")]
+        public async Task<IActionResult> GetAllPatientTestResultsForPatient(int patientCardId)
+        {
+            var result = await _mediator.Send(new PatientCardTestsResultForPatientList.Query { PatientCardId=patientCardId });
             return HandleResult(result);
         }
         [HttpPost("createsurvey")]
@@ -71,6 +85,18 @@ namespace API.Controllers
             var result = await _mediator.Send(new TestResultCreate.Command { testResultPost = testResultPostDTO });
             if (result.IsSucces) return Ok(result.Value);
             return BadRequest(result.Error);
+        }
+        //[HttpGet("getallpatienttestresultsforpatientNopagination/{patientId}")]
+        //public async Task<IActionResult> GetAllPatientTestResultsForPatientNoPagination(int patientId)
+        //{
+        //    var result = await _mediator.Send(new PatientCardTestsResultForPatientList.Query { PatientCardId = patientId });
+        //    return HandleResult(result);
+        //}
+            [HttpGet("getallpatienttestresultsforpatientNopagination/{patientId}")]
+        public async Task<IActionResult> GetAllPatientTestResultsForPatientNoPagination(int patientId)
+        {
+            var result = await _mediator.Send(new PatientCardNoPaginationList.Query { PatientId = patientId });
+            return HandleResult(result);
         }
         // TODO : lista wszystkich kart pacjentów u danego dietetyka + filtry i paginacja (u dietetyka, filtr po nazwie pacjenta)
         // edycja karty pacjenta
