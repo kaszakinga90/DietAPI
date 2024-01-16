@@ -8,6 +8,7 @@ using Application.FiltersExtensions.DieticianBussinesCards;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.DieticiansBusinessesCards
 {
@@ -29,7 +30,9 @@ namespace Application.CQRS.DieticiansBusinessesCards
 
             public async Task<Result<PagedList<DieticianBusinessCardGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var businessCardsList = _context.DieticiansDb
+                try
+                {
+                    var businessCardsList = _context.DieticiansDb
                     .Include(d => d.DieticianOffices)
                              .ThenInclude(o => o.Office)
                                  .ThenInclude(a => a.Address)
@@ -74,19 +77,24 @@ namespace Application.CQRS.DieticiansBusinessesCards
                     })
                     .AsQueryable();
 
-                businessCardsList = businessCardsList.BusinessCardSort(request.Params.OrderBy);
-                businessCardsList = businessCardsList.BusinessCardFilter(request.Params.SpecializationNames, request.Params.StateNames);
-                businessCardsList = businessCardsList.BusinessCardSearch(request.Params.SearchTerm);
+                    businessCardsList = businessCardsList.BusinessCardSort(request.Params.OrderBy);
+                    businessCardsList = businessCardsList.BusinessCardFilter(request.Params.SpecializationNames, request.Params.StateNames);
+                    businessCardsList = businessCardsList.BusinessCardSearch(request.Params.SearchTerm);
 
-                if (businessCardsList == null)
-                {
-                    return Result< PagedList<DieticianBusinessCardGetDTO>>.Failure("no results.");
+                    if (businessCardsList == null)
+                    {
+                        return Result<PagedList<DieticianBusinessCardGetDTO>>.Failure("no results.");
+                    }
+
+                    return Result<PagedList<DieticianBusinessCardGetDTO>>.Success(
+                        await PagedList<DieticianBusinessCardGetDTO>.CreateAsync(businessCardsList, request.Params.PageNumber, request.Params.PageSize));
                 }
-
-                return Result<PagedList<DieticianBusinessCardGetDTO>>.Success(
-                    await PagedList<DieticianBusinessCardGetDTO>.CreateAsync(businessCardsList, request.Params.PageNumber, request.Params.PageSize));
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<PagedList<DieticianBusinessCardGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }
 }
-

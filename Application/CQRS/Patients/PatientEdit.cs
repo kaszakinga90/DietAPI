@@ -44,7 +44,9 @@ namespace Application.CQRS.Patients
                     return Result<PatientEditDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
                 }
 
-                var patient = await _context.PatientsDb.FindAsync(new object[] { request.PatientEditDTO.Id }, cancellationToken);
+                var patient = await _context.PatientsDb
+                    .FindAsync(new object[] { request.PatientEditDTO.Id }, cancellationToken);
+
                 if (patient == null)
                 {
                     return Result<PatientEditDTO>.Failure("Pacjent o podanym ID nie został znaleziony.");
@@ -82,7 +84,6 @@ namespace Application.CQRS.Patients
                     Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
                     return Result<PatientEditDTO>.Failure("Wystąpił błąd podczas edycji pacjenta. " + ex);
                 }
-
                 return Result<PatientEditDTO>.Success(_mapper.Map<PatientEditDTO>(patient));
             }
         }

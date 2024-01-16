@@ -1,5 +1,4 @@
 ﻿using Application.CQRS.DieticiansBusinessesCards;
-using Application.CQRS.Specializations;
 using Application.DTOs.DieticianBusinessCardDTO;
 using Application.FiltersExtensions.DieticianBussinesCards;
 using MediatR;
@@ -19,6 +18,7 @@ namespace API.Controllers
             var result = await _mediator.Send(new DieticianBusinessCardList.Query { Params = pagingParams });
             return HandlePagedResult(result);
         }
+
         [HttpGet("allnopagination")]
         public async Task<IActionResult> GetBusinessCardsNoPagination()
         {
@@ -27,14 +27,14 @@ namespace API.Controllers
         }
 
         [HttpGet("details/{dieticianId}")]
-        public async Task<ActionResult<DieticianBusinessCardGetDTO>> GetDieticianBusinessCard(int dieticianId)
+        public async Task<IActionResult> GetDieticianBusinessCard(int dieticianId)
         {
             var result = await _mediator.Send(new DieticianBusinessCardDetails.Query { DieticianId = dieticianId });
             return HandleResult(result);
         }
 
         [HttpGet("filters/{dieticianId}")]
-        public async Task<ActionResult<BusinessCardFiltersDTO>> GetFilters(int dieticianId)
+        public async Task<IActionResult> GetFilters(int dieticianId)
         {
             var result = await _mediator.Send(new DieticianBusinessCardFilterList.Query { DieticianId = dieticianId });
             return HandleResult(result);

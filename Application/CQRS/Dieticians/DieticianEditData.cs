@@ -13,6 +13,7 @@ namespace Application.CQRS.Dieticians
         public class Command : IRequest<Result<DieticianEditDataDTO>>
         {
             public DieticianEditDataDTO DieticianEditData { get; set; }
+
             public class Handler : IRequestHandler<Command, Result<DieticianEditDataDTO>>
             {
                 private readonly DietContext _context;

@@ -1,47 +1,71 @@
-﻿using DietDB;
+﻿using Application.Core;
+using Application.DTOs.AddressDTO;
+using Application.FiltersExtensions.Patients;
+using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using ModelsDB;
+using System.Diagnostics;
 
 namespace Application.CQRS.Patients
 {
-    /// <summary>
-    /// Zawiera klasy służące do pobierania listy pacjentów z bazy danych.
-    /// </summary>
     public class PatientList
     {
-        /// <summary>
-        /// Reprezentuje zapytanie do pobrania listy pacjentów.
-        /// </summary>
-        public class Query : IRequest<List<Patient>> { }
+        public class Query : IRequest<Result<PagedList<PatientGetDTO>>> 
+        { 
+            public PatientParams Params { get; set; }
+        }
 
-        /// <summary>
-        /// Obsługuje proces pobierania listy pacjentów z bazy danych.
-        /// </summary>
-        public class Handler : IRequestHandler<Query, List<Patient>>
+        public class Handler : IRequestHandler<Query, Result<PagedList<PatientGetDTO>>>
         {
             private readonly DietContext _context;
 
-            /// <summary>
-            /// Inicjuje nową instancję klasy <see cref="Handler"/> z podanym kontekstem bazy danych.
-            /// </summary>
-            /// <param name="context">Kontekst bazy danych do obsługi pacjentów.</param>
             public Handler(DietContext context)
             {
                 _context = context;
             }
 
-            /// <summary>
-            /// Przetwarza zapytanie i pobiera listę pacjentów z bazy danych wraz z ich adresami.
-            /// </summary>
-            /// <param name="request">Zapytanie do przetworzenia.</param>
-            /// <param name="cancellationToken">Token anulowania operacji.</param>
-            /// <returns>Zwraca listę pacjentów.</returns>
-            public async Task<List<Patient>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<PagedList<PatientGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.PatientsDb
-                    .Include(p => p.Address)
-                    .ToListAsync(cancellationToken);
+                try
+                {
+                    var patientsList = _context.PatientsDb
+                    .Include(a => a.Address)
+                    //.ThenInclude(a => a.CountryState)
+                    .Select(a => new PatientGetDTO
+                    {
+                        Id = a.Id,
+                        FirstName = a.FirstName,
+                        LastName = a.LastName,
+                        PatientName = a.FirstName + " " + a.LastName,
+                        Email = a.Email,
+                        PhoneNumber = a.PhoneNumber,
+                        BirthDate = a.BirthDate,
+                        Address = new AddressesDTO
+                        {
+                            //Id = a.Address.Id,
+                            City = a.Address.City,
+                            //ZipCode = a.Address.ZipCode,
+                            //Country = a.Address.Country,
+                            //Street = a.Address.Street,
+                            //LocalNo = a.Address.LocalNo,
+                            //StateName = a.Address.CountryState.StateName
+                        }
+                    })
+                    .AsQueryable();
+
+                    patientsList = patientsList.PatientSearch(request.Params.SearchTerm);
+                    patientsList = patientsList.PatientSort(request.Params.OrderBy);
+                    patientsList = patientsList.PatientFilter(request.Params.PatientNames);
+
+                    return Result<PagedList<PatientGetDTO>>.Success(
+                        await PagedList<PatientGetDTO>.CreateAsync(patientsList, request.Params.PageNumber, request.Params.PageSize)
+                        );
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<PagedList<PatientGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

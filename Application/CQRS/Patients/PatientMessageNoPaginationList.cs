@@ -1,14 +1,8 @@
 ﻿using Application.Core;
-using Application.DTOs.SpecializationDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.CQRS.Patients
 {
@@ -17,6 +11,7 @@ namespace Application.CQRS.Patients
         public class Query : IRequest<Result<List<MessageToDTO>>>
         {
             public int PatientId { get; set; }
+
             public class Handler : IRequestHandler<Query, Result<List<MessageToDTO>>>
             {
                 private readonly DietContext _context;

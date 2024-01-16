@@ -5,17 +5,17 @@ using ModelsDB.Functionality;
 using ModelsDB;
 using Application.DTOs.MealTimeToXYAxisDTO;
 using Application.Validators.Diet;
+using Application.Core;
+using System.Diagnostics;
 
-// TODO : sygnatura Handle do przerobienia tak, żeby można było dać walidację
 public class DietCreate
 {
-    public class Command : IRequest
+    public class Command : IRequest<Result<DietPostDTO>>
     {
         public DietPostDTO DietPostDTO { get; set; }
     }
 
-    // może dodać result do obsługi poniżej w metodzie Handle
-    public class Handler : IRequestHandler<Command>
+    public class Handler : IRequestHandler<Command, Result<DietPostDTO>>
     {
         private readonly DietContext _context;
         private readonly IMapper _mapper;
@@ -28,64 +28,76 @@ public class DietCreate
             _validator = validator;
         }
 
-        public async Task Handle(Command request, CancellationToken cancellationToken)
+        public async Task<Result<DietPostDTO>> Handle(Command request, CancellationToken cancellationToken)
         {
-            //var validationResult = await _validator
-            //        .ValidateAsync(request.DietPostDTO, cancellationToken);
+            var validationResult = await _validator
+                    .ValidateAsync(request.DietPostDTO, cancellationToken);
 
-            //if (!validationResult.IsValid)
-            //{
-            //    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
-            //    return Result<DietPostDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
-            //}
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                return Result<DietPostDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+            }
 
-            var mealTimesDtoList = request.DietPostDTO.MealTimesToXYAxisDTO;
+            try
+            {
+                var mealTimesDtoList = request.DietPostDTO.MealTimesToXYAxisDTO;
 
-            request.DietPostDTO.MealTimesToXYAxisDTO = null;
-            var diet = _mapper.Map<Diet>(request.DietPostDTO);
+                request.DietPostDTO.MealTimesToXYAxisDTO = null;
+                var diet = _mapper.Map<Diet>(request.DietPostDTO);
 
-            _context.DietsDb.Add(diet);
-            await _context.SaveChangesAsync(cancellationToken);
+                _context.DietsDb.Add(diet);
+                await _context.SaveChangesAsync(cancellationToken);
 
-            await AddMealSchedules(diet, mealTimesDtoList, cancellationToken);
+                await AddMealSchedules(diet, mealTimesDtoList, cancellationToken);
+
+                return Result<DietPostDTO>.Success(_mapper.Map<DietPostDTO>(diet));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                return Result<DietPostDTO>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+            }
         }
 
         private async Task AddMealSchedules(Diet diet, List<MealTimeToXYAxisPostDTO> mealTimesDto, CancellationToken cancellationToken)
         {
-            var startDate = diet.StartDate;
-            var endDate = diet.EndDate;
-
-            // TODO : zamknąc poniższe w try catch
-            for (var date = startDate; date <= endDate; date = date.AddDays(1))
+            try
             {
-                foreach (var mealTimeDto in mealTimesDto)
+                var startDate = diet.StartDate;
+                var endDate = diet.EndDate;
+
+                for (var date = startDate; date <= endDate; date = date.AddDays(1))
                 {
-                    if (TimeSpan.TryParse(mealTimeDto.MealTime, out TimeSpan time))
+                    foreach (var mealTimeDto in mealTimesDto)
                     {
-                        var mealDateTime = new DateTime(date.Year, date.Month, date.Day, time.Hours, time.Minutes, time.Seconds);
-
-                        var mealSchedule = new MealTimeToXYAxis
+                        if (TimeSpan.TryParse(mealTimeDto.MealTime, out TimeSpan time))
                         {
-                            DietId = diet.Id,
-                            MealId = mealTimeDto.MealId,
-                            MealTime = mealDateTime,
-                            DishId = null
-                        };
+                            var mealDateTime = new DateTime(date.Year, date.Month, date.Day, time.Hours, time.Minutes, time.Seconds);
 
-                        Console.WriteLine(" ==================================");
-                        Console.WriteLine(" Zapisuje do bazy: " + mealSchedule.DietId + " " + mealSchedule.MealTime);
-                        Console.WriteLine(" ==================================");
-                        _context.MealTimesDb.Add(mealSchedule);
-                    }
-                    else
-                    {
-                        // TODO: Obsługa błędu konwersji
+                            var mealSchedule = new MealTimeToXYAxis
+                            {
+                                DietId = diet.Id,
+                                MealId = mealTimeDto.MealId,
+                                MealTime = mealDateTime,
+                                DishId = null
+                            };
+
+                            _context.MealTimesDb.Add(mealSchedule);
+                        }
+                        else
+                        {
+                            Debug.WriteLine($"Błąd konwersji dla wartości MealTime: {mealTimeDto.MealTime}");
+                        }
                     }
                 }
+
+                await _context.SaveChangesAsync(cancellationToken);
             }
-
-            await _context.SaveChangesAsync(cancellationToken);
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Nie utworzono mealschedules. Przyczyna niepowodzenia: " + ex);
+            }
         }
-
     }
 }

@@ -32,13 +32,13 @@ namespace Application.CQRS.Dieticians
                             .Where(m => m.DieticianId == request.DieticianId && m.PatientId != null)
                             .Select(m => m.dateAdded)
                             .Distinct()
-                            .ToListAsync(),
+                            .ToListAsync(cancellationToken),
 
                         PatientNames = await _context.MessageToDb
                             .Where(m => m.DieticianId == request.DieticianId && m.PatientId != null)
                             .Select(m => m.Patient.FirstName + " " + m.Patient.LastName)
                             .Distinct()
-                            .ToListAsync()
+                            .ToListAsync(cancellationToken)
                     };
                     return Result<DieticianMessagesFiltersDTO>.Success(filters);
                 }

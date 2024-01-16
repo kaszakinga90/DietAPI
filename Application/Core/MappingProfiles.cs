@@ -207,8 +207,8 @@ namespace Application.Core
             CreateMap<SingleTestResults, TestResultPostDTO>()
                 .ReverseMap();
 
-            CreateMap<DieticianPatient, DieteticianPatientDTO>();
-            CreateMap<DieteticianPatientDTO, DieticianPatient>();
+            CreateMap<DieticianPatient, DieteticianPatientGetDTO>()
+                .ReverseMap();
 
             CreateMap<IngredientDTO, Ingredient>()
                 .ForMember(dest => dest.Measure, opt => opt.Ignore())

@@ -79,7 +79,8 @@ namespace Application.CQRS.DieticiansBusinessesCards
                                 SpecializationName = ds.Specialization.SpecializationName,
                             }).ToList(),
                         })
-.ToListAsync(cancellationToken);
+                        .ToListAsync(cancellationToken);
+
                     return Result<List<DieticianBusinessCardGetDTO>>.Success(businessCardsList);
                 }
                 catch (Exception ex)

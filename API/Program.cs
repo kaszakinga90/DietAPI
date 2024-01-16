@@ -6,7 +6,6 @@ using Application.CQRS.DayWeeks;
 using Application.CQRS.Dieticians;
 using Application.CQRS.Diets;
 using Application.CQRS.Dishes;
-using Application.CQRS.MealTimes;
 using Application.CQRS.Patients;
 using Application.Services;
 using DietDB;
@@ -159,7 +158,6 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     //typeof(InvitationsList.Handler).Assembly,
     //typeof(InvitationsPatientList.Handler).Assembly,
     //typeof(MealList.Handler).Assembly,
-    typeof(MealTimeList.Handler).Assembly,
     typeof(MeasureList.Handler).Assembly,
     typeof(OfficeList.Handler).Assembly,
     typeof(PatientList.Handler).Assembly,
@@ -185,7 +183,6 @@ builder.Services.AddTransient<UserRoleCreateValidate>();
 builder.Services.AddTransient<AdminCreateValidator>();
 builder.Services.AddTransient<AdminUpdateValidator>();
 builder.Services.AddTransient<MessageCreateValidator>();
-builder.Services.AddTransient<DieticianCreateValidator>();
 builder.Services.AddTransient<DieticianUpdateDataValidator>();
 builder.Services.AddTransient<DieticianUpdateValidator>();
 builder.Services.AddTransient<DietCreateValidator>();
@@ -199,7 +196,6 @@ builder.Services.AddTransient<MealTimeToXYAxisUpdateValidator>();
 builder.Services.AddTransient<OfficeCreateValidator>();
 builder.Services.AddTransient<OfficeUpdateValidator>();
 builder.Services.AddTransient<PatientCardCreateValidator>();
-builder.Services.AddTransient<PatientCreateValidator>();
 builder.Services.AddTransient<PatientUpdateDataValidator>();
 builder.Services.AddTransient<PatientUpdateValidator>();
 builder.Services.AddTransient<RoleCreateValidator>();
