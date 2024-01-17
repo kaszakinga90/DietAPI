@@ -1,15 +1,9 @@
 ﻿using Application.Core;
-using Application.DTOs.PatientsCardsSurveys;
 using Application.DTOs.TestsResultsDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.CQRS.PatientCards
 {

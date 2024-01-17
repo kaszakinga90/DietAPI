@@ -6,18 +6,18 @@ using DietDB;
 using MediatR;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
-// TODO : tu musi być inna obsługa handle żeby walidacja działała
 namespace Application.CQRS.PatientCards
 {
     public class PatientCardCreate
     {
-        public class Command : IRequest
+        public class Command : IRequest<Result<PatientCardPostDTO>>
         {
             public PatientCardPostDTO PatientCardPostDTO { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, Result<PatientCardPostDTO>>
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
@@ -30,42 +30,42 @@ namespace Application.CQRS.PatientCards
                 _validator = validator;
             }
 
-            public async Task Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<PatientCardPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
-                //var validationResult = await _validator
-                //    .ValidateAsync(request.PatientCardPostDTO, cancellationToken);
+                var validationResult = await _validator
+                    .ValidateAsync(request.PatientCardPostDTO, cancellationToken);
 
-                //if (!validationResult.IsValid)
-                //{
-                //    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
-                //    return Result<PatientCardPostDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
-                //}
+                if (!validationResult.IsValid)
+                {
+                    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                    return Result<PatientCardPostDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                }
+
+                var pc = request.PatientCardPostDTO;
+                var parameters = new[]
+                {
+                        new SqlParameter("@PatientId", pc.PatientId),
+                        new SqlParameter("@DieticianId", pc.DieticianId),
+                        new SqlParameter("@SexId", pc.SexId)
+                };
 
                 try
                 {
-                    var pc = request.PatientCardPostDTO;
-                    var parameters = new[]
+                    var result = await _context.Database.ExecuteSqlRawAsync("EXEC CreatePatientCard @PatientId, @DieticianId, @SexId", parameters) > 0;
+
+                    if (!result)
                     {
-                         new SqlParameter("@PatientId", pc.PatientId),
-                        new SqlParameter("@DieticianId", pc.DieticianId),
-                        new SqlParameter("@SexId", pc.SexId)
-                    };
+                        return Result<PatientCardPostDTO>.Failure("Operacja nie powiodła się.");
+                    }
 
-                    await _context.Database.ExecuteSqlRawAsync("EXEC CreatePatientCard @PatientId, @DieticianId, @SexId", parameters);
-
-                    //var createdPatientCardId = await _context.PatientCardsDb
-                    //    .Where(pc => pc.PatientId == request.PatientId && pc.DieticianId == request.DieticianId)
-                    //    .Select(pc => pc.Id)
-                    //    .FirstOrDefaultAsync();
-
-                    //return createdPatientCardId;
                 }
-                catch
+                catch (Exception ex)
                 {
-                    throw; // TODO:  obsługa błędów
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<PatientCardPostDTO>.Failure("Wystąpił błąd podczas tworzenia karty pacjenta.");
                 }
+                return Result<PatientCardPostDTO>.Success(_mapper.Map<PatientCardPostDTO>(pc));
             }
-
         }
     }
 }

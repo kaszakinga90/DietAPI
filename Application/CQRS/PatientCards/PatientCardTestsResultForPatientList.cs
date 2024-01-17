@@ -3,12 +3,7 @@ using Application.DTOs.TestsResultsDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.CQRS.PatientCards
 {
@@ -33,7 +28,7 @@ namespace Application.CQRS.PatientCards
                 try
                 {
                     var patientTestResults = await _context.TestResultsDb
-                    .Where(m => m.PatientCardId == request.PatientCardId)
+                    .Where(m => m.PatientCardId == request.PatientCardId && m.isActive == true)
                     .Select(m => new TestResultGetDTO
                     {
                         Id = m.Id,

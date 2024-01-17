@@ -58,6 +58,12 @@ namespace Application.Core
             CreateMap<DayWeek, DayWeekDeleteDTO>()
                 .ReverseMap();
 
+            CreateMap<TestResult, TestResultDeleteDTO>()
+                .ReverseMap();
+
+            CreateMap<Survey, SurveyDeleteDTO>()
+                .ReverseMap();
+
             CreateMap<MessageTo, MessageToDTO>()
                 .ForMember(dest => dest.DieticianName, opt => opt.MapFrom(src => src.Dietician.FirstName + " " + src.Dietician.LastName))
                 .ForMember(dest => dest.AdminName, opt => opt.MapFrom(src => src.Admin.FirstName + " " + src.Admin.LastName))

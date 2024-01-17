@@ -50,6 +50,8 @@ using Application.Validators.PatientCard;
 using Application.Validators.Patient;
 using Application.Validators.Role;
 using Application.Validators.Specialization;
+using Application.Validators.Survey;
+using Application.Validators.TestResults;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -200,6 +202,8 @@ builder.Services.AddTransient<PatientUpdateDataValidator>();
 builder.Services.AddTransient<PatientUpdateValidator>();
 builder.Services.AddTransient<RoleCreateValidator>();
 builder.Services.AddTransient<DieticianSpecializationCreateValidator>();
+builder.Services.AddTransient<SurveyCreateValidator>();
+builder.Services.AddTransient<TestResultCreateValidator>();
 
 
 var emailSendConfiguration = builder.Configuration

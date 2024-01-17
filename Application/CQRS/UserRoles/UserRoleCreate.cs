@@ -40,14 +40,16 @@ namespace Application.CQRS.UserRoles
                         return Result<UserRoleCreateDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
                     }
 
-                    var user = await _userManager.FindByIdAsync(request.UserRoleCreateDTO.UserId.ToString());
+                    var user = await _userManager
+                        .FindByIdAsync(request.UserRoleCreateDTO.UserId.ToString());
 
                     if (user == null)
                     {
                         return Result<UserRoleCreateDTO>.Failure("User o podanym id nie został znaleziony.");
                     }
 
-                    var roleToAdd = await _context.Roles.FindAsync(request.UserRoleCreateDTO.RoleId);
+                    var roleToAdd = await _context.Roles
+                        .FindAsync(request.UserRoleCreateDTO.RoleId);
 
                     if (roleToAdd == null)
                     {

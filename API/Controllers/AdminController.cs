@@ -1,5 +1,6 @@
 ﻿using Application.Core;
 using Application.CQRS.Admins;
+using Application.CQRS.Dieticians;
 using Application.CQRS.Roles;
 using Application.CQRS.UserRoles;
 using Application.CQRS.Users;
@@ -11,6 +12,7 @@ using Application.FiltersExtensions.Roles;
 using Application.FiltersExtensions.UserRoles;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ModelsDB;
 
 namespace API.Controllers
 {
@@ -97,7 +99,13 @@ namespace API.Controllers
             {
                 RolePostDTO = rolePostDTO
             };
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+
+            if (result.IsSucces)
+            {
+                return Ok(result.Value);
+            }
+            return BadRequest(result.Error);
         }
 
         // metoda tylko dla superadmina
@@ -144,8 +152,14 @@ namespace API.Controllers
         [HttpPost("rolesManage/userRoles/addRole")]
         public async Task<IActionResult> AddUserRole(UserRoleCreateDTO userRoleCreateDTO)
         {
-            var query = await _mediator.Send(new UserRoleCreate.Command { UserRoleCreateDTO = userRoleCreateDTO });
-            return HandleResult(query);
+            var command = new UserRoleCreate.Command { UserRoleCreateDTO = userRoleCreateDTO };
+            var result = await _mediator.Send(command);
+
+            if (result.IsSucces)
+            {
+                return Ok(result.Value);
+            }
+            return BadRequest(result.Error);
         }
     }
 }

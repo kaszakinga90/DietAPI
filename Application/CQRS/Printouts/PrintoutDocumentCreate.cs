@@ -24,10 +24,13 @@ namespace Application.CQRS.Printouts
 
             public async Task<Result<string>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var printoutTemplate = await _context.PrintoutsDb
-                    .FindAsync(request.Data.Id);
+                var incomingData = request.Data;
 
-                var user = await _context.Users.FindAsync(request.Data.DieticianId);
+                var printoutTemplate = await _context.PrintoutsDb
+                    .FindAsync(incomingData.Id);
+
+                var user = await _context.Users
+                    .FindAsync(incomingData.DieticianId);
 
                 if (printoutTemplate == null || user == null)
                 {

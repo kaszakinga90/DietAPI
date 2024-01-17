@@ -1,20 +1,22 @@
-﻿using Application.DTOs.PatientCardDTO;
+﻿using Application.Core;
+using Application.DTOs.PatientCardDTO;
 using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.PatientCards
 {
     public class PatientCardDetails
     {
-        public class Query : IRequest<PatientCardGetDTO>
+        public class Query : IRequest<Result<PatientCardGetDTO>>
         {
             public int PatientId { get; set; }
             public int DieticianId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, PatientCardGetDTO>
+        public class Handler : IRequestHandler<Query, Result<PatientCardGetDTO>>
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
@@ -25,10 +27,25 @@ namespace Application.CQRS.PatientCards
                 _mapper = mapper;
             }
 
-            public async Task<PatientCardGetDTO> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<PatientCardGetDTO>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var patientCard = await _context.PatientCardsDb.FirstOrDefaultAsync(x => x.DieticianId == request.DieticianId && x.PatientId == request.PatientId, cancellationToken);
-                return _mapper.Map<PatientCardGetDTO>(patientCard);
+                try
+                {
+                    var patientCard = await _context.PatientCardsDb
+                        .FirstOrDefaultAsync(x => x.DieticianId == request.DieticianId && x.PatientId == request.PatientId, cancellationToken);
+
+                    if (patientCard == null)
+                    {
+                        return Result<PatientCardGetDTO>.Failure("Karta pacjenta nie została znaleziona.");
+                    }
+
+                    return Result<PatientCardGetDTO>.Success(_mapper.Map<PatientCardGetDTO>(patientCard));
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<PatientCardGetDTO>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

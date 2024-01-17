@@ -1,11 +1,11 @@
 ﻿using Application.Core;
-using Application.DTOs.Surveys;
 using AutoMapper;
 using DietDB;
 using MediatR;
-using ModelsDB.Functionality;
 using ModelsDB;
 using Application.DTOs.TestsResultsDTO;
+using System.Diagnostics;
+using Application.Validators.TestResults;
 
 namespace Application.CQRS.PatientCards
 {
@@ -13,39 +13,58 @@ namespace Application.CQRS.PatientCards
     {
         public class Command : IRequest<Result<TestResultPostDTO>>
         {
-            public TestResultPostDTO testResultPost { get; set; }
+            public TestResultPostDTO TestResultPostDTO { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Result<TestResultPostDTO>>
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
+            private readonly TestResultCreateValidator _validator;
 
-            public Handler(DietContext context, IMapper mapper)
+            public Handler(DietContext context, IMapper mapper, TestResultCreateValidator validator)
             {
                 _context = context;
                 _mapper = mapper;
+                _validator = validator;
             }
 
             public async Task<Result<TestResultPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var singleTestResults = _mapper.Map<SingleTestResults>(request.testResultPost);
+                var validationResult = await _validator
+                    .ValidateAsync(request.TestResultPostDTO, cancellationToken);
 
-                _context.SingleTestResultsDb.Add(singleTestResults);
-                await _context.SaveChangesAsync(cancellationToken);
-
-                var testResult = new TestResult
+                if (!validationResult.IsValid)
                 {
-                    PatientCardId = request.testResultPost.PatientCardId,
-                    DieticianId = singleTestResults.DieticianId,
-                    SingleTestResultsId=singleTestResults.Id,
-                };
+                    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                    return Result<TestResultPostDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                }
 
-                _context.TestResultsDb.Add(testResult);
-                await _context.SaveChangesAsync(cancellationToken);
+                try
+                {
+                    var singleTestResults = _mapper.Map<SingleTestResults>(request.TestResultPostDTO);
 
-                var resultDto = _mapper.Map<TestResultPostDTO>(singleTestResults);
-                return Result<TestResultPostDTO>.Success(resultDto);
+                    _context.SingleTestResultsDb.Add(singleTestResults);
+                    await _context.SaveChangesAsync(cancellationToken);
+
+                    var testResult = new TestResult
+                    {
+                        PatientCardId = request.TestResultPostDTO.PatientCardId,
+                        DieticianId = singleTestResults.DieticianId,
+                        SingleTestResultsId = singleTestResults.Id,
+                    };
+
+                    _context.TestResultsDb.Add(testResult);
+                    await _context.SaveChangesAsync(cancellationToken);
+
+                    var resultDto = _mapper.Map<TestResultPostDTO>(singleTestResults);
+                    return Result<TestResultPostDTO>.Success(resultDto);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<TestResultPostDTO>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }
