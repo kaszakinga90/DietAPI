@@ -35,14 +35,17 @@ namespace Application.Functionality
 
             public async Task<Result<OfficePostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var validationResult = await _validator
-                    .ValidateAsync(request.OfficePostDTO, cancellationToken);
+                //var validationResult = await _validator
+                //    .ValidateAsync(request.OfficePostDTO, cancellationToken);
 
-                if (!validationResult.IsValid)
-                {
-                    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
-                    return Result<OfficePostDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
-                }
+                //if (!validationResult.IsValid)
+                //{
+                //    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                //    return Result<OfficePostDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                //}
+
+                var obje = request.OfficePostDTO;
+                var add = request.AddressPostDTO;
 
                 try
                 {

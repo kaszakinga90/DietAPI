@@ -87,6 +87,7 @@ namespace DietDB
         
         public DbSet<DieticianOffice> DieticianOffices { get; set; }
         public DbSet<ReportTemplate> ReportTemplatesDb { get; set; }
+        public DbSet<ReportTemplatePreview> ReportTemplatePreviewsDb { get; set; }
 
         public DbSet<Meal> MealsDb { get; set; }
         public DbSet<Invitation> InvitationsDb { get; set; }

@@ -153,7 +153,3 @@ namespace API.Controllers
         }
     }
 }
-
-// TODO : edycja karty pacjenta
-
-// TODO : zmień hasło - dwa razy wpisać nowe hasło

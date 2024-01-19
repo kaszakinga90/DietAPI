@@ -22,8 +22,13 @@ namespace API.Controllers
                 AddressPostDTO = officeCreationDto.AddressDto,
                 DieticianId = officeCreationDto.DieticianId
             };
+            var result = await _mediator.Send(command);
 
-            return HandleResult(await _mediator.Send(command)); 
+            if (result.IsSucces)
+            {
+                return Ok(result.Value);
+            }
+            return BadRequest(result.Error);
         }
 
         [HttpGet("getalldieticianoffices/{dieticianId}")]

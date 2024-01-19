@@ -142,6 +142,8 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(DieticianList.Handler).Assembly,
     typeof(DieticianMessageList.Handler).Assembly,
     typeof(DieticianBusinessCardList.Handler).Assembly,
+    typeof(DieticianBusinessCardsNoPaginationList.Handler).Assembly,
+    typeof(DieticiansFilterList.Handler).Assembly,
     typeof(FromDieticianToPatientList.Handler).Assembly,
     typeof(FromPatientToDieteticianList.Handler).Assembly,
     typeof(DietList.Handler).Assembly,

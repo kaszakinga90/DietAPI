@@ -9,5 +9,7 @@ namespace ModelsDB.Functionality
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
+        public bool isContainHeader { get; set; }
+        public bool isContainFooter { get; set; }
     }
 }

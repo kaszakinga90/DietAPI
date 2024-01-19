@@ -81,11 +81,6 @@ namespace Application.CQRS.DieticiansBusinessesCards
                     businessCardsList = businessCardsList.BusinessCardFilter(request.Params.SpecializationNames, request.Params.StateNames);
                     businessCardsList = businessCardsList.BusinessCardSearch(request.Params.SearchTerm);
 
-                    if (businessCardsList == null)
-                    {
-                        return Result<PagedList<DieticianBusinessCardGetDTO>>.Failure("no results.");
-                    }
-
                     return Result<PagedList<DieticianBusinessCardGetDTO>>.Success(
                         await PagedList<DieticianBusinessCardGetDTO>.CreateAsync(businessCardsList, request.Params.PageNumber, request.Params.PageSize));
                 }
