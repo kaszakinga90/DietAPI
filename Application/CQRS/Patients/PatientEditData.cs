@@ -13,6 +13,7 @@ namespace Application.CQRS.Patients
         public class Command : IRequest<Result<PatientEditDataDTO>>
         {
             public PatientEditDataDTO PatientEditDataDTO { get; set; }
+
             public class Handler : IRequestHandler<Command, Result<PatientEditDataDTO>>
             {
                 private readonly DietContext _context;
@@ -37,7 +38,9 @@ namespace Application.CQRS.Patients
                         return Result<PatientEditDataDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
                     }
 
-                    var patient = await _context.PatientsDb.FindAsync(new object[] { request.PatientEditDataDTO.Id }, cancellationToken);
+                    var patient = await _context.PatientsDb
+                        .FindAsync(new object[] { request.PatientEditDataDTO.Id }, cancellationToken);
+
                     if (patient == null)
                     {
                         return Result<PatientEditDataDTO>.Failure("Pacjent o podanym ID nie został znaleziony.");
@@ -58,7 +61,6 @@ namespace Application.CQRS.Patients
                         Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
                         return Result<PatientEditDataDTO>.Failure("Wystąpił błąd podczas edycji pacjenta. " + ex);
                     }
-
                     return Result<PatientEditDataDTO>.Success(_mapper.Map<PatientEditDataDTO>(patient));
                 }
             }

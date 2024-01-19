@@ -16,11 +16,6 @@ namespace Application.Validators.UserRole
                 .NotEmpty().WithMessage("Pole RoleId nie może być puste.")
                 .NotNull().WithMessage("Pole RoleId nie może przyjmować null.")
                 .GreaterThan(1).WithMessage("Wartość RoleId musi być większa niż 1.");
-
-            RuleFor(dto => dto.Name)
-                .NotEmpty().WithMessage("Pole Name nie może być puste.")
-                .NotNull().WithMessage("Pole Name nie może przyjmować null.")
-                .MinimumLength(5).WithMessage("Minimalna długość Name to 5.");
         }
     }
 }

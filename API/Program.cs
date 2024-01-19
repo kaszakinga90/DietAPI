@@ -6,7 +6,6 @@ using Application.CQRS.DayWeeks;
 using Application.CQRS.Dieticians;
 using Application.CQRS.Diets;
 using Application.CQRS.Dishes;
-using Application.CQRS.MealTimes;
 using Application.CQRS.Patients;
 using Application.Services;
 using DietDB;
@@ -51,6 +50,8 @@ using Application.Validators.PatientCard;
 using Application.Validators.Patient;
 using Application.Validators.Role;
 using Application.Validators.Specialization;
+using Application.Validators.Survey;
+using Application.Validators.TestResults;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -141,6 +142,8 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(DieticianList.Handler).Assembly,
     typeof(DieticianMessageList.Handler).Assembly,
     typeof(DieticianBusinessCardList.Handler).Assembly,
+    typeof(DieticianBusinessCardsNoPaginationList.Handler).Assembly,
+    typeof(DieticiansFilterList.Handler).Assembly,
     typeof(FromDieticianToPatientList.Handler).Assembly,
     typeof(FromPatientToDieteticianList.Handler).Assembly,
     typeof(DietList.Handler).Assembly,
@@ -159,7 +162,6 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     //typeof(InvitationsList.Handler).Assembly,
     //typeof(InvitationsPatientList.Handler).Assembly,
     //typeof(MealList.Handler).Assembly,
-    typeof(MealTimeList.Handler).Assembly,
     typeof(MeasureList.Handler).Assembly,
     typeof(OfficeList.Handler).Assembly,
     typeof(PatientList.Handler).Assembly,
@@ -185,7 +187,6 @@ builder.Services.AddTransient<UserRoleCreateValidate>();
 builder.Services.AddTransient<AdminCreateValidator>();
 builder.Services.AddTransient<AdminUpdateValidator>();
 builder.Services.AddTransient<MessageCreateValidator>();
-builder.Services.AddTransient<DieticianCreateValidator>();
 builder.Services.AddTransient<DieticianUpdateDataValidator>();
 builder.Services.AddTransient<DieticianUpdateValidator>();
 builder.Services.AddTransient<DietCreateValidator>();
@@ -199,11 +200,12 @@ builder.Services.AddTransient<MealTimeToXYAxisUpdateValidator>();
 builder.Services.AddTransient<OfficeCreateValidator>();
 builder.Services.AddTransient<OfficeUpdateValidator>();
 builder.Services.AddTransient<PatientCardCreateValidator>();
-builder.Services.AddTransient<PatientCreateValidator>();
 builder.Services.AddTransient<PatientUpdateDataValidator>();
 builder.Services.AddTransient<PatientUpdateValidator>();
 builder.Services.AddTransient<RoleCreateValidator>();
 builder.Services.AddTransient<DieticianSpecializationCreateValidator>();
+builder.Services.AddTransient<SurveyCreateValidator>();
+builder.Services.AddTransient<TestResultCreateValidator>();
 
 
 var emailSendConfiguration = builder.Configuration

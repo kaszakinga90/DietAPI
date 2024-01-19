@@ -27,6 +27,13 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [HttpGet("reportTemplates/reportTemplatePreview")]
+        public async Task<IActionResult> GetReportTemplatesPreview()
+        {
+            var result = await _mediator.Send(new ReportTemplatesPreviewList.Query());
+            return HandleResult(result);
+        }
+
         // templateId - zakres 1-3 (wizualna część, OBOJĘTNE),   reportType, zakres 0-2, (2 dla szczegółowej diety)
         [HttpGet("generate/{templateId}/{reportType}/{dieticianId}/{dietId}")]
         public async Task<IActionResult> GenerateReport(int templateId, ReportTypeEnum reportType, int? dieticianId = null, int? dietId = null)

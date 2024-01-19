@@ -1,6 +1,5 @@
 ﻿using Application.Core;
 using Application.DTOs.PatientCardDTO;
-using Application.DTOs.SpecializationDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -27,14 +26,14 @@ namespace Application.CQRS.PatientCards
                     try
                     {
                         var patientCardList =await _context.PatientCardsDb
-                   .Where(m => m.PatientId == request.PatientId)
-                   .Select(m => new PatientCardGetDTO
-                   {
-                       Id = m.Id,
-                       PatientId = m.PatientId,
-                       DieticianName = m.Dietician.FirstName + " " + m.Dietician.LastName,
-                   })
-                       .ToListAsync(cancellationToken);
+                            .Where(m => m.PatientId == request.PatientId)
+                            .Select(m => new PatientCardGetDTO
+                            {
+                                Id = m.Id,
+                                PatientId = m.PatientId,
+                                DieticianName = m.Dietician.FirstName + " " + m.Dietician.LastName,
+                            })
+                            .ToListAsync(cancellationToken);
 
                         return Result<List<PatientCardGetDTO>>.Success(patientCardList);
                     }

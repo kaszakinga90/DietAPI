@@ -1,12 +1,10 @@
 using Application.Core;
 using Application.CQRS.Patients;
-using Application.CQRS.Specializations;
 using Application.DTOs.MessagesDTO;
 using Application.DTOs.PatientDTO;
 using Application.FiltersExtensions.PatientMessages;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ModelsDB;
 using static Application.CQRS.Patients.MessagesFilters;
 
 namespace API.Controllers
@@ -18,26 +16,19 @@ namespace API.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<List<Patient>>> GetPatients()
+        public async Task<IActionResult> GetPatients()
         {
-            return await _mediator.Send(new PatientList.Query());
+            var result = await _mediator.Send(new PatientList.Query());
+            return HandlePagedResult(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<PatientGetDTO>> GetPatient(int id)
+        public async Task<IActionResult> GetPatient(int id)
         {
-            return await _mediator.Send(new PatientDetails.Query { Id = id });
+            var result = await _mediator.Send(new PatientDetails.Query { Id = id });
+            return HandleResult(result);
         }
 
-        // TODO : do usuniêcia
-        [HttpPost]
-        public async Task<IActionResult> CreatePatient(Patient Patient)
-        {
-            await _mediator.Send(new PatientCreate.Command { Patient = Patient });
-            return Ok();
-        }
-
-        //zmiana zdjêcia, bo zagnie¿d¿ony adres
         [HttpPut("{id}")]
         public async Task<IActionResult> EditPatient(int id, [FromForm] PatientEditDTO patientDTO, [FromForm] IFormFile file)
         {
@@ -51,7 +42,6 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
-        //pospolita zmiana danych
         [HttpPut("editdata/{patientId}")]
         public async Task<IActionResult> EditPatientData(int patientId, PatientEditDataDTO patient)
         {
@@ -65,12 +55,17 @@ namespace API.Controllers
         }
 
         [HttpGet("messages/{patientId}")]
-        public async Task<ActionResult<PagedList<MessageToDTO>>> GetMessagesForPatient(int patientId, [FromQuery] PatientMessagesParams param)
+        public async Task<IActionResult> GetMessagesForPatient(int patientId, [FromQuery] PatientMessagesParams param)
         {
-            var result = await _mediator.Send(new PatientMessageList.Query { PatientId = patientId, Params = param });
+            var result = await _mediator.Send(new PatientMessageList.Query 
+            { 
+                PatientId = patientId, 
+                Params = param 
+            });
 
             return HandlePagedResult(result);
         }
+
         [HttpGet("messagesnopagination/{patientId}")]
         public async Task<IActionResult> GetMessagesForPatientNoPagination(int patientId)
         {
@@ -78,8 +73,15 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [HttpGet("filters")]
+        public async Task<IActionResult> GetFilters()
+        {
+            var result = await _mediator.Send(new PatientFilterList.Query());
+            return HandleResult(result);
+        }
+
         [HttpGet("filters/{patientId}")]
-        public async Task<ActionResult<PatientMessagesFiltersDTO>> GetFilters(int patientId)
+        public async Task<ActionResult<PatientMessagesFiltersDTO>> GetFiltersForPatientMessages(int patientId)
         {
             var result = await _mediator.Send(new FilterList.Query { PatientId = patientId });
             return HandleResult(result);
@@ -93,8 +95,13 @@ namespace API.Controllers
                 MessageDTO = message,
                 PatientId = patientId
             };
+            var result = await _mediator.Send(command);
 
-            return HandleResult(await _mediator.Send(command));
+            if (result.IsSucces)
+            {
+                return Ok(result.Value);
+            }
+            return BadRequest(result.Error);
         }
 
         [HttpPost("messageToAdmin/{patientId}")]
@@ -105,8 +112,13 @@ namespace API.Controllers
                 MessageDTO = message,
                 PatientId = patientId
             };
+            var result = await _mediator.Send(command);
 
-            return HandleResult(await _mediator.Send(command));
+            if (result.IsSucces)
+            {
+                return Ok(result.Value);
+            }
+            return BadRequest(result.Error);
         }
     }
 }

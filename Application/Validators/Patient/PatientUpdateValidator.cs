@@ -8,15 +8,15 @@ namespace Application.Validators.Patient
     {
         public PatientUpdateValidator()
         {
-            RuleFor(dto => dto.Email)
-                .NotEmpty().WithMessage("Pole Email nie może być puste.")
-                .EmailAddress().WithMessage("Nieprawidłowy format adresu e-mail.");
+            //RuleFor(dto => dto.Email)
+            //    .NotEmpty().WithMessage("Pole Email nie może być puste.")
+            //    .EmailAddress().WithMessage("Nieprawidłowy format adresu e-mail.");
 
-            RuleFor(dto => dto.Password)
-                .NotEmpty().WithMessage("Pole Password nie może być puste.");
+            //RuleFor(dto => dto.Password)
+            //    .NotEmpty().WithMessage("Pole Password nie może być puste.");
 
-            RuleFor(dto => dto.PhotoUrl)
-                .NotEmpty().WithMessage("Pole PhotoUrl nie może być puste.");
+            //RuleFor(dto => dto.PhotoUrl)
+            //    .NotEmpty().WithMessage("Pole PhotoUrl nie może być puste.");
 
             //RuleFor(dto => dto.FirstName)
             //    .NotNull().WithMessage("Pole FirstName nie może być null.")
@@ -35,7 +35,6 @@ namespace Application.Validators.Patient
             //    .Must(date => date.HasValue && date.Value.Year > 1900).WithMessage("Nieprawidłowa data urodzenia.");
 
             RuleFor(dto => dto.File)
-                .NotNull().WithMessage("Pole File nie może być null.")
                 .Must(isFileHasValidExtension).WithMessage("Plik musi być w formacie JPG lub PNG.");
         }
 

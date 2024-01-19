@@ -32,14 +32,14 @@ namespace Application.CQRS.Specializations
 
             public async Task<Result<DieteticianSpecializationPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var validationResult = await _validator
-                    .ValidateAsync(request.DieteticianSpecializationPostDTOs, cancellationToken);
+                //var validationResult = await _validator
+                //    .ValidateAsync(request.DieteticianSpecializationPostDTOs, cancellationToken);
 
-                if (!validationResult.IsValid)
-                {
-                    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
-                    return Result<DieteticianSpecializationPostDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
-                }
+                //if (!validationResult.IsValid)
+                //{
+                //    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                //    return Result<DieteticianSpecializationPostDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                //}
 
                 var ds = _mapper.Map<DieticianSpecialization>(request.DieteticianSpecializationPostDTOs);
 

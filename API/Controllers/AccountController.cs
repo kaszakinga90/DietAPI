@@ -263,3 +263,5 @@ namespace API.Controllers
         }
     }
 }
+
+// TODO : zmień hasło - dwa razy wpisać nowe hasło

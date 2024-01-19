@@ -2,6 +2,7 @@
 using Application.FiltersExtensions.PatientMessages;
 using DietDB;
 using MediatR;
+using System.Diagnostics;
 
 namespace Application.CQRS.Patients
 {
@@ -24,8 +25,10 @@ namespace Application.CQRS.Patients
 
             public async Task<Result<PagedList<MessageToDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var patientMessagesList = _context.MessageToDb
-                    .Where(m => m.PatientId == request.PatientId && m.AdminId==null)
+                try
+                {
+                    var patientMessagesList = _context.MessageToDb
+                    .Where(m => m.PatientId == request.PatientId && m.AdminId == null)
                     .Select(m => new MessageToDTO
                     {
                         Id = m.Id,
@@ -36,19 +39,26 @@ namespace Application.CQRS.Patients
                         DieticianName = m.Dietician.FirstName + " " + m.Dietician.LastName,
                         AdminName = m.Admin.FirstName + " " + m.Admin.LastName,
                         PatientName = m.Patient.FirstName + " " + m.Patient.LastName,
-                        dateAdded=m.dateAdded,
-                        ReadDate=m.ReadDate,
-                        IsRead=m.IsRead
+                        dateAdded = m.dateAdded,
+                        ReadDate = m.ReadDate,
+                        IsRead = m.IsRead
                     })
                     .AsQueryable();
-                patientMessagesList = patientMessagesList.Sort(request.Params.OrderBy);
-                patientMessagesList = patientMessagesList.Filter(request.Params.DieticianNames);
-                patientMessagesList = patientMessagesList.Search(request.Params.SearchTerm);
-                return Result<PagedList<MessageToDTO>>.Success(
-                    await PagedList<MessageToDTO>.CreateAsync(patientMessagesList, request.Params.PageNumber, request.Params.PageSize)
-                    );
+
+                    patientMessagesList = patientMessagesList.Sort(request.Params.OrderBy);
+                    patientMessagesList = patientMessagesList.Filter(request.Params.DieticianNames);
+                    patientMessagesList = patientMessagesList.Search(request.Params.SearchTerm);
+
+                    return Result<PagedList<MessageToDTO>>.Success(
+                        await PagedList<MessageToDTO>.CreateAsync(patientMessagesList, request.Params.PageNumber, request.Params.PageSize)
+                        );
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<PagedList<MessageToDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }
 }
-

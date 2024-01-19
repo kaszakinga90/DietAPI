@@ -17,6 +17,13 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        // TODO : usuwanie dyplomu
+        // DONE : metoda do usuwania dyplomu (usuwanie całkowite przez remove)
+        [HttpDelete("delete/{dieticianId}/{diplomaId}")]
+        public async Task<IActionResult> DeleteDiploma(int dieticianId, int diplomaId)
+        {
+            var command = new DiplomaDelete.Command { DieticianId = dieticianId, DiplomaId = diplomaId };
+
+            return HandleResult(await _mediator.Send(command));
+        }
     }
 }

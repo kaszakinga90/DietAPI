@@ -4,17 +4,17 @@ using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
-// TODO : do poprawienia nazwa dtosa, czyli na DieticianPatientGetDTO??? brakuje przedrostka
+
 namespace Application.CQRS.DieticiansPatients
 {
     public class FromPatientToDieteticianList
     {
-        public class Query : IRequest<Result<List<DieteticianPatientDTO>>>
+        public class Query : IRequest<Result<List<DieteticianPatientGetDTO>>>
         {
             public int PatientId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Result<List<DieteticianPatientDTO>>>
+        public class Handler : IRequestHandler<Query, Result<List<DieteticianPatientGetDTO>>>
         {
             private readonly DietContext _context;
 
@@ -23,13 +23,13 @@ namespace Application.CQRS.DieticiansPatients
                 _context = context;
             }
 
-            public async Task<Result<List<DieteticianPatientDTO>>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<List<DieteticianPatientGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 try
                 {
                     var dietPatientList = await _context.DieticianPatientsDb
                     .Where(d => d.PatientId == request.PatientId)
-                    .Select(d => new DieteticianPatientDTO
+                    .Select(d => new DieteticianPatientGetDTO
                     {
                         PatientId = d.PatientId,
                         DieticianId = d.DieticianId,
@@ -38,12 +38,12 @@ namespace Application.CQRS.DieticiansPatients
                     })
                     .ToListAsync(cancellationToken);
 
-                    return Result<List<DieteticianPatientDTO>>.Success(dietPatientList);
+                    return Result<List<DieteticianPatientGetDTO>>.Success(dietPatientList);
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
-                    return Result<List<DieteticianPatientDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                    return Result<List<DieteticianPatientGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
                 }
             }
         }

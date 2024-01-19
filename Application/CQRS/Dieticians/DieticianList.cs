@@ -1,47 +1,72 @@
-﻿using DietDB;
+﻿using Application.Core;
+using Application.DTOs.AddressDTO;
+using Application.DTOs.DieticianDTO;
+using Application.FiltersExtensions.Dieticians;
+using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using ModelsDB;
+using System.Diagnostics;
 
 namespace Application.CQRS.Dieticians
 {
-    /// <summary>
-    /// Kontroler odpowiedzialny za zarządzanie dietetykami.
-    /// </summary>
     public class DieticianList
     {
-        /// <summary>
-        /// Reprezentuje zapytanie do pobrania listy dietetyków.
-        /// </summary>
-        public class Query : IRequest<List<Dietician>> { }
+        public class Query : IRequest<Result<PagedList<DieticianGetDTO>>> 
+        {
+            public DieticianParams Params { get; set; }
+        }
 
-        /// <summary>
-        /// Obsługuje proces pobierania listy dietetyków z bazy danych.
-        /// </summary>
-        public class Handler : IRequestHandler<Query, List<Dietician>>
+        public class Handler : IRequestHandler<Query, Result<PagedList<DieticianGetDTO>>>
         {
             private readonly DietContext _context;
 
-            /// <summary>
-            /// Inicjuje nową instancję klasy <see cref="Handler"/> z podanym kontekstem bazy danych.
-            /// </summary>
-            /// <param name="context">Kontekst bazy danych do obsługi dietetyków.</param>
             public Handler(DietContext context)
             {
                 _context = context;
             }
 
-            /// <summary>
-            /// Przetwarza zapytanie i pobiera listę dietetyków z bazy danych wraz z ich adresami.
-            /// </summary>
-            /// <param name="request">Zapytanie do przetworzenia.</param>
-            /// <param name="cancellationToken">Token anulowania operacji.</param>
-            /// <returns>Zwraca listę dietetyków.</returns>
-            public async Task<List<Dietician>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<PagedList<DieticianGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.DieticiansDb
-                    .Include(p => p.Address)
-                    .ToListAsync(cancellationToken);
+                try
+                {
+                    var dieticiansList = _context.DieticiansDb
+                    .Include(a => a.Address)
+                    //.ThenInclude(a => a.CountryState)
+                    .Select(a => new DieticianGetDTO
+                    {
+                        Id = a.Id,
+                        FirstName = a.FirstName,
+                        LastName = a.LastName,
+                        DieticianName = a.FirstName + " " + a.LastName,
+                        Email = a.Email,
+                        PhoneNumber = a.PhoneNumber,
+                        BirthDate = a.BirthDate,
+                        Address = new AddressesDTO
+                        {
+                            //Id = a.Address.Id,
+                            City = a.Address.City,
+                            //ZipCode = a.Address.ZipCode,
+                            //Country = a.Address.Country,
+                            //Street = a.Address.Street,
+                            //LocalNo = a.Address.LocalNo,
+                            //StateName = a.Address.CountryState.StateName
+                        }
+                    })
+                    .AsQueryable();
+
+                    dieticiansList = dieticiansList.DieticianSearch(request.Params.SearchTerm);
+                    dieticiansList = dieticiansList.DieticianSort(request.Params.OrderBy);
+                    dieticiansList = dieticiansList.DieticianFilter(request.Params.DieticianNames);
+
+                    return Result<PagedList<DieticianGetDTO>>.Success(
+                        await PagedList<DieticianGetDTO>.CreateAsync(dieticiansList, request.Params.PageNumber, request.Params.PageSize)
+                        );
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<PagedList<DieticianGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

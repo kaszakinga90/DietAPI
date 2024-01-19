@@ -35,14 +35,14 @@ namespace Application.CQRS.Dieticians
 
             public async Task<Result<DieticianEditDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
-                //var validationResult = await _validator
-                //    .ValidateAsync(request.DieticianEditDTO, cancellationToken);
+                var validationResult = await _validator
+                    .ValidateAsync(request.DieticianEditDTO, cancellationToken);
 
-                //if (!validationResult.IsValid)
-                //{
-                //    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
-                //    return Result<DieticianEditDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
-                //}
+                if (!validationResult.IsValid)
+                {
+                    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                    return Result<DieticianEditDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                }
 
                 var dietician = await _context.DieticiansDb
                     .FindAsync(new object[] { request.DieticianEditDTO.Id }, cancellationToken);
@@ -54,7 +54,6 @@ namespace Application.CQRS.Dieticians
 
                 _mapper.Map(request.DieticianEditDTO, dietician);
 
-                // Obsługa obrazu
                 if (request.File != null)
                 {
                     var imageResult = await _imageService.AddImageAsync(request.File);

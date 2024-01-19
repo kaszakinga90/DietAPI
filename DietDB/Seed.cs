@@ -27,14 +27,30 @@ namespace DietDB
             {
                 var rt = new List<ReportTemplate>()
                 {
-                    new ReportTemplate { Name = "Szablon1" },
-                    new ReportTemplate { Name = "Szablon2" },
-                    new ReportTemplate { Name = "Szablon3" },
-
+                    new ReportTemplate { Name = "Szablon1", isContainHeader = true, isContainFooter = false },
+                    new ReportTemplate { Name = "Szablon2", isContainHeader = false, isContainFooter = true },
+                    new ReportTemplate { Name = "Szablon3", isContainHeader = true, isContainFooter = true },
                 };
                 await context.ReportTemplatesDb.AddRangeAsync(rt);
             }
             #endregion
+
+            #region ReportTemplatePreview
+            // Sprawdzanie i dodawanie testowych ReportTemplatePreviews
+            if (!context.ReportTemplatePreviewsDb.Any())
+            {
+                var rtp = new List<ReportTemplatePreview>()
+                {
+                    new ReportTemplatePreview { UrlReportTemplate1 = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705600613/s8gyybsntm1lcycjkwpa.png", 
+                                                UrlReportTemplate2 = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705600668/rcofw17lkgv8hane2uh2.png", 
+                                                UrlReportTemplate3 = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705600711/cct5y7cxoacbtdh2sfx2.png",
+                                                UrlReportTemplate4 = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705600797/x4ckvnj5dr1wh1o3v653.png"
+                    },
+                };
+                await context.ReportTemplatePreviewsDb.AddRangeAsync(rtp);
+            }
+            #endregion
+
             #region CountryState
             if (!context.CountryStatesDb.Any())
             {

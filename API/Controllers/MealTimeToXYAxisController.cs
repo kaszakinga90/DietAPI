@@ -1,4 +1,5 @@
-﻿using Application.CQRS.MealsTimesToXYAxiss;
+﻿using Application.Core;
+using Application.CQRS.MealsTimesToXYAxiss;
 using Application.DTOs.MealTimeToXYAxisDTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,6 @@ namespace API.Controllers
         [HttpGet("details/{dietId}")]
         public async Task<ActionResult<List<MealTimeToXYAxisGetDTO>>> GetDiets(int dietId)
         {
-            // TODO : referencje dla nazwy MealTimeToXYAxisDetails - bo to jest lista
             var result = await _mediator.Send(new MealTimeToXYAxisDetails.Query { DietId = dietId });
             return HandleResult(result);
         }

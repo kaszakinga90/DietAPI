@@ -8,37 +8,20 @@ using System.Diagnostics;
 
 namespace Application.CQRS.Patients
 {
-    /// <summary>
-    /// Zawiera klasy do tworzenia wiadomości skierowanych do dietetyka.
-    /// </summary>
     public class MessageToDieteticianFromPatientCreate
     {
-        /// <summary>
-        /// Reprezentuje komendę służącą do tworzenia wiadomości dla dietetyka.
-        /// </summary>
         public class Command : IRequest<Result<MessageToDTO>>
         {
-            /// <summary>
-            /// Pobiera lub ustawia DTO wiadomości skierowanej do dietetyka.
-            /// </summary>
             public MessageToDTO MessageDTO { get; set; }
             public int PatientId { get; set; }
         }
 
-        /// <summary>
-        /// Obsługuje proces tworzenia wiadomości dla dietetyka.
-        /// </summary>
         public class Handler : IRequestHandler<Command, Result<MessageToDTO>>
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
             private readonly MessageCreateValidator _validator;
 
-            /// <summary>
-            /// Inicjuje nową instancję klasy <see cref="Handler"/> z podanym kontekstem i maperem.
-            /// </summary>
-            /// <param name="context">Kontekst bazy danych do obsługi wiadomości dla dietetyków.</param>
-            /// <param name="mapper">Obiekt służący do mapowania obiektów.</param>
             public Handler(DietContext context, IMapper mapper, MessageCreateValidator validator)
             {
                 _context = context;
@@ -46,11 +29,6 @@ namespace Application.CQRS.Patients
                 _validator = validator;
             }
 
-            /// <summary>
-            /// Przetwarza komendę tworzenia wiadomości dla dietetyka.
-            /// </summary>
-            /// <param name="request">Komenda do przetworzenia.</param>
-            /// <param name="cancellationToken">Token anulowania operacji.</param>
             public async Task<Result<MessageToDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var validationResult = await _validator

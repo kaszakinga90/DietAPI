@@ -4,6 +4,7 @@ using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Application.CQRS.DieticiansBusinessesCards
 {
@@ -26,24 +27,32 @@ namespace Application.CQRS.DieticiansBusinessesCards
 
                 public async Task<Result<DieticianBusinessCardGetDTO>> Handle(Query request, CancellationToken cancellationToken)
                 {
-                    var dietician = await _context.DieticiansDb
+                    try
+                    {
+                        var dietician = await _context.DieticiansDb
                         .Include(d => d.DieticianOffices)
                             .ThenInclude(o => o.Office)
                                 .ThenInclude(a => a.Address)
                         .Include(d => d.Diplomas)
                         .Include(d => d.DieticianSpecializations)
-                                .ThenInclude(s=>s.Specialization)
+                                .ThenInclude(s => s.Specialization)
                         .Include(d => d.Logo)
-                        .FirstOrDefaultAsync(d => d.Id == request.DieticianId);
+                        .FirstOrDefaultAsync(d => d.Id == request.DieticianId, cancellationToken);
 
-                    if (dietician == null)
-                    {
-                        return Result<DieticianBusinessCardGetDTO>.Failure("DieticianEditDTO not found.");
+                        if (dietician == null)
+                        {
+                            return Result<DieticianBusinessCardGetDTO>.Failure("DieticianBusinessCardGetDTO not found.");
+                        }
+
+                        var dieticianBusinessCardDTO = _mapper.Map<DieticianBusinessCardGetDTO>(dietician);
+
+                        return Result<DieticianBusinessCardGetDTO>.Success(dieticianBusinessCardDTO);
                     }
-
-                    var dieticianBusinessCardDTO = _mapper.Map<DieticianBusinessCardGetDTO>(dietician);
-
-                    return Result<DieticianBusinessCardGetDTO>.Success(dieticianBusinessCardDTO);
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                        return Result<DieticianBusinessCardGetDTO>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                    }
                 }
             }
         }

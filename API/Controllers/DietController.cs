@@ -1,5 +1,4 @@
-﻿using Application.Core;
-using Application.CQRS.Diets;
+﻿using Application.CQRS.Diets;
 using Application.CQRS.DietsForPatients;
 using Application.DTOs.DietDTO;
 using Application.FiltersExtensions.Diets;
@@ -15,7 +14,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{dieticianId}")]
-        public async Task<ActionResult<PagedList<DietGetDTO>>> GetDiets(int dieticianId, [FromQuery] DietParams pagingParams)
+        public async Task<IActionResult> GetDiets(int dieticianId, [FromQuery] DietParams pagingParams)
         {
             var result = await _mediator.Send(new DietList.Query { DieticianId = dieticianId, Params = pagingParams });
             return HandlePagedResult(result);
@@ -24,8 +23,12 @@ namespace API.Controllers
         [HttpPost("adddiet")]
         public async Task<IActionResult> CreateDiet(DietPostDTO diet)
         {
-            await _mediator.Send(new DietCreate.Command { DietPostDTO = diet });
-            return Ok();
+            var result = await _mediator.Send(new DietCreate.Command { DietPostDTO = diet });
+            if (result.IsSucces)
+            {
+                return Ok(result.Value);
+            }
+            return BadRequest(result.Error);
         }
 
         [HttpGet("dieticianDiets/{dieticianId}")]

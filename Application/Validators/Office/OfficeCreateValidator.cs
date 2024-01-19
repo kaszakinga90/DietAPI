@@ -7,10 +7,10 @@ namespace Application.Validators.Office
     {
         public OfficeCreateValidator()
         {
-            RuleFor(dto => dto.OfficeName)
-                .NotEmpty().WithMessage("Pole OfficeName nie może być puste.")
-                .NotNull().WithMessage("Pole OfficeName nie może przyjmować null.")
-                .MinimumLength(3).WithMessage("Minimalna długość OfficeName to 3.");
+            //RuleFor(dto => dto.OfficeName)
+            //    .NotEmpty().WithMessage("Pole OfficeName nie może być puste.")
+            //    .NotNull().WithMessage("Pole OfficeName nie może przyjmować null.")
+            //    .MinimumLength(3).WithMessage("Minimalna długość OfficeName to 3.");
         }
     }
 }

@@ -58,6 +58,18 @@ namespace Application.Core
             CreateMap<DayWeek, DayWeekDeleteDTO>()
                 .ReverseMap();
 
+            CreateMap<TestResult, TestResultDeleteDTO>()
+                .ReverseMap();
+
+            CreateMap<Survey, SurveyDeleteDTO>()
+                .ReverseMap();
+
+            CreateMap<Diploma, DiplomaDeleteDTO>()
+                .ReverseMap();
+
+            CreateMap<FoodCatalog, FoodCatalogDeleteDTO>()
+                .ReverseMap();
+
             CreateMap<MessageTo, MessageToDTO>()
                 .ForMember(dest => dest.DieticianName, opt => opt.MapFrom(src => src.Dietician.FirstName + " " + src.Dietician.LastName))
                 .ForMember(dest => dest.AdminName, opt => opt.MapFrom(src => src.Admin.FirstName + " " + src.Admin.LastName))
@@ -207,8 +219,8 @@ namespace Application.Core
             CreateMap<SingleTestResults, TestResultPostDTO>()
                 .ReverseMap();
 
-            CreateMap<DieticianPatient, DieteticianPatientDTO>();
-            CreateMap<DieteticianPatientDTO, DieticianPatient>();
+            CreateMap<DieticianPatient, DieteticianPatientGetDTO>()
+                .ReverseMap();
 
             CreateMap<IngredientDTO, Ingredient>()
                 .ForMember(dest => dest.Measure, opt => opt.Ignore())
@@ -367,6 +379,9 @@ namespace Application.Core
                     .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
                     .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                     .ForMember(dest => dest.PictureUrl, opt => opt.MapFrom(src => src.PictureUrl));
+
+            CreateMap<ReportTemplatePreview, ReportTemplatePreviewDTO>()
+                .ReverseMap();
 
             // -------------------------------------------------------------------- //
 

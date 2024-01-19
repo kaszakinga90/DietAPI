@@ -3,11 +3,7 @@ using Application.DTOs.PatientCardDTO;
 using Application.FiltersExtensions.PatientsCards;
 using DietDB;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Application.CQRS.PatientCards
 {
@@ -30,7 +26,9 @@ namespace Application.CQRS.PatientCards
 
             public async Task<Result<PagedList<PatientCardGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var patientCardList = _context.PatientCardsDb
+                try
+                {
+                    var patientCardList = _context.PatientCardsDb
                     .Where(m => m.PatientId == request.PatientId)
                     .Select(m => new PatientCardGetDTO
                     {
@@ -39,10 +37,16 @@ namespace Application.CQRS.PatientCards
                         DieticianName = m.Dietician.FirstName + " " + m.Dietician.LastName,
                     })
                     .AsQueryable();
-                patientCardList = patientCardList.Search(request.Params.SearchTerm);
-                return Result<PagedList<PatientCardGetDTO>>.Success(
-                    await PagedList<PatientCardGetDTO>.CreateAsync(patientCardList, request.Params.PageNumber, request.Params.PageSize)
-                    );
+                    patientCardList = patientCardList.Search(request.Params.SearchTerm);
+                    return Result<PagedList<PatientCardGetDTO>>.Success(
+                        await PagedList<PatientCardGetDTO>.CreateAsync(patientCardList, request.Params.PageNumber, request.Params.PageSize)
+                        );
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<PagedList<PatientCardGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

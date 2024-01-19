@@ -30,32 +30,26 @@ namespace Application.CQRS.DieticiansBusinessesCards
                         //.Where(m => m.Id == request.DieticianId && m.isDietician)
                         .Select(m => m.dateAdded)
                         .Distinct()
-                        .ToListAsync(),
+                        .ToListAsync(cancellationToken),
 
                     DieticianNames = await _context.DieticiansDb
                         //.Where(m => m.isDietician != null)
                         .Select(m => m.FirstName + " " + m.LastName)
                         .Distinct()
-                        .ToListAsync(),
+                        .ToListAsync(cancellationToken),
 
                     Specializations = await _context.SpecializationsDb
                         //.Where(m => m.PatientId == request.PatientId && m.DieticianId != null)
                         .Select(m => m.SpecializationName)
                         .Distinct()
-                        .ToListAsync(),
+                        .ToListAsync(cancellationToken),
 
                     CountryStates = await _context.CountryStatesDb
                         //.Where(m => m.PatientId == request.PatientId && m.DieticianId != null)
                         .Select(m => m.StateName)
                         .Distinct()
-                        .ToListAsync(),
+                        .ToListAsync(cancellationToken),
                 };
-
-                if (filters == null)
-                {
-                    return Result<BusinessCardFiltersDTO>.Failure("no results");
-                }
-
                 return Result<BusinessCardFiltersDTO>.Success(filters);
             }
         }

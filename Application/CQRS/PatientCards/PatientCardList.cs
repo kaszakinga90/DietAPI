@@ -4,11 +4,7 @@ using Application.FiltersExtensions.PatientMessages;
 using Application.FiltersExtensions.PatientsCards;
 using DietDB;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Application.CQRS.PatientCards
 {
@@ -31,19 +27,31 @@ namespace Application.CQRS.PatientCards
 
             public async Task<Result<PagedList<PatientCardGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var patientCardList = _context.PatientCardsDb
-                    .Where(m => m.DieticianId == request.DieticianId)
-                    .Select(m => new PatientCardGetDTO
-                    {
-                        Id = m.Id,
-                        PatientId=m.PatientId,
-                        PatientName=m.Patient.FirstName+" "+m.Patient.LastName,
-                    })
-                    .AsQueryable();
-                patientCardList = patientCardList.Search(request.Params.SearchTerm);
-                return Result<PagedList<PatientCardGetDTO>>.Success(
-                    await PagedList<PatientCardGetDTO>.CreateAsync(patientCardList, request.Params.PageNumber, request.Params.PageSize)
-                    );
+                try
+                {
+                    var patientCardList = _context.PatientCardsDb
+                          .Where(m => m.DieticianId == request.DieticianId)
+                          .Select(m => new PatientCardGetDTO
+                          {
+                              Id = m.Id,
+                              PatientId = m.PatientId,
+                              PatientName = m.Patient.FirstName + " " + m.Patient.LastName,
+                          })
+                          .AsQueryable();
+
+                    patientCardList = patientCardList.Search(request.Params.SearchTerm);
+                    patientCardList = patientCardList.PatientCardSort(request.Params.OrderBy);
+                    patientCardList = patientCardList.PatientCardFilter(request.Params.PatientNames);
+
+                    return Result<PagedList<PatientCardGetDTO>>.Success(
+                        await PagedList<PatientCardGetDTO>.CreateAsync(patientCardList, request.Params.PageNumber, request.Params.PageSize)
+                        );
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<PagedList<PatientCardGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
             }
         }
     }

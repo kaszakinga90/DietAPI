@@ -4,11 +4,6 @@ using Application.DTOs.MessagesDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.CQRS.Diets
 {
@@ -36,17 +31,16 @@ namespace Application.CQRS.Diets
                         .Where(m => m.DieteticianId == request.DieticianId && m.DieteticianId!=null)
                         .Select(m => m.dateAdded)
                         .Distinct()
-                        .ToListAsync(),
+                        .ToListAsync(cancellationToken),
 
                     PatientNames = await _context.DietsDb
                         .Where(m => m.DieteticianId == request.DieticianId && m.PatientId != null)
                         .Select(m => m.Patient.FirstName + " " + m.Patient.LastName)
                         .Distinct()
-                        .ToListAsync()
+                        .ToListAsync(cancellationToken)
                 };
                 return Result<DietFiltersDTO>.Success(filters);
             }
         }
     }
 }
-

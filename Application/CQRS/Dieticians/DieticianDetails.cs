@@ -48,7 +48,6 @@ namespace Application.CQRS.Dieticians
                     Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
                     return Result<DieticianGetDTO>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
                 }
-                
             }
         }
     }

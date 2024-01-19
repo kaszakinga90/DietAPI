@@ -24,6 +24,7 @@ namespace Application.CQRS.Diplomas
             private readonly IMapper _mapper;
             private readonly ImageService _imageService;
             private readonly DiplomaCreateValidator _validator;
+
             public Handler(DietContext context, IMapper mapper, ImageService imageService, DiplomaCreateValidator validator)
             {
                 _context = context;
@@ -31,6 +32,7 @@ namespace Application.CQRS.Diplomas
                 _imageService = imageService;
                 _validator = validator;
             }
+
             public async Task<Result<DiplomaPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var validationResult = await _validator
