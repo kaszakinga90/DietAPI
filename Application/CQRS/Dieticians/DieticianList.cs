@@ -43,7 +43,7 @@ namespace Application.CQRS.Dieticians
                         BirthDate = a.BirthDate,
                         Address = new AddressesDTO
                         {
-                            //Id = a.Address.Id,
+                            //UserId = a.Address.UserId,
                             City = a.Address.City,
                             //ZipCode = a.Address.ZipCode,
                             //Country = a.Address.Country,

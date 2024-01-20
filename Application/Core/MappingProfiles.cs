@@ -249,7 +249,7 @@ namespace Application.Core
             CreateMap<Diploma, DiplomaGetDTO>();
             CreateMap<Specialization, SpecializationGetDTO>();
             CreateMap<DieticianSpecialization, DieteticianSpecializationPostDTO>()
-           //.ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+           //.ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
            .ForMember(dest => dest.DieticianId, opt => opt.MapFrom(src => src.DieticianId))
            .ForMember(dest => dest.SpecializationId, opt => opt.MapFrom(src => src.SpecializationId))
            .ForMember(dest => dest.SpecializationName, opt => opt.MapFrom(src => src.Specialization.SpecializationName));
@@ -395,7 +395,7 @@ namespace Application.Core
             //        .ForMember(dest => dest.Period, opt => opt.MapFrom(src => (int)(src.EndDate - src.StartDate).TotalDays))
             //        .ForMember(dest => dest.MealTimesToXYAxisDTO, opt => opt.MapFrom(src => src.MealTimesToXYAxis.Select(mt => new MealTimeToXYAxisToReportDTO
             //        {
-            //            //Id = mt.Id,
+            //            //UserId = mt.UserId,
             //            //DietId = mt.DietId,
             //            //DishId = mt.DishId,
             //            Name = mt.Dish.Name,
@@ -403,19 +403,19 @@ namespace Application.Core
             //        }).ToList()))
             //        .ForMember(dest => dest.DishesDTO, opt => opt.MapFrom(src => src.MealTimesToXYAxis.Select(mt => mt.Dish).Select(dish => new DishGetDTO
             //        {
-            //            RecipeId = dish.Recipe.Id,
+            //            RecipeId = dish.Recipe.UserId,
             //            Name = dish.Name,
             //            Calories = dish.Calories,
             //            ServingQuantity = dish.ServingQuantity,
-            //            MeasureId = dish.Measure.Id,
+            //            MeasureId = dish.Measure.UserId,
             //            Weight = dish.Weight,
-            //            UnitId = dish.Unit.Id,
+            //            UnitId = dish.Unit.UserId,
             //            GlycemicIndex = dish.GlycemicIndex,
             //            DishPhotoUrl = dish.DishPhotoUrl,
             //            PreparingTime = dish.PreparingTime,
             //            RecipeStepsDTO = dish.Recipe.Steps.Select(step => new RecipeStepGetDTO
             //            {
-            //                Id = step.Id,
+            //                UserId = step.UserId,
             //                StepNumber = step.StepNumber,
             //                Description = step.Description,
             //                RecipeId = step.RecipeId

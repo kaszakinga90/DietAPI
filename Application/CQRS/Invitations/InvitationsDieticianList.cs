@@ -78,7 +78,7 @@ namespace Application.CQRS.Invitations
     //                    .Where(m => m.DieticianId == request.DieticianId)
     //                    .Select(m => new InvitationGetDTO
     //                    {
-    //                        Id = m.Id,
+    //                        UserId = m.UserId,
     //                        DieticianId = m.DieticianId,
     //                        PatientId = m.PatientId,
     //                        IsSended = m.IsSended,
