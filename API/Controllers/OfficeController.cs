@@ -1,4 +1,5 @@
-﻿using Application.CQRS.Offices;
+﻿using Application.CQRS.Diplomas;
+using Application.CQRS.Offices;
 using Application.DTOs;
 using Application.DTOs.OfficeDTO;
 using Application.Functionality;
@@ -57,6 +58,18 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
-        // TODO : usuwanie
+        // DONE : metoda do usuwania office
+        [HttpDelete("delete/{dieticianId}/{officeId}")]
+        public async Task<IActionResult> DeleteOffice(int dieticianId, int officeId, OfficeDeleteDTO officeDeleteDTO)
+        {
+            var command = new OfficeDelete.Command {
+                DieticianId = dieticianId,
+                OfficeId = officeId,
+                OfficeDeleteDTO = officeDeleteDTO
+            };
+            command.OfficeDeleteDTO.Id = officeId;
+
+            return HandleResult(await _mediator.Send(command));
+        }
     }
 }

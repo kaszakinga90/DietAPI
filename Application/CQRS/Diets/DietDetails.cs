@@ -25,7 +25,7 @@ namespace Application.CQRS.Diets
         //    /// <summary>
         //    /// Pobiera lub ustawia identyfikator dietetyka, którego szczegóły mają zostać pobrane.
         //    /// </summary>
-        //    public int Id { get; set; }
+        //    public int UserId { get; set; }
         //}
 
         ///// <summary>
@@ -57,7 +57,7 @@ namespace Application.CQRS.Diets
         //    {
         //        var diet = await _context.DietsDb.
 
-        //                                        .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+        //                                        .SingleOrDefaultAsync(x => x.UserId == request.UserId, cancellationToken);
 
         //        return _mapper.Map<DietGetDTO>(diet);
         //    }

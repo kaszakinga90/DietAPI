@@ -27,7 +27,7 @@ namespace Application.CQRS.DieticiansBusinessesCards
                 var filters = new BusinessCardFiltersDTO
                 {
                     DatesAdded = await _context.DieticiansDb
-                        //.Where(m => m.Id == request.DieticianId && m.isDietician)
+                        //.Where(m => m.UserId == request.DieticianId && m.isDietician)
                         .Select(m => m.dateAdded)
                         .Distinct()
                         .ToListAsync(cancellationToken),
