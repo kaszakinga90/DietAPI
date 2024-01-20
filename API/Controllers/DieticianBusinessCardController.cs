@@ -33,10 +33,10 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        [HttpGet("filters/{dieticianId}")]
-        public async Task<IActionResult> GetFilters(int dieticianId)
+        [HttpGet("filters")]
+        public async Task<IActionResult> GetFilters()
         {
-            var result = await _mediator.Send(new DieticianBusinessCardFilterList.Query { DieticianId = dieticianId });
+            var result = await _mediator.Send(new DieticianBusinessCardFilterList.Query());
             return HandleResult(result);
         }
     }
