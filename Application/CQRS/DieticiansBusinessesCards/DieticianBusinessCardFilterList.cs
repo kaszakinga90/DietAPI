@@ -10,7 +10,7 @@ namespace Application.CQRS.DieticiansBusinessesCards
     {
         public class Query : IRequest<Result<BusinessCardFiltersDTO>>
         {
-            public int DieticianId { get; set; }
+            //public int DieticianId { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Result<BusinessCardFiltersDTO>>
@@ -38,13 +38,13 @@ namespace Application.CQRS.DieticiansBusinessesCards
                         .Distinct()
                         .ToListAsync(cancellationToken),
 
-                    Specializations = await _context.SpecializationsDb
+                    SpecializationNames = await _context.SpecializationsDb
                         //.Where(m => m.PatientId == request.PatientId && m.DieticianId != null)
                         .Select(m => m.SpecializationName)
                         .Distinct()
                         .ToListAsync(cancellationToken),
 
-                    CountryStates = await _context.CountryStatesDb
+                    StateNames = await _context.CountryStatesDb
                         //.Where(m => m.PatientId == request.PatientId && m.DieticianId != null)
                         .Select(m => m.StateName)
                         .Distinct()
