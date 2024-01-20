@@ -36,6 +36,4 @@ namespace Application.Validators.Patient
     }
 }
 
-// TODO : walidacja dla hasła do uzupełnienia
-
 // dla adresu oddzielna walidacja

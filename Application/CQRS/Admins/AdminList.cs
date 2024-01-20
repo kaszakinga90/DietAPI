@@ -41,7 +41,7 @@ namespace Application.CQRS.Admins
                         BirthDate = a.BirthDate,
                         AddressDTO = new AddressesDTO
                         {
-                            //Id = a.Address.Id,
+                            //UserId = a.Address.UserId,
                             City = a.Address.City,
                             //ZipCode = a.Address.ZipCode,
                             //Country = a.Address.Country,

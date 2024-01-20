@@ -51,5 +51,3 @@ namespace Application.Validators.Admin
         }
     }
 }
-
-// TODO : walidacja dla hasła do uzupełnienia

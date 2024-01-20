@@ -50,5 +50,3 @@ namespace Application.Validators.Dietician
         }
     }
 }
-
-// TODO : walidacja dla hasła do uzupełnienia

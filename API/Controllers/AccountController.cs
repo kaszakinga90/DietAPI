@@ -1,6 +1,7 @@
 ﻿using Application.CQRS.Admins;
 using Application.CQRS.Dieticians;
 using Application.CQRS.Patients;
+using Application.CQRS.Users.Passwords;
 using Application.DTOs.LoginsDTO;
 using Application.DTOs.RecipeStepDTO.RegistersDTO;
 using Application.DTOs.UsersDTO;
@@ -241,27 +242,36 @@ namespace API.Controllers
             }
         }
 
-        [HttpDelete("deleteDietician/{id}")]
+        [HttpDelete("deleteDietician/{userId}")]
         public async Task<IActionResult> DeleteDietician(int id)
         {
             var command = new DieticianDelete.Command { Id = id };
             return HandleResult(await _mediator.Send(command));
         }
 
-        [HttpDelete("deletePatient/{id}")]
+        [HttpDelete("deletePatient/{userId}")]
         public async Task<IActionResult> DeletePatient(int id)
         {
             var command = new PatientDelete.Command { Id = id };
             return HandleResult(await _mediator.Send(command));
         }
 
-        [HttpDelete("deleteAdmin/{id}")]
+        [HttpDelete("deleteAdmin/{userId}")]
         public async Task<IActionResult> DeleteAdmin(int id)
         {
             var command = new AdminDelete.Command { Id = id };
             return HandleResult(await _mediator.Send(command));
         }
+
+        // DONE: metoda do zmiany hasła
+        [HttpPut("changePassword/{userId}")]
+        public async Task<IActionResult> ChangePassword(int userId, PasswordEditDTO passwordEditDTO)
+        {
+            var command = new PasswordEdit.Command { 
+                UserId = userId,
+                PasswordEditDTO = passwordEditDTO
+            };
+            return HandleResult(await _mediator.Send(command));
+        }
     }
 }
-
-// TODO : zmień hasło - dwa razy wpisać nowe hasło

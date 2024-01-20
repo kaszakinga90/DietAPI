@@ -8,9 +8,9 @@ namespace Application.Validators.Office
         public OfficeUpdateValidator()
         {
             RuleFor(dto => dto.Id)
-                .NotEmpty().WithMessage("Pole Id nie może być puste.")
-                .NotNull().WithMessage("Pole Id nie może przyjmować null.")
-                .GreaterThan(0).WithMessage("Pole Id musi być liczbą całkowitą większą niż 0.");
+                .NotEmpty().WithMessage("Pole UserId nie może być puste.")
+                .NotNull().WithMessage("Pole UserId nie może przyjmować null.")
+                .GreaterThan(0).WithMessage("Pole UserId musi być liczbą całkowitą większą niż 0.");
 
             RuleFor(dto => dto.OfficeName)
                 .NotEmpty().WithMessage("Pole OfficeName nie może być puste.")
