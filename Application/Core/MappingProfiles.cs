@@ -14,6 +14,7 @@ using Application.DTOs.DishDTO;
 using Application.DTOs.DishFoodCatalogDTO;
 using Application.DTOs.DishIngredientDTO;
 using Application.DTOs.FoodCatalogDTO;
+using Application.DTOs.FoodCatalogDTO.Admin;
 using Application.DTOs.IngredientDTO;
 using Application.DTOs.IngredientDTO.IngredientNutritionixDTO;
 using Application.DTOs.InvitationDTO;
@@ -68,6 +69,15 @@ namespace Application.Core
                 .ReverseMap();
 
             CreateMap<FoodCatalog, FoodCatalogDeleteDTO>()
+                .ReverseMap();
+
+            CreateMap<Specialization, SpecializationPostDTO>()
+                .ReverseMap();
+            
+            CreateMap<FoodCatalog, FoodCatalogDieticianEditDTO>()
+                .ReverseMap();
+
+            CreateMap<FoodCatalog, FoodCatalogForAdminPostDTO>()
                 .ReverseMap();
 
             CreateMap<MessageTo, MessageToDTO>()

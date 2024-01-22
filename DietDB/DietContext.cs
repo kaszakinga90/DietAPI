@@ -35,6 +35,7 @@ namespace DietDB
         public DbSet<Dietician> DieticiansDb { get; set; }
         public DbSet<Diploma> DiplomasDb { get; set; }
         public DbSet<Dish> DishesDb { get; set; }
+        public DbSet<DishFoodCatalog> DishFoodCatalogsDb { get; set; }
         public DbSet<FoodCatalog> FoodCatalogsDb { get; set; }
         public DbSet<Ingredient> IngridientsDb { get; set; }
         public DbSet<DishIngredient> DishIngredientsDb { get; set; }
@@ -249,12 +250,12 @@ namespace DietDB
 
             //modelBuilder.Entity<DishFoodCatalog>()
             //    .HasOne(mp => mp.Dish)
-            //    .WithMany(m => m.DishFoodCatalogs)
+            //    .WithMany(m => m.DishFoodCatalogsDb)
             //    .HasForeignKey(mp => mp.DishId);
 
             //modelBuilder.Entity<DishFoodCatalog>()
             //    .HasOne(mp => mp.FoodCatalog)
-            //    .WithMany(p => p.DishFoodCatalogs)  
+            //    .WithMany(p => p.DishFoodCatalogsDb)  
             //    .HasForeignKey(mp => mp.FoodCatalogId);
 
             //**************************************************************************************************

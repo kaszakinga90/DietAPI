@@ -111,6 +111,10 @@ namespace API.Controllers
                 Logo = new ModelsDB.Functionality.Logo
                 {
                     PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705234573/qc1pclrxojm3arwfkrif.jpg"
+                },
+                FoodCatalogs = new List<FoodCatalog>  
+                {
+                    new FoodCatalog { CatalogName = "Wszystkie" }
                 }
             };
 

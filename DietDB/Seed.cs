@@ -723,7 +723,7 @@ namespace DietDB
             {
                 var foodCatalogs = new List<FoodCatalog>()
                 {
-                    new FoodCatalog { CatalogName = "Wegetariańskie" },
+                    new FoodCatalog { CatalogName = "Ogolny" },
                     new FoodCatalog { CatalogName = "Bezmleczne" },
                     new FoodCatalog { CatalogName = "Dla cukrzyków" },
                     new FoodCatalog { CatalogName = "Keto" },
