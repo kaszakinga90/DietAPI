@@ -20,9 +20,9 @@ namespace Application.CQRS.FoodCatalogs
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
-            private readonly FoodCatalogCreateValidator _validator;
+            private readonly FoodCatalogDieticianCreateValidator _validator;
 
-            public Hendler(DietContext context, IMapper mapper, FoodCatalogCreateValidator validator)
+            public Hendler(DietContext context, IMapper mapper, FoodCatalogDieticianCreateValidator validator)
             {
                 _context = context;
                 _mapper = mapper;

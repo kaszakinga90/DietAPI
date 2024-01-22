@@ -1,5 +1,10 @@
 ﻿using Application.CQRS.FoodCatalogs;
+using Application.CQRS.Logos;
+using Application.CQRS.Offices;
+using Application.DTOs.DishFoodCatalogDTO;
 using Application.DTOs.FoodCatalogDTO;
+using Application.DTOs.FoodCatalogDTO.Admin;
+using Application.DTOs.OfficeDTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +31,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        // ?? - w walidatorze, że dieticianId wymagane - osobno więc dla admina i dietetyka?
         [HttpPost("create")]
         public async Task<IActionResult> CreateFoodCatalog(FoodCatalogPostDTO FoodCatalogPostDTO)
         {
@@ -33,8 +39,33 @@ namespace API.Controllers
             return Ok(result.Value);
         }
 
-        // TODO: edycja
+        // DONE : edycja food catalog dietetyka 
+        [HttpPut("edit/{foodCatalogId}")]
+        public async Task<IActionResult> EditDieticianFoodCatalog(int foodCatalogId, FoodCatalogDieticianEditDTO foodCatalogDTO)
+        {
+            var command = new FoodCatalogDieticianEdit.Command
+            {
+                FoodCatalogDieticianEditDTO = foodCatalogDTO,
+            };
+            command.FoodCatalogDieticianEditDTO.Id = foodCatalogId;
 
-        // TODO: delete, ale jeśli będzie funkcja przenieś do innego folderu i dopiero można usunąć, jeśli folder pusty
+            return HandleResult(await _mediator.Send(command));
+        }
+
+        // DONE : usuwanie foodCatalog 
+        // katalog dietetyka - deaktywuje jego katalog i dania z niego przenosi do katalogu Wszystkie (dedykowany katalog dla dietetyka tworzony wraz z rejestracją)
+        // katalog wspólny - deaktywuje katalog i dania z niego przenosi do katalogu Ogolny (id = 1) (katalog dostępny dla wszystkich/niemodyfikowalny)
+
+        // na froncie musi być coś w stylu : ta akcja spowoduje przeniesienie wszystkich produktów do katalogu Wszystkie, czy na pewno?
+        [HttpDelete("delete/{foodCatalogId}")]
+        public async Task<IActionResult> DeleteFoodCatalog(int foodCatalogId, FoodCatalogDeleteDTO foodCatalogDeleteDTO)
+        {
+            var command = new FoodCatalogDelete.Command { 
+                FoodCatalogId = foodCatalogId,
+                FoodCatalogDeleteDTO = foodCatalogDeleteDTO
+            };
+
+            return HandleResult(await _mediator.Send(command));
+        }
     }
 }

@@ -197,7 +197,7 @@ builder.Services.AddTransient<DieticianUpdateValidator>();
 builder.Services.AddTransient<DietCreateValidator>();
 builder.Services.AddTransient<DiplomaCreateValidator>();
 builder.Services.AddTransient<DishCreateValidator>();
-builder.Services.AddTransient<FoodCatalogCreateValidator>();
+builder.Services.AddTransient<FoodCatalogDieticianCreateValidator>();
 builder.Services.AddTransient<InvitationCreateValidator>();
 builder.Services.AddTransient<InvitationUpdateValidator>();
 builder.Services.AddTransient<LogoCreateValidator>();
@@ -211,6 +211,8 @@ builder.Services.AddTransient<RoleCreateValidator>();
 builder.Services.AddTransient<DieticianSpecializationCreateValidator>();
 builder.Services.AddTransient<SurveyCreateValidator>();
 builder.Services.AddTransient<TestResultCreateValidator>();
+builder.Services.AddTransient<SpecializationCreateValidator>();
+builder.Services.AddTransient<FoodCatalogDieticianUpdateValidator>();
 
 
 var emailSendConfiguration = builder.Configuration

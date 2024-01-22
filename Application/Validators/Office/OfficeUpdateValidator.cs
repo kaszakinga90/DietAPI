@@ -19,5 +19,3 @@ namespace Application.Validators.Office
         }
     }
 }
-
-// TODO : przygotoesać walidację dla AddressDTO
