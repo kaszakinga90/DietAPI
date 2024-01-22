@@ -26,10 +26,12 @@ namespace API.Controllers
             var result = await _mediator.Send(new DietCreate.Command { DietPostDTO = diet });
             if (result.IsSucces)
             {
-                return Ok(result.Value);
+                // Dodanie komunikatu o sukcesie
+                return Ok(new { data = result.Value, message = "Dieta została dodana pomyślnie." });
             }
             return BadRequest(result.Error);
         }
+
 
         [HttpGet("dieticianDiets/{dieticianId}")]
         public async Task<IActionResult> GetDietsForDietician(int dieticianId, [FromQuery] DietParams pagingParams)
