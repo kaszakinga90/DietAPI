@@ -1,5 +1,8 @@
 using Application.Core;
+using Application.CQRS.Invitations;
+using Application.CQRS.Messages;
 using Application.CQRS.Patients;
+using Application.DTOs.InvitationDTO;
 using Application.DTOs.MessagesDTO;
 using Application.DTOs.PatientDTO;
 using Application.FiltersExtensions.PatientMessages;
@@ -87,6 +90,20 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [HttpPost("message/isread")]
+        public async Task<IActionResult> MessageIsRead(MessageIsReadPostDTO messageIsRead)
+        {
+            var command = new MessageIsRead.Command
+            {
+                MessageIsReadPostDTO = messageIsRead
+            };
+
+            var result = await _mediator.Send(command);
+
+            return Ok(result);
+            //    return HandleResult(await _mediator.Send(command));
+        }
+
         [HttpPost("messageToDietician/{patientId}")]
         public async Task<IActionResult> MessageToDietetician(int patientId, MessageToDTO message)
         {
@@ -120,5 +137,6 @@ namespace API.Controllers
             }
             return BadRequest(result.Error);
         }
+
     }
 }

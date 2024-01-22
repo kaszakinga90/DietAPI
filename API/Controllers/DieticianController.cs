@@ -1,8 +1,10 @@
 ﻿using Application.Core;
 using Application.CQRS.Dieticians;
 using Application.CQRS.Diplomas;
+using Application.CQRS.Messages;
 using Application.DTOs.DieticianDTO;
 using Application.DTOs.DiplomaDTO;
+using Application.DTOs.MessagesDTO;
 using Application.FiltersExtensions.DieticianMessages;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -113,6 +115,20 @@ namespace API.Controllers
                 return Ok(result.Value);
             }
             return BadRequest(result.Error);
+        }
+
+        [HttpPost("message/isread")]
+        public async Task<IActionResult> MessageIsRead(MessageIsReadPostDTO messageIsRead)
+        {
+            var command = new MessageIsRead.Command
+            {
+                MessageIsReadPostDTO = messageIsRead
+            };
+
+            var result = await _mediator.Send(command);
+
+            return Ok(result);
+            //    return HandleResult(await _mediator.Send(command));
         }
 
         [HttpPost("diploma")]
