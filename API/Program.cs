@@ -213,6 +213,7 @@ builder.Services.AddTransient<SurveyCreateValidator>();
 builder.Services.AddTransient<TestResultCreateValidator>();
 builder.Services.AddTransient<SpecializationCreateValidator>();
 builder.Services.AddTransient<FoodCatalogDieticianUpdateValidator>();
+builder.Services.AddTransient<DishUpdateValidator>();
 
 
 var emailSendConfiguration = builder.Configuration

@@ -71,8 +71,6 @@ namespace Application.CQRS.Dieticians
                         }
                     }
 
-                    // TODO : to powinno działać w całości na obiektach DTO
-                    // to jest DOBRE !!!!
                     foreach (var officeDTO in dieticianDTO.DieticianOfficesDeleteDTO)
                     {
                         var dieticianOffice = await _context.DieticianOffices

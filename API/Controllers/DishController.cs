@@ -50,11 +50,27 @@ namespace API.Controllers
             var result = await _mediator.Send(new DishFilterList.Query { DishId = dishId });
             return HandleResult(result);
         }
+
+        // DONE : edycja Dish (tylko, gdy nie jest używany w żadnych mealtimetoxyaxis
+        [HttpPut("edit/{dishId}")]
+        public async Task<IActionResult> EditDish(int dishId, DishEditDTO dishEditDTO)
+        {
+            var command = new DishEdit.Command
+            {
+                DishEditDTO = dishEditDTO,
+            };
+            command.DishEditDTO.Id = dishId;
+
+            return HandleResult(await _mediator.Send(command));
+        }
+
+        // DONE : usuwanie dish (deaktywacja dish i powiązanych rzeczy)
+        [HttpDelete("delete/{dishId}")]
+        public async Task<IActionResult> DeleteDish(int dishId)
+        {
+            var command = new DishDelete.Command { DishId = dishId };
+
+            return HandleResult(await _mediator.Send(command));
+        }
     }
 }
-
-// edycja i usuwanie - pod warunkiem, że dish nie jest wykorzystywany w żadnych mealtimetoxyaxis
-
-// TODO : usuwanie dish
-// - tam, gdzie jest pobierana lista dań do wyboru do diety to warunek isActive == true
-// - a przy szczegółach diety już bez warunku

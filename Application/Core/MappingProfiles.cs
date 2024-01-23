@@ -223,6 +223,8 @@ namespace Application.Core
             CreateMap<Dish, DishGetDTO>()
                 .ReverseMap();
 
+            CreateMap<Dish, DishDeleteDTO>();
+
             CreateMap<Meal, MealGetDTO>()
                 .ReverseMap();
             
@@ -295,7 +297,10 @@ namespace Application.Core
 
             CreateMap<DishPostDTO, Dish>()
                 .ForMember(dest => dest.Recipe, opt => opt.Ignore());
+
             CreateMap<Dish, DishPostDTO>();
+
+            CreateMap<Dish, DishEditDTO>();
 
             CreateMap<DishFoodCatalog, DishFoodCatalogPostDTO>()
                 .ReverseMap();
