@@ -67,3 +67,5 @@ namespace API.Controllers
         // - a przy szczegółach diety już bez warunku
     }
 }
+
+// edycja i usuwanie - pod warunkiem, że ingredient nie jest wykorzystywany w żadnym dish

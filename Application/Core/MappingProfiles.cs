@@ -80,6 +80,9 @@ namespace Application.Core
             CreateMap<FoodCatalog, FoodCatalogForAdminPostDTO>()
                 .ReverseMap();
 
+            CreateMap<Specialization, SpecializationDeleteDTO>()
+                .ReverseMap();
+
             CreateMap<MessageTo, MessageToDTO>()
                 .ForMember(dest => dest.DieticianName, opt => opt.MapFrom(src => src.Dietician.FirstName + " " + src.Dietician.LastName))
                 .ForMember(dest => dest.AdminName, opt => opt.MapFrom(src => src.Admin.FirstName + " " + src.Admin.LastName))
