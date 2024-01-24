@@ -21,7 +21,12 @@ namespace API.Controllers
                 LogoPostDTO = logoDto,
                 File = file,
             };
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie dodano logo." });
+            }
+            return BadRequest(result.Error);
         }
 
         [HttpGet("getlogo/{dieticianId}")]
@@ -37,7 +42,12 @@ namespace API.Controllers
         {
             var command = new LogoDieticianDelete.Command { DieticianId = dieticianId };
 
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie usunięto logo." });
+            }
+            return BadRequest(result.Error);
         }
     }
 }

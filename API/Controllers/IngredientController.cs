@@ -55,20 +55,27 @@ namespace API.Controllers
                 IngredientDTO = IngredientDTO,
                 File = file,
             };
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie dodano składnik." });
+            }
+            return BadRequest(result.Error);
         }
 
         // DONE : edycja ingredient wraz z nutrientami
         [HttpPut("edit/{ingredientId}")]
         public async Task<IActionResult> EditIngredient(int ingredientId, IngredientEditDTO ingredientEditDTO)
         {
-            var command = new IngredientEdit.Command
-            {
-                IngredientEditDTO = ingredientEditDTO,
-            };
+            var command = new IngredientEdit.Command { IngredientEditDTO = ingredientEditDTO };
             command.IngredientEditDTO.Id = ingredientId;
 
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie zedytowano składnik." });
+            }
+            return BadRequest(result.Error);
         }
 
         // DONE : usuwanie (deaktywacja) ingredient wraz z nutrientami
@@ -77,7 +84,12 @@ namespace API.Controllers
         {
             var command = new IngredientDelete.Command { IngredientId = ingredientId };
 
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie usunięto składnik." });
+            }
+            return BadRequest(result.Error);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Application.Core;
 using Application.CQRS.Admins;
-using Application.CQRS.Dieticians;
 using Application.CQRS.Roles;
 using Application.CQRS.UserRoles;
 using Application.CQRS.Users;
@@ -12,7 +11,6 @@ using Application.FiltersExtensions.Roles;
 using Application.FiltersExtensions.UserRoles;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ModelsDB;
 
 namespace API.Controllers
 {
@@ -42,7 +40,12 @@ namespace API.Controllers
         public async Task<IActionResult> CreateAdmin(AdminPostDTO AdminPostDTO)
         {
             var result = await _mediator.Send(new AdminCreate.Command { AdminPostDTO = AdminPostDTO });
-            return Ok(result.Value);
+
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Admin został dodany pomyślnie." });
+            }
+            return BadRequest(result.Error);
         }
 
         [HttpPut("{id}")]
@@ -55,7 +58,12 @@ namespace API.Controllers
             };
             command.Admin.Id = id;
 
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie zedytowano admina." });
+            }
+            return BadRequest(result.Error);
         }
 
         [HttpGet("messages/{adminId}")]
@@ -77,7 +85,13 @@ namespace API.Controllers
                 MessageDTO = message, 
                 AdminId = adminId 
             };
-            return HandleResult(await _mediator.Send(command));
+
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Wiadomość została wysłana." });
+            }
+            return BadRequest(result.Error);
         }
 
         [HttpPost("messageToPatient/{adminId}")]
@@ -88,22 +102,25 @@ namespace API.Controllers
                 MessageDTO = message,
                 AdminId = adminId
             };
-            return HandleResult(await _mediator.Send(command));
+
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Wiadomość została wysłana." });
+            }
+            return BadRequest(result.Error);
         }
 
         // metoda tylko dla superadmina
         [HttpPost("rolesManage/create")]
         public async Task<IActionResult> CreateRole(RolePostDTO rolePostDTO)
         {
-            var command = new RoleCreate.Command
-            {
-                RolePostDTO = rolePostDTO
-            };
+            var command = new RoleCreate.Command { RolePostDTO = rolePostDTO };
             var result = await _mediator.Send(command);
 
             if (result.IsSucces)
             {
-                return Ok(result.Value);
+                return Ok(new { data = result.Value, message = "Rola została utworzona." });
             }
             return BadRequest(result.Error);
         }
@@ -144,8 +161,14 @@ namespace API.Controllers
         [HttpDelete("rolesManage/userRoles/deleteRole/{userId}/{userRoleId}")]
         public async Task<IActionResult> RemoveUserRole(int userId, int userRoleId)
         {
-            var query = await _mediator.Send(new UserRoleDelete.Command { UserId = userId, UserRoleId = userRoleId });
-            return HandleResult(query);
+            var command = new UserRoleDelete.Command { UserId = userId, UserRoleId = userRoleId };
+            var result = await _mediator.Send(command);
+
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Rola została usunięta." });
+            }
+            return BadRequest(result.Error);
         }
 
         // metoda tylko dla superadmina
@@ -157,7 +180,7 @@ namespace API.Controllers
 
             if (result.IsSucces)
             {
-                return Ok(result.Value);
+                return Ok(new { data = result.Value, message = "Rola została dodana." });
             }
             return BadRequest(result.Error);
         }

@@ -31,10 +31,9 @@ namespace API.Controllers
         {
             var command = new PatientCardCreate.Command { PatientCardPostDTO = pc };
             var result = await _mediator.Send(command);
-
             if (result.IsSucces)
             {
-                return Ok(result.Value);
+                return Ok(new { data = result.Value, message = "Pomyślnie dodano kartę pacjenta." });
             }
             return BadRequest(result.Error);
         }
@@ -106,10 +105,9 @@ namespace API.Controllers
         {
             var command = new SurveyCreate.Command { surveyPostDTO = surveyPostDTO };
             var result = await _mediator.Send(command);
-
             if (result.IsSucces)
             {
-                return Ok(result.Value);
+                return Ok(new { data = result.Value, message = "Pomyślnie dodano wywiad." });
             }
             return BadRequest(result.Error);
         } 
@@ -119,10 +117,9 @@ namespace API.Controllers
         {
             var command = new TestResultCreate.Command { TestResultPostDTO = testResultPostDTO };
             var result = await _mediator.Send(command);
-
             if (result.IsSucces)
             {
-                return Ok(result.Value);
+                return Ok(new { data = result.Value, message = "Pomyślnie dodano wyniki badań." });
             }
             return BadRequest(result.Error);
         }
@@ -139,8 +136,12 @@ namespace API.Controllers
         public async Task<IActionResult> DeleteTestResult(int testResultId)
         {
             var command = new TestResultDelete.Command { TestResultId = testResultId };
-
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie usunięto wyniki badań." });
+            }
+            return BadRequest(result.Error);
         }
 
         // DONE : metoda do usuwania survey
@@ -148,8 +149,12 @@ namespace API.Controllers
         public async Task<IActionResult> DeleteSurvey(int surveyId)
         {
             var command = new SurveyDelete.Command { SurveyId = surveyId };
-
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie usunięto wywiad." });
+            }
+            return BadRequest(result.Error);
         }
     }
 }

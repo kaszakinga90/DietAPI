@@ -31,7 +31,8 @@ namespace Application.CQRS.UserRoles
                 public async Task<Result<RoleForUserDeleteDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
                     var roleToRemove = await _context.Roles
-                        .FindAsync(request.UserRoleId, cancellationToken);
+                            .Where(r => r.Id == request.UserRoleId)
+                            .FirstOrDefaultAsync(cancellationToken);
 
                     var user = await _userManager
                         .FindByIdAsync(request.UserId.ToString());

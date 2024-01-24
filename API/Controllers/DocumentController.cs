@@ -18,8 +18,13 @@ namespace API.Controllers
         [HttpPost("addPrintout")]
         public async Task<IActionResult> AddPrintout([FromForm] ParameterizedPrintoutPostDTO printout)
         {
-            var query = await _mediator.Send(new PrintoutTemplateCreate.Command { Data = printout });
-            return HandleResult(query);
+            var command = new PrintoutTemplateCreate.Command { Data = printout };
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie dodano szablon." });
+            }
+            return BadRequest(result.Error);
         }
 
         [HttpGet("all")]

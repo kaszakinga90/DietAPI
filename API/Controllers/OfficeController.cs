@@ -1,5 +1,4 @@
-﻿using Application.CQRS.Diplomas;
-using Application.CQRS.Offices;
+﻿using Application.CQRS.Offices;
 using Application.DTOs;
 using Application.DTOs.OfficeDTO;
 using Application.Functionality;
@@ -24,10 +23,9 @@ namespace API.Controllers
                 DieticianId = officeCreationDto.DieticianId
             };
             var result = await _mediator.Send(command);
-
             if (result.IsSucces)
             {
-                return Ok(result.Value);
+                return Ok(new { data = result.Value, message = "Pomyślnie dodano biuro." });
             }
             return BadRequest(result.Error);
         }
@@ -49,13 +47,15 @@ namespace API.Controllers
         [HttpPut("edit/{officeId}")]
         public async Task<IActionResult> EditOfficeData(int officeId, OfficeEditDTO officeEdit)
         {
-            var command = new OfficeEdit.Command
-            {
-                OfficeEditDTO = officeEdit,
-            };
+            var command = new OfficeEdit.Command { OfficeEditDTO = officeEdit };
             command.OfficeEditDTO.Id = officeId;
-
-            return HandleResult(await _mediator.Send(command));
+            
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie zedytowano biuro." });
+            }
+            return BadRequest(result.Error);
         }
 
         [HttpDelete("delete/{dieticianId}/{officeId}")]
@@ -63,12 +63,15 @@ namespace API.Controllers
         {
             var command = new OfficeDelete.Command {
                 DieticianId = dieticianId,
-                OfficeId = officeId,
-                //OfficeDeleteDTO = officeDeleteDTO
+                OfficeId = officeId
             };
-            //command.OfficeDeleteDTO.Id = officeId;
 
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie usunięto biuro." });
+            }
+            return BadRequest(result.Error);
         }
     }
 }

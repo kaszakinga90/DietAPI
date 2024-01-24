@@ -34,12 +34,17 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        // ?? - w walidatorze, że dieticianId wymagane - osobno więc dla admina i dietetyka?
+        // TODO : ?? - w walidatorze, że dieticianId wymagane - osobno więc dla admina i dietetyka?
         [HttpPost("create")]
         public async Task<IActionResult> CreateFoodCatalog(FoodCatalogPostDTO FoodCatalogPostDTO)
         {
-            var result = await _mediator.Send(new FoodCatalogCreate.Command { FoodCatalogPostDTO = FoodCatalogPostDTO });
-            return Ok(result.Value);
+            var command = new FoodCatalogCreate.Command { FoodCatalogPostDTO = FoodCatalogPostDTO };
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie utworzono katalog." });
+            }
+            return BadRequest(result.Error);
         }
 
         // DONE : edycja food catalog dietetyka 
@@ -52,7 +57,12 @@ namespace API.Controllers
             };
             command.FoodCatalogDieticianEditDTO.Id = foodCatalogId;
 
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie zedytowano katalog." });
+            }
+            return BadRequest(result.Error);
         }
 
         // DONE : usuwanie foodCatalog dietetyka
@@ -62,10 +72,13 @@ namespace API.Controllers
         [HttpDelete("delete/{foodCatalogId}")]
         public async Task<IActionResult> DeleteDieticianFoodCatalog(int foodCatalogId)
         {
-            var command = new FoodCatalogByDieticianDelete.Command { 
-                FoodCatalogId = foodCatalogId,
-            };
-            return HandleResult(await _mediator.Send(command));
+            var command = new FoodCatalogByDieticianDelete.Command { FoodCatalogId = foodCatalogId };
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie usunięto katalog." });
+            }
+            return BadRequest(result.Error);
         }
 
         // DONE : usuwanie foodCatalog (zarówno ogólnego jak i dietetyka) przez admina
@@ -75,11 +88,13 @@ namespace API.Controllers
         [HttpDelete("deleteByAdmin/{foodCatalogId}")]
         public async Task<IActionResult> DeleteFoodCatalog(int foodCatalogId)
         {
-            var command = new FoodCatalogDelete.Command
+            var command = new FoodCatalogDelete.Command { FoodCatalogId = foodCatalogId };
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
             {
-                FoodCatalogId = foodCatalogId,
-            };
-            return HandleResult(await _mediator.Send(command));
+                return Ok(new { data = result.Value, message = "Pomyślnie usunięto katalog." });
+            }
+            return BadRequest(result.Error);
         }
     }
 }

@@ -43,7 +43,12 @@ namespace API.Controllers
             };
             command.DieticianEditDTO.Id = dieticianId;
 
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie zedytowano dietetyka." });
+            }
+            return BadRequest(result.Error);
         }
 
         [HttpPut("editdata/{dieticianId}")]
@@ -55,7 +60,12 @@ namespace API.Controllers
             };
             command.DieticianEditData.Id = dieticianId;
 
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie zedytowano dietetyka." });
+            }
+            return BadRequest(result.Error);
         }
 
         [HttpGet("messages/{dieticianId}")]
@@ -95,7 +105,7 @@ namespace API.Controllers
 
             if (result.IsSucces)
             {
-                return Ok(result.Value);
+                return Ok(new { data = result.Value, message = "Wiadomość została wysłana." });
             }
             return BadRequest(result.Error);
         }
@@ -109,10 +119,9 @@ namespace API.Controllers
                 DieticianId = dieticianId
             };
             var result = await _mediator.Send(command);
-
             if (result.IsSucces)
             {
-                return Ok(result.Value);
+                return Ok(new { data = result.Value, message = "Wiadomość została wysłana." });
             }
             return BadRequest(result.Error);
         }
@@ -140,10 +149,9 @@ namespace API.Controllers
                 File = file,
             };
             var result = await _mediator.Send(command);
-
             if (result.IsSucces)
             {
-                return Ok(result.Value);
+                return Ok(new { data = result.Value, message = "Pomyślnie dodano dyplom." });
             }
             return BadRequest(result.Error);
         }

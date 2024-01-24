@@ -1,8 +1,5 @@
-using Application.Core;
-using Application.CQRS.Invitations;
 using Application.CQRS.Messages;
 using Application.CQRS.Patients;
-using Application.DTOs.InvitationDTO;
 using Application.DTOs.MessagesDTO;
 using Application.DTOs.PatientDTO;
 using Application.FiltersExtensions.PatientMessages;
@@ -42,7 +39,12 @@ namespace API.Controllers
             };
             command.PatientEditDTO.Id = id;
 
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyœlnie zedytowano dane." });
+            }
+            return BadRequest(result.Error);
         }
 
         [HttpPut("editdata/{patientId}")]
@@ -54,7 +56,12 @@ namespace API.Controllers
             };
             command.PatientEditDataDTO.Id = patientId;
 
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyœlnie zedytowano dane." });
+            }
+            return BadRequest(result.Error);
         }
 
         [HttpGet("messages/{patientId}")]
@@ -113,10 +120,9 @@ namespace API.Controllers
                 PatientId = patientId
             };
             var result = await _mediator.Send(command);
-
             if (result.IsSucces)
             {
-                return Ok(result.Value);
+                return Ok(new { data = result.Value, message = "Pomyœlnie wys³ano wiadomoœæ." });
             }
             return BadRequest(result.Error);
         }
@@ -130,13 +136,11 @@ namespace API.Controllers
                 PatientId = patientId
             };
             var result = await _mediator.Send(command);
-
             if (result.IsSucces)
             {
-                return Ok(result.Value);
+                return Ok(new { data = result.Value, message = "Pomyœlnie wys³ano wiadomoœæ." });
             }
             return BadRequest(result.Error);
         }
-
     }
 }
