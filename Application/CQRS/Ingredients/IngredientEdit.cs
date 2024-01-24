@@ -1,97 +1,77 @@
 ﻿using Application.Core;
-using Application.DTOs.IngredientDTO;
-using Application.Services;
+using Application.DTOs.DishDTO;
+using Application.Validators.Ingredients;
 using AutoMapper;
 using DietDB;
-using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace Application.CQRS.Ingredients
 {
-    /// <summary>
-    /// Zawiera klasy służące do edycji informacji o produkcie(składniku).
-    /// </summary>
     public class IngredientEdit
     {
-        /// <summary>
-        /// Reprezentuje polecenie do edycji informacji o produkcie(składniku).
-        /// </summary>
-        public class Command : IRequest<Result<IngredientDTO>>
+        public class Command : IRequest<Result<IngredientEditDTO>>
         {
-            /// <summary>
-            /// Pobiera lub ustawia informacje o produkcie(składniku) do edycji.
-            /// </summary>
-            public IngredientDTO Ingredient { get; set; }
-            public IFormFile File { get; set; }
+            public IngredientEditDTO IngredientEditDTO { get; set; }
         }
 
-        /// <summary>
-        /// Walidator do sprawdzania poprawności danych produktu(składnika) przed ich edycją.
-        /// </summary>
-        public class CommandValidator : AbstractValidator<IngredientDTO>
-        {
-            /// <summary>
-            /// Inicjalizuje walidator i definiuje reguły walidacji.
-            /// </summary>
-            //public CommandValidator()
-            //{
-            //    RuleFor(x => x.Name).NotEmpty().WithMessage("Nazwa wymagana");
-            //}
-        }
-
-        /// <summary>
-        /// Obsługuje proces edycji informacji o produkcie(składniku) w bazie danych.
-        /// </summary>
-        public class Handler : IRequestHandler<Command, Result<IngredientDTO>>
+        public class Handler : IRequestHandler<Command, Result<IngredientEditDTO>>
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
-            private readonly ImageService _imageService;
+            private readonly IngredientUpdateValidator _validator;
 
-            /// <summary>
-            /// Inicjuje nową instancję klasy <see cref="Handler"/> z podanym kontekstem bazy danych i maperem.
-            /// </summary>
-            /// <param name="context">Kontekst bazy danych do obsługi produktów(składników).</param>
-            /// <param name="mapper">Maper służący do mapowania obiektów.</param>
-            public Handler(DietContext context, IMapper mapper, ImageService imageService)
+            public Handler(DietContext context, IMapper mapper, IngredientUpdateValidator validator)
             {
                 _context = context;
                 _mapper = mapper;
-                _imageService = imageService;
+                _validator = validator;
             }
 
-            /// <summary>
-            /// Przetwarza polecenie edycji informacji o produkcie(składniku) i zapisuje zmiany w bazie danych.
-            /// </summary>
-            /// <param name="request">Polecenie do przetworzenia.</param>
-            /// <param name="cancellationToken">Token anulowania operacji.</param>
-            /// <returns>Zwraca wynik operacji edycji w postaci obiektu <see cref="IngredientDTO"/>.</returns>
-            public async Task<Result<IngredientDTO>> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<IngredientEditDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var ingredient = await _context.IngridientsDb.FindAsync(new object[] { request.Ingredient.Id }, cancellationToken);
-                if (ingredient == null)
+                var validationResult = await _validator
+                    .ValidateAsync(request.IngredientEditDTO, cancellationToken);
+
+                if (!validationResult.IsValid)
                 {
-                    return Result<IngredientDTO>.Failure("Produkt o podanym ID nie został znaleziony.");
+                    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                    return Result<IngredientEditDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
                 }
 
-                _mapper.Map(request.Ingredient, ingredient);
+                var ingredient = await _context.IngridientsDb
+                                    .Include(i => i.Nutrients)
+                                    .SingleOrDefaultAsync(i => i.Id == request.IngredientEditDTO.Id, cancellationToken);
+
+                if (ingredient == null)
+                {
+                    return Result<IngredientEditDTO>.Failure("Produkt o podanym ID nie został znaleziony.");
+                }
+
+                var relations = _context.DishIngredientsDb.Any(di => di.IngredientId == request.IngredientEditDTO.Id);
+
+                if (relations)
+                {
+                    return Result<IngredientEditDTO>.Failure("Ingredient is being used in another tabel. Cannot edit.");
+                }
+
+                _mapper.Map(request.IngredientEditDTO, ingredient);
 
                 try
                 {
                     var result = await _context.SaveChangesAsync(cancellationToken) > 0;
                     if (!result)
                     {
-                        return Result<IngredientDTO>.Failure("Edycja produktu nie powiodła się.");
+                        return Result<IngredientEditDTO>.Failure("Edycja ingredient nie powiodła się.");
                     }
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine("Przyczyna niepowodzenie: " + ex);
-                    return Result<IngredientDTO>.Failure("Wystąpił błąd podczas edycji produktu. " + ex);
+                    return Result<IngredientEditDTO>.Failure("Wystąpił błąd podczas edycji ingredient. " + ex);
                 }
-                return Result<IngredientDTO>.Success(_mapper.Map<IngredientDTO>(ingredient));
+                return Result<IngredientEditDTO>.Success(_mapper.Map<IngredientEditDTO>(ingredient));
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using Application.DTOs;
+﻿using Application.CQRS.Ingredients;
+using Application.DTOs;
 using Application.DTOs.AddressDTO;
 using Application.DTOs.AdminDTO;
 using Application.DTOs.CategoryOfDietDTO;
@@ -48,6 +49,17 @@ namespace Application.Core
     {
         public MappingProfiles()
         {
+            CreateMap<IngredientEditDTO, Ingredient>()
+                .ForMember(dest => dest.Nutrients, opt => opt.MapFrom(src => src.Nutrients))
+                .ForMember(dest => dest.MeasureId, opt => opt.MapFrom(src => src.MeasureId))
+                .ForMember(dest => dest.UnitId, opt => opt.MapFrom(src => src.UnitId))
+                .ReverseMap();
+
+            CreateMap<IngredientNutrientDTO, IngredientNutrient>()
+                .ReverseMap();
+
+            CreateMap<Ingredient, IngredientDeleteDTO>()
+                .ReverseMap();
 
             CreateMap<CategoryOfDiet, CategoryOfDiet>();
             CreateMap<CategoryOfDiet, CategoryOfDietDeleteDTO>()
