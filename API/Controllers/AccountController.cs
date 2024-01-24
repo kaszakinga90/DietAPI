@@ -267,7 +267,7 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
-        // DONE: metoda do zmiany hasła
+        
         [HttpPut("changePassword/{userId}")]
         public async Task<IActionResult> ChangePassword(int userId, PasswordEditDTO passwordEditDTO)
         {

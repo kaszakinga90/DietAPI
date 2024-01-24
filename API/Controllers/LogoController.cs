@@ -31,8 +31,8 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        // DONE : usuwanie logo
-        [HttpDelete("{dieticianId}")]
+        
+        [HttpDelete("delete/{dieticianId}")]
         public async Task<IActionResult> DeleteLogo(int dieticianId)
         {
             var command = new LogoDieticianDelete.Command { DieticianId = dieticianId };

@@ -41,7 +41,7 @@ namespace Application.CQRS.FoodCatalogs
 
                     var foodCatalog = await _context.FoodCatalogsDb
                         .Where(fc => fc.Id == request.FoodCatalogDieticianEditDTO.Id &&
-                                fc.DieticianId == request.FoodCatalogDieticianEditDTO.DieteticianId)
+                                fc.DieticianId == request.FoodCatalogDieticianEditDTO.DieticianId)
                         .FirstOrDefaultAsync(cancellationToken);
 
                     if (foodCatalog == null)

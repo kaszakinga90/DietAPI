@@ -32,8 +32,8 @@ namespace Application.CQRS.FoodCatalogs
                     var foodCatalogQuery = _context.FoodCatalogsDb.AsQueryable();
 
                     FoodCatalog foodCatalog = null;
-                    if (request.FoodCatalogDeleteDTO.DieticianId != null)
-                    {
+                    //if (request.FoodCatalogDeleteDTO.DieticianId != null)
+                    //{
                         foodCatalog = await foodCatalogQuery
                             .Where(fc => fc.Id == request.FoodCatalogId && fc.DieticianId == request.FoodCatalogDeleteDTO.DieticianId)
                             .SingleOrDefaultAsync(cancellationToken);
@@ -83,48 +83,48 @@ namespace Application.CQRS.FoodCatalogs
 
 
                         return Result<FoodCatalogDeleteDTO>.Success(_mapper.Map<FoodCatalogDeleteDTO>(foodCatalog));
-                    }
-                    else
-                    {
-                        var foodCatalogIdForNoDietician = await foodCatalogQuery
-                            .Where(fc => fc.DieticianId == null && fc.Id == request.FoodCatalogId)
-                            .SingleOrDefaultAsync(cancellationToken);
+                    //}
+                    //else
+                    //{
+                        //var foodCatalogIdForNoDietician = await foodCatalogQuery
+                        //    .Where(fc => fc.DieticianId == null && fc.Id == request.FoodCatalogId)
+                        //    .SingleOrDefaultAsync(cancellationToken);
 
-                        if (foodCatalogIdForNoDietician == null)
-                        {
-                            return Result<FoodCatalogDeleteDTO>.Failure("foodCatalog for no dietician not found.");
-                        }
+                        //if (foodCatalogIdForNoDietician == null)
+                        //{
+                        //    return Result<FoodCatalogDeleteDTO>.Failure("foodCatalog for no dietician not found.");
+                        //}
 
-                        foodCatalogIdForNoDietician.isActive = false;
+                        //foodCatalogIdForNoDietician.isActive = false;
 
-                        var dishFoodCatalogs = await _context.DishFoodCatalogsDb
-                            .Where(df => df.FoodCatalogId == foodCatalogIdForNoDietician.Id)
-                            .ToListAsync(cancellationToken);
+                        //var dishFoodCatalogs = await _context.DishFoodCatalogsDb
+                        //    .Where(df => df.FoodCatalogId == foodCatalogIdForNoDietician.Id)
+                        //    .ToListAsync(cancellationToken);
 
-                        if (dishFoodCatalogs.Any())
-                        {
-                            foreach (var dishFoodCatalog in dishFoodCatalogs)
-                            {
-                                dishFoodCatalog.FoodCatalogId = 1;
-                            }
-                        }
+                        //if (dishFoodCatalogs.Any())
+                        //{
+                        //    foreach (var dishFoodCatalog in dishFoodCatalogs)
+                        //    {
+                        //        dishFoodCatalog.FoodCatalogId = 1;
+                        //    }
+                        //}
 
-                        try
-                        {
-                            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
-                            if (!result)
-                            {
-                                return Result<FoodCatalogDeleteDTO>.Failure("Operacja nie powiodła się.");
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
-                            return Result<FoodCatalogDeleteDTO>.Failure("Wystąpił błąd podczas usuwania foodCatalog.");
-                        }
+                    //    try
+                    //    {
+                    //        var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    //        if (!result)
+                    //        {
+                    //            return Result<FoodCatalogDeleteDTO>.Failure("Operacja nie powiodła się.");
+                    //        }
+                    //    }
+                    //    catch (Exception ex)
+                    //    {
+                    //        Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    //        return Result<FoodCatalogDeleteDTO>.Failure("Wystąpił błąd podczas usuwania foodCatalog.");
+                    //    }
 
-                        return Result<FoodCatalogDeleteDTO>.Success(_mapper.Map<FoodCatalogDeleteDTO>(foodCatalogIdForNoDietician));
-                    }
+                    //    return Result<FoodCatalogDeleteDTO>.Success(_mapper.Map<FoodCatalogDeleteDTO>(foodCatalogIdForNoDietician));
+                    //}
                 }
             }
         }
