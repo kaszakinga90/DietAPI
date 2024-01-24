@@ -30,6 +30,14 @@ namespace API.Controllers
             var result = await _mediator.Send(new FoodCatalogList.Query { DieteticianId = dieticianId });
             return HandleResult(result);
         }
+        
+        //pobiera prywatne katalogi dań dostępne dla dietetyka 
+        [HttpGet("getalldieticiancatalogs/{dieticianId}")]
+        public async Task<IActionResult> GetFoodDieticianCatalogs(int dieticianId)
+        {
+            var result = await _mediator.Send(new FoodCatalogDieticianList.Query { DieteticianId = dieticianId });
+            return HandleResult(result);
+        }
 
         // ?? - w walidatorze, że dieticianId wymagane - osobno więc dla admina i dietetyka?
         [HttpPost("create")]
@@ -58,11 +66,11 @@ namespace API.Controllers
 
         // na froncie musi być coś w stylu : ta akcja spowoduje przeniesienie wszystkich produktów do katalogu Wszystkie, czy na pewno?
         [HttpDelete("delete/{foodCatalogId}")]
-        public async Task<IActionResult> DeleteFoodCatalog(int foodCatalogId, FoodCatalogDeleteDTO foodCatalogDeleteDTO)
+        public async Task<IActionResult> DeleteFoodCatalog(int foodCatalogId)
         {
             var command = new FoodCatalogDelete.Command { 
                 FoodCatalogId = foodCatalogId,
-                FoodCatalogDeleteDTO = foodCatalogDeleteDTO
+                //FoodCatalogDeleteDTO = foodCatalogDeleteDTO
             };
 
             return HandleResult(await _mediator.Send(command));
