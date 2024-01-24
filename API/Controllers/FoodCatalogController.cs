@@ -1,10 +1,5 @@
 ﻿using Application.CQRS.FoodCatalogs;
-using Application.CQRS.Logos;
-using Application.CQRS.Offices;
-using Application.DTOs.DishFoodCatalogDTO;
 using Application.DTOs.FoodCatalogDTO;
-using Application.DTOs.FoodCatalogDTO.Admin;
-using Application.DTOs.OfficeDTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -60,19 +55,30 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
-        // DONE : usuwanie foodCatalog 
+        // DONE : usuwanie foodCatalog dietetyka
         // katalog dietetyka - deaktywuje jego katalog i dania z niego przenosi do katalogu Wszystkie (dedykowany katalog dla dietetyka tworzony wraz z rejestracją)
-        // katalog wspólny - deaktywuje katalog i dania z niego przenosi do katalogu Ogolny (id = 1) (katalog dostępny dla wszystkich/niemodyfikowalny)
 
         // na froncie musi być coś w stylu : ta akcja spowoduje przeniesienie wszystkich produktów do katalogu Wszystkie, czy na pewno?
         [HttpDelete("delete/{foodCatalogId}")]
+        public async Task<IActionResult> DeleteDieticianFoodCatalog(int foodCatalogId)
+        {
+            var command = new FoodCatalogByDieticianDelete.Command { 
+                FoodCatalogId = foodCatalogId,
+            };
+            return HandleResult(await _mediator.Send(command));
+        }
+
+        // DONE : usuwanie foodCatalog (zarówno ogólnego jak i dietetyka) przez admina
+        // katalog wspólny - deaktywuje katalog i dania z niego przenosi do katalogu Ogolny (id = 1) (katalog dostępny dla wszystkich/niemodyfikowalny)
+
+        // na froncie musi być coś w stylu : ta akcja spowoduje przeniesienie wszystkich produktów do katalogu Wszystkie, czy na pewno?
+        [HttpDelete("deleteByAdmin/{foodCatalogId}")]
         public async Task<IActionResult> DeleteFoodCatalog(int foodCatalogId)
         {
-            var command = new FoodCatalogDelete.Command { 
+            var command = new FoodCatalogDelete.Command
+            {
                 FoodCatalogId = foodCatalogId,
-                //FoodCatalogDeleteDTO = foodCatalogDeleteDTO
             };
-
             return HandleResult(await _mediator.Send(command));
         }
     }
