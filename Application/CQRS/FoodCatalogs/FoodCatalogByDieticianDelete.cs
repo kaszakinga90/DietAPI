@@ -78,7 +78,6 @@ namespace Application.CQRS.FoodCatalogs
                         return Result<FoodCatalogDeleteDTO>.Failure("Wystąpił błąd podczas usuwania foodCatalog.");
                     }
 
-
                     return Result<FoodCatalogDeleteDTO>.Success(_mapper.Map<FoodCatalogDeleteDTO>(foodCatalog));
                 }
             }

@@ -216,6 +216,7 @@ builder.Services.AddTransient<SpecializationCreateValidator>();
 builder.Services.AddTransient<FoodCatalogDieticianUpdateValidator>();
 builder.Services.AddTransient<DishUpdateValidator>();
 builder.Services.AddTransient<IngredientUpdateValidator>();
+builder.Services.AddTransient<DietPatientCreateValidator>();
 
 
 var emailSendConfiguration = builder.Configuration

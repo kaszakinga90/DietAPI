@@ -1,6 +1,4 @@
-﻿using ModelsDB;
-
-namespace Application.DTOs.MealTimeToXYAxisDTO
+﻿namespace Application.DTOs.MealTimeToXYAxisDTO
 {
     public class MealTimeToXYAxisGetDTO
     {
@@ -9,7 +7,5 @@ namespace Application.DTOs.MealTimeToXYAxisDTO
         public int? DishId { get; set; }
         public string DishName { get; set; }
         public DateTime MealTime { get; set; }
-        //public Diet Diet { get; set; }
-
     }
 }

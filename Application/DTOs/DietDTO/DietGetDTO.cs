@@ -1,6 +1,4 @@
-﻿using Application.DTOs.MealTimeToXYAxisDTO;
-// TODO : czy tu będzie to pole?
-public class DietGetDTO
+﻿public class DietGetDTO
 {
     public int Id { get; set; }
     public string Name { get; set; }
@@ -11,5 +9,4 @@ public class DietGetDTO
     public int numberOfMeals { get; set; }
     public string PatientName { get; set; }
     public string DieteticanName { get; set; }
-    //public List<MealTimeToXYAxisPostDTO> MealTimesToXYAxisDTO { get; set; }
 }
