@@ -23,6 +23,7 @@ using Application.DTOs.LogoDTO;
 using Application.DTOs.MealDTO;
 using Application.DTOs.MealTimeToXYAxisDTO;
 using Application.DTOs.MeasureDTO;
+using Application.DTOs.MessagesDTO;
 using Application.DTOs.NutrientDTO;
 using Application.DTOs.OfficeDTO;
 using Application.DTOs.PatientCardDTO;
@@ -200,6 +201,9 @@ namespace Application.Core
                 .ReverseMap();
 
             CreateMap<Role, RolePostDTO>()
+                .ReverseMap();
+            
+            CreateMap<MessageTo, MessageIsReadPostDTO>()
                 .ReverseMap();
 
             CreateMap<Role, RoleGetDTO>()

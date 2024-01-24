@@ -58,16 +58,15 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
-        // DONE : metoda do usuwania office
         [HttpDelete("delete/{dieticianId}/{officeId}")]
-        public async Task<IActionResult> DeleteOffice(int dieticianId, int officeId, OfficeDeleteDTO officeDeleteDTO)
+        public async Task<IActionResult> DeleteOffice(int dieticianId, int officeId)
         {
             var command = new OfficeDelete.Command {
                 DieticianId = dieticianId,
                 OfficeId = officeId,
-                OfficeDeleteDTO = officeDeleteDTO
+                //OfficeDeleteDTO = officeDeleteDTO
             };
-            command.OfficeDeleteDTO.Id = officeId;
+            //command.OfficeDeleteDTO.Id = officeId;
 
             return HandleResult(await _mediator.Send(command));
         }

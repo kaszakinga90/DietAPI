@@ -28,7 +28,7 @@ namespace Application.CQRS.Offices
                 try
                 {
                     var offices = await _context.DieticianOffices
-                    .Where(m => m.DieticianId == request.DieteticianId)
+                    .Where(m => m.DieticianId == request.DieteticianId && m.isActive)
                     .Select(m => new DieticianOfficesGetDTO
                     {
                         Id = m.OfficeId,
