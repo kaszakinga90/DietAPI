@@ -62,6 +62,8 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        // TODO : szczegóły diety
+
         // TODO:
         // usuwanie diety
 

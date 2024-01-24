@@ -1,5 +1,4 @@
-﻿using Application.Core;
-using Application.CQRS.Ingredients;
+﻿using Application.CQRS.Ingredients;
 using Application.DTOs.IngredientDTO;
 using Application.FiltersExtensions.Ingredients;
 using MediatR;
@@ -59,11 +58,26 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
-        // TODO : edycja
-        // usuwanie - na podobnej zasadzie jak dish
+        // DONE : edycja ingredient wraz z nutrientami
+        [HttpPut("edit/{ingredientId}")]
+        public async Task<IActionResult> EditIngredient(int ingredientId, IngredientEditDTO ingredientEditDTO)
+        {
+            var command = new IngredientEdit.Command
+            {
+                IngredientEditDTO = ingredientEditDTO,
+            };
+            command.IngredientEditDTO.Id = ingredientId;
 
-        // TODO : usuwanie dish
-        // - tam, gdzie jest pobierana lista dań do wyboru do diety to warunek isActive == true
-        // - a przy szczegółach diety już bez warunku
+            return HandleResult(await _mediator.Send(command));
+        }
+
+        // DONE : usuwanie (deaktywacja) ingredient wraz z nutrientami
+        [HttpDelete("delete/{ingredientId}")]
+        public async Task<IActionResult> DeleteIngredient(int ingredientId)
+        {
+            var command = new IngredientDelete.Command { IngredientId = ingredientId };
+
+            return HandleResult(await _mediator.Send(command));
+        }
     }
 }

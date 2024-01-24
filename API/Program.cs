@@ -52,6 +52,7 @@ using Application.Validators.Role;
 using Application.Validators.Specialization;
 using Application.Validators.Survey;
 using Application.Validators.TestResults;
+using Application.Validators.Ingredients;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -213,6 +214,8 @@ builder.Services.AddTransient<SurveyCreateValidator>();
 builder.Services.AddTransient<TestResultCreateValidator>();
 builder.Services.AddTransient<SpecializationCreateValidator>();
 builder.Services.AddTransient<FoodCatalogDieticianUpdateValidator>();
+builder.Services.AddTransient<DishUpdateValidator>();
+builder.Services.AddTransient<IngredientUpdateValidator>();
 
 
 var emailSendConfiguration = builder.Configuration
