@@ -12,7 +12,8 @@ namespace Application.CQRS.Specializations
     {
         public class Command : IRequest<Result<DieticianSpecializationDeleteDTO>>
         {
-            public DieticianSpecializationDeleteDTO DieticianSpecializationDeleteDTO { get; set; }
+            public int DieticianId { get; set; }
+            public int SpecializationId { get; set; }
 
             public class Handler : IRequestHandler<Command, Result<DieticianSpecializationDeleteDTO>>
             {
@@ -28,15 +29,15 @@ namespace Application.CQRS.Specializations
                 public async Task<Result<DieticianSpecializationDeleteDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
                     var dieticianSpecialization = await _context.DieticianSpecialization
-                        .SingleOrDefaultAsync(di => di.DieticianId == request.DieticianSpecializationDeleteDTO.DieticianId 
-                                            && di.SpecializationId == request.DieticianSpecializationDeleteDTO.SpecializationId, cancellationToken);
+                        .SingleOrDefaultAsync(di => di.DieticianId == request.DieticianId 
+                                            && di.SpecializationId == request.SpecializationId, cancellationToken);
 
                     if (dieticianSpecialization == null)
                     {
                         return Result<DieticianSpecializationDeleteDTO>.Failure("Dietician speccialization not found.");
                     }
 
-                    _mapper.Map(request.DieticianSpecializationDeleteDTO, dieticianSpecialization);
+                    var dsDTO = _mapper.Map<DieticianSpecializationDeleteDTO>(dieticianSpecialization);
 
                     _context.DieticianSpecialization.Remove(dieticianSpecialization);
 
@@ -54,7 +55,7 @@ namespace Application.CQRS.Specializations
                         return Result<DieticianSpecializationDeleteDTO>.Failure("Wystąpił błąd podczas usuwania test results.");
                     }
 
-                    return Result<DieticianSpecializationDeleteDTO>.Success(_mapper.Map<DieticianSpecializationDeleteDTO>(dieticianSpecialization));
+                    return Result<DieticianSpecializationDeleteDTO>.Success(_mapper.Map(dieticianSpecialization, dsDTO));
                 }
             }
         }

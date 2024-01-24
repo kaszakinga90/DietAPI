@@ -1,5 +1,4 @@
 ﻿using Application.CQRS.Specializations;
-using Application.DTOs.DieticianSpecializationsDTO;
 using Application.DTOs.SpecializationDTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -65,10 +64,14 @@ namespace API.Controllers
         }
 
         // DONE : usuwanie specjalizacji - realizowana przez dietetyka
-        [HttpDelete("deleteFromDietician")]
-        public async Task<IActionResult> DeleteFoodCatalog(DieticianSpecializationDeleteDTO specializationDTO)
+        [HttpDelete("deleteFromDietician/{dieticianId}/{dieticianSpecializationId}")]
+        public async Task<IActionResult> DeleteDieticianSpecialization(int dieticianId, int dieticianSpecializationId)
         {
-            var command = new DieticianSpecializationDelete.Command { DieticianSpecializationDeleteDTO = specializationDTO };
+            var command = new DieticianSpecializationDelete.Command 
+            { 
+                DieticianId = dieticianId,
+                SpecializationId = dieticianSpecializationId 
+            };
 
             return HandleResult(await _mediator.Send(command));
         }
