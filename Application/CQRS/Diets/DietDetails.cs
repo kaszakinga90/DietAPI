@@ -1,14 +1,11 @@
-﻿// TODO : whole class
-using Application.DTOs.DietDTO;
+﻿using Application.DTOs.DietDTO;
 using MediatR;
-using AutoMapper;
 using DietDB;
 using Application.Core;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Application.DTOs.MealTimeToXYAxisDTO;
 using Application.DTOs.RecipeDTO;
-using Application.DTOs.RecipeStepDTO;
 using Application.DTOs.DishDTO;
 using Application.DTOs.DishIngredientDTO;
 
@@ -24,12 +21,10 @@ namespace Application.CQRS.Diets
         public class Handler : IRequestHandler<Query, Result<DietDetailsGetDTO>>
         {
             private readonly DietContext _context;
-            private readonly IMapper _mapper;
 
-            public Handler(DietContext context, IMapper mapper)
+            public Handler(DietContext context)
             {
                 _context = context;
-                _mapper = mapper;
             }
 
             public async Task<Result<DietDetailsGetDTO>> Handle(Query request, CancellationToken cancellationToken)
@@ -50,6 +45,11 @@ namespace Application.CQRS.Diets
                                      .ThenInclude(dish => dish.Unit)
                             .Include(d => d.MealTimesToXYAxis)
                                  .ThenInclude(mt => mt.Dish)
+                                     .ThenInclude(dish => dish.DishIngredients)
+                                         .ThenInclude(di => di.Ingredient)
+                                            .ThenInclude(i => i.Unit)
+                            .Include(d => d.MealTimesToXYAxis)
+                                 .ThenInclude(mt => mt.Dish)
                                      .ThenInclude(dish => dish.Recipe)
                                      .ThenInclude(recipe => recipe.Steps)
                              .FirstOrDefaultAsync(d => d.Id == request.DietId);
@@ -62,8 +62,8 @@ namespace Application.CQRS.Diets
                     var dietDetailsDto = new DietDetailsGetDTO
                     {
                         Name = diet.Name,
-                        StartDate = diet.StartDate,
-                        EndDate = diet.EndDate,
+                        StartDate = diet.StartDate.Date.ToShortDateString(),
+                        EndDate = diet.EndDate.Date.ToShortDateString(),
                         PatientName = diet.Patient?.Email,
                         DieticianName = diet.Dietician?.Email,
                         numberOfMeals = diet.numberOfMeals,
@@ -74,39 +74,35 @@ namespace Application.CQRS.Diets
                     {
                         var mealTimeToDietDetailsDto = new MealTimeToDietDetailsGetDTO
                         {
-                            Id = mealTimeToXYAxis.Id,
-                            MealId = mealTimeToXYAxis.MealId,
-                            // Mapuj inne właściwości
-
-                            DishGetDTO = new DishGetDTO
+                            MealName = mealTimeToXYAxis.Meal.Name,
+                            MealDate = mealTimeToXYAxis.MealTime.Date.ToShortDateString(),
+                            MealTime = mealTimeToXYAxis.MealTime.ToShortTimeString(),
+                            DishToDietDetailsGetDTO = new DishToDietDetailsGetDTO
                             {
-                                Id = mealTimeToXYAxis.Dish.Id,
                                 Name = mealTimeToXYAxis.Dish?.Name,
-                                // Mapuj inne właściwości
-                                DishIngredients = mealTimeToXYAxis.Dish?.DishIngredients?.Select(di => new DishIngredientGetDTO
+                                Calories = mealTimeToXYAxis.Dish.Calories,
+                                ServingQuantity = mealTimeToXYAxis.Dish.ServingQuantity,
+                                GlycemicIndex = mealTimeToXYAxis.Dish.GlycemicIndex,
+                                PreparingTime = mealTimeToXYAxis.Dish.PreparingTime,
+                                MeasureName = mealTimeToXYAxis.Dish.Measure.Symbol,
+                                UnitName = mealTimeToXYAxis.Dish.Unit.Symbol,
+                                DishIngredients = mealTimeToXYAxis.Dish?.DishIngredients?.Select(di => new DishIngredientToDietDetailsGetDTO
                                 {
-                                    DishId = di.DishId,
-                                    Name = di.Ingredient?.Name,
-                                    IngredientId = di.IngredientId,
                                     IngredientName = di.Ingredient?.Name,
                                     Quantity = di.Quantity,
-                                    UnitId = di.UnitId
-                                    // Mapuj inne właściwości
+                                    UnitName = di.Unit.Symbol,
                                 }).ToList(),
 
-                                RecipeStepsDTO = mealTimeToXYAxis.Dish?.Recipe?.Steps?.Select(step => new RecipeStepGetDTO
+                                RecipeStepsDTO = mealTimeToXYAxis.Dish?.Recipe?.Steps?.Select(step => new RecipeStepToDietDetailsGetDTO
                                 {
-                                    Id = step.Id,
                                     StepNumber = step.StepNumber,
                                     Description = step.Description
-                                    // Mapuj inne właściwości kroku
                                 }).ToList()
                             }
                         };
 
                         dietDetailsDto.MealTimeToDietDetailsGetDTO.Add(mealTimeToDietDetailsDto);
                     }
-                    //var dietDetailsDTO = _mapper.Map<DietDetailsGetDTO>(diet);
                     return Result<DietDetailsGetDTO>.Success(dietDetailsDto);
                 }
                 catch (Exception ex)

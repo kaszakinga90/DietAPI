@@ -1,5 +1,4 @@
-﻿using Application.Core;
-using Application.CQRS.Diets;
+﻿using Application.CQRS.Diets;
 using Application.CQRS.DietsForPatients;
 using Application.CQRS.DietsForPatients.DietPatients;
 using Application.DTOs.DietDTO;
@@ -7,7 +6,6 @@ using Application.DTOs.DietPatientDTO;
 using Application.FiltersExtensions.Diets;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ModelsDB;
 
 namespace API.Controllers
 {
@@ -90,7 +88,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        // TODO : szczegóły diety - na widok i do raportu
+        // DONE : szczegóły diety - na widok i do raportu
         [HttpGet("details/{dietId}")]
         public async Task<IActionResult> GetDietDetails(int dietId)
         {
@@ -99,6 +97,6 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        // get, argumenty patientId, dietId - wyświetli listę wszystkich diet  dla apcjenta (z tabeli DietPatient)
+        // TODO : get, argumenty patientId, dietId - wyświetli listę wszystkich diet  dla apcjenta (z tabeli DietPatient)
     }
 }
