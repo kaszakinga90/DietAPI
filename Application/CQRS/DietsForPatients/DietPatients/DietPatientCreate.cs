@@ -41,9 +41,6 @@ namespace Application.CQRS.DietsForPatients.DietPatients
                 }
 
                 var dietPatientDTO = request.DietPatientPostDTO;
-                dietPatientDTO.DieticianName = _context.DieticiansDb.FirstOrDefault(d => d.Id == request.DietPatientPostDTO.DieticianId)?.Email;
-                dietPatientDTO.PatientName = _context.PatientsDb.FirstOrDefault(d => d.Id == request.DietPatientPostDTO.PatientId)?.Email;
-                dietPatientDTO.DietName = _context.DietsDb.FirstOrDefault(d => d.Id == request.DietPatientPostDTO.DietId)?.Name;
 
                 var dietPatient = _mapper.Map<DietPatient>(dietPatientDTO);
 

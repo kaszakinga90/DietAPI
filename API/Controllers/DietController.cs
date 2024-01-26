@@ -96,7 +96,5 @@ namespace API.Controllers
             var result = await _mediator.Send(query);
             return HandleResult(result);
         }
-
-        // TODO : get, argumenty patientId, dietId - wyświetli listę wszystkich diet  dla apcjenta (z tabeli DietPatient)
     }
 }

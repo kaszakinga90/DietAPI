@@ -34,7 +34,6 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        // TODO : ?? - w walidatorze, że dieticianId wymagane - osobno więc dla admina i dietetyka?
         [HttpPost("create")]
         public async Task<IActionResult> CreateFoodCatalog(FoodCatalogPostDTO FoodCatalogPostDTO)
         {

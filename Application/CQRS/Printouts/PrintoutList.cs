@@ -25,6 +25,7 @@ namespace Application.CQRS.Printouts
                     try
                     {
                         var printoutTemplate = await _context.PrintoutsDb
+                        .Where(p => p.isActive)
                         .Select(m => new ParameterizedPrintoutGetDTO
                         {
                             Id = m.Id,

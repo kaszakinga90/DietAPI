@@ -61,6 +61,7 @@ namespace Application.CQRS.Diets
 
                     var dietDetailsDto = new DietDetailsGetDTO
                     {
+                        Id = diet.Id,
                         Name = diet.Name,
                         StartDate = diet.StartDate.Date.ToShortDateString(),
                         EndDate = diet.EndDate.Date.ToShortDateString(),
