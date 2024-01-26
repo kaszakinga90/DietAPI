@@ -1,6 +1,7 @@
 ﻿using Application.CQRS.Dishes;
 using Application.DTOs.DishDTO;
 using Application.FiltersExtensions.Dishes;
+using Application.FiltersExtensions.DishesFoodCatalog;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,6 +25,12 @@ namespace API.Controllers
         public async Task<IActionResult> GetDishes(int dieticianId, [FromQuery] DishParams pagingParams)
         {
             var result = await _mediator.Send(new DishesListWithPagination.Query { DieteticianId = dieticianId, Params = pagingParams });
+            return HandleResult(result);
+        }
+        [HttpGet("allfoodcatalogdishwithpagination/{foodCatalogId}")]
+        public async Task<IActionResult> GetDishesFoodCatalogs(int foodCatalogId, [FromQuery] DishesFoodCatalogParams pagingParams)
+        {
+            var result = await _mediator.Send(new DishFoodCatalogList.Query { FoodCatalogId = foodCatalogId, Params = pagingParams });
             return HandleResult(result);
         }
 
