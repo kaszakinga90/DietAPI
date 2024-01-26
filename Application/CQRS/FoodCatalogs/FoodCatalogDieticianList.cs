@@ -33,7 +33,7 @@ namespace Application.CQRS.FoodCatalogs
                 try
                 {
                     var foodCatalog = await _context.FoodCatalogsDb
-                    .Where(m =>m.DieticianId == request.DieteticianId)
+                    .Where(m =>m.DieticianId == request.DieteticianId && m.isActive)
                     .Select(m => new FoodCatalogGetDTO
                     {
                         Id = m.Id,

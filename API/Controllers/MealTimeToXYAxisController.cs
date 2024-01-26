@@ -29,7 +29,12 @@ namespace API.Controllers
             };
             command.MealTimeToXYAxisEditDTO.Id = id;
 
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie zedytowano mealtime." });
+            }
+            return BadRequest(result.Error);
         }
     }
 }

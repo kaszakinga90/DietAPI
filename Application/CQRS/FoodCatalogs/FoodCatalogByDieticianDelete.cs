@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace Application.CQRS.FoodCatalogs
 {
-    public class FoodCatalogDelete
+    public class FoodCatalogByDieticianDelete
     {
         public class Command : IRequest<Result<FoodCatalogDeleteDTO>>
         {
@@ -39,56 +39,34 @@ namespace Application.CQRS.FoodCatalogs
 
                     var foodCatalogDTO = _mapper.Map<FoodCatalogDeleteDTO>(foodCatalog);
 
-                    if (foodCatalogDTO.DieticianId == null)
-                    {
-
-                        foodCatalogDTO.isActive = false;
-
-
-                        var dishFoodCatalogs = await _context.DishFoodCatalogsDb
-                            .Where(df => df.FoodCatalogId == foodCatalogDTO.Id)
-                            .ToListAsync(cancellationToken);
-
-                        if (dishFoodCatalogs.Any())
-                        {
-                            foreach (var dishFoodCatalog in dishFoodCatalogs)
-                            {
-                                dishFoodCatalog.FoodCatalogId = 1;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        var foodCatalogAll = await _context.FoodCatalogsDb
+                    var foodCatalogAll = await _context.FoodCatalogsDb
                         .Where(fc => fc.DieticianId == foodCatalogDTO.DieticianId && fc.CatalogName == "Wszystkie")
                         .SingleOrDefaultAsync(cancellationToken);
 
-                        if (foodCatalogAll == null)
-                        {
-                            return Result<FoodCatalogDeleteDTO>.Failure("foodCatalogAll for dietician not found.");
-                        }
-
-                        foodCatalogDTO.isActive = false;
-
-                        var dishFoodCatalogs = await _context.DishFoodCatalogsDb
-                            .Where(df => df.FoodCatalogId == foodCatalog.Id)
-                            .ToListAsync(cancellationToken);
-
-                        if (dishFoodCatalogs.Any())
-                        {
-                            foreach (var dishFoodCatalog in dishFoodCatalogs)
-                            {
-                                dishFoodCatalog.FoodCatalogId = foodCatalogAll.Id;
-                            }
-                        }
-
+                    if (foodCatalogAll == null)
+                    {
+                        return Result<FoodCatalogDeleteDTO>.Failure("foodCatalogAll for dietician not found.");
                     }
 
+                    foodCatalogDTO.isActive = false;
+
+                    var dishFoodCatalogs = await _context.DishFoodCatalogsDb
+                        .Where(df => df.FoodCatalogId == foodCatalog.Id)
+                        .ToListAsync(cancellationToken);
+
+                    if (dishFoodCatalogs.Any())
+                    {
+                        foreach (var dishFoodCatalog in dishFoodCatalogs)
+                        {
+                            dishFoodCatalog.FoodCatalogId = foodCatalogAll.Id;
+                        }
+                    }
                     _mapper.Map(foodCatalogDTO, foodCatalog);
 
                     try
                     {
                         var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                        Console.WriteLine("Result is: " + result.ToString());
                         if (!result)
                         {
                             return Result<FoodCatalogDeleteDTO>.Failure("Operacja nie powiodła się.");

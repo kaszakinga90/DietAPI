@@ -22,8 +22,12 @@ namespace API.Controllers
         public async Task<IActionResult> DeleteDiploma(int dieticianId, int diplomaId)
         {
             var command = new DiplomaDelete.Command { DieticianId = dieticianId, DiplomaId = diplomaId };
-
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie usunięto dyplom." });
+            }
+            return BadRequest(result.Error);
         }
     }
 }

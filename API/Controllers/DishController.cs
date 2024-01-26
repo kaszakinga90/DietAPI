@@ -46,9 +46,12 @@ namespace API.Controllers
         public async Task<IActionResult> CreateDish(DishPostDTO dishDto)
         {
             var command = new DishCreate.Command { DishPostDTO = dishDto };
-
-            await _mediator.Send(command);
-            return Ok();
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Danie dodane pomyślnie." });
+            }
+            return BadRequest(result.Error);
         }
 
         [HttpGet("filters/{dishId}")]
@@ -67,8 +70,12 @@ namespace API.Controllers
                 DishEditDTO = dishEditDTO,
             };
             command.DishEditDTO.Id = dishId;
-
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie zedytowano danie." });
+            }
+            return BadRequest(result.Error);
         }
 
         // DONE : usuwanie dish (deaktywacja dish i powiązanych rzeczy)
@@ -76,8 +83,12 @@ namespace API.Controllers
         public async Task<IActionResult> DeleteDish(int dishId)
         {
             var command = new DishDelete.Command { DishId = dishId };
-
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie usunięto danie." });
+            }
+            return BadRequest(result.Error);
         }
     }
 }

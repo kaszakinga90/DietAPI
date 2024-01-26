@@ -4,6 +4,7 @@ using DietDB;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB;
+using System.Diagnostics;
 using System.Text.Json;
 
 namespace API.Controllers
@@ -102,7 +103,7 @@ namespace API.Controllers
                                         MeasureNameFromJSON = measureName,
                                         Weight = element.GetProperty("serving_weight_grams").GetSingle(),
                                         UnitId = unitId,
-                                        PictureUrl = element.GetProperty("photo").GetProperty("thumb").GetString(),
+                                        //PictureUrl = element.GetProperty("photo").GetProperty("thumb").GetString(),
                                     };
 
                                     ingredientDTO.LoadNutrientsLazy(element.GetProperty("full_nutrients"), _context);
@@ -115,13 +116,13 @@ namespace API.Controllers
                     }
                     else
                     {
-                        Console.WriteLine($"Błąd: {response.StatusCode} - {response.ReasonPhrase}");
+                        Debug.WriteLine($"Błąd: {response.StatusCode} - {response.ReasonPhrase}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Błąd podczas pobierania danych: {ex.Message}");
+                Debug.WriteLine($"Błąd podczas pobierania danych: {ex.Message}");
             }
             return Ok(new List<IngredientNutritionixDTO>());
         }
@@ -156,8 +157,7 @@ namespace API.Controllers
                 }
                 else
                 {
-                    Console.WriteLine("OOOOPS..!  Chyba nie ma takiego składnika (Nutrition)");
-                    // TODO:  ??? Jeśli nutrient o danym NutritionixId nie istnieje w lokalnym słowniku,
+                    Debug.WriteLine("OOOOPS..!  Chyba nie ma takiego składnika (Nutrition)");
                 }
             }
 
@@ -170,7 +170,7 @@ namespace API.Controllers
 
             foreach (var nutrientDTO in nutrientsDTOList)
             {
-                Console.WriteLine($"NutrientId: {nutrientDTO.NutrientId}, NutrientValue: {nutrientDTO.NutrientValue}");
+                Debug.WriteLine($"NutrientId: {nutrientDTO.NutrientId}, NutrientValue: {nutrientDTO.NutrientValue}");
             }
         }
     }

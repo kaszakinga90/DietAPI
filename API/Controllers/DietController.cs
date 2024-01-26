@@ -1,6 +1,8 @@
 ﻿using Application.CQRS.Diets;
 using Application.CQRS.DietsForPatients;
+using Application.CQRS.DietsForPatients.DietPatients;
 using Application.DTOs.DietDTO;
+using Application.DTOs.DietPatientDTO;
 using Application.FiltersExtensions.Diets;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +28,6 @@ namespace API.Controllers
             var result = await _mediator.Send(new DietCreate.Command { DietPostDTO = diet });
             if (result.IsSucces)
             {
-                // Dodanie komunikatu o sukcesie
                 return Ok(new { data = result.Value, message = "Dieta została dodana pomyślnie." });
             }
             return BadRequest(result.Error);
@@ -62,18 +63,38 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        // TODO : szczegóły diety
+        // DONE : metoda do wysłania diety do pacjenta
+        [HttpPost("publishDiet")]
+        public async Task<IActionResult> PublishDietToPatient(DietPatientPostDTO dietPatientPostDTO)
+        {
+            var result = await _mediator.Send(new DietPatientCreate.Command { DietPatientPostDTO = dietPatientPostDTO });
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Dieta została wysłana." });
+            }
+            return BadRequest(result.Error);
+        }
 
-        // TODO:
-        // usuwanie diety
+        // DONE : metoda do usuwania diety (tylko, gdy nie została wysłana)
+        [HttpDelete("deleteDiet/{dietId}")]
+        public async Task<IActionResult> DeleteDiet(int dietId)
+        {
+            var command = new DietDelete.Command { DietId = dietId };
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Dieta została usunięta." });
+            }
+            return BadRequest(result.Error);
+        }
 
-        // TODO :
-        // metoda wyślij, argumenty: dieticianId, dietId i? patientId
-        // post
-        //tabela DietPatient - tabela pośrednia, żeby obsłużyć widoczność diety dla pacjenta
-        //
-
-        // get, argumenty patientId, dietId - wyświetli listę wszystkich diet  dla apcjenta (z tabeli DietPatient)
-        // w getDTO, DietName, DieticianName, dietId  - generate pdf (szczegóły diety + export do pdf)
+        // DONE : szczegóły diety - na widok i do raportu
+        [HttpGet("details/{dietId}")]
+        public async Task<IActionResult> GetDietDetails(int dietId)
+        {
+            var query = new DietDetails.Query { DietId = dietId };
+            var result = await _mediator.Send(query);
+            return HandleResult(result);
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Application.CQRS.Printouts;
+using Application.CQRS.Specializations;
 using Application.DTOs.PrintoutsDTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -18,8 +19,13 @@ namespace API.Controllers
         [HttpPost("addPrintout")]
         public async Task<IActionResult> AddPrintout([FromForm] ParameterizedPrintoutPostDTO printout)
         {
-            var query = await _mediator.Send(new PrintoutTemplateCreate.Command { Data = printout });
-            return HandleResult(query);
+            var command = new PrintoutTemplateCreate.Command { Data = printout };
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie dodano szablon." });
+            }
+            return BadRequest(result.Error);
         }
 
         [HttpGet("all")]
@@ -60,6 +66,17 @@ namespace API.Controllers
             return File(result.Value, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "filledTemplate.docx");
         }
 
-        // TODO : usuwanie szablonu
+        // DONE : usuwanie szablonu
+        [HttpDelete("delete/{printoutId}")]
+        public async Task<IActionResult> RemovePrintoutTemplate(int printoutId)
+        {
+            var command = new PrintoutDelete.Command { PrintoutId = printoutId };
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie usunięto szablon." });
+            }
+            return BadRequest(result.Error);
+        }
     }
 }

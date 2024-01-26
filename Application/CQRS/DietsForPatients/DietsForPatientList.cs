@@ -28,8 +28,13 @@ namespace Application.CQRS.DietsForPatients
             {
                 try
                 {
+                    var dietIds = await _context.DietPatientsDb
+                        .Where(dp => dp.PatientId == request.PatientId)
+                        .Select(dp => dp.DietId)
+                        .ToListAsync();
+
                     var dietsList = _context.DietsDb
-                    .Where(d => d.PatientId == request.PatientId)
+                    .Where(d => dietIds.Contains(d.Id))
                     .Include(d => d.Dietician)
                     .Select(d => new DietGetDTO
                     {

@@ -1,66 +1,117 @@
-﻿// TODO : whole class
-using Application.DTOs.DieticianDTO;
-using AutoMapper;
-using DietDB;
+﻿using Application.DTOs.DietDTO;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DietDB;
+using Application.Core;
+using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
+using Application.DTOs.MealTimeToXYAxisDTO;
+using Application.DTOs.RecipeDTO;
+using Application.DTOs.DishDTO;
+using Application.DTOs.DishIngredientDTO;
 
 namespace Application.CQRS.Diets
 {
-
-    /// <summary>
-    /// Zawiera klasy służące do pobierania szczegółów dietetyka na podstawie jego identyfikatora.
-    /// </summary>
     public class DietDetails
     {
-        /// <summary>
-        /// Reprezentuje zapytanie do pobrania szczegółów dietetyka na podstawie identyfikatora.
-        /// </summary>
-        //public class Query : IRequest<DietGetDTO>
-        //{
-        //    /// <summary>
-        //    /// Pobiera lub ustawia identyfikator dietetyka, którego szczegóły mają zostać pobrane.
-        //    /// </summary>
-        //    public int UserId { get; set; }
-        //}
+        public class Query : IRequest<Result<DietDetailsGetDTO>>
+        {
+            public int DietId { get; set; }
+        }
 
-        ///// <summary>
-        ///// Obsługuje proces pobierania szczegółów dietetyka z bazy danych.
-        ///// </summary>
-        //public class Handler : IRequestHandler<Query, DietGetDTO>
-        //{
-        //    private readonly DietContext _context;
-        //    private readonly IMapper _mapper;
+        public class Handler : IRequestHandler<Query, Result<DietDetailsGetDTO>>
+        {
+            private readonly DietContext _context;
 
-        //    /// <summary>
-        //    /// Inicjuje nową instancję klasy <see cref="Handler"/> z podanym kontekstem bazy danych i maperem.
-        //    /// </summary>
-        //    /// <param name="context">Kontekst bazy danych do obsługi dietetyków.</param>
-        //    /// <param name="mapper">Maper służący do mapowania obiektów.</param>
-        //    public Handler(DietContext context, IMapper mapper)
-        //    {
-        //        _context = context;
-        //        _mapper = mapper;
-        //    }
+            public Handler(DietContext context)
+            {
+                _context = context;
+            }
 
-        //    /// <summary>
-        //    /// Przetwarza zapytanie i zwraca szczegóły dietetyka na podstawie identyfikatora.
-        //    /// </summary>
-        //    /// <param name="request">Zapytanie do przetworzenia.</param>
-        //    /// <param name="cancellationToken">Token anulowania operacji.</param>
-        //    /// <returns>Zwraca szczegóły dietetyka w postaci obiektu <see cref="DietGetDTO"/>.</returns>
-        //    public async Task<DietGetDTO> Handle(Query request, CancellationToken cancellationToken)
-        //    {
-        //        var diet = await _context.DietsDb.
+            public async Task<Result<DietDetailsGetDTO>> Handle(Query request, CancellationToken cancellationToken)
+            {
+                try
+                {
+                    var diet = await _context.DietsDb
+                            .Where(d => d.Id == request.DietId)
+                             .Include(d => d.Patient)
+                             .Include(d => d.Dietician)
+                             .Include(d => d.MealTimesToXYAxis)
+                                 .ThenInclude(mt => mt.Meal)
+                             .Include(d => d.MealTimesToXYAxis)
+                                 .ThenInclude(mt => mt.Dish)
+                                     .ThenInclude(dish => dish.Measure)
+                            .Include(d => d.MealTimesToXYAxis)
+                                 .ThenInclude(mt => mt.Dish)
+                                     .ThenInclude(dish => dish.Unit)
+                            .Include(d => d.MealTimesToXYAxis)
+                                 .ThenInclude(mt => mt.Dish)
+                                     .ThenInclude(dish => dish.DishIngredients)
+                                         .ThenInclude(di => di.Ingredient)
+                                            .ThenInclude(i => i.Unit)
+                            .Include(d => d.MealTimesToXYAxis)
+                                 .ThenInclude(mt => mt.Dish)
+                                     .ThenInclude(dish => dish.Recipe)
+                                     .ThenInclude(recipe => recipe.Steps)
+                             .FirstOrDefaultAsync(d => d.Id == request.DietId);
 
-        //                                        .SingleOrDefaultAsync(x => x.UserId == request.UserId, cancellationToken);
+                    if (diet == null)
+                    {
+                        return Result<DietDetailsGetDTO>.Failure("Nie znaleziono diety");
+                    }
 
-        //        return _mapper.Map<DietGetDTO>(diet);
-        //    }
-        //}
+                    var dietDetailsDto = new DietDetailsGetDTO
+                    {
+                        Id = diet.Id,
+                        Name = diet.Name,
+                        StartDate = diet.StartDate.Date.ToShortDateString(),
+                        EndDate = diet.EndDate.Date.ToShortDateString(),
+                        PatientName = diet.Patient?.Email,
+                        DieticianName = diet.Dietician?.Email,
+                        numberOfMeals = diet.numberOfMeals,
+                        MealTimeToDietDetailsGetDTO = new List<MealTimeToDietDetailsGetDTO>(),
+                    };
+
+                    foreach (var mealTimeToXYAxis in diet.MealTimesToXYAxis)
+                    {
+                        var mealTimeToDietDetailsDto = new MealTimeToDietDetailsGetDTO
+                        {
+                            MealName = mealTimeToXYAxis.Meal.Name,
+                            MealDate = mealTimeToXYAxis.MealTime.Date.ToShortDateString(),
+                            MealTime = mealTimeToXYAxis.MealTime.ToShortTimeString(),
+                            DishToDietDetailsGetDTO = new DishToDietDetailsGetDTO
+                            {
+                                Name = mealTimeToXYAxis.Dish?.Name,
+                                Calories = mealTimeToXYAxis.Dish.Calories,
+                                ServingQuantity = mealTimeToXYAxis.Dish.ServingQuantity,
+                                GlycemicIndex = mealTimeToXYAxis.Dish.GlycemicIndex,
+                                PreparingTime = mealTimeToXYAxis.Dish.PreparingTime,
+                                MeasureName = mealTimeToXYAxis.Dish.Measure.Symbol,
+                                UnitName = mealTimeToXYAxis.Dish.Unit.Symbol,
+                                DishIngredients = mealTimeToXYAxis.Dish?.DishIngredients?.Select(di => new DishIngredientToDietDetailsGetDTO
+                                {
+                                    IngredientName = di.Ingredient?.Name,
+                                    Quantity = di.Quantity,
+                                    UnitName = di.Unit.Symbol,
+                                }).ToList(),
+
+                                RecipeStepsDTO = mealTimeToXYAxis.Dish?.Recipe?.Steps?.Select(step => new RecipeStepToDietDetailsGetDTO
+                                {
+                                    StepNumber = step.StepNumber,
+                                    Description = step.Description
+                                }).ToList()
+                            }
+                        };
+
+                        dietDetailsDto.MealTimeToDietDetailsGetDTO.Add(mealTimeToDietDetailsDto);
+                    }
+                    return Result<DietDetailsGetDTO>.Success(dietDetailsDto);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                    return Result<DietDetailsGetDTO>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
+                }
+            }
+        }
     }
 }

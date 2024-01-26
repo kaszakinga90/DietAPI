@@ -37,6 +37,7 @@ namespace Application.CQRS.Diets
                         StartDate = d.StartDate.Date,
                         EndDate = d.EndDate.Date,
                         numberOfMeals = d.numberOfMeals,
+                        PatientId = d.PatientId,
                         PatientName = d.Patient.FirstName + " " + d.Patient.LastName,
                         DieteticanName = d.Dietician.FirstName + " " + d.Dietician.LastName,
                     })

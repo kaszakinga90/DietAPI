@@ -1052,6 +1052,28 @@ namespace DietDB
                 await context.MealTimesDb.AddRangeAsync(mealTimes);
             }
             #endregion
+            #region DishIngredients
+            // Sprawdzanie i dodawanie testowych danych dla MealTimes
+            if (!context.DishIngredientsDb.Any())
+            {
+                var dishIngredients = new List<DishIngredient>()
+                {
+                    new DishIngredient { Quantity = 1, UnitId = 1, DishId = 1, IngredientId = 1 },
+                    new DishIngredient { Quantity = 3, UnitId = 2, DishId = 1, IngredientId = 2 },
+                    new DishIngredient { Quantity = 5, UnitId = 1, DishId = 1, IngredientId = 3 },
+                    new DishIngredient { Quantity = 2, UnitId = 1, DishId = 1, IngredientId = 4 },
+                    new DishIngredient { Quantity = 66, UnitId = 3, DishId = 1, IngredientId = 5 },
+                    new DishIngredient { Quantity = 2, UnitId = 1, DishId = 2, IngredientId = 6 },
+                    new DishIngredient { Quantity = 12, UnitId = 4, DishId = 2, IngredientId = 7 },
+                    new DishIngredient { Quantity = 43, UnitId = 1, DishId = 2, IngredientId = 8 },
+                    new DishIngredient { Quantity = 3, UnitId = 5, DishId = 3, IngredientId = 9 },
+                    new DishIngredient { Quantity = 70, UnitId = 1, DishId = 3, IngredientId = 10 },
+                    new DishIngredient { Quantity = 25, UnitId = 2, DishId = 3, IngredientId = 11 },
+                    new DishIngredient { Quantity = 100, UnitId = 1, DishId = 3, IngredientId = 12 }
+                };
+                await context.DishIngredientsDb.AddRangeAsync(dishIngredients);
+            }
+            #endregion
             //#region DieticianPatients
             //if (!context.DieticianPatientsDb.Any())
             //{

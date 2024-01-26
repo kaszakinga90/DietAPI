@@ -1,5 +1,4 @@
 ﻿using Application.CQRS.Specializations;
-using Application.DTOs.DieticianSpecializationsDTO;
 using Application.DTOs.SpecializationDTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -29,30 +28,41 @@ namespace API.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> AddDieticianSpecialization(DieteticianSpecializationPostDTO ds)
         {
-            var result = await _mediator.Send(new DieteticianSpecializationCreate.Command { DieteticianSpecializationPostDTOs = ds });
-            return Ok(result.Value);
+            var command = new DieteticianSpecializationCreate.Command { DieteticianSpecializationPostDTOs = ds };
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie dodano specjalizację." });
+            }
+            return BadRequest(result.Error);
         }
 
         // tylko dla admina
         [HttpPost("add")]
         public async Task<IActionResult> AddSpecialization(SpecializationPostDTO specializationPostDTO)
         {
-            var result = await _mediator.Send(new SpecializationCreate.Command { SpecializationPostDTO = specializationPostDTO });
-            //return Ok(result.Value);
-            return HandleResult(result);
+            var command = new SpecializationCreate.Command { SpecializationPostDTO = specializationPostDTO };
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie dodano specjalizację." });
+            }
+            return BadRequest(result.Error);
         }
 
         // DONE : edycja specjalizacji - metoda tylko dla admina
         [HttpPut("editdata/{specializationId}")]
         public async Task<IActionResult> EditSpecialization(int specializationId, SpecializationPostDTO specializationDTO)
         {
-            var command = new SpecializationEdit.Command
-            {
-                SpecializationEditDTO = specializationDTO,
-            };
+            var command = new SpecializationEdit.Command { SpecializationEditDTO = specializationDTO };
             command.SpecializationEditDTO.Id = specializationId;
 
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie zedytowano specjalizację." });
+            }
+            return BadRequest(result.Error);
         }
 
         // DONE : usuwanie specjalizacji - realizowana przez admina (tylko specjalizacje, które nie mają powiązań)
@@ -60,17 +70,29 @@ namespace API.Controllers
         public async Task<IActionResult> RemoveSpecializationByAdmin(int specializationId)
         {
             var command = new SpecializationDelete.Command { SpecializationId = specializationId };
-
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie usunięto specjalizację." });
+            }
+            return BadRequest(result.Error);
         }
 
         // DONE : usuwanie specjalizacji - realizowana przez dietetyka
-        [HttpDelete("deleteFromDietician")]
-        public async Task<IActionResult> DeleteFoodCatalog(DieticianSpecializationDeleteDTO specializationDTO)
+        [HttpDelete("deleteFromDietician/{dieticianId}/{dieticianSpecializationId}")]
+        public async Task<IActionResult> DeleteDieticianSpecialization(int dieticianId, int dieticianSpecializationId)
         {
-            var command = new DieticianSpecializationDelete.Command { DieticianSpecializationDeleteDTO = specializationDTO };
-
-            return HandleResult(await _mediator.Send(command));
+            var command = new DieticianSpecializationDelete.Command 
+            { 
+                DieticianId = dieticianId,
+                SpecializationId = dieticianSpecializationId 
+            };
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie usunięto specjalizację." });
+            }
+            return BadRequest(result.Error);
         }
     }
 }

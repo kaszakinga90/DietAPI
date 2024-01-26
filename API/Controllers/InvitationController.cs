@@ -47,18 +47,13 @@ namespace API.Controllers
         [HttpPost("send")]
         public async Task<IActionResult> InvitationMessageToDietetician(InvitationPostDTO invitationPostDto)
         {
-            var command = new InvitationCreate.Command
-            {
-                InvitationPostDTO = invitationPostDto
-            };
-
+            var command = new InvitationCreate.Command { InvitationPostDTO = invitationPostDto };
             var result = await _mediator.Send(command);
-
-
-
-
-            return Ok(result);
-            //    return HandleResult(await _mediator.Send(command));
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie wysłano zaproszenie." });
+            }
+            return BadRequest(result.Error);
         }
 
         [HttpPut("confirm/{invitationId}")]
@@ -69,7 +64,12 @@ namespace API.Controllers
                 InvitationId = invitationId,
                 InvitationPutDTO = invitationPutDTO,
             };
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Zaproszenie zaakceptowane." });
+            }
+            return BadRequest(result.Error);
         }
 
         [HttpPut("decline/{invitationId}")]
@@ -80,7 +80,12 @@ namespace API.Controllers
                 InvitationId = invitationId,
                 InvitationPutDTO = invitationPutDTO,
             };
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Zaproszenie odrzucone." });
+            }
+            return BadRequest(result.Error);
         }
 
         [HttpPut("resend/{invitationId}")]
@@ -91,7 +96,12 @@ namespace API.Controllers
                 InvitationId = invitationId,
                 InvitationPutDTO = invitationPutDTO,
             };
-            return HandleResult(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Zaproszenie zostało ponownie wysłane." });
+            }
+            return BadRequest(result.Error);
         }
     }
 }

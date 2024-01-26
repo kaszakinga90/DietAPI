@@ -1,11 +1,13 @@
 ﻿using MailKit.Net.Smtp;
 using MimeKit;
+using System.Diagnostics;
 
 namespace Application.Services.EmailSends
 {
     public class EmailService : IEmailSender
     {
         private readonly EmailSenderConfiguration _emailConfig;
+
         public EmailService(EmailSenderConfiguration emailConfig)
         {
             _emailConfig = emailConfig;
@@ -39,9 +41,9 @@ namespace Application.Services.EmailSends
                     client.Authenticate(_emailConfig.Username, _emailConfig.Password);
                     client.Send(mailMessage);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // TODO : obsługa błędów.
+                    Debug.WriteLine(ex.Message, "An error occurred while sending email. Subject: {0}, Recipient: {1}", mailMessage.Subject, mailMessage.To);
                     throw;
                 }
                 finally

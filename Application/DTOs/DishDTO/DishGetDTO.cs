@@ -1,8 +1,5 @@
 ﻿using Application.DTOs.DishIngredientDTO;
 using Application.DTOs.RecipeStepDTO;
-using Microsoft.AspNetCore.Http;
-using ModelsDB;
-using ModelsDB.Functionality;
 
 namespace Application.DTOs.DishDTO
 {
@@ -10,7 +7,7 @@ namespace Application.DTOs.DishDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int? Calories { get; set; }   // TODO: zliczane? - musi być przez PUT
+        public int? Calories { get; set; }
         //odpowiednik "serving_qty"  odp. np 1
         public float? ServingQuantity { get; set; }
         //odpowiednik "serving_unit"  odp. np. "slice (1 oz)"
