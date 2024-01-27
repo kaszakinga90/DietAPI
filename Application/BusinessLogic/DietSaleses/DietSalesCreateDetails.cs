@@ -29,6 +29,7 @@ namespace Application.BusinessLogic.DietSaleses
                     .Include(diet => diet.Patient)
                     .Select(d => new DietSalesDTO
                     {
+                        Id = d.Id,
                         DietName = d.Name,
                         CreateTime = d.dateAdded,
                         PatientName = d.Patient.FirstName + " " + d.Patient.LastName,
