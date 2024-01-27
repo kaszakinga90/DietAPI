@@ -1,7 +1,7 @@
 ﻿using Application.BusinessLogic.DietForPatients;
 using Application.BusinessLogic.DietSaleses;
+using Application.BusinessLogic.MeasurementHistories;
 using Application.Core;
-using Application.DTOs.ReportsClassesDTO.Reports;
 using Application.Services.Reports;
 using MediatR;
 
@@ -15,14 +15,28 @@ namespace Application.Services
             _mediator = mediator;
         }
 
-        public async Task<Result<IReport>> CreateReport(ReportTypeEnum reportType, int? dietitianId = null, int? dietId = null)
+        public async Task<Result<IReport>> CreateReport(ReportTypeEnum reportType, int? dietitianId = null, int? dietId = null, 
+                                                                        int? patientId = null, DateTime? startDate = null, DateTime? endDate = null)
         {
             switch (reportType)
             {
                 case ReportTypeEnum.MeasurementsHistoryReport:
                     {
-                        var mhdto = new MeasurementsHistoryDTO();
-                        return Result<IReport>.Success(new MeasurementsHistoryReport(mhdto));
+                        var mhdtoResult = await _mediator.Send(new MeasurementHistoryCreate.Command { 
+                            PatientId = (int)patientId,
+                            StartDate = (DateTime)startDate,
+                            EndDate = (DateTime)endDate
+                        });
+
+                        if (mhdtoResult.IsSucces)
+                        {
+                            var mhdtoList = mhdtoResult.Value;
+                            return Result<IReport>.Success(new MeasurementsHistoryReport(mhdtoList));
+                        }
+                        else
+                        {
+                            return Result<IReport>.Failure($"Failed to get MeasurementHistory data. Reason: {mhdtoResult.Error}");
+                        }
                     }
 
                 case ReportTypeEnum.DietSalesReport:
@@ -51,7 +65,7 @@ namespace Application.Services
                         }
                         else
                         {
-                            return Result<IReport>.Failure($"Failed to get DietSales data. Reason: {dfpdtoResult.Error}");
+                            return Result<IReport>.Failure($"Failed to get Diet For Patient data. Reason: {dfpdtoResult.Error}");
                         }
                     }
 

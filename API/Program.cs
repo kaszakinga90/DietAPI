@@ -53,6 +53,7 @@ using Application.Validators.Specialization;
 using Application.Validators.Survey;
 using Application.Validators.TestResults;
 using Application.Validators.Ingredients;
+using Application.BusinessLogic.CalculatesAndStatistics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -184,6 +185,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 builder.Services.AddScoped<ImageService>();
 builder.Services.AddScoped<ReportService>();
+builder.Services.AddScoped<CalculatorService>();
 
 /// <summary>
 /// Dodaje wsparcie dla walidacji z FluentValidation.

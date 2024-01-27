@@ -4,6 +4,7 @@ using Application.Services;
 using DietDB;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ModelsDB;
 using System.Diagnostics;
 using static Application.Services.ReportService;
 
@@ -35,8 +36,9 @@ namespace API.Controllers
         }
 
         // templateId - zakres 1-3 (wizualna część, OBOJĘTNE),   reportType, zakres 0-2, (2 dla szczegółowej diety)
-        [HttpGet("generate/{templateId}/{reportType}/{dieticianId}/{dietId}")]
-        public async Task<IActionResult> GenerateReport(int templateId, ReportTypeEnum reportType, int? dieticianId = null, int? dietId = null)
+        [HttpGet("generate/{templateId}/{reportType}/{dieticianId}/{dietId}/{patientId}/{startDate}/{endDate}")]
+        public async Task<IActionResult> GenerateReport(int templateId, ReportTypeEnum reportType, int? dieticianId = null, int? dietId = null, 
+                                                        int? patientId = null, DateTime? startDate = null, DateTime? endDate = null)
         {
             var template = _context.ReportTemplatesDb.Find(templateId);
 
@@ -47,7 +49,7 @@ namespace API.Controllers
 
             try
             {
-                var reportServiceResult = await _reportService.CreateReport(reportType, dieticianId, dietId);
+                var reportServiceResult = await _reportService.CreateReport(reportType, dieticianId, dietId, patientId, startDate, endDate);
 
                 if (reportServiceResult.IsSucces)
                 {
