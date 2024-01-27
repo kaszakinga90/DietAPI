@@ -32,7 +32,7 @@ namespace Application.CQRS.Ingredients
                          .Select(i => new IngredientGetDTO
                          {
                              Id = i.Id,
-                             IngredientName = i.Name,
+                             Name = i.Name,
                              Calories = i.Calories,
                              GlycemicIndex = i.GlycemicIndex ?? 0,
                              ServingQuantity = i.ServingQuantity ?? 0,

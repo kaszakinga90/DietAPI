@@ -64,7 +64,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        // DONE : usuwanie foodCatalog dietetyka
+        
         // katalog dietetyka - deaktywuje jego katalog i dania z niego przenosi do katalogu Wszystkie (dedykowany katalog dla dietetyka tworzony wraz z rejestracją)
 
         // na froncie musi być coś w stylu : ta akcja spowoduje przeniesienie wszystkich produktów do katalogu Wszystkie, czy na pewno?

@@ -3,7 +3,7 @@
     public class IngredientPutDTO
     {
         public int Id { get; set; }
-        public string IngredientName { get; set; }
+        public string Name { get; set; }
         public float Calories { get; set; }
         public int GlycemicIndex { get; set; }
         public float ServingQuantity { get; set; }

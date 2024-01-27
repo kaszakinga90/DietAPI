@@ -131,8 +131,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        // DONE : metoda do usuwania test result
-        [HttpDelete("testResult/delete/{testResultId}")]
+        [HttpDelete("delete/{testResultId}")]
         public async Task<IActionResult> DeleteTestResult(int testResultId)
         {
             var command = new TestResultDelete.Command { TestResultId = testResultId };
@@ -144,7 +143,6 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        // DONE : metoda do usuwania survey
         [HttpDelete("survey/delete/{surveyId}")]
         public async Task<IActionResult> DeleteSurvey(int surveyId)
         {
