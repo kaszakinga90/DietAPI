@@ -29,7 +29,7 @@ namespace Application.CQRS.PatientCards
                 try
                 {
                     var patientSurveys = await _context.PatientCardSurveysDb
-                    .Where(m => m.PatientCardId == request.PatientCardId)
+                    .Where(m => m.PatientCardId == request.PatientCardId && m.isActive)
                     .Select(m => new PatientCardSurveyGetDTO
                     {
                         SurveyId = m.SurveyId,

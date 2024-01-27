@@ -63,7 +63,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        // DONE : metoda do wysłania diety do pacjenta
+        
         [HttpPost("publishDiet")]
         public async Task<IActionResult> PublishDietToPatient(DietPatientPostDTO dietPatientPostDTO)
         {
@@ -75,7 +75,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        // DONE : metoda do usuwania diety (tylko, gdy nie została wysłana)
+        
         [HttpDelete("deleteDiet/{dietId}")]
         public async Task<IActionResult> DeleteDiet(int dietId)
         {
@@ -88,7 +88,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        // DONE : szczegóły diety - na widok i do raportu
+        
         [HttpGet("details/{dietId}")]
         public async Task<IActionResult> GetDietDetails(int dietId)
         {
