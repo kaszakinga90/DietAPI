@@ -32,7 +32,7 @@ namespace Application.CQRS.Ingredients
                     .Select(m => new IngredientGetDTO
                     {
                         Id = m.Id,
-                        Name = m.Name,
+                        IngredientName = m.Name,
                     })
                     .ToListAsync(cancellationToken);
 
