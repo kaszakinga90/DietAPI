@@ -13,6 +13,7 @@ namespace Application.BusinessLogic.MeasurementHistories
     {
         public class Command : IRequest<Result<List<MeasurementsHistoryDTO>>>
         {
+            public int DieticianId { get; set; }
             public int PatientId { get; set; }
             public DateTime? StartDate { get; set; }
             public DateTime? EndDate { get; set; }
@@ -36,7 +37,7 @@ namespace Application.BusinessLogic.MeasurementHistories
                     IQueryable<Survey> surveyQuery = _context.PatientCardSurveysDb
                     .Include(pcs => pcs.Survey)
                     .Include(p => p.PatientCard)
-                    .Where(pcs => pcs.PatientCard.PatientId == request.PatientId)
+                    .Where(pcs => pcs.PatientCard.PatientId == request.PatientId && pcs.PatientCard.DieticianId == request.DieticianId && pcs.isActive)
                     .Select(pcs => pcs.Survey);
 
                     if (request.StartDate != null)
@@ -52,6 +53,7 @@ namespace Application.BusinessLogic.MeasurementHistories
                     var measurementList = await surveyQuery
                         .Select(mh => new MeasurementsHistoryDTO
                         {
+                            Id = 0,
                             MeasureTime = mh.MeasureTime.ToShortDateString(),
                             Height = mh.Heigth,
                             Weight = mh.Weith,
@@ -65,6 +67,13 @@ namespace Application.BusinessLogic.MeasurementHistories
 
                     _calculator.CalculateWeightChange(measurementList);
                     _calculator.CalculateBMIChange(measurementList);
+
+                    int counter = 1;
+
+                    foreach (var item in measurementList)
+                    {
+                        item.Id = counter++;
+                    }
 
                     return Result<List<MeasurementsHistoryDTO>>.Success(measurementList);
                 }

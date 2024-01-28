@@ -1,4 +1,5 @@
-﻿using Application.CQRS.PatientCards;
+﻿using Application.BusinessLogic.MeasurementHistories;
+using Application.CQRS.PatientCards;
 using Application.CQRS.PatientCards.Surveys;
 using Application.CQRS.PatientCards.TestsResults;
 using Application.CQRS.Patients;
@@ -46,6 +47,17 @@ namespace API.Controllers
                 Params = param 
             });
             return HandlePagedResult(result);
+        }
+
+        [HttpGet("measurements/history/{patientId}/{dieticianId}")]
+        public async Task<IActionResult> GetPatientMeasurementHistory(int patientId, int dieticianId)
+        {
+            var result = await _mediator.Send(new MeasurementHistoryCreate.Command
+            { 
+                PatientId = patientId,
+                DieticianId = dieticianId
+            });
+            return HandleResult(result);
         }
 
         // DONE   - dodane filtrowane i sortowanie
