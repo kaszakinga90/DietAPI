@@ -8,7 +8,7 @@ namespace Application.FiltersExtensions.Ingredients
         {
             if (string.IsNullOrWhiteSpace(searchTerm)) return query;
             var lowerCaseSearchTerm = searchTerm.Trim().ToLower();
-            return query.Where(p => p.Name.ToLower().Contains(lowerCaseSearchTerm));
+            return query.Where(p => p.IngredientName.ToLower().Contains(lowerCaseSearchTerm));
         }
     }
 }

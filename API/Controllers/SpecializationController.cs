@@ -78,7 +78,6 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        // DONE : usuwanie specjalizacji - realizowana przez dietetyka
         [HttpDelete("deleteFromDietician/{dieticianId}/{dieticianSpecializationId}")]
         public async Task<IActionResult> DeleteDieticianSpecialization(int dieticianId, int dieticianSpecializationId)
         {
