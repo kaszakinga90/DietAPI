@@ -28,7 +28,7 @@ namespace Application.CQRS.Ingredients
                     try
                     {
                         var ingridientList = _context.IngredientsDb
-                         .Where(i => i.DieticianId == request.DieticianId)
+                         .Where(i => i.DieticianId == request.DieticianId && i.isActive)
                          .Select(i => new IngredientGetDTO
                          {
                              Id = i.Id,
