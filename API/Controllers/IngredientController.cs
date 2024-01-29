@@ -63,7 +63,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        // DONE : edycja ingredient wraz z nutrientami
+        
         [HttpPut("edit/{ingredientId}")]
         public async Task<IActionResult> EditIngredient(int ingredientId, IngredientEditDTO ingredientEditDTO)
         {
@@ -78,7 +78,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        // DONE : usuwanie (deaktywacja) ingredient wraz z nutrientami
+        
         [HttpDelete("delete/{ingredientId}")]
         public async Task<IActionResult> DeleteIngredient(int ingredientId)
         {
