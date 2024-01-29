@@ -23,6 +23,7 @@ namespace Application.Services
                 case ReportTypeEnum.MeasurementsHistoryReport:
                     {
                         var mhdtoResult = await _mediator.Send(new MeasurementHistoryCreate.Command { 
+                            DieticianId = (int)dietitianId,
                             PatientId = (int)patientId,
                             StartDate = (DateTime)startDate,
                             EndDate = (DateTime)endDate

@@ -39,12 +39,12 @@ namespace Application.BusinessLogic.CalculatesAndStatistics
 
             for (int i = 1; i < measurements.Count; i++)
             {
-                float previousBMI = measurements[i - 1].BMI;
-                float currentBMI = measurements[i].BMI;
+                float previousBMI = measurements[i - 1].Bmi;
+                float currentBMI = measurements[i].Bmi;
 
                 float change = currentBMI - previousBMI;
                 change = (float)Math.Round(change, 2);
-                measurements[i].BMIChange = change;
+                measurements[i].BmiChange = change;
             }
         }
     }
