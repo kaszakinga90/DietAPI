@@ -1,4 +1,5 @@
-﻿using Application.DTOs.DishIngredientDTO;
+﻿using Application.DTOs.DishFoodCatalogDTO;
+using Application.DTOs.DishIngredientDTO;
 using Application.DTOs.RecipeStepDTO;
 
 namespace Application.DTOs.DishDTO
@@ -19,6 +20,7 @@ namespace Application.DTOs.DishDTO
         public int RecipeId { get; set; }
         public int? DieteticianId { get; set; }
         public List<DishIngredientGetDTO> DishIngredients { get; set; }
+        public List<DishFoodCatalogGetDTO> DishFoodCatalogs { get; set; }
         public List<RecipeStepGetDTO> RecipeStepsDTO { get; set; }
     }
 }
