@@ -1,4 +1,5 @@
 ﻿using Application.CQRS.Dishes;
+using Application.CQRS.Ingredients;
 using Application.DTOs.DishDTO;
 using Application.FiltersExtensions.Dishes;
 using Application.FiltersExtensions.DishesFoodCatalog;
@@ -12,7 +13,7 @@ namespace API.Controllers
         public DishController(IMediator mediator) : base(mediator)
         {
         }
-        
+
         [HttpGet("dieticianDish/{dieticianid}")]
         public async Task<IActionResult> GetDish(int dieticianid)
         {
@@ -20,11 +21,23 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [HttpGet("allDishNoDieticianWithPagination")]
+        public async Task<IActionResult> GetDishesNoDieticianDish( [FromQuery] DishParams pagingParams)
+        {
+            var result = await _mediator.Send(new AllDishListWithPaginationNoDIetician.Query { Params = pagingParams });
+            return HandleResult(result);
+        }
         //pobiera dania dostępne dla dietetyka (czyli z bazy wspólnej, gdzie DieticianID == NULL oraz te utworzone przez tego dietetyka) + paginacja
-        [HttpGet("allWithPagination/{dieticianId}")]
+        [HttpGet("allDishesWithPagination/{dieticianId}")]
         public async Task<IActionResult> GetDishes(int dieticianId, [FromQuery] DishParams pagingParams)
         {
             var result = await _mediator.Send(new DishesListWithPagination.Query { DieteticianId = dieticianId, Params = pagingParams });
+            return HandleResult(result);
+        }
+        [HttpGet("dieticianDishesWithPagination/{dieticianId}")]
+        public async Task<IActionResult> GetDishesOnlyDietician(int dieticianId, [FromQuery] DishParams pagingParams)
+        {
+            var result = await _mediator.Send(new DishListWithPaginationOnlyDietician.Query { DieteticianId = dieticianId, Params = pagingParams });
             return HandleResult(result);
         }
         [HttpGet("allfoodcatalogdishwithpagination/{foodCatalogId}")]
@@ -78,7 +91,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        // DONE : usuwanie dish (deaktywacja dish i powiązanych rzeczy)
+        
         [HttpDelete("delete/{dishId}")]
         public async Task<IActionResult> DeleteDish(int dishId)
         {
@@ -90,7 +103,6 @@ namespace API.Controllers
             }
             return BadRequest(result.Error);
         }
-
 
         [HttpGet("details/{dishId}")]
         public async Task<IActionResult> DishDetails(int dishId)

@@ -11,10 +11,10 @@ namespace API.Controllers
         {
         }
 
-        [HttpGet("getdieticiancatalogs/{dieticianId}")]
-        public async Task<IActionResult> GetFoodCatalog(int dieticianId)
+        [HttpGet("getcatalogdetails/{foodCatalogId}")]
+        public async Task<IActionResult> GetFoodCatalogDetails(int foodCatalogId)
         {
-            var result = await _mediator.Send(new FoodCatalogDetails.Query { Id = dieticianId });
+            var result = await _mediator.Send(new FoodCatalogDetails.Query { Id = foodCatalogId });
             return HandleResult(result);
         }
 
@@ -46,7 +46,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        // DONE : edycja food catalog dietetyka 
+        
         [HttpPut("edit/{foodCatalogId}")]
         public async Task<IActionResult> EditDieticianFoodCatalog(int foodCatalogId, FoodCatalogDieticianEditDTO foodCatalogDTO)
         {

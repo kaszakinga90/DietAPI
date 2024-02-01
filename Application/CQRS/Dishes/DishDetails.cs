@@ -45,6 +45,9 @@ namespace Application.CQRS.Dishes
                     {
                         return Result<DishGetDTO>.Failure("Nie znaleziono dania o takim Id");
                     }
+                    var recipeSteps = await _context.RecipeStepsDb
+               .Where(r => r.RecipeId == dish.Id)
+               .ToListAsync();
 
                     var dishDTO = new DishGetDTO
                     {
@@ -84,7 +87,6 @@ namespace Application.CQRS.Dishes
                         }).ToList()
                     };
 
-
                     return Result<DishGetDTO>.Success(dishDTO);
                 }
                 catch (Exception ex)
@@ -93,6 +95,7 @@ namespace Application.CQRS.Dishes
                     return Result<DishGetDTO>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
                 }
             }
+
         }
     }
 }

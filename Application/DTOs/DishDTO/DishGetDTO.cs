@@ -22,5 +22,6 @@ namespace Application.DTOs.DishDTO
         public List<DishIngredientGetDTO> DishIngredients { get; set; }
         public List<DishFoodCatalogGetDTO> DishFoodCatalogs { get; set; }
         public List<RecipeStepGetDTO> RecipeStepsDTO { get; set; }
+        public List<DishFoodCatalogGetDTO> DishFoodCatalogs { get; set; }
     }
 }

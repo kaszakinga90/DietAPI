@@ -1,4 +1,5 @@
-﻿using Application.CQRS.Specializations;
+﻿using Application.CQRS.FoodCatalogs;
+using Application.CQRS.Specializations;
 using Application.DTOs.SpecializationDTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -50,7 +51,6 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        // DONE : edycja specjalizacji - metoda tylko dla admina
         [HttpPut("editdata/{specializationId}")]
         public async Task<IActionResult> EditSpecialization(int specializationId, SpecializationPostDTO specializationDTO)
         {
@@ -65,7 +65,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        // DONE : usuwanie specjalizacji - realizowana przez admina (tylko specjalizacje, które nie mają powiązań)
+        
         [HttpDelete("delete/{specializationId}")]
         public async Task<IActionResult> RemoveSpecializationByAdmin(int specializationId)
         {
@@ -92,6 +92,12 @@ namespace API.Controllers
                 return Ok(new { data = result.Value, message = "Pomyślnie usunięto specjalizację." });
             }
             return BadRequest(result.Error);
+        }
+        [HttpGet("detailsspecialization/{specializationId}")]
+        public async Task<IActionResult> GetSpecializationDetails(int specializationId)
+        {
+            var result = await _mediator.Send(new SpecializationDetails.Query { Id = specializationId });
+            return HandleResult(result);
         }
     }
 }
