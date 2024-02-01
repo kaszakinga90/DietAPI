@@ -66,7 +66,7 @@ namespace API.Controllers
             return File(result.Value, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "filledTemplate.docx");
         }
 
-        // DONE : usuwanie szablonu
+        
         [HttpDelete("delete/{printoutId}")]
         public async Task<IActionResult> RemovePrintoutTemplate(int printoutId)
         {
