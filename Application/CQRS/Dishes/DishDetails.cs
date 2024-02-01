@@ -1,5 +1,8 @@
 ﻿using Application.Core;
 using Application.DTOs.DishDTO;
+using Application.DTOs.DishFoodCatalogDTO;
+using Application.DTOs.DishIngredientDTO;
+using Application.DTOs.RecipeStepDTO;
 using AutoMapper;
 using DietDB;
 using MediatR;
@@ -18,12 +21,10 @@ namespace Application.CQRS.Dishes
         public class Handler : IRequestHandler<Query, Result<DishGetDTO>>
         {
             private readonly DietContext _context;
-            private readonly IMapper _mapper;
 
-            public Handler(DietContext context, IMapper mapper)
+            public Handler(DietContext context)
             {
                 _context = context;
-                _mapper = mapper;
             }
 
             public async Task<Result<DishGetDTO>> Handle(Query request, CancellationToken cancellationToken)
@@ -33,20 +34,59 @@ namespace Application.CQRS.Dishes
                     var dish = await _context.DishesDb
                         .Include(dish => dish.Recipe)
                         .ThenInclude(recipe => recipe.Steps)
-                        //.Include(d => d.DishIngredients)
-                        //.ThenInclude(dr=>dr.N)
-                        //.Include(d => d.DishFoodCatalogs)
+                        .Include(d => d.DishIngredients)
+                            .ThenInclude(di => di.Ingredient)
+                                .ThenInclude(i => i.Measure)
+                        .Include(d => d.DishFoodCatalogs)
+                            .ThenInclude(df => df.FoodCatalog)
                         .FirstOrDefaultAsync(d => d.Id == request.Id);
 
                     if (dish == null)
                     {
-                        return Result<DishGetDTO>.Failure("no results");
+                        return Result<DishGetDTO>.Failure("Nie znaleziono dania o takim Id");
                     }
                     var recipeSteps = await _context.RecipeStepsDb
                .Where(r => r.RecipeId == dish.Id)
                .ToListAsync();
 
-                    var dishDTO = _mapper.Map<DishGetDTO>(dish);
+                    var dishDTO = new DishGetDTO
+                    {
+                        Id = dish.Id,
+                        Name = dish.Name,
+                        Calories = dish.Calories,
+                        ServingQuantity = dish.ServingQuantity,
+                        MeasureId = (int)dish.MeasureId,
+                        UnitId = (int)dish.UnitId,
+                        GlycemicIndex = dish.GlycemicIndex,
+                        PreparingTime = dish.PreparingTime,
+                        RecipeId = (int)dish.RecipeId,
+                        DieteticianId = dish.DieticianId,
+                        DishIngredients = dish.DishIngredients.Select(di => new DishIngredientGetDTO
+                        {
+                            DishId = di.DishId,
+                            Name = di.Ingredient.Name,
+                            IngredientId = di.IngredientId,
+                            IngredientName = di.Ingredient.Name,
+                            Quantity = di.Quantity,
+                            UnitId = di.UnitId
+                        }).ToList(),
+                        DishFoodCatalogs = dish.DishFoodCatalogs.Select(df => new DishFoodCatalogGetDTO
+                        {
+                            Id = df.Id,
+                            DishId = df.DishId,
+                            DishName = dish.Name,
+                            FoodCatalogId = df.FoodCatalogId,
+                            FoodCatalogName = df.FoodCatalog.CatalogName
+                        }).ToList(),
+                        RecipeStepsDTO = dish.Recipe.Steps.Select(rs => new RecipeStepGetDTO
+                        {
+                            Id = rs.Id,
+                            StepNumber = rs.StepNumber,
+                            Description = rs.Description,
+                            RecipeId = rs.RecipeId
+                        }).ToList()
+                    };
+
                     return Result<DishGetDTO>.Success(dishDTO);
                 }
                 catch (Exception ex)

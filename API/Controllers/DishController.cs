@@ -103,6 +103,7 @@ namespace API.Controllers
             }
             return BadRequest(result.Error);
         }
+
         [HttpGet("details/{dishId}")]
         public async Task<IActionResult> DishDetails(int dishId)
         {
