@@ -17,9 +17,9 @@ namespace Application.DTOs.DishDTO
         public int? GlycemicIndex { get; set; }
         public string PreparingTime { get; set; }
         public int? RecipeId { get; set; } = null;
-        public int DieteticianId { get; set; }
+        public int? DieteticianId { get; set; }
         public List<RecipeStepPostDTO> RecipeSteps { get; set; }
         public List<DishFoodCatalogPostDTO> DishFoodCatalogs { get; set; }
-        public List<DishIngredientPostDTO> DishIngredients { get; set; }
+        public List<DishIngredientPutDTO> DishIngredients { get; set; }
     }
 }

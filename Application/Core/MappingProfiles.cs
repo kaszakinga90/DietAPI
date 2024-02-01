@@ -367,6 +367,9 @@ namespace Application.Core
             CreateMap<DishIngredientPostDTO, DishIngredient>()
                 .ReverseMap();
 
+            CreateMap<DishIngredient, DishIngredientPutDTO>()
+                .ReverseMap();
+
             CreateMap<RecipePostDTO, Recipe>()
                 .ForMember(dest => dest.Steps, opt => opt.MapFrom(src => src.Steps))
                 .ReverseMap();

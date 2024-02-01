@@ -54,6 +54,8 @@ using Application.Validators.Survey;
 using Application.Validators.TestResults;
 using Application.Validators.Ingredients;
 using Application.BusinessLogic.CalculatesAndStatistics;
+using Application.CQRS.Dishes.DishToEdit.Edits;
+using Application.Validators.DishEditDetails;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -176,7 +178,9 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(ReportTemplatesList.Handler).Assembly,
     typeof(SexesList.Handler).Assembly,
     //typeof(SpecializationsList.Handler).Assembly,
-    typeof(UnitList.Handler).Assembly
+    typeof(UnitList.Handler).Assembly,
+    typeof(UpdateDishIngredientsDetailsList.Handler).Assembly,
+    typeof(UpdateDishFoodCatalogDetailsList.Handler).Assembly
     ));
 
 /// <summary>
@@ -219,6 +223,10 @@ builder.Services.AddTransient<FoodCatalogDieticianUpdateValidator>();
 builder.Services.AddTransient<DishUpdateValidator>();
 builder.Services.AddTransient<IngredientUpdateValidator>();
 builder.Services.AddTransient<DietPatientCreateValidator>();
+builder.Services.AddTransient<DishBaseDetailsUpdateValidator>();
+builder.Services.AddTransient<DishIngredientDetailsUpdateValidator>();
+builder.Services.AddTransient<DishFoodCatalogDetailsUpdateValidator>();
+builder.Services.AddTransient<DishRecipeDetailsUpdateValidator>();
 
 
 var emailSendConfiguration = builder.Configuration
