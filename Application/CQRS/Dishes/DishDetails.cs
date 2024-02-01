@@ -3,6 +3,7 @@ using Application.DTOs.DishDTO;
 using AutoMapper;
 using DietDB;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace Application.CQRS.Dishes
@@ -30,14 +31,23 @@ namespace Application.CQRS.Dishes
                 try
                 {
                     var dish = await _context.DishesDb
-                    .FindAsync(request.Id, cancellationToken);
+                        .Include(dish => dish.Recipe)
+                        .ThenInclude(recipe => recipe.Steps)
+                        //.Include(d => d.DishIngredients)
+                        //.ThenInclude(dr=>dr.N)
+                        //.Include(d => d.DishFoodCatalogs)
+                        .FirstOrDefaultAsync(d => d.Id == request.Id);
 
                     if (dish == null)
                     {
                         return Result<DishGetDTO>.Failure("no results");
                     }
+                    var recipeSteps = await _context.RecipeStepsDb
+               .Where(r => r.RecipeId == dish.Id)
+               .ToListAsync();
 
-                    return Result<DishGetDTO>.Success(_mapper.Map<DishGetDTO>(dish));
+                    var dishDTO = _mapper.Map<DishGetDTO>(dish);
+                    return Result<DishGetDTO>.Success(dishDTO);
                 }
                 catch (Exception ex)
                 {
@@ -45,6 +55,7 @@ namespace Application.CQRS.Dishes
                     return Result<DishGetDTO>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
                 }
             }
+
         }
     }
 }

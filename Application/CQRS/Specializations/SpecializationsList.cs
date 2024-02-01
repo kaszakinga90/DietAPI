@@ -25,6 +25,7 @@ namespace Application.CQRS.Specializations
                     try
                     {
                         var specializationsList = await _context.SpecializationsDb
+                            .Where(s=>s.isActive)
                         .Select(m => new SpecializationGetDTO
                         {
                             Id = m.Id,
