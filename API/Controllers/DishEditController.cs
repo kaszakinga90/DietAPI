@@ -3,6 +3,8 @@ using Application.CQRS.Dishes.DishToEdit.Gets;
 using Application.DTOs.DishDetailsToEditDTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ModelsDB;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace API.Controllers
 {
@@ -14,28 +16,28 @@ namespace API.Controllers
 
         #region metody GET dla elementów składowych Dish
 
-        [HttpGet("dish/{dishId}")]
+        [HttpGet("get/dish/{dishId}")]
         public async Task<IActionResult> GetDishBaseDetails(int dishId)
         {
             var result = await _mediator.Send(new DishBaseDetails.Query { DishId = dishId });
             return HandleResult(result);
         }
 
-        [HttpGet("ingredient/{dishId}")]
+        [HttpGet("get/ingredient/{dishId}")]
         public async Task<IActionResult> GetDishIngredientsDetails(int dishId)
         {
             var result = await _mediator.Send(new DishIngredientsDetailsList.Query { DishId = dishId });
             return HandleResult(result);
         }
 
-        [HttpGet("foodCatalog/{dishId}")]
+        [HttpGet("get/foodCatalog/{dishId}")]
         public async Task<IActionResult> GetDishFoodCatalogDetails(int dishId)
         {
             var result = await _mediator.Send(new DishFoodCatalogDetailsList.Query { DishId = dishId });
             return HandleResult(result);
         }
 
-        [HttpGet("recipe/{dishId}")]
+        [HttpGet("get/recipe/{dishId}")]
         public async Task<IActionResult> GetDishRecipeDetails(int dishId)
         {
             var result = await _mediator.Send(new DishRecipeDetails.Query { DishId = dishId });
@@ -45,7 +47,7 @@ namespace API.Controllers
         #endregion
 
         #region metody EDIT dla elementów składowych Dish
-        [HttpPut("dish/{dishId}")]
+        [HttpPut("update/dish/{dishId}")]
         public async Task<IActionResult> EditDishBaseDetails(int dishId, DishDetailsGetEditDTO dishDetailsGetEditDto)
         {
             var command = new UpdateDishBaseDetails.Command { 
@@ -61,12 +63,12 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        [HttpPut("ingredient/{dishId}")]
-        public async Task<IActionResult> EditDishIngredientsDetails(int dishId, List<DishIngredientsDetailsGetEditDTO> dishIngredientsDetailsGetEditListDto)
+        [HttpPut("update/ingredient/")]
+        public async Task<IActionResult> EditDishIngredientsDetails( List<DishIngredientsDetailsGetEditDTO> dishIngredientsDetailsGetEditListDto)
         {
             var command = new UpdateDishIngredientsDetailsList.Command
             {
-                DishId = dishId,
+                DishId = dishIngredientsDetailsGetEditListDto.FirstOrDefault()?.DishId ?? default(int),
                 DishIngredientsDetailsGetEditDto = dishIngredientsDetailsGetEditListDto
             };
 
@@ -78,12 +80,12 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        [HttpPut("foodCatalog/{dishId}")]
-        public async Task<IActionResult> EditDishFoodCatalogDetails(int dishId, List<DishFoodCatalogsDetailsGetEditDTO> dishFoodCatalogsDetailsGetEditListDto)
+        [HttpPut("update/foodCatalog/")]
+        public async Task<IActionResult> EditDishFoodCatalogDetails( List<DishFoodCatalogsDetailsGetEditDTO> dishFoodCatalogsDetailsGetEditListDto)
         {
             var command = new UpdateDishFoodCatalogDetailsList.Command
             {
-                DishId = dishId,
+                DishId = dishFoodCatalogsDetailsGetEditListDto.FirstOrDefault()?. DishId??default(int),
                 DishFoodCatalogsDetailsGetEditDto = dishFoodCatalogsDetailsGetEditListDto
             };
 
@@ -95,7 +97,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        [HttpPut("recipe/{dishId}")]
+        [HttpPut("update/recipe/{dishId}")]
         public async Task<IActionResult> EditDishRecipeDetails(int dishId, DishRecipeDetailsGetEditDTO dishRecipeDetailsGetEditDto)
         {
             var command = new UpdateDishRecipeDetails.Command

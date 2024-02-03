@@ -31,17 +31,17 @@ namespace Application.CQRS.Dishes.DishToEdit.Edits
 
             public async Task<Result<List<DishIngredientsDetailsGetEditDTO>>> Handle(Command request, CancellationToken cancellationToken)
             {
-                foreach (var item in request.DishIngredientsDetailsGetEditDto)
-                {
-                    var validationResult = await _validator
-                    .ValidateAsync(item, cancellationToken);
+                //foreach (var item in request.DishIngredientsDetailsGetEditDto)
+                //{
+                //    var validationResult = await _validator
+                //    .ValidateAsync(item, cancellationToken);
 
-                    if (!validationResult.IsValid)
-                    {
-                        var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
-                        return Result<List<DishIngredientsDetailsGetEditDTO>>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
-                    }
-                }
+                //    if (!validationResult.IsValid)
+                //    {
+                //        var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                //        return Result<List<DishIngredientsDetailsGetEditDTO>>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                //    }
+                //}
                 
                 try
                 {
@@ -79,7 +79,7 @@ namespace Application.CQRS.Dishes.DishToEdit.Edits
                     {
                         _context.DishIngredientsDb.Add(new DishIngredient
                         {
-                            DishId = request.DishId,
+                            DishId = dto.DishId,
                             IngredientId = dto.IngredientId,
                             Quantity = dto.Quantity,
                             UnitId = dto.UnitId
