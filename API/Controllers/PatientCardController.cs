@@ -60,7 +60,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        // DONE   - dodane filtrowane i sortowanie
+     
         [HttpGet("filters")]
         public async Task<IActionResult> GetFiltersPatientCardForDietician()
         {
