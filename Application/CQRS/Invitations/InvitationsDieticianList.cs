@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace Application.CQRS.Invitations
 {
-    // DONE : dorobić paginację na froncie (metoda zakomentowana niżje)
+    
     public class InvitationsDieticianList
     {
         public class Query : IRequest<Result<List<InvitationGetDTO>>>

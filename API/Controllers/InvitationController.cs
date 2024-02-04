@@ -36,6 +36,17 @@ namespace API.Controllers
             //return HandlePagedResult(result);
             return HandleResult(result);
         }
+        
+        [HttpGet("allForDieticianpagination/{dieticianId}")]
+
+        public async Task<IActionResult> GetInvitationsForDieticianPagination([FromQuery] InvitationParams pagingParams, int dieticianId)
+        {
+            
+            var result = await _mediator.Send(new InvitationsDieticianPaginationList.Query { Params = pagingParams, DieticianId = dieticianId });
+            //return Ok();
+            return HandlePagedResult(result);
+            //return HandleResult(result);
+        }
 
         [HttpGet("details/{invitationId}")]
         public async Task<IActionResult> GetInvitation(int invitationId)
