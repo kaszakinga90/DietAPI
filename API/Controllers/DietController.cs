@@ -61,6 +61,13 @@ namespace API.Controllers
         {
             var result = await _mediator.Send(new DietFilters.Query { DieticianId = dieticianId });
             return HandleResult(result);
+        }  
+        
+        [HttpGet("patientDietsNoPaginations/{patientId}")]
+        public async Task<IActionResult> GetDietsForPatientNoPaginationList(int patientId)
+        {
+            var result = await _mediator.Send(new DietsForPatientNoPaginationList.Query { PatientId = patientId });
+            return HandleResult(result);
         }
 
         
