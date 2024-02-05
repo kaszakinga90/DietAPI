@@ -74,7 +74,6 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        // DONE : edycja Dish (tylko, gdy nie jest używany w żadnych mealtimetoxyaxis
         [HttpPut("edit/{dishId}")]
         public async Task<IActionResult> EditDish(int dishId, DishEditDTO dishEditDTO)
         {
