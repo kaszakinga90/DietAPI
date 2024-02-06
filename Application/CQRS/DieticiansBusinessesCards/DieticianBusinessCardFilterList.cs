@@ -39,13 +39,13 @@ namespace Application.CQRS.DieticiansBusinessesCards
                         .ToListAsync(cancellationToken),
 
                     SpecializationNames = await _context.SpecializationsDb
-                        //.Where(m => m.PatientId == request.PatientId && m.DieticianId != null)
+                        //.Where(m => m.DieticianId == request.DieticianId && m.DieticianId != null)
                         .Select(m => m.SpecializationName)
                         .Distinct()
                         .ToListAsync(cancellationToken),
 
                     StateNames = await _context.CountryStatesDb
-                        //.Where(m => m.PatientId == request.PatientId && m.DieticianId != null)
+                        //.Where(m => m.DieticianId == request.DieticianId && m.DieticianId != null)
                         .Select(m => m.StateName)
                         .Distinct()
                         .ToListAsync(cancellationToken),

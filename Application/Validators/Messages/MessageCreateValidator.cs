@@ -34,9 +34,9 @@ namespace Application.Validators.Messages
 
             RuleFor(dto => dto.PatientId)
                 .Null().When(patientId => patientId == null)
-                    .WithMessage("Pole PatientId nie może mieć wartości, gdy jest puste.")
+                    .WithMessage("Pole DieticianId nie może mieć wartości, gdy jest puste.")
                 .GreaterThan(1).When(patientId => patientId != null)
-                    .WithMessage("Wartość pola PatientId musi być większa niż 1.");
+                    .WithMessage("Wartość pola DieticianId musi być większa niż 1.");
         }
     }
 }

@@ -94,6 +94,8 @@ namespace DietDB
         public DbSet<Invitation> InvitationsDb { get; set; }
         public DbSet<Printout> PrintoutsDb { get; set; }
         public DbSet<DietPatient> DietPatientsDb { get; set; }
+        public DbSet<DietSalesBill> DietSalesBillsDb { get; set; }
+        public DbSet<Sales> SalesDb { get; set; }
         //public DbSet<Role> Role { get; set; }
         //public DbSet<MealTimeToXYAxis> MealTimeToXYAxis { get; set; }
 
