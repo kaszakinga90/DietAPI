@@ -1,4 +1,5 @@
-﻿using Application.CQRS.Ingredients.Nutritionixs;
+﻿using Application.Core;
+using Application.CQRS.Ingredients.Nutritionixs;
 using Application.DTOs.IngredientDTO.IngredientNutritionixDTO;
 using DietDB;
 using MediatR;
@@ -103,7 +104,7 @@ namespace API.Controllers
                                         MeasureNameFromJSON = measureName,
                                         Weight = element.GetProperty("serving_weight_grams").GetSingle(),
                                         UnitId = unitId,
-                                        //PictureUrl = element.GetProperty("photo").GetProperty("thumb").GetString(),
+                                        PictureUrl = element.GetProperty("photo").GetProperty("thumb").GetString(),
                                     };
 
                                     ingredientDTO.LoadNutrientsLazy(element.GetProperty("full_nutrients"), _context);
@@ -130,8 +131,13 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateIngredientFromNutritionix(IngredientNutritionixDTO Ingredient)
         {
-            await _mediator.Send(new IngredientFromNutritionixCreate.Command { IngredientNutritionixDTO = Ingredient });
-            return Ok();
+           var command = new IngredientFromNutritionixCreate.Command { IngredientNutritionixDTO = Ingredient };
+            var result = await _mediator.Send(command);
+            if (result.IsSucces)
+            {
+                return Ok(new { data = result.Value, message = "Pomyślnie dodano składnik." });
+            }
+            return BadRequest(result.Error);
         }
     }
 

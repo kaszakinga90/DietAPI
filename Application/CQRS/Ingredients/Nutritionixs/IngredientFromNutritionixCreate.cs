@@ -1,4 +1,6 @@
-﻿using Application.DTOs.IngredientDTO.IngredientNutritionixDTO;
+﻿using Application.Core;
+using Application.DTOs.IngredientDTO.IngredientNutritionixDTO;
+using Application.DTOs.LogoDTO;
 using AutoMapper;
 using DietDB;
 using MediatR;
@@ -9,12 +11,12 @@ namespace Application.CQRS.Ingredients.Nutritionixs
 {
     public class IngredientFromNutritionixCreate
     {
-        public class Command : IRequest
+        public class Command : IRequest<Result<IngredientNutritionixDTO>>
         {
             public IngredientNutritionixDTO IngredientNutritionixDTO { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, Result<IngredientNutritionixDTO>>
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
@@ -25,12 +27,18 @@ namespace Application.CQRS.Ingredients.Nutritionixs
                 _mapper = mapper;
             }
 
-            public async Task Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<IngredientNutritionixDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
+                
                 var ingredient = _mapper.Map<Ingredient>(request.IngredientNutritionixDTO);
-
+                
                 _context.IngredientsDb.Add(ingredient);
+
+
+
                 await _context.SaveChangesAsync();
+
+
 
                 if (request.IngredientNutritionixDTO.NutrientsDTO != null && request.IngredientNutritionixDTO.NutrientsDTO.Any())
                 {
@@ -52,10 +60,29 @@ namespace Application.CQRS.Ingredients.Nutritionixs
                             await _context.SaveChangesAsync();
                         }
                     }
-                    await _context.SaveChangesAsync();
+
+                    await _context.SaveChangesAsync(cancellationToken);
                 }
+
+                try
+                {
+                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    if (!result)
+                    {
+                        return Result<IngredientNutritionixDTO>.Failure("Dodanie składnika nie powiodło się.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Result<IngredientNutritionixDTO>.Failure("Wystąpił błąd podczas dodawania składnika: " + ex.Message);
+                }
+
+                return Result<IngredientNutritionixDTO>.Success(_mapper.Map<IngredientNutritionixDTO>(ingredient));
+
             }
 
         }
     }
 }
+
+// TODO : działa dobrze, ale wyświetla zły komunikat

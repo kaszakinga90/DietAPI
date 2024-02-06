@@ -14,7 +14,7 @@
         public float? Weight { get; set; }
         public int? UnitId { get; set; }
         public int? GlycemicIndex { get; set; }
-        //public string PictureUrl { get; set; }
+        public string PictureUrl { get; set; }
         public List<IngredientNutrientDTO> NutrientsDTO { get; set; }
     }
 }

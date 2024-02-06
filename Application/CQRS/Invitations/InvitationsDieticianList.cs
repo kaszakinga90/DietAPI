@@ -80,7 +80,7 @@ namespace Application.CQRS.Invitations
     //                    {
     //                        UserId = m.UserId,
     //                        DieticianId = m.DieticianId,
-    //                        PatientId = m.PatientId,
+    //                        DieticianId = m.DieticianId,
     //                        IsSended = m.IsSended,
     //                        IsAccepted = m.IsAccepted,
     //                        IsDeclined = m.IsDeclined,

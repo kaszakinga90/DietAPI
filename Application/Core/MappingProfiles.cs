@@ -2,6 +2,7 @@
 using Application.DTOs;
 using Application.DTOs.AddressDTO;
 using Application.DTOs.AdminDTO;
+using Application.DTOs.BillDTO;
 using Application.DTOs.CategoryOfDietDTO;
 using Application.DTOs.CountryStateDTO;
 using Application.DTOs.DayWeekDTO;
@@ -63,8 +64,28 @@ namespace Application.Core
         {
             //CreateMap<DietPatient, DietPatientPostDTO>()
             //    .ForMember(dest => dest.DieticianName, opt => opt.MapFrom(src => _context.DieticiansDb.FirstOrDefault(d => d.Id == src.DieticianId).Email))
-            //    .ForMember(dest => dest.PatientName, opt => opt.MapFrom(src => _context.PatientsDb.FirstOrDefault(p => p.Id == src.PatientId).Email))
+            //    .ForMember(dest => dest.PatientName, opt => opt.MapFrom(src => _context.PatientsDb.FirstOrDefault(p => p.Id == src.DieticianId).Email))
             //    .ForMember(dest => dest.DietName, opt => opt.MapFrom(src => _context.DietsDb.FirstOrDefault(d => d.Id == src.DietId).Name));
+
+            CreateMap<DietSalesBill, DietSalesBillPostDTO>()
+            .ReverseMap();
+
+            CreateMap<Sales, SalesPostDTO>()
+                .ReverseMap();
+
+            CreateMap<DietSalesBill, DietSalesBillGetDTO>()
+            .ReverseMap();
+
+            CreateMap<Sales, SalesGetDTO>()
+                .ReverseMap();
+
+            CreateMap<DietSalesBill, DietSalesBillPutDTO>()
+            .ReverseMap();
+
+            CreateMap<Sales, SalesPutDTO>()
+                .ReverseMap();
+
+
 
             CreateMap<DietPatient, DietPatientPostDTO>()
                 .ReverseMap();
