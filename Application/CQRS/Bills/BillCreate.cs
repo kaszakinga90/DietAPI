@@ -47,6 +47,8 @@ namespace Application.CQRS.Bills
                     return Result<DietSalesBillPostDTO>.Failure("Niepowodzenie mapowania.");
                 }
 
+                dietSales.Sales.SalesDate = DateTime.Now;
+                dietSales.Sales.IsPaid = false;
                 _context.DietSalesBillsDb.Add(dietSales);
 
                 try

@@ -1,5 +1,4 @@
 ﻿using Application.CQRS.Bills;
-using Application.CQRS.Invitations;
 using Application.DTOs.BillDTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -46,10 +45,10 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        [HttpPut("payTheBill/{dietSalesBillId}")]
-        public async Task<IActionResult> PayTheBill(DietSalesBillPutDTO dietSalesBillPutDTO)
+        [HttpPut("payTheBill")]
+        public async Task<IActionResult> PayTheBill(SalesPutDTO salesPutDTO)
         {
-            var command = new BillEdit.Command { DietSalesBillPutDTO = dietSalesBillPutDTO };
+            var command = new BillEdit.Command { SalesPutDTO = salesPutDTO };
             var result = await _mediator.Send(command);
             if (result.IsSucces)
             {
