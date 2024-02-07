@@ -11,12 +11,12 @@ namespace Application.CQRS.Bills
 {
     public class BillEdit
     {
-        public class Command : IRequest<Result<DietSalesBillPutDTO>>
+        public class Command : IRequest<Result<SalesPutDTO>>
         {
-            public DietSalesBillPutDTO DietSalesBillPutDTO { get; set; }
+            public SalesPutDTO SalesPutDTO { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Result<DietSalesBillPutDTO>>
+        public class Handler : IRequestHandler<Command, Result<SalesPutDTO>>
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
@@ -27,34 +27,61 @@ namespace Application.CQRS.Bills
                 _mapper = mapper;
             }
 
-            public async Task<Result<DietSalesBillPutDTO>> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<SalesPutDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var billDto = request.DietSalesBillPutDTO;
+                var salesDto = request.SalesPutDTO;
 
-                var dietSalesBill = await _context.DietSalesBillsDb.FindAsync(billDto.Id);
+                var sales = await _context.SalesDb.FindAsync(salesDto.Id);
 
-                if (dietSalesBill == null)
+                if (sales == null)
                 {
-                    return Result<DietSalesBillPutDTO>.Failure("Nie znaleziono rachunku o podanym id.");
+                    return Result<SalesPutDTO>.Failure("Nie znaleziono rachunku o podanym id.");
                 }
 
-                _mapper.Map(request.DietSalesBillPutDTO, dietSalesBill);
-                dietSalesBill.Sales.IsPaid = true;
+                _mapper.Map(request.SalesPutDTO, sales);
+                sales.IsPaid = true;
 
                 try
                 {
                     var result = await _context.SaveChangesAsync(cancellationToken) > 0;
                     if (!result)
                     {
-                        return Result<DietSalesBillPutDTO>.Failure("Opłacenie rachunku nie powiodło się.");
+                        return Result<SalesPutDTO>.Failure("Opłacenie rachunku nie powiodło się.");
                     }
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
-                    return Result<DietSalesBillPutDTO>.Failure("Wystąpił błąd podczas opłacania rachunku.");
+                    return Result<SalesPutDTO>.Failure("Wystąpił błąd podczas opłacania rachunku.");
                 }
-                return Result<DietSalesBillPutDTO>.Success(_mapper.Map<DietSalesBillPutDTO>(dietSalesBill));
+                return Result<SalesPutDTO>.Success(_mapper.Map<SalesPutDTO>(sales));
+
+                //var salesDto = request.DietSalesBillPutDTO;
+
+                //var sales = await _context.DietSalesBillsDb.FindAsync(salesDto.Id);
+
+                //if (sales == null)
+                //{
+                //    return Result<DietSalesBillPutDTO>.Failure("Nie znaleziono rachunku o podanym id.");
+                //}
+
+                //_mapper.Map(request.DietSalesBillPutDTO, sales);
+                //sales.Sales.IsPaid = true;
+
+                //try
+                //{
+                //    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                //    if (!result)
+                //    {
+                //        return Result<DietSalesBillPutDTO>.Failure("Opłacenie rachunku nie powiodło się.");
+                //    }
+                //}
+                //catch (Exception ex)
+                //{
+                //    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
+                //    return Result<DietSalesBillPutDTO>.Failure("Wystąpił błąd podczas opłacania rachunku.");
+                //}
+                //return Result<DietSalesBillPutDTO>.Success(_mapper.Map<DietSalesBillPutDTO>(sales));
             }
         }
     }

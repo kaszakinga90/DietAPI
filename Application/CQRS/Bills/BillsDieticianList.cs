@@ -30,10 +30,33 @@ namespace Application.CQRS.Bills
                     {
                         var billsList = await _context.DietSalesBillsDb
                             .Include(b => b.Sales)
-                        .Where(b => b.DieticianId == request.DieticianId)
-                        .ToListAsync(cancellationToken);
+                            .Where(b => b.DieticianId == request.DieticianId)
+                            .ToListAsync(cancellationToken);
 
-                        var billsListDto = _mapper.Map<List<DietSalesBillGetDTO>>(billsList);
+                        var billsListDto = new List<DietSalesBillGetDTO>();
+
+                        foreach (var bill in billsList)
+                        {
+                            var patient = await _context.PatientsDb.FirstOrDefaultAsync(d => d.Id == bill.PatientId, cancellationToken);
+                            var billDto = new DietSalesBillGetDTO
+                            {
+                                Id = bill.Id,
+                                DieticianId = bill.DieticianId,
+                                PatientId = bill.PatientId,
+                                SalesId = bill.SalesId,
+                                Sales = bill.Sales != null ? new SalesGetDTO
+                                {
+                                    Id = bill.Sales.Id,
+                                    DietId = bill.Sales.DietId,
+                                    Price = bill.Sales.Price,
+                                    IsPaid = bill.Sales.IsPaid,
+                                    SalesDate = bill.Sales.SalesDate.ToShortDateString(),
+                                } : null,
+                                PatientName = patient != null ? patient.FirstName + " " + patient.LastName : null
+                            };
+
+                            billsListDto.Add(billDto);
+                        }
 
                         return Result<List<DietSalesBillGetDTO>>.Success(billsListDto);
                     }

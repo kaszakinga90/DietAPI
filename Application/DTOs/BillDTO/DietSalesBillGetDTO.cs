@@ -7,5 +7,8 @@
         public int PatientId { get; set; }
         public int SalesId { get; set; }
         public SalesGetDTO Sales { get; set; }
+
+        public string DieticianName { get; set; }
+        public string PatientName { get; set;}
     }
 }

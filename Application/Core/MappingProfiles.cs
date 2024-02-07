@@ -74,6 +74,10 @@ namespace Application.Core
                 .ReverseMap();
 
             CreateMap<DietSalesBill, DietSalesBillGetDTO>()
+    //            .ForMember(dest => dest.DieticianName, opt => opt.MapFrom(src =>
+    //_context.DieticiansDb.Where(d => d.Id == src.DieticianId)
+    //.Select(d => d.FirstName + " " + d.LastName)
+    //.FirstOrDefault()))
             .ReverseMap();
 
             CreateMap<Sales, SalesGetDTO>()
