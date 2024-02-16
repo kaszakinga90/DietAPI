@@ -1,12 +1,13 @@
 ﻿using Application.CQRS.Logos;
 using Application.DTOs.LogoDTO;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     // TODO : sposób przedstawienia nagłówków autoryzacyjnych
-    //[Authorize(Roles = "Admin, Dietetician")]
+    [Authorize(Roles = "Admin, Dietetician")]
     public class LogoController : BaseApiController
     {
         public LogoController(IMediator mediator) : base(mediator)
