@@ -44,14 +44,14 @@ namespace Application.CQRS.PatientCards
                 var pc = request.PatientCardPostDTO;
                 var parameters = new[]
                 {
-                        new SqlParameter("@DieticianId", pc.PatientId),
+                        new SqlParameter("@PatientId", pc.PatientId),
                         new SqlParameter("@DieticianId", pc.DieticianId),
                         new SqlParameter("@SexId", pc.SexId)
                 };
 
                 try
                 {
-                    var result = await _context.Database.ExecuteSqlRawAsync("EXEC CreatePatientCard @DieticianId, @DieticianId, @SexId", parameters) > 0;
+                    var result = await _context.Database.ExecuteSqlRawAsync("EXEC CreatePatientCard @PatientId, @DieticianId, @SexId", parameters) > 0;
 
                     if (!result)
                     {
