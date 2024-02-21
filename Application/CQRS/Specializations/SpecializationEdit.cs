@@ -30,7 +30,7 @@ namespace Application.CQRS.Specializations
                 public async Task<Result<SpecializationPostDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
                     var validationResult = await _validator
-                    .ValidateAsync(request.SpecializationEditDTO, cancellationToken);
+                    .ValidateAsync(request.SpecializationEditDTO);
 
                     if (!validationResult.IsValid)
                     {
@@ -39,27 +39,27 @@ namespace Application.CQRS.Specializations
                     }
 
                     var specialization = await _context.SpecializationsDb
-                        .FindAsync(new object[] { request.SpecializationEditDTO.Id }, cancellationToken);
+                        .FindAsync(new object[] { request.SpecializationEditDTO.Id });
 
                     if (specialization == null)
                     {
-                        return Result<SpecializationPostDTO>.Failure("Pacjent o podanym ID nie został znaleziony.");
+                        return Result<SpecializationPostDTO>.Failure("Specjalizacja o podanym ID nie została znaleziona.");
                     }
 
                     _mapper.Map(request.SpecializationEditDTO, specialization);
 
                     try
                     {
-                        var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                        var result = await _context.SaveChangesAsync() > 0;
                         if (!result)
                         {
-                            return Result<SpecializationPostDTO>.Failure("Edycja pacjenta nie powiodła się.");
+                            return Result<SpecializationPostDTO>.Failure("Edycja specjalizacji nie powiodła się.");
                         }
                     }
                     catch (Exception ex)
                     {
                         Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
-                        return Result<SpecializationPostDTO>.Failure("Wystąpił błąd podczas edycji pacjenta. " + ex);
+                        return Result<SpecializationPostDTO>.Failure("Wystąpił błąd podczas edycji specjalizacji. " + ex);
                     }
                     return Result<SpecializationPostDTO>.Success(_mapper.Map<SpecializationPostDTO>(specialization));
                 }

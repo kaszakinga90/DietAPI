@@ -35,7 +35,7 @@ namespace Application.CQRS.Logos
             public async Task<Result<LogoPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var validationResult = await _validator
-                    .ValidateAsync(request.LogoPostDTO, cancellationToken);
+                    .ValidateAsync(request.LogoPostDTO);
 
                 if (!validationResult.IsValid)
                 {
@@ -73,7 +73,7 @@ namespace Application.CQRS.Logos
 
                 try
                 {
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    var result = await _context.SaveChangesAsync() > 0;
                     if (!result)
                     {
                         return Result<LogoPostDTO>.Failure("Edycja logo nie powiodła się.");

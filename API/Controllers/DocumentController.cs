@@ -1,10 +1,8 @@
 ﻿using Application.CQRS.Printouts;
-using Application.CQRS.Specializations;
 using Application.DTOs.PrintoutsDTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Xceed.Words.NET;
 
 namespace API.Controllers
 {
@@ -39,7 +37,7 @@ namespace API.Controllers
         [HttpPost("generatePrintoutDocument/byTemplate")]
         public async Task<IActionResult> GenerateDocument(PrintoutDocumentPostDTO printout)
         {
-            Console.WriteLine($"Received request with PrintoutDocumentPostDTO: {JsonConvert.SerializeObject(printout)}");
+            Console.WriteLine($"Otrzymano zapytanie z PrintoutDocumentPostDTO: {JsonConvert.SerializeObject(printout)}");
 
             var result = await _mediator.Send(new PrintoutDocumentCreate.Command { Data = printout });
 
@@ -65,7 +63,6 @@ namespace API.Controllers
 
             return File(result.Value, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "filledTemplate.docx");
         }
-
         
         [HttpDelete("delete/{printoutId}")]
         public async Task<IActionResult> RemovePrintoutTemplate(int printoutId)

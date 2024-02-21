@@ -1,5 +1,4 @@
 ﻿using Application.Core;
-using Application.DTOs.DishDTO;
 using Application.Validators.Ingredients;
 using AutoMapper;
 using DietDB;
@@ -7,6 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
+// TODO : validacja
 namespace Application.CQRS.Ingredients
 {
     public class IngredientEdit
@@ -32,7 +32,7 @@ namespace Application.CQRS.Ingredients
             public async Task<Result<IngredientEditDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 //var validationResult = await _validator
-                //    .ValidateAsync(request.IngredientEditDTO, cancellationToken);
+                //    .ValidateAsync(request.IngredientEditDTO);
 
                 //if (!validationResult.IsValid)
                 //{
@@ -42,7 +42,7 @@ namespace Application.CQRS.Ingredients
 
                 var ingredient = await _context.IngridientsDb
                                     .Include(i => i.Nutrients)
-                                    .SingleOrDefaultAsync(i => i.Id == request.IngredientEditDTO.Id, cancellationToken);
+                                    .SingleOrDefaultAsync(i => i.Id == request.IngredientEditDTO.Id);
 
                 if (ingredient == null)
                 {
@@ -53,14 +53,14 @@ namespace Application.CQRS.Ingredients
 
                 if (relations)
                 {
-                    return Result<IngredientEditDTO>.Failure("Ingredient is being used in another tabel. Cannot edit.");
+                    return Result<IngredientEditDTO>.Failure("Składnik jest uzywanyw innej tabeli. Nie mozna edytować.");
                 }
 
                 _mapper.Map(request.IngredientEditDTO, ingredient);
 
                 try
                 {
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    var result = await _context.SaveChangesAsync() > 0;
                     if (!result)
                     {
                         return Result<IngredientEditDTO>.Failure("Edycja ingredient nie powiodła się.");

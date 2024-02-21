@@ -29,18 +29,18 @@ namespace Application.CQRS.Dishes
                 public async Task<Result<DishDeleteDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
                     var dish = await _context.DishesDb
-                        .SingleOrDefaultAsync(di => di.Id == request.DishId, cancellationToken);
+                        .SingleOrDefaultAsync(di => di.Id == request.DishId);
 
                     if (dish == null)
                     {
-                        return Result<DishDeleteDTO>.Failure("Dish not found.");
+                        return Result<DishDeleteDTO>.Failure("Nie znaleziono dania.");
                     }
 
                     var relations = _context.MealTimesDb.Any(mt => mt.DishId == dish.Id);
 
                     if (relations)
                     {
-                        return Result<DishDeleteDTO>.Failure("Dish is being used in another tabel. Cannot delete.");
+                        return Result<DishDeleteDTO>.Failure("To danie jest uzywane w innej tabeli. Nie mozna usunąć.");
                     }
 
                     dish.isActive = false;
@@ -65,7 +65,7 @@ namespace Application.CQRS.Dishes
 
                     try
                     {
-                        var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                        var result = await _context.SaveChangesAsync() > 0;
                         if (!result)
                         {
                             return Result<DishDeleteDTO>.Failure("Operacja nie powiodła się.");

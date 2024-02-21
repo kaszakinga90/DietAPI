@@ -40,7 +40,7 @@ namespace Application.BusinessLogic.DietSaleses
 
                 if (dietSales == null || dietSales.Count == 0)
                 {
-                    return Result<List<DietSalesDTO>>.Failure("cannot create diet sales.");
+                    return Result<List<DietSalesDTO>>.Failure("Nie można stworzyć raportu sprzedazy.");
                 }
 
                 return Result<List<DietSalesDTO>>.Success(dietSales);

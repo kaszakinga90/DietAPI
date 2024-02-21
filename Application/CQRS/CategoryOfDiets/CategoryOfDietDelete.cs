@@ -1,7 +1,5 @@
 ﻿using Application.Core;
 using Application.DTOs.CategoryOfDietDTO;
-using Application.DTOs.InvitationDTO;
-using Application.DTOs.PatientDTO;
 using AutoMapper;
 using DietDB;
 using MediatR;
@@ -29,7 +27,6 @@ namespace Application.CQRS.CategoryOfDiets
                 _mapper = mapper;
             }
 
-            // TODO : do usunięcia tylko wtedy, gdy to nie w uzytku? lub gdy dietetyk jest usuwany to i jego kategorie też?
             public async Task<Result<CategoryOfDietDeleteDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var categoryOfDiet = await _context.CategoryOfDietsDb.FirstOrDefaultAsync(i => i.Id == request.Id);
@@ -45,7 +42,7 @@ namespace Application.CQRS.CategoryOfDiets
 
                 try
                 {
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    var result = await _context.SaveChangesAsync() > 0;
                     if (!result)
                     {
                         return Result<CategoryOfDietDeleteDTO>.Failure("Usunięcie kategorii nie powiodło się.");

@@ -32,7 +32,7 @@ namespace Application.CQRS.UserRoles
                 {
                     var roleToRemove = await _context.Roles
                             .Where(r => r.Id == request.UserRoleId)
-                            .FirstOrDefaultAsync(cancellationToken);
+                            .FirstOrDefaultAsync();
 
                     var user = await _userManager
                         .FindByIdAsync(request.UserId.ToString());
@@ -79,7 +79,7 @@ namespace Application.CQRS.UserRoles
                                     })
                                     .ToList()
                             })
-                            .FirstOrDefaultAsync(cancellationToken);
+                            .FirstOrDefaultAsync();
 
                     return Result<RoleForUserDeleteDTO>.Success(userAfterDeleteRole);
                 }

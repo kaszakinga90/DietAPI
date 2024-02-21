@@ -43,7 +43,7 @@ namespace Application.Services.EmailSends
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine(ex.Message, "An error occurred while sending email. Subject: {0}, Recipient: {1}", mailMessage.Subject, mailMessage.To);
+                    Debug.WriteLine(ex.Message, "Błąd podczas wysyłania wiadomości email. Temat: {0}, Odbiorca: {1}", mailMessage.Subject, mailMessage.To);
                     throw;
                 }
                 finally

@@ -1,6 +1,4 @@
-﻿using Application.Core;
-using Application.CQRS.CountryStates;
-using Application.CQRS.Dieticians;
+﻿using Application.CQRS.Dieticians;
 using Application.CQRS.Diplomas;
 using Application.CQRS.Messages;
 using Application.DTOs.DieticianDTO;
@@ -138,7 +136,6 @@ namespace API.Controllers
             var result = await _mediator.Send(command);
 
             return Ok(result);
-            //    return HandleResult(await _mediator.Send(command));
         }
 
         [HttpPost("diploma")]
@@ -156,6 +153,7 @@ namespace API.Controllers
             }
             return BadRequest(result.Error);
         }
+
         [HttpGet("allnopagination")]
         public async Task<IActionResult> GetCountryStates()
         {

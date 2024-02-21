@@ -85,21 +85,15 @@ namespace DietDB
         public DbSet<DieticianPatientRating> DieticianPatientRatings { get; set; }
         public DbSet<Logo> LogosDb { get; set; }
         public DbSet<CountryState> CountryStatesDb { get; set; }
-        
         public DbSet<DieticianOffice> DieticianOffices { get; set; }
         public DbSet<ReportTemplate> ReportTemplatesDb { get; set; }
         public DbSet<ReportTemplatePreview> ReportTemplatePreviewsDb { get; set; }
-
         public DbSet<Meal> MealsDb { get; set; }
         public DbSet<Invitation> InvitationsDb { get; set; }
         public DbSet<Printout> PrintoutsDb { get; set; }
         public DbSet<DietPatient> DietPatientsDb { get; set; }
         public DbSet<DietSalesBill> DietSalesBillsDb { get; set; }
         public DbSet<Sales> SalesDb { get; set; }
-        //public DbSet<Role> Role { get; set; }
-        //public DbSet<MealTimeToXYAxis> MealTimeToXYAxis { get; set; }
-
-
         #endregion
 
         #region settings
@@ -115,8 +109,6 @@ namespace DietDB
             modelBuilder.Entity<Ingredient>()
                 .HasIndex(i => new { i.Name })
                 .HasDatabaseName("IX_IngredientName");
-
-
             modelBuilder.Entity<IdentityRole>()
                 .HasData(
                 new IdentityRole { Name = "SuperAdmin", NormalizedName = "SUPERADMIN" },
@@ -144,8 +136,6 @@ namespace DietDB
                 .HasForeignKey<SocialMedia>(socialMedia => socialMedia.LinkId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // ---------------------------------------------------------------------------------------- //
-
             modelBuilder.Entity<DieticianOffice>()
                 .HasKey(mp => new { mp.DieticianId, mp.OfficeId });
 
@@ -160,8 +150,6 @@ namespace DietDB
                 .WithMany(p => p.DieticianOffices)
                 .HasForeignKey(mp => mp.OfficeId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            // ---------------------------------------------------------------------------------------- //
 
             modelBuilder.Entity<DieticianPatient>()
                 .HasKey(dp => new { dp.PatientId, dp.DieticianId });
@@ -178,9 +166,6 @@ namespace DietDB
                 .HasForeignKey(dp => dp.DieticianId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-
-            // ---------------------------------------------------------------------------------------- //
-
             modelBuilder.Entity<NotePatient>()
                 .HasKey(np => new { np.PatientId, np.NoteId });
 
@@ -196,8 +181,6 @@ namespace DietDB
                 .HasForeignKey(np => np.NoteId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // ---------------------------------------------------------------------------------------- //
-
             modelBuilder.Entity<DieticianNote>()
                 .HasKey(dn => new { dn.DieticianId, dn.NoteId });
 
@@ -207,23 +190,11 @@ namespace DietDB
                 .HasForeignKey(dn => dn.NoteId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // ---------------------------------------------------------------------------------------- //
-
-            //modelBuilder.Entity<TestResult>()
-            //    .HasOne(te => te.Patient)
-            //    .WithMany(p => p.TestEquals)
-            //    .HasForeignKey(te => te.PatientId)
-            //    .OnDelete(DeleteBehavior.Restrict);
-
-            // ---------------------------------------------------------------------------------------- //
-
             modelBuilder.Entity<Visit>()
                 .HasOne(v => v.Patient)
                 .WithMany(p => p.Visits)
                 .HasForeignKey(v => v.PatientId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            // ---------------------------------------------------------------------------------------- //
 
             modelBuilder.Entity<IngredientNutrient>()
                  .HasOne(inut => inut.Nutrient)
@@ -231,37 +202,17 @@ namespace DietDB
                  .HasForeignKey(inut => inut.NutrientId)
                  .OnDelete(DeleteBehavior.Restrict);
 
-            // ---------------------------------------------------------------------------------------- //
-
             modelBuilder.Entity<Diet>()
                 .HasOne(d => d.Patient)
                 .WithMany(p => p.Diets)
                 .HasForeignKey(d => d.PatientId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //**************************************************************************************************
-
             modelBuilder.Entity<Diet>()
                 .HasOne(d => d.Dietician) 
                 .WithMany(di => di.Diets) 
                 .HasForeignKey(d => d.DieteticianId); 
 
-            //**************************************************************************************************
-
-            //modelBuilder.Entity<DishFoodCatalog>()
-            //    .HasKey(mp => new { mp.DishId, mp.FoodCatalogId });
-
-            //modelBuilder.Entity<DishFoodCatalog>()
-            //    .HasOne(mp => mp.Dish)
-            //    .WithMany(m => m.DishFoodCatalogsDb)
-            //    .HasForeignKey(mp => mp.DishId);
-
-            //modelBuilder.Entity<DishFoodCatalog>()
-            //    .HasOne(mp => mp.FoodCatalog)
-            //    .WithMany(p => p.DishFoodCatalogsDb)  
-            //    .HasForeignKey(mp => mp.FoodCatalogId);
-
-            //**************************************************************************************************
             modelBuilder.Entity<DishIngredient>()
                 .HasKey(di => new { di.DishId, di.IngredientId });
 
@@ -277,8 +228,6 @@ namespace DietDB
                 .HasForeignKey(di => di.IngredientId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //**************************************************************************************************
-
             modelBuilder.Entity<PatientCardSurvey>()
                 .HasKey(mp => new { mp.PatientCardId, mp.SurveyId });
 
@@ -291,7 +240,7 @@ namespace DietDB
                 .HasOne(mp => mp.Survey)
                 .WithMany(p => p.PatientCardSurveys)
                 .HasForeignKey(mp => mp.SurveyId);
-            //**************************************************************************************************
+
             modelBuilder.Entity<IngredientNutrient>()
                 .HasKey(inr => new { inr.IngredientId, inr.NutrientId });
 
@@ -304,23 +253,6 @@ namespace DietDB
                 .HasOne(inr => inr.Nutrient)
                 .WithMany(n => n.Ingredients)
                 .HasForeignKey(inr => inr.NutrientId);
-
-            //modelBuilder.Entity<DietPatient>()
-            //    .HasKey(mp => new { mp.PatientId, mp.DietId });
-
-            //modelBuilder.Entity<DietPatient>()
-            //    .HasOne(mp => mp.Patient)
-            //    .WithMany(m => m.DietPatients)
-            //    .HasForeignKey(mp => mp.PatientId)
-            //    .OnDelete(DeleteBehavior.Restrict);
-
-            //modelBuilder.Entity<DietPatient>()
-            //    .HasOne(mp => mp.Diet)
-            //    .WithMany(p => p.diet)
-            //    .HasForeignKey(mp => mp.DietId)
-            //    .OnDelete(DeleteBehavior.Restrict);
-
-            // ---------------------------------------------------------------------------------------- //
 
             modelBuilder.Entity<DieticianSpecialization>()
                 .HasKey(np => new { np.DieticianId, np.SpecializationId });
@@ -337,8 +269,6 @@ namespace DietDB
                 .HasForeignKey(np => np.SpecializationId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // ---------------------------------------------------------------------------------------- //
-
             modelBuilder.Entity<Recipe>()
                 .HasKey(r => r.Id);
 
@@ -348,15 +278,11 @@ namespace DietDB
                 .HasForeignKey<Dish>(d => d.RecipeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // ---------------------------------------------------------------------------------------- //
-
             modelBuilder.Entity<PatientCard>()
                 .HasOne(pc => pc.Patient)
                 .WithMany(p => p.PatientCards)
                 .HasForeignKey(pc => pc.PatientId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            // ---------------------------------------------------------------------------------------- //
 
             modelBuilder.Entity<DieticianPatientRating>()
                 .HasKey(dpr => new { dpr.DieticianId, dpr.PatientId });
@@ -379,8 +305,6 @@ namespace DietDB
                 .HasForeignKey(dpr => dpr.RatingId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // ---------------------------------------------------------------------------------------- //
-
             modelBuilder.Entity<Logo>()
                 .HasOne(l => l.Dietician)
                 .WithOne(d => d.Logo)
@@ -391,8 +315,6 @@ namespace DietDB
                 .WithOne(l => l.Dietician)
                 .HasForeignKey<Logo>(l => l.DieticianId)
                 .IsRequired(false);
-
-            // ---------------------------------------------------------------------------------------- //
 
             modelBuilder.Entity<Invitation>()
                 .HasKey(e => e.Id);
@@ -420,5 +342,4 @@ namespace DietDB
             base.OnConfiguring(optionsBuilder);
         }
     }
-
 }

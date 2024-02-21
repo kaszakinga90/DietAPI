@@ -31,7 +31,7 @@ namespace Application.CQRS.Specializations
             public async Task<Result<SpecializationPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var validationResult = await _validator
-                    .ValidateAsync(request.SpecializationPostDTO, cancellationToken);
+                    .ValidateAsync(request.SpecializationPostDTO);
 
                 if (!validationResult.IsValid)
                 {
@@ -50,7 +50,7 @@ namespace Application.CQRS.Specializations
 
                 try
                 {
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    var result = await _context.SaveChangesAsync() > 0;
                     if (!result)
                     {
                         return Result<SpecializationPostDTO>.Failure("Operacja nie powiodła się.");

@@ -1,6 +1,4 @@
-﻿using ModelsDB.Functionality;
-
-namespace Application.DTOs.ReportsClassesDTO
+﻿namespace Application.DTOs.ReportsClassesDTO
 {
     public class RecipeToReportDTO
     {

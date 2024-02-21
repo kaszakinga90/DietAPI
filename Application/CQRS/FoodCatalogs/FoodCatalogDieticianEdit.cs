@@ -31,7 +31,7 @@ namespace Application.CQRS.FoodCatalogs
                 public async Task<Result<FoodCatalogDieticianEditDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
                     var validationResult = await _validator
-                    .ValidateAsync(request.FoodCatalogDieticianEditDTO, cancellationToken);
+                    .ValidateAsync(request.FoodCatalogDieticianEditDTO);
 
                     if (!validationResult.IsValid)
                     {
@@ -42,7 +42,7 @@ namespace Application.CQRS.FoodCatalogs
                     var foodCatalog = await _context.FoodCatalogsDb
                         .Where(fc => fc.Id == request.FoodCatalogDieticianEditDTO.Id &&
                                 fc.DieticianId == request.FoodCatalogDieticianEditDTO.DieticianId)
-                        .FirstOrDefaultAsync(cancellationToken);
+                        .FirstOrDefaultAsync();
 
                     if (foodCatalog == null)
                     {
@@ -53,10 +53,10 @@ namespace Application.CQRS.FoodCatalogs
 
                     try
                     {
-                        var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                        var result = await _context.SaveChangesAsync() > 0;
                         if (!result)
                         {
-                            return Result<FoodCatalogDieticianEditDTO>.Failure("Edycja pacjenta nie powiodła się.");
+                            return Result<FoodCatalogDieticianEditDTO>.Failure("Edycja food catalog nie powiodła się.");
                         }
                     }
                     catch (Exception ex)

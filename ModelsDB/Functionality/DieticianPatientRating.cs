@@ -2,7 +2,6 @@
 
 namespace ModelsDB.Functionality
 {
-    //[Table("DieticianPatientRating")]
     public class DieticianPatientRating : BaseModel
     {
         public int DieticianId { get; set; }

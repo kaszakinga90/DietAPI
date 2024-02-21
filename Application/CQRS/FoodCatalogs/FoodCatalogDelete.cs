@@ -30,11 +30,11 @@ namespace Application.CQRS.FoodCatalogs
 
                     var foodCatalog = await _context.FoodCatalogsDb
                              .Where(fc => fc.Id == request.FoodCatalogId)
-                             .SingleOrDefaultAsync(cancellationToken);
+                             .SingleOrDefaultAsync();
 
                     if (foodCatalog == null)
                     {
-                        return Result<FoodCatalogDeleteDTO>.Failure("foodCatalog not found.");
+                        return Result<FoodCatalogDeleteDTO>.Failure("Nie znaleziono food catalog.");
                     }
 
                     var foodCatalogDTO = _mapper.Map<FoodCatalogDeleteDTO>(foodCatalog);
@@ -47,7 +47,7 @@ namespace Application.CQRS.FoodCatalogs
 
                         var dishFoodCatalogs = await _context.DishFoodCatalogsDb
                             .Where(df => df.FoodCatalogId == foodCatalogDTO.Id)
-                            .ToListAsync(cancellationToken);
+                            .ToListAsync();
 
                         if (dishFoodCatalogs.Any())
                         {
@@ -61,11 +61,11 @@ namespace Application.CQRS.FoodCatalogs
                     {
                         var foodCatalogAll = await _context.FoodCatalogsDb
                         .Where(fc => fc.DieticianId == foodCatalogDTO.DieticianId && fc.CatalogName == "Wszystkie")
-                        .SingleOrDefaultAsync(cancellationToken);
+                        .SingleOrDefaultAsync();
 
                         if (foodCatalogAll == null)
                         {
-                            return Result<FoodCatalogDeleteDTO>.Failure("foodCatalogAll for dietician not found.");
+                            return Result<FoodCatalogDeleteDTO>.Failure("Nie znaleziono foodCatalogAll for dietician.");
                         }
 
                         foodCatalogDTO.isActive = false;
@@ -81,14 +81,13 @@ namespace Application.CQRS.FoodCatalogs
                                 dishFoodCatalog.FoodCatalogId = foodCatalogAll.Id;
                             }
                         }
-
                     }
 
                     _mapper.Map(foodCatalogDTO, foodCatalog);
 
                     try
                     {
-                        var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                        var result = await _context.SaveChangesAsync() > 0;
                         if (!result)
                         {
                             return Result<FoodCatalogDeleteDTO>.Failure("Operacja nie powiodła się.");

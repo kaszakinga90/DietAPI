@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ModelsDB.Functionality;
 using System.Diagnostics;
 
+// TODO : validacja
 namespace Application.CQRS.Specializations
 {
     public class DieteticianSpecializationCreate
@@ -33,7 +34,7 @@ namespace Application.CQRS.Specializations
             public async Task<Result<DieteticianSpecializationPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 //var validationResult = await _validator
-                //    .ValidateAsync(request.DieteticianSpecializationPostDTOs, cancellationToken);
+                //    .ValidateAsync(request.DieteticianSpecializationPostDTOs);
 
                 //if (!validationResult.IsValid)
                 //{
@@ -45,17 +46,17 @@ namespace Application.CQRS.Specializations
 
                 if (ds == null)
                 {
-                    return Result<DieteticianSpecializationPostDTO>.Failure("No results for variable: ds");
+                    return Result<DieteticianSpecializationPostDTO>.Failure("Nie znaleziono specjalizacji dietetyka");
                 }
 
                 var specializationName = await _context.SpecializationsDb
                          .Where(s => s.Id == ds.SpecializationId)
                          .Select(s => s.SpecializationName)
-                         .FirstOrDefaultAsync(cancellationToken);
+                         .FirstOrDefaultAsync();
 
                 if (specializationName == null)
                 {
-                    return Result<DieteticianSpecializationPostDTO>.Failure("No results for variable: specializationName");
+                    return Result<DieteticianSpecializationPostDTO>.Failure("Brak wyników dla: specializationName");
                 }
 
                 var resultDto = new DieteticianSpecializationPostDTO
@@ -69,7 +70,7 @@ namespace Application.CQRS.Specializations
 
                 try
                 {
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    var result = await _context.SaveChangesAsync() > 0;
                     if (!result)
                     {
                         return Result<DieteticianSpecializationPostDTO>.Failure("Operacja nie powiodła się.");

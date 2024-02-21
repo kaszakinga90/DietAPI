@@ -32,7 +32,7 @@ namespace Application.CQRS.Dishes
             public async Task<Result<DishEditDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var validationResult = await _validator
-                    .ValidateAsync(request.DishEditDTO, cancellationToken);
+                    .ValidateAsync(request.DishEditDTO);
 
                 if (!validationResult.IsValid)
                 {
@@ -49,14 +49,14 @@ namespace Application.CQRS.Dishes
 
                     if (dish == null)
                     {
-                        return Result<DishEditDTO>.Failure("Dish not found.");
+                        return Result<DishEditDTO>.Failure("Nie znaleziono dania.");
                     }
 
                     var relations = _context.MealTimesDb.Any(mt => mt.DishId == dish.Id);
 
                     if (relations)
                     {
-                        return Result<DishEditDTO>.Failure("Dish is being used in another tabel. Cannot edit.");
+                        return Result<DishEditDTO>.Failure("To danie jest uzywane w innej tabeli. Nie mozna edytować.");
                     }
 
                     dish.Name = requestDish.Name;
@@ -70,7 +70,6 @@ namespace Application.CQRS.Dishes
 
                     dish.DishFoodCatalogs = requestDish.DishFoodCatalogs?.Select(dto => _mapper.Map<DishFoodCatalog>(dto)).ToList();
 
-                    // Update existing DishIngredients
                     foreach (var dishIngredientDto in requestDish.DishIngredients)
                     {
                         var existingDishIngredient = await _context.DishIngredientsDb
@@ -80,11 +79,8 @@ namespace Application.CQRS.Dishes
                         {
                             existingDishIngredient.Quantity = dishIngredientDto.Quantity;
                             existingDishIngredient.UnitId = dishIngredientDto.UnitId;
-                            // Update other properties as needed
                         }
                     }
-
-                    //dish.DishIngredients = requestDish.DishIngredients?.Select(dto => _mapper.Map<DishIngredient>(dto)).ToList();
 
                     var existingRecipe = await _context.RecipesDb.FindAsync(dish.RecipeId);
                     existingRecipe.Steps = _mapper.Map<List<RecipeStep>>(requestDish.RecipeSteps);

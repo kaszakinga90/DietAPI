@@ -4,7 +4,6 @@ using Application.Validators.FoodCatalog;
 using AutoMapper;
 using DietDB;
 using MediatR;
-using ModelsDB;
 using ModelsDB.Functionality;
 using System.Diagnostics;
 
@@ -32,7 +31,7 @@ namespace Application.CQRS.Bills
             public async Task<Result<DietSalesBillPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 //var validationResult = await _validator
-                //    .ValidateAsync(request.DietSalesBillPostDTO, cancellationToken);
+                //    .ValidateAsync(request.DietSalesBillPostDTO);
 
                 //if (!validationResult.IsValid)
                 //{
@@ -53,7 +52,7 @@ namespace Application.CQRS.Bills
 
                 try
                 {
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    var result = await _context.SaveChangesAsync() > 0;
                     if (!result)
                     {
                         return Result<DietSalesBillPostDTO>.Failure("Operacja nie powiodła się.");

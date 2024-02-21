@@ -32,7 +32,7 @@ namespace Application.CQRS.Admins
             public async Task<Result<AdminPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var validationResult = await _validator
-                    .ValidateAsync(request.AdminPostDTO, cancellationToken);
+                    .ValidateAsync(request.AdminPostDTO);
 
                 if (!validationResult.IsValid)
                 {

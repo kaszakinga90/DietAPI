@@ -1,5 +1,4 @@
 ﻿using Application.Core;
-using Application.DTOs.AdminDTO;
 using Application.DTOs.PatientDTO;
 using AutoMapper;
 using DietDB;
@@ -27,12 +26,10 @@ namespace Application.CQRS.Patients
                 _mapper = mapper;
             }
 
-            // TODO : jak powinny być notatki?
             public async Task<Result<PatientDeleteDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var patient = await _context.PatientsDb
                     .Include(d => d.Address)
-                    //.Include(d => d.NotePatients)
                     .FirstOrDefaultAsync(i => i.Id == request.Id);
 
                 if (patient == null)
@@ -55,19 +52,11 @@ namespace Application.CQRS.Patients
                         patientDTO.AddressDeleteDTO.isActive = false;
                     }
 
-                    //if (patientDTO.NotesPatientDeleteDTO != null && patientDTO.NotesPatientDeleteDTO.Any())
-                    //{
-                    //    foreach (var note in patientDTO.NotesPatientDeleteDTO)
-                    //    {
-                    //        note.isActive = false;
-                    //    }
-                    //}
-
                     _mapper.Map(patientDTO, patient);
 
                     try
                     {
-                        var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                        var result = await _context.SaveChangesAsync() > 0;
 
                         if (!result)
                         {

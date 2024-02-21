@@ -8,7 +8,7 @@ using Application.DTOs.AddressDTO;
 using Application.Core;
 using System.Diagnostics;
 using Application.Validators.Office;
-
+// TODO : validation
 namespace Application.Functionality
 {
     public class OfficeCreate
@@ -36,7 +36,7 @@ namespace Application.Functionality
             public async Task<Result<OfficePostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 //var validationResult = await _validator
-                //    .ValidateAsync(request.OfficePostDTO, cancellationToken);
+                //    .ValidateAsync(request.OfficePostDTO);
 
                 //if (!validationResult.IsValid)
                 //{
@@ -51,7 +51,7 @@ namespace Application.Functionality
                 {
                     var address = _mapper.Map<Address>(request.AddressPostDTO);
                     _context.AddressesDb.Add(address);
-                    await _context.SaveChangesAsync(cancellationToken);
+                    await _context.SaveChangesAsync();
 
                     var office = new Office
                     {
@@ -59,7 +59,7 @@ namespace Application.Functionality
                         AddressId = address.Id
                     };
                     _context.OfficesDb.Add(office);
-                    await _context.SaveChangesAsync(cancellationToken);
+                    await _context.SaveChangesAsync();
 
                     var dieticianOffice = new DieticianOffice
                     {
@@ -67,7 +67,7 @@ namespace Application.Functionality
                         OfficeId = office.Id
                     };
                     _context.DieticianOffices.Add(dieticianOffice);
-                    await _context.SaveChangesAsync(cancellationToken);
+                    await _context.SaveChangesAsync();
 
                     var officeDto = _mapper.Map<OfficePostDTO>(office);
 

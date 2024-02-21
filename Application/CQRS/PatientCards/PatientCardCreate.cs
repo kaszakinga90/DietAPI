@@ -33,7 +33,7 @@ namespace Application.CQRS.PatientCards
             public async Task<Result<PatientCardPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var validationResult = await _validator
-                    .ValidateAsync(request.PatientCardPostDTO, cancellationToken);
+                    .ValidateAsync(request.PatientCardPostDTO);
 
                 if (!validationResult.IsValid)
                 {

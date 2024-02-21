@@ -27,10 +27,8 @@ using Application.CQRS.CountryStates;
 using Application.CQRS.DieticiansBusinessesCards;
 using Application.CQRS.DieticiansPatients;
 using Application.CQRS.DietsForPatients;
-using Application.CQRS.Diplomas;
 using Application.CQRS.FoodCatalogs;
 using Application.CQRS.Ingredients;
-using Application.CQRS.Meals;
 using Application.CQRS.Offices;
 using Application.CQRS.ReportTemplates;
 using Application.CQRS.Sexes;
@@ -110,8 +108,6 @@ builder.Services.AddCors();
 builder.Services.AddIdentityCore<User>(opt =>
 {
     opt.User.RequireUniqueEmail = true;
-    // TODO : można poniższe wprowadzić
-    //opt.SignIn.RequireConfirmedEmail = true;
     opt.Password.RequireDigit = true;
     opt.Password.RequireLowercase = true;
     opt.Password.RequireUppercase = true;
@@ -159,25 +155,17 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(DietsForDieticianList.Handler).Assembly,
     typeof(DietsForPatientFromDieticianList.Handler).Assembly,
     typeof(DietsForPatientList.Handler).Assembly,
-    //typeof(DiplomasDieticianList.Handler).Assembly,
     typeof(DishesList.Handler).Assembly,
     typeof(Application.CQRS.Dieticians.MessagesFilters.FilterList.Handler).Assembly,
     typeof(Application.CQRS.Patients.MessagesFilters.FilterList.Handler).Assembly,
     typeof(FoodCatalogList.Handler).Assembly,
-    //typeof(IngredientDieticianList.Handler).Assembly,
-    //typeof(IngredientONLYDieticianList.Handler).Assembly,
     typeof(IngredientsAllListNOpagination.Handler).Assembly,
-    //typeof(InvitationsDieticianList.Handler).Assembly,
-    //typeof(InvitationsList.Handler).Assembly,
-    //typeof(InvitationsPatientList.Handler).Assembly,
-    //typeof(MealList.Handler).Assembly,
     typeof(MeasureList.Handler).Assembly,
     typeof(OfficeList.Handler).Assembly,
     typeof(PatientList.Handler).Assembly,
     typeof(PatientMessageList.Handler).Assembly,
     typeof(ReportTemplatesList.Handler).Assembly,
     typeof(SexesList.Handler).Assembly,
-    //typeof(SpecializationsList.Handler).Assembly,
     typeof(UnitList.Handler).Assembly,
     typeof(UpdateDishIngredientsDetailsList.Handler).Assembly,
     typeof(UpdateDishFoodCatalogDetailsList.Handler).Assembly
@@ -227,7 +215,6 @@ builder.Services.AddTransient<DishBaseDetailsUpdateValidator>();
 builder.Services.AddTransient<DishIngredientDetailsUpdateValidator>();
 builder.Services.AddTransient<DishFoodCatalogDetailsUpdateValidator>();
 builder.Services.AddTransient<DishRecipeDetailsUpdateValidator>();
-
 
 var emailSendConfiguration = builder.Configuration
     .GetSection("EmailSenderConfiguration")

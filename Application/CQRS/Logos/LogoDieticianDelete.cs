@@ -1,12 +1,9 @@
 ﻿using Application.Core;
-using Application.DTOs.DiplomaDTO;
 using Application.DTOs.LogoDTO;
-using Application.Services;
 using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using ModelsDB;
 using System.Diagnostics;
 
 namespace Application.CQRS.Logos
@@ -36,7 +33,7 @@ namespace Application.CQRS.Logos
 
                     if (logo == null)
                     {
-                        return Result<LogoDeleteDTO>.Failure("logo not found.");
+                        return Result<LogoDeleteDTO>.Failure("Nie znaleziono logo.");
                     }
 
                     _mapper.Map(request.LogoDeleteDTO, logo);
@@ -49,7 +46,7 @@ namespace Application.CQRS.Logos
 
                         try
                         {
-                            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                            var result = await _context.SaveChangesAsync() > 0;
                             if (!result)
                             {
                                 return Result<LogoDeleteDTO>.Failure("Operacja nie powiodła się.");

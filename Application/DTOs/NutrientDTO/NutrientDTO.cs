@@ -11,6 +11,5 @@
         public bool IsMacronutrient { get; set; }
         public bool IsMicronutrient { get; set; }
         public int UnitId { get; set; }
-        //public List<IngredientNutrient> Ingredients { get; set; }
     }
 }

@@ -30,7 +30,7 @@ namespace Application.CQRS.Patients
                 public async Task<Result<PatientEditDataDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
                     var validationResult = await _validator
-                    .ValidateAsync(request.PatientEditDataDTO, cancellationToken);
+                    .ValidateAsync(request.PatientEditDataDTO);
 
                     if (!validationResult.IsValid)
                     {
@@ -39,7 +39,7 @@ namespace Application.CQRS.Patients
                     }
 
                     var patient = await _context.PatientsDb
-                        .FindAsync(new object[] { request.PatientEditDataDTO.Id }, cancellationToken);
+                        .FindAsync(new object[] { request.PatientEditDataDTO.Id });
 
                     if (patient == null)
                     {
@@ -50,7 +50,7 @@ namespace Application.CQRS.Patients
 
                     try
                     {
-                        var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                        var result = await _context.SaveChangesAsync() > 0;
                         if (!result)
                         {
                             return Result<PatientEditDataDTO>.Failure("Edycja pacjenta nie powiodła się.");

@@ -1,6 +1,5 @@
 ﻿using Application.Core;
 using Application.CQRS.Admins;
-using Application.CQRS.CountryStates;
 using Application.CQRS.Messages;
 using Application.CQRS.Roles;
 using Application.CQRS.UserRoles;
@@ -187,12 +186,14 @@ namespace API.Controllers
             }
             return BadRequest(result.Error);
         }
+
         [HttpGet("allnopagination")]
         public async Task<IActionResult> GetAdminsListNoPagination()
         {
             var result = await _mediator.Send(new AdminNoPaginationList.Query());
             return HandleResult(result);
         }
+
         [HttpPost("message/isread")]
         public async Task<IActionResult> MessageIsRead(MessageIsReadPostDTO messageIsRead)
         {
@@ -204,7 +205,6 @@ namespace API.Controllers
             var result = await _mediator.Send(command);
 
             return Ok(result);
-            //    return HandleResult(await _mediator.Send(command));
         }
     }
 }

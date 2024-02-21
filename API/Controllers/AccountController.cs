@@ -83,8 +83,6 @@ namespace API.Controllers
                     var messageEmail = new EmailMessage(new string[] { "testtesttest@test.com" }, "Test email", emailBody);
                     _emailService.SendEmail(messageEmail);
 
-                    //var message
-
                     return Ok(new { message = "Na twój email przyjdzie link. Potwierdź założenie konta klikając w niego." });
                 }
             }
@@ -204,7 +202,6 @@ namespace API.Controllers
         [HttpGet("currentUser")]
         public async Task<ActionResult<UserDTO>> GetCurrentUser()
         {
-            // Nazwa użytkownika jest przekazywana przez token JWT
             var userName = User.Identity.Name;
 
             var user = await _userManager.FindByNameAsync(userName);

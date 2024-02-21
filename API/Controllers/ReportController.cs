@@ -4,7 +4,6 @@ using Application.Services;
 using DietDB;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ModelsDB;
 using System.Diagnostics;
 using static Application.Services.ReportService;
 
@@ -44,7 +43,7 @@ namespace API.Controllers
 
             if (template == null)
             {
-                return NotFound("Report template not found.");
+                return NotFound("Report template nie został znaleziony.");
             }
 
             try
@@ -60,7 +59,7 @@ namespace API.Controllers
                 }
                 else
                 {
-                    return BadRequest($"Failed to generate report. Reason: {reportServiceResult.Error}");
+                    return BadRequest($"Raport nie mógł zostać wygenerowany. Powód: {reportServiceResult.Error}");
                 }
             }
             catch (ArgumentException ex)

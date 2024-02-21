@@ -1,11 +1,4 @@
-﻿using ModelsDB;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Application.DTOs.DieticianOfficeDTO
+﻿namespace Application.DTOs.DieticianOfficeDTO
 {
     public class DieticianOfficesGetDTO
     {
