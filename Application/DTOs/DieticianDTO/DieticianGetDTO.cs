@@ -1,6 +1,5 @@
 ﻿using Application.DTOs.AddressDTO;
 using Microsoft.AspNetCore.Http;
-using ModelsDB;
 
 namespace Application.DTOs.DieticianDTO
 {

@@ -1,6 +1,4 @@
-﻿using ModelsDB;
-
-namespace Application.DTOs.DishDetailsToEditDTO
+﻿namespace Application.DTOs.DishDetailsToEditDTO
 {
     public class DishDetailsGetEditDTO
     {
