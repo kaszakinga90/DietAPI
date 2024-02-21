@@ -37,7 +37,6 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        
         [HttpDelete("delete/{dieticianId}")]
         public async Task<IActionResult> DeleteLogo(int dieticianId)
         {

@@ -44,7 +44,6 @@ namespace Application.CQRS.Dishes
 
                     try
                     {
-
                         var dish = new Dish
                         {
                             Id = requestDish.Id,

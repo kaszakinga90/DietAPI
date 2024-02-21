@@ -56,7 +56,7 @@ namespace Application.CQRS.FoodCatalogs
                         var result = await _context.SaveChangesAsync(cancellationToken) > 0;
                         if (!result)
                         {
-                            return Result<FoodCatalogDieticianEditDTO>.Failure("Edycja pacjenta nie powiodła się.");
+                            return Result<FoodCatalogDieticianEditDTO>.Failure("Edycja food catalog nie powiodła się.");
                         }
                     }
                     catch (Exception ex)

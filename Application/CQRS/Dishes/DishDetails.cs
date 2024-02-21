@@ -3,7 +3,6 @@ using Application.DTOs.DishDTO;
 using Application.DTOs.DishFoodCatalogDTO;
 using Application.DTOs.DishIngredientDTO;
 using Application.DTOs.RecipeStepDTO;
-using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

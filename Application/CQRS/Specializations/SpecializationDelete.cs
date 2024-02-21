@@ -34,12 +34,12 @@ namespace Application.CQRS.Specializations
 
                     if (specialization == null)
                     {
-                        return Result<SpecializationDeleteDTO>.Failure("Specialization not found.");
+                        return Result<SpecializationDeleteDTO>.Failure("Nie znaleziono specjalizacji.");
                     }
 
                     if(specialization.DieticianSpecializations.Any())
                     {
-                        return Result<SpecializationDeleteDTO>.Failure("Specialization has link to dieticianSpecializations. Cannot delete specialization");
+                        return Result<SpecializationDeleteDTO>.Failure("Specjalizacja jest uzywana w tabeli dieticianSpecializations. Nie mozna usunąć");
                     }
 
                     specialization.isActive = false;

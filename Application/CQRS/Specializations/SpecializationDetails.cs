@@ -1,16 +1,10 @@
 ﻿using Application.Core;
-using Application.DTOs.FoodCatalogDTO;
 using Application.DTOs.SpecializationDTO;
 using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.CQRS.Specializations
 {
@@ -41,7 +35,7 @@ namespace Application.CQRS.Specializations
 
                     if (specialization == null)
                     {
-                        return Result<SpecializationGetDTO>.Failure("specialization o podanym id nie został odnaleziony");
+                        return Result<SpecializationGetDTO>.Failure("Specjalizacja o podanym id nie została odnaleziona");
                     }
 
                     return Result<SpecializationGetDTO>.Success(_mapper.Map<SpecializationGetDTO>(specialization));

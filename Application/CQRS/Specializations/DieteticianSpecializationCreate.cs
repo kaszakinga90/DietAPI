@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ModelsDB.Functionality;
 using System.Diagnostics;
 
+// TODO : validacja
 namespace Application.CQRS.Specializations
 {
     public class DieteticianSpecializationCreate
@@ -45,7 +46,7 @@ namespace Application.CQRS.Specializations
 
                 if (ds == null)
                 {
-                    return Result<DieteticianSpecializationPostDTO>.Failure("No results for variable: ds");
+                    return Result<DieteticianSpecializationPostDTO>.Failure("Nie znaleziono specjalizacji dietetyka");
                 }
 
                 var specializationName = await _context.SpecializationsDb
@@ -55,7 +56,7 @@ namespace Application.CQRS.Specializations
 
                 if (specializationName == null)
                 {
-                    return Result<DieteticianSpecializationPostDTO>.Failure("No results for variable: specializationName");
+                    return Result<DieteticianSpecializationPostDTO>.Failure("Brak wyników dla: specializationName");
                 }
 
                 var resultDto = new DieteticianSpecializationPostDTO

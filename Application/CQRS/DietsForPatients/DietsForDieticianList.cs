@@ -36,7 +36,6 @@ namespace Application.CQRS.DietsForPatients
                         Id = d.Id,
                         Name = d.Name,
                         PatientName = d.Patient.FirstName + " " + d.Patient.LastName,
-                        //Period = d.StartDate.Date.ToShortDateString() + " - " + d.EndDate.Date.ToShortDateString(),
                         StartDate = d.StartDate.Date,
                         EndDate = d.EndDate.Date,
                     })

@@ -33,14 +33,14 @@ namespace Application.CQRS.Ingredients
 
                     if (ingredient == null)
                     {
-                        return Result<IngredientDeleteDTO>.Failure("Ingredient not found.");
+                        return Result<IngredientDeleteDTO>.Failure("Nie znaleziono składnika.");
                     }
 
                     var relations = _context.DishIngredientsDb.Any(di => di.IngredientId == ingredient.Id);
 
                     if (relations)
                     {
-                        return Result<IngredientDeleteDTO>.Failure("Ingredient is being used in another tabel. Cannot delete.");
+                        return Result<IngredientDeleteDTO>.Failure("Składnik jest uzywany w innej tabeli. Nie mozna usunąć.");
                     }
 
                     ingredient.isActive = false;

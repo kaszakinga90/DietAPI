@@ -36,7 +36,7 @@ namespace Application.CQRS.Offices
 
                     if (office == null)
                     {
-                        return Result<OfficeDeleteDTO>.Failure("Office not found.");
+                        return Result<OfficeDeleteDTO>.Failure("Nie znaleziono biura.");
                     }
 
                     office.isActive = false;

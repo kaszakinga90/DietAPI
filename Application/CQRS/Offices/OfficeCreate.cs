@@ -8,7 +8,7 @@ using Application.DTOs.AddressDTO;
 using Application.Core;
 using System.Diagnostics;
 using Application.Validators.Office;
-
+// TODO : validation
 namespace Application.Functionality
 {
     public class OfficeCreate

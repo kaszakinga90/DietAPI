@@ -1,5 +1,4 @@
 ﻿using Application.Core;
-using Application.CQRS.Ingredients;
 using Application.DTOs.UsersDTO;
 using Application.FiltersExtensions.UserRoles;
 using DietDB;

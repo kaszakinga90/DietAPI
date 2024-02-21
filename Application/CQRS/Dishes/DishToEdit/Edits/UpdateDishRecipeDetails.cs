@@ -41,14 +41,12 @@ namespace Application.CQRS.Dishes.DishToEdit.Edits
                     }
                 }
 
-                // Pobranie istniejącego dania z bazy danych
                 var dish = await _context.DishesDb.FindAsync(request.DishId);
                 if (dish == null)
                 {
                     return Result<DishRecipeDetailsGetEditDTO>.Failure("Dish o podanym ID nie zostało znalezione.");
                 }
 
-                // Aktualizacja kroków przepisu
                 var existingRecipeSteps = await _context.RecipeStepsDb
                     .Where(rs => rs.RecipeId == dish.RecipeId)
                     .ToListAsync(cancellationToken);
@@ -58,13 +56,11 @@ namespace Application.CQRS.Dishes.DishToEdit.Edits
                     var existingStep = existingRecipeSteps.FirstOrDefault(rs => rs.Id == dto.Id);
                     if (existingStep != null)
                     {
-                        // Aktualizacja istniejącego kroku
                         existingStep.StepNumber = dto.StepNumber;
                         existingStep.Description = dto.Description;
                     }
                     else
                     {
-                        // Dodanie nowego kroku
                         var newStep = new RecipeStep
                         {
                             StepNumber = dto.StepNumber,
@@ -75,7 +71,6 @@ namespace Application.CQRS.Dishes.DishToEdit.Edits
                     }
                 }
 
-                // Usunięcie kroków, które nie zostały przesłane w żądaniu
                 var stepIdsToRemove = existingRecipeSteps.Where(rs => !dtosRecipeStepsList.Select(dto => dto.Id).Contains(rs.Id)).Select(rs => rs.Id).ToList();
                 var stepsToRemove = await _context.RecipeStepsDb.Where(rs => stepIdsToRemove.Contains(rs.Id)).ToListAsync(cancellationToken);
                 _context.RecipeStepsDb.RemoveRange(stepsToRemove);
@@ -89,7 +84,6 @@ namespace Application.CQRS.Dishes.DishToEdit.Edits
                     return Result<DishRecipeDetailsGetEditDTO>.Failure($"Wystąpił błąd podczas zapisywania zmian w bazie danych: {ex.Message}");
                 }
 
-                // Przygotowanie DTO zaktualizowanego dania do zwrócenia
                 var dishDto = new DishRecipeDetailsGetEditDTO()
                 {
                     Id = dish.Id,

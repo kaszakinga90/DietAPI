@@ -31,7 +31,6 @@ namespace Application.CQRS.Admins
                 {
                     var adminsList = _context.AdminsDb
                     .Include(a => a.Address)
-                    //.ThenInclude(a => a.CountryState)
                     .Select(a => new AdminGetDTO
                     {
                         Id = a.Id,
@@ -41,13 +40,7 @@ namespace Application.CQRS.Admins
                         BirthDate = a.BirthDate,
                         AddressDTO = new AddressesDTO
                         {
-                            //UserId = a.Address.UserId,
                             City = a.Address.City,
-                            //ZipCode = a.Address.ZipCode,
-                            //Country = a.Address.Country,
-                            //Street = a.Address.Street,
-                            //LocalNo = a.Address.LocalNo,
-                            //StateName = a.Address.CountryState.StateName
                         }
                     })
                     .AsQueryable();

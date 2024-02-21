@@ -34,7 +34,7 @@ namespace Application.CQRS.Diets
 
                     if (diet == null)
                     {
-                        return Result<DietDeleteDTO>.Failure("diet not found.");
+                        return Result<DietDeleteDTO>.Failure("Nie znaleziono diety.");
                     }
 
                     var dietPatientEntry = await _context.DietPatientsDb

@@ -4,7 +4,6 @@ using Application.Validators.Diet;
 using AutoMapper;
 using DietDB;
 using MediatR;
-using ModelsDB;
 using ModelsDB.Functionality;
 using System.Diagnostics;
 

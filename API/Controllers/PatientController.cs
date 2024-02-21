@@ -1,4 +1,3 @@
-using Application.CQRS.CountryStates;
 using Application.CQRS.Messages;
 using Application.CQRS.Patients;
 using Application.DTOs.MessagesDTO;
@@ -109,7 +108,6 @@ namespace API.Controllers
             var result = await _mediator.Send(command);
 
             return Ok(result);
-            //    return HandleResult(await _mediator.Send(command));
         }
 
         [HttpPost("messageToDietician/{patientId}")]

@@ -11,7 +11,6 @@ namespace Application.CQRS.PatientCards
     {
         public class Query : IRequest<Result<List<PatientCardSurveyGetDTO>>>
         {
-           
             public int PatientCardId { get; set; }
         }
 

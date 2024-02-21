@@ -45,7 +45,6 @@ namespace Application.CQRS.FoodCatalogs
 
                     if (foodCatalogAll == null)
                     {
-                        //return Result<FoodCatalogDeleteDTO>.Failure("foodCatalogAll for dietician not found.");
                         foodCatalogAll = new ModelsDB.FoodCatalog
                         {
                             DieticianId = foodCatalogDTO.DieticianId,

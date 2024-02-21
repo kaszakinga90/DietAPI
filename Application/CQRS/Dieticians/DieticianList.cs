@@ -31,7 +31,6 @@ namespace Application.CQRS.Dieticians
                 {
                     var dieticiansList = _context.DieticiansDb
                     .Include(a => a.Address)
-                    //.ThenInclude(a => a.CountryState)
                     .Select(a => new DieticianGetDTO
                     {
                         Id = a.Id,
@@ -43,13 +42,7 @@ namespace Application.CQRS.Dieticians
                         BirthDate = a.BirthDate,
                         Address = new AddressesDTO
                         {
-                            //UserId = a.Address.UserId,
                             City = a.Address.City,
-                            //ZipCode = a.Address.ZipCode,
-                            //Country = a.Address.Country,
-                            //Street = a.Address.Street,
-                            //LocalNo = a.Address.LocalNo,
-                            //StateName = a.Address.CountryState.StateName
                         }
                     })
                     .AsQueryable();

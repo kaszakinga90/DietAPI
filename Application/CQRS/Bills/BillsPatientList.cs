@@ -16,12 +16,10 @@ namespace Application.CQRS.Bills
             public class Handler : IRequestHandler<Query, Result<List<DietSalesBillGetDTO>>>
             {
                 private readonly DietContext _context;
-                private readonly IMapper _mapper;
 
-                public Handler(DietContext context, IMapper mapper)
+                public Handler(DietContext context)
                 {
                     _context = context;
-                    _mapper = mapper;
                 }
 
                 public async Task<Result<List<DietSalesBillGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
@@ -66,26 +64,6 @@ namespace Application.CQRS.Bills
                         return Result<List<DietSalesBillGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
                     }
                 }
-
-                //public async Task<Result<List<DietSalesBillGetDTO>>> Handle(Query request, CancellationToken cancellationToken)
-                //{
-                //    try
-                //    {
-                //        var billsList = await _context.DietSalesBillsDb
-                //            .Include(b => b.Sales)
-                //        .Where(b => b.PatientId == request.PatientId)
-                //        .ToListAsync(cancellationToken);
-
-                //        var billsListDto = _mapper.Map<List<DietSalesBillGetDTO>>(billsList);
-
-                //        return Result<List<DietSalesBillGetDTO>>.Success(billsListDto);
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
-                //        return Result<List<DietSalesBillGetDTO>>.Failure("Wystąpił błąd podczas pobierania lub mapowania danych.");
-                //    }
-                //}
             }
         }
     }

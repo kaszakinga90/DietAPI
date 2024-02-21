@@ -51,7 +51,7 @@ namespace Application.CQRS.Offices
 
                         if (office == null)
                         {
-                            return Result<OfficeGetDTO>.Failure("Office not found.");
+                            return Result<OfficeGetDTO>.Failure("Nie znaleziono biura.");
                         }
 
                         return Result<OfficeGetDTO>.Success(office);

@@ -37,7 +37,7 @@ namespace Application.CQRS.Diplomas
 
                     if (diploma == null)
                     {
-                        return Result<DiplomaDeleteDTO>.Failure("Diploma not found.");
+                        return Result<DiplomaDeleteDTO>.Failure("Nie znaleziono dyplomu.");
                     }
 
                     _mapper.Map(request.DiplomaDeleteDTO, diploma);

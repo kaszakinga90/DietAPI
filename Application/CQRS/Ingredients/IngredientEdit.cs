@@ -1,5 +1,4 @@
 ﻿using Application.Core;
-using Application.DTOs.DishDTO;
 using Application.Validators.Ingredients;
 using AutoMapper;
 using DietDB;
@@ -7,6 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
+// TODO : validacja
 namespace Application.CQRS.Ingredients
 {
     public class IngredientEdit
@@ -53,7 +53,7 @@ namespace Application.CQRS.Ingredients
 
                 if (relations)
                 {
-                    return Result<IngredientEditDTO>.Failure("Ingredient is being used in another tabel. Cannot edit.");
+                    return Result<IngredientEditDTO>.Failure("Składnik jest uzywanyw innej tabeli. Nie mozna edytować.");
                 }
 
                 _mapper.Map(request.IngredientEditDTO, ingredient);

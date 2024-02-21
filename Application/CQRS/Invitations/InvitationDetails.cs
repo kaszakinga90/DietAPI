@@ -35,7 +35,7 @@ namespace Application.CQRS.Invitations
 
                     if (invitation == null)
                     {
-                        return Result<InvitationGetDTO>.Failure("Invitation not found.");
+                        return Result<InvitationGetDTO>.Failure("Nie znaleziono zaproszenia.");
                     }
 
                     var invitationDTO = _mapper.Map<InvitationGetDTO>(invitation);

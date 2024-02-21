@@ -18,7 +18,5 @@ namespace ModelsDB
         public List<MealTimeToXYAxis> MealTimesToXYAxis { get; set; }
         public int DieteticianId { get; set; }
         public Dietician Dietician { get; set; }
-
-        //TODO : brakuje CategoryOfDiet
     }
 }

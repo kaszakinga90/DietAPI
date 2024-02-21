@@ -1,5 +1,4 @@
-﻿using Application.CQRS.FoodCatalogs;
-using Application.CQRS.Specializations;
+﻿using Application.CQRS.Specializations;
 using Application.DTOs.SpecializationDTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -65,7 +64,6 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        
         [HttpDelete("delete/{specializationId}")]
         public async Task<IActionResult> RemoveSpecializationByAdmin(int specializationId)
         {
@@ -93,6 +91,7 @@ namespace API.Controllers
             }
             return BadRequest(result.Error);
         }
+
         [HttpGet("detailsspecialization/{specializationId}")]
         public async Task<IActionResult> GetSpecializationDetails(int specializationId)
         {

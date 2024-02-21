@@ -1,6 +1,5 @@
 ﻿using DietDB;
 using MediatR;
-using ModelsDB;
 using ModelsDB.Functionality;
 
 namespace Application.CQRS.CategoryOfDiets

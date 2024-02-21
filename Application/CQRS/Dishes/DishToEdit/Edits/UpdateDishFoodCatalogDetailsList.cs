@@ -32,16 +32,13 @@ namespace Application.CQRS.Dishes.DishToEdit.Edits
             {
                 try
                 {
-                    // Pobierz istniejące składniki dla danego DishId
                     var existingFoodCatalogs = await _context.DishFoodCatalogsDb
                         .Where(i => i.DishId == request.DishId)
                         .ToListAsync(cancellationToken);
 
-                    // Usuń składniki, które są w bazie danych, ale nie są na liście przesłanej w żądaniu
                     var foodCatalogToDelete = existingFoodCatalogs.Where(i => !request.DishFoodCatalogsDetailsGetEditDto.Any(dto => dto.FoodCatalogId == i.FoodCatalogId)).ToList();
                     _context.DishFoodCatalogsDb.RemoveRange(foodCatalogToDelete);
 
-                    // Dodaj nowe składniki, które nie istnieją jeszcze w bazie danych
                     var foodCatalogsToAdd = request.DishFoodCatalogsDetailsGetEditDto.Where(dto => !existingFoodCatalogs.Any(i => i.FoodCatalogId == dto.FoodCatalogId));
                     foreach (var dto in foodCatalogsToAdd)
                     {

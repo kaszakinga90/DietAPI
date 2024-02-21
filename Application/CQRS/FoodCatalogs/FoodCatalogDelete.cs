@@ -34,7 +34,7 @@ namespace Application.CQRS.FoodCatalogs
 
                     if (foodCatalog == null)
                     {
-                        return Result<FoodCatalogDeleteDTO>.Failure("foodCatalog not found.");
+                        return Result<FoodCatalogDeleteDTO>.Failure("Nie znaleziono food catalog.");
                     }
 
                     var foodCatalogDTO = _mapper.Map<FoodCatalogDeleteDTO>(foodCatalog);
@@ -65,7 +65,7 @@ namespace Application.CQRS.FoodCatalogs
 
                         if (foodCatalogAll == null)
                         {
-                            return Result<FoodCatalogDeleteDTO>.Failure("foodCatalogAll for dietician not found.");
+                            return Result<FoodCatalogDeleteDTO>.Failure("Nie znaleziono foodCatalogAll for dietician.");
                         }
 
                         foodCatalogDTO.isActive = false;
@@ -81,7 +81,6 @@ namespace Application.CQRS.FoodCatalogs
                                 dishFoodCatalog.FoodCatalogId = foodCatalogAll.Id;
                             }
                         }
-
                     }
 
                     _mapper.Map(foodCatalogDTO, foodCatalog);

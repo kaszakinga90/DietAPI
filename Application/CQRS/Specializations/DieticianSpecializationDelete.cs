@@ -34,7 +34,7 @@ namespace Application.CQRS.Specializations
 
                     if (dieticianSpecialization == null)
                     {
-                        return Result<DieticianSpecializationDeleteDTO>.Failure("Dietician speccialization not found.");
+                        return Result<DieticianSpecializationDeleteDTO>.Failure("Nie znaleziono specjalizacji dietetyka.");
                     }
 
                     var dsDTO = _mapper.Map<DieticianSpecializationDeleteDTO>(dieticianSpecialization);

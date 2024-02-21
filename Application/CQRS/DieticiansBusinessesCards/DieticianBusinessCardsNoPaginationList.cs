@@ -1,5 +1,4 @@
 ﻿using Application.Core;
-using Application.CQRS.Specializations;
 using Application.DTOs.AddressDTO;
 using Application.DTOs.DieticianBusinessCardDTO;
 using Application.DTOs.DiplomaDTO;
@@ -8,12 +7,7 @@ using Application.DTOs.SpecializationDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.CQRS.DieticiansBusinessesCards
 {

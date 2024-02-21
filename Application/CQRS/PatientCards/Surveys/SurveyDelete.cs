@@ -34,7 +34,7 @@ namespace Application.CQRS.PatientCards.Surveys
 
                     if (survey == null)
                     {
-                        return Result<SurveyDeleteDTO>.Failure("Test Result not found.");
+                        return Result<SurveyDeleteDTO>.Failure("Nie znaleziono wywiadu.");
                     }
 
                     _mapper.Map(request.SurveyDeleteDTO, survey);

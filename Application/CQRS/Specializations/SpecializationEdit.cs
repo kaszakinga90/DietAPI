@@ -43,7 +43,7 @@ namespace Application.CQRS.Specializations
 
                     if (specialization == null)
                     {
-                        return Result<SpecializationPostDTO>.Failure("Pacjent o podanym ID nie został znaleziony.");
+                        return Result<SpecializationPostDTO>.Failure("Specjalizacja o podanym ID nie została znaleziona.");
                     }
 
                     _mapper.Map(request.SpecializationEditDTO, specialization);
@@ -53,13 +53,13 @@ namespace Application.CQRS.Specializations
                         var result = await _context.SaveChangesAsync(cancellationToken) > 0;
                         if (!result)
                         {
-                            return Result<SpecializationPostDTO>.Failure("Edycja pacjenta nie powiodła się.");
+                            return Result<SpecializationPostDTO>.Failure("Edycja specjalizacji nie powiodła się.");
                         }
                     }
                     catch (Exception ex)
                     {
                         Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
-                        return Result<SpecializationPostDTO>.Failure("Wystąpił błąd podczas edycji pacjenta. " + ex);
+                        return Result<SpecializationPostDTO>.Failure("Wystąpił błąd podczas edycji specjalizacji. " + ex);
                     }
                     return Result<SpecializationPostDTO>.Success(_mapper.Map<SpecializationPostDTO>(specialization));
                 }

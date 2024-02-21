@@ -1,6 +1,5 @@
 ﻿using Application.Core;
 using Application.DTOs.DietDTO;
-using Application.DTOs.MessagesDTO;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

@@ -75,7 +75,6 @@ namespace Application.CQRS.Invitations
 
                 _context.DieticianPatientsDb.Add(dieticianPatient);
 
-
                 try
                 {
                     var saveResult = await _context.SaveChangesAsync(cancellationToken) > 0;

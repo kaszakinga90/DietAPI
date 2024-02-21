@@ -1,16 +1,10 @@
 ﻿using Application.Core;
-using Application.DTOs.LogoDTO;
 using Application.DTOs.TestsResultsDTO;
 using AutoMapper;
 using DietDB;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.CQRS.PatientCards.TestsResults
 {
@@ -39,7 +33,7 @@ namespace Application.CQRS.PatientCards.TestsResults
 
                     if (testResult == null)
                     {
-                        return Result<TestResultDeleteDTO>.Failure("Test Result not found.");
+                        return Result<TestResultDeleteDTO>.Failure("Nie znaleziono wyników badań.");
                     }
 
                     _mapper.Map(request.TestResultDeleteDTO, testResult);

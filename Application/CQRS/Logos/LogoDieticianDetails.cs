@@ -37,7 +37,7 @@ namespace Application.CQRS.Logos
 
                         if (logo == null)
                         {
-                            return Result<LogoGetDTO>.Failure("logo not found.");
+                            return Result<LogoGetDTO>.Failure("Nie znaleziono logo.");
                         }
 
                         return Result<LogoGetDTO>.Success(logo);

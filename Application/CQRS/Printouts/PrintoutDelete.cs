@@ -33,7 +33,7 @@ namespace Application.CQRS.Printouts
 
                     if (printout == null)
                     {
-                        return Result<PrintoutDeleteDTO>.Failure("Printout template not found.");
+                        return Result<PrintoutDeleteDTO>.Failure("Nie znaleziono szablonu wydruku");
                     }
 
                     printout.isActive = false;

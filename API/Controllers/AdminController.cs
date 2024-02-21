@@ -1,6 +1,5 @@
 ﻿using Application.Core;
 using Application.CQRS.Admins;
-using Application.CQRS.CountryStates;
 using Application.CQRS.Roles;
 using Application.CQRS.UserRoles;
 using Application.CQRS.Users;
@@ -185,6 +184,7 @@ namespace API.Controllers
             }
             return BadRequest(result.Error);
         }
+
         [HttpGet("allnopagination")]
         public async Task<IActionResult> GetAdminsListNoPagination()
         {

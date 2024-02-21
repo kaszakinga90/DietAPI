@@ -6,6 +6,7 @@ using DietDB;
 using MediatR;
 using System.Diagnostics;
 
+// TODO : walidacja
 namespace Application.CQRS.MealsTimesToXYAxiss
 {
     public class MealTimeToXYAxisEdit
