@@ -38,6 +38,7 @@ namespace Application.CQRS.PatientCards
                     })
                     .AsQueryable();
                     patientCardList = patientCardList.Search(request.Params.SearchTerm);
+                    patientCardList = patientCardList.SearchByDietician(request.Params.SearchTermByDietician);
                     return Result<PagedList<PatientCardGetDTO>>.Success(
                         await PagedList<PatientCardGetDTO>.CreateAsync(patientCardList, request.Params.PageNumber, request.Params.PageSize)
                         );

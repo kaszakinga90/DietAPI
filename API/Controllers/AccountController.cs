@@ -63,6 +63,9 @@ namespace API.Controllers
                 isAdmin = false,
                 isActive = false,
                 isDarkMode = false,
+                FirstName = " ",
+                LastName = " ",
+                PhoneNumber = " ",
                 AddressId = null,
                 PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705234573/qc1pclrxojm3arwfkrif.jpg"
             };
@@ -77,8 +80,12 @@ namespace API.Controllers
                 {
                     var confirmationLink = $"http://localhost:3000/registerConfirm?userId={user.Id}&token={emailConfirmationToken}";
                     var emailBody = $"Potwierdź swoje konto, klikając <a href='{confirmationLink}'>tutaj</a>";
-                    var message = new EmailMessage(new string[] { "testtesttest@test.com" }, "Test email", emailBody);
-                    _emailService.SendEmail(message);
+                    var messageEmail = new EmailMessage(new string[] { "testtesttest@test.com" }, "Test email", emailBody);
+                    _emailService.SendEmail(messageEmail);
+
+                    //var message
+
+                    return Ok(new { message = "Na twój email przyjdzie link. Potwierdź założenie konta klikając w niego." });
                 }
             }
 
@@ -106,6 +113,9 @@ namespace API.Controllers
                 isDietician = true,
                 isAdmin = false,
                 isDarkMode=false,
+                FirstName = " ",
+                LastName = " ",
+                PhoneNumber = " ",
                 AddressId = null,
                 PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705234573/qc1pclrxojm3arwfkrif.jpg",
                 Logo = new ModelsDB.Functionality.Logo
@@ -157,6 +167,9 @@ namespace API.Controllers
                 isDietician = false,
                 isAdmin = true,
                 isDarkMode=false,
+                FirstName = " ",
+                LastName = " ",
+                PhoneNumber = " ",
                 AddressId = null,
                 PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705234573/qc1pclrxojm3arwfkrif.jpg"
             };

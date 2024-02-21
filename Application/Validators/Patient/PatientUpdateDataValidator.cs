@@ -11,11 +11,11 @@ namespace Application.Validators.Patient
                 .NotEmpty().WithMessage("Pole Email nie może być puste.")
                 .EmailAddress().WithMessage("Nieprawidłowy format adresu e-mail.");
 
-            RuleFor(dto => dto.Password)
-                .NotEmpty().WithMessage("Pole Password nie może być puste.");
+            //RuleFor(dto => dto.Password)
+            //    .NotEmpty().WithMessage("Pole Password nie może być puste.");
 
-            RuleFor(dto => dto.PhotoUrl)
-                .NotEmpty().WithMessage("Pole PictureUrl nie może być puste.");
+            //RuleFor(dto => dto.PhotoUrl)
+            //    .NotEmpty().WithMessage("Pole PictureUrl nie może być puste.");
 
             //RuleFor(dto => dto.FirstName)
             //    .NotNull().WithMessage("Pole FirstName nie może być null.")

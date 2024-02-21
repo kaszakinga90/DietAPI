@@ -9,7 +9,15 @@ namespace Application.FiltersExtensions.PatientsCards
         {
             if (string.IsNullOrWhiteSpace(searchTerm)) return query;
             var lowerCaseSearchTerm = searchTerm.Trim().ToLower();
-            return query.Where(p => p.PatientName.ToLower().Contains(lowerCaseSearchTerm));
+            return query.Where(p => p.PatientName.ToLower().Contains(lowerCaseSearchTerm) );
+
+        }
+
+        public static IQueryable<PatientCardGetDTO> SearchByDietician(this IQueryable<PatientCardGetDTO> query, string searchTerm)
+        {
+            if (string.IsNullOrWhiteSpace(searchTerm)) return query;
+            var lowerCaseSearchTerm = searchTerm.Trim().ToLower();
+            return query.Where(p => p.DieticianName.ToLower().Contains(lowerCaseSearchTerm));
 
         }
 

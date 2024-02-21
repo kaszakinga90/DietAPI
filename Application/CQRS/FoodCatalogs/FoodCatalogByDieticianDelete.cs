@@ -45,7 +45,14 @@ namespace Application.CQRS.FoodCatalogs
 
                     if (foodCatalogAll == null)
                     {
-                        return Result<FoodCatalogDeleteDTO>.Failure("foodCatalogAll for dietician not found.");
+                        //return Result<FoodCatalogDeleteDTO>.Failure("foodCatalogAll for dietician not found.");
+                        foodCatalogAll = new ModelsDB.FoodCatalog
+                        {
+                            DieticianId = foodCatalogDTO.DieticianId,
+                            CatalogName = "Wszystkie"
+                        };
+                        _context.FoodCatalogsDb.Add(foodCatalogAll);
+                        await _context.SaveChangesAsync();
                     }
 
                     foodCatalogDTO.isActive = false;
