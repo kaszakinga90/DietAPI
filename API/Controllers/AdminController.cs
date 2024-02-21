@@ -1,10 +1,12 @@
 ﻿using Application.Core;
 using Application.CQRS.Admins;
 using Application.CQRS.CountryStates;
+using Application.CQRS.Messages;
 using Application.CQRS.Roles;
 using Application.CQRS.UserRoles;
 using Application.CQRS.Users;
 using Application.DTOs.AdminDTO;
+using Application.DTOs.MessagesDTO;
 using Application.DTOs.RoleDTO;
 using Application.DTOs.UsersDTO.UserRoleDTO;
 using Application.FiltersExtensions.Admins;
@@ -190,6 +192,19 @@ namespace API.Controllers
         {
             var result = await _mediator.Send(new AdminNoPaginationList.Query());
             return HandleResult(result);
+        }
+        [HttpPost("message/isread")]
+        public async Task<IActionResult> MessageIsRead(MessageIsReadPostDTO messageIsRead)
+        {
+            var command = new MessageIsRead.Command
+            {
+                MessageIsReadPostDTO = messageIsRead
+            };
+
+            var result = await _mediator.Send(command);
+
+            return Ok(result);
+            //    return HandleResult(await _mediator.Send(command));
         }
     }
 }
