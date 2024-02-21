@@ -738,11 +738,11 @@ namespace DietDB
             {
                 var messages = new List<MessageTo>()
                 {
-                    new MessageTo { Title = "Pytanie o dietę 1", Description = "Mam pytanie odnośnie ilości węglowodanów w diecie.", DieticianId = 7, PatientId = 4, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Kwestia alergii", Description = "Czy produkt X jest odpowiedni dla osoby z alergią na orzechy?", DieticianId = 8, PatientId = 4, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Porada dla sportowca", Description = "Jakie produkty zalecasz dla aktywnych fizycznie osób?", DieticianId = 8, PatientId = 6, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Suplementacja", Description = "Czy warto suplementować witaminę D w okresie zimowym?", DieticianId = 7, PatientId = 5, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Pytanie o jadłospis", Description = "Czy możesz mi pomóc skomponować jadłospis na nadchodzący tydzień?", DieticianId = 8, PatientId = 5, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Pytanie o dietę 1", Description = "Mam pytanie odnośnie ilości węglowodanów w diecie.", DieticianId = 7, PatientId = 4, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now, PatientSended=true, DieticianSended=false,AdminSended=false },
+                    new MessageTo { Title = "Kwestia alergii", Description = "Czy produkt X jest odpowiedni dla osoby z alergią na orzechy?", DieticianId = 8, PatientId = 4, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now, PatientSended=true, DieticianSended=false,AdminSended=false },
+                    new MessageTo { Title = "Porada dla sportowca", Description = "Jakie produkty zalecasz dla aktywnych fizycznie osób?", DieticianId = 8, PatientId = 6, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now, PatientSended=true, DieticianSended=false,AdminSended=false },
+                    new MessageTo {Title = "Suplementacja", Description = "Czy warto suplementować witaminę D w okresie zimowym?", DieticianId = 7, PatientId = 5, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now, PatientSended = true, DieticianSended = false, AdminSended = false},
+                    new MessageTo { Title = "Pytanie o jadłospis", Description = "Czy możesz mi pomóc skomponować jadłospis na nadchodzący tydzień?", DieticianId = 8, PatientId = 5, IsRead = false, ReadDate = null, isActive = true, dateAdded = DateTime.Now, PatientSended=true, DieticianSended=false,AdminSended=false },
                 };
                 await context.MessageToDb.AddRangeAsync(messages);
             }
@@ -753,11 +753,11 @@ namespace DietDB
             {
                 var messagesToPatients = new List<MessageTo>()
                 {
-                    new MessageTo { Title = "Konsultacja dietetyczna", Description = "Witaj! Zapraszam na konsultację dietetyczną w przyszłym tygodniu. Daj mi znać, kiedy Ci pasuje.", PatientId = 4, AdminId = 2, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Zmiana planu dietetycznego", Description = "Witam! Zaktualizowałem Twój plan dietetyczny. Sprawdź go w aplikacji i daj mi znać, czy wszystko jest jasne.", PatientId = 4, AdminId = 3, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Przypomnienie o wizycie", Description = "Przypominam o jutrzejszej wizycie. Jeśli nie możesz przyjść, daj mi znać jak najszybciej.", PatientId = 5, AdminId = 2, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Wyniki badań", Description = "Twoje wyniki badań są już dostępne. Zalecam omówienie ich podczas najbliższej wizyty.", PatientId = 5, AdminId = 3, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Zalecenia po wizycie", Description = "Witaj! Po naszej ostatniej wizycie przygotowałem kilka zaleceń. Sprawdź je w aplikacji i postępuj zgodnie z nimi.", PatientId = 6, AdminId = 3, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Konsultacja dietetyczna", Description = "Witaj! Zapraszam na konsultację dietetyczną w przyszłym tygodniu. Daj mi znać, kiedy Ci pasuje.", PatientId = 4, DieticianId = 7, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now, DieticianSended=true, PatientSended=false,AdminSended=false },
+                    new MessageTo { Title = "Zmiana planu dietetycznego", Description = "Witam! Zaktualizowałem Twój plan dietetyczny. Sprawdź go w aplikacji i daj mi znać, czy wszystko jest jasne.", PatientId = 9, DieticianId = 3, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now, DieticianSended=true, PatientSended=false,AdminSended=false  },
+                    new MessageTo { Title = "Przypomnienie o wizycie", Description = "Przypominam o jutrzejszej wizycie. Jeśli nie możesz przyjść, daj mi znać jak najszybciej.", PatientId = 5, DieticianId = 7, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now, DieticianSended=true, PatientSended=false,AdminSended=false  },
+                    new MessageTo { Title = "Wyniki badań", Description = "Twoje wyniki badań są już dostępne. Zalecam omówienie ich podczas najbliższej wizyty.", PatientId = 5, DieticianId = 8, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now, DieticianSended=true, PatientSended=false,AdminSended=false  },
+                    new MessageTo { Title = "Zalecenia po wizycie", Description = "Witaj! Po naszej ostatniej wizycie przygotowałem kilka zaleceń. Sprawdź je w aplikacji i postępuj zgodnie z nimi.", PatientId = 7, DieticianId = 3, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now, DieticianSended=true, PatientSended=false,AdminSended=false  },
                 };
                 await context.MessageToDb.AddRangeAsync(messagesToPatients);
             }
@@ -767,9 +767,9 @@ namespace DietDB
             {
                 var messagesToAdmins = new List<MessageTo>()
                 {
-                    new MessageTo { Title = "Zgłoszenie problemu technicznego", Description = "Witaj! Napotkaliśmy problem z funkcją wysyłania wiadomości w aplikacji. Prosimy o szybką interwencję.", AdminId = 2, DieticianId = 8, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Aktualizacja polityki prywatności", Description = "Witaj! Przesyłam aktualizację polityki prywatności. Proszę o jej przejrzenie i zatwierdzenie.", AdminId = 3, DieticianId = 9, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
-                    new MessageTo { Title = "Propozycja współpracy", Description = "Dzień dobry! Mamy propozycję współpracy, która może być interesująca dla naszej platformy. Proszę o kontakt.", AdminId = 2, DieticianId = 7, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now },
+                    new MessageTo { Title = "Zgłoszenie problemu technicznego", Description = "Witaj! Napotkaliśmy problem z funkcją wysyłania wiadomości w aplikacji. Prosimy o szybką interwencję.", AdminId = 2, DieticianId = 8, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now, AdminSended=true, PatientSended=false,DieticianSended=false },
+                    new MessageTo { Title = "Aktualizacja polityki prywatności", Description = "Witaj! Przesyłam aktualizację polityki prywatności. Proszę o jej przejrzenie i zatwierdzenie.", AdminId = 3, DieticianId = 9, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now, AdminSended=true, PatientSended=false,DieticianSended=false },
+                    new MessageTo { Title = "Propozycja współpracy", Description = "Dzień dobry! Mamy propozycję współpracy, która może być interesująca dla naszej platformy. Proszę o kontakt.", AdminId = 2, DieticianId = 7, isActive = true, IsRead = false, ReadDate = null, dateAdded = DateTime.Now, AdminSended=true, PatientSended=false,DieticianSended=false },
                 };
                 await context.MessageToDb.AddRangeAsync(messagesToAdmins);
             }

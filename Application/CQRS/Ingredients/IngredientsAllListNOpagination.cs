@@ -33,6 +33,7 @@ namespace Application.CQRS.Ingredients
                     {
                         Id = m.Id,
                         IngredientName = m.Name,
+                        Calories=m.Calories,
                     })
                     .ToListAsync(cancellationToken);
 

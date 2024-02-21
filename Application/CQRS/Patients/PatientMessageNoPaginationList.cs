@@ -39,7 +39,10 @@ namespace Application.CQRS.Patients
                             PatientName = m.Patient.FirstName + " " + m.Patient.LastName,
                             dateAdded = m.dateAdded,
                             ReadDate = m.ReadDate,
-                            IsRead = m.IsRead
+                            IsRead = m.IsRead,
+                            PatientSended=m.PatientSended,
+                            DieticianSended=m.DieticianSended,  
+                            AdminSended=m.AdminSended,
                         })
                         .ToListAsync(cancellationToken);
 

@@ -73,7 +73,7 @@ namespace Application.CQRS.Admins
                 message.DieticianId = null;
 
                 var patient = await _context.PatientsDb
-                    .FindAsync(request.MessageDTO.PatientId.Value, cancellationToken);
+                    .FindAsync(request.MessageDTO.PatientId.Value);
 
                 if (patient == null)
                 {

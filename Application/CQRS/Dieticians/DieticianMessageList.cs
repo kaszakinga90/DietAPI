@@ -28,7 +28,7 @@ namespace Application.CQRS.Dieticians
                 try
                 {
                     var dieticianMessagesList = _context.MessageToDb
-                    .Where(m => m.DieticianId == request.DieticianId && m.AdminId == null)
+                    .Where(m => m.DieticianId == request.DieticianId && m.DieticianSended==false)
                     .Select(m => new MessageToDTO
                     {
                         Id = m.Id,
@@ -41,7 +41,10 @@ namespace Application.CQRS.Dieticians
                         PatientName = m.Patient.FirstName + " " + m.Patient.LastName,
                         dateAdded = m.dateAdded,
                         ReadDate = m.ReadDate,
-                        IsRead = m.IsRead
+                        IsRead = m.IsRead,
+                        PatientSended = m.PatientSended,
+                        DieticianSended = m.DieticianSended,
+                        AdminSended = m.AdminSended,
                     })
                     .AsQueryable();
 

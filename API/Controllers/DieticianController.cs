@@ -1,4 +1,5 @@
 ﻿using Application.Core;
+using Application.CQRS.CountryStates;
 using Application.CQRS.Dieticians;
 using Application.CQRS.Diplomas;
 using Application.CQRS.Messages;
@@ -154,6 +155,12 @@ namespace API.Controllers
                 return Ok(new { data = result.Value, message = "Pomyślnie dodano dyplom." });
             }
             return BadRequest(result.Error);
+        }
+        [HttpGet("allnopagination")]
+        public async Task<IActionResult> GetCountryStates()
+        {
+            var result = await _mediator.Send(new DieticianListNoPagination.Query());
+            return HandleResult(result);
         }
     }
 }
