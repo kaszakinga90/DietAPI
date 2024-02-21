@@ -1,3 +1,4 @@
+using Application.CQRS.CountryStates;
 using Application.CQRS.Messages;
 using Application.CQRS.Patients;
 using Application.DTOs.MessagesDTO;
@@ -141,6 +142,12 @@ namespace API.Controllers
                 return Ok(new { data = result.Value, message = "Pomyœlnie wys³ano wiadomoœæ." });
             }
             return BadRequest(result.Error);
+        }
+        [HttpGet("allnopagination")]
+        public async Task<IActionResult> GetCountryStates()
+        {
+            var result = await _mediator.Send(new PatientsListNoPagination.Query());
+            return HandleResult(result);
         }
     }
 }
