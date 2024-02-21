@@ -29,7 +29,7 @@ namespace Application.CQRS.Dishes
                 public async Task<Result<DishDeleteDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
                     var dish = await _context.DishesDb
-                        .SingleOrDefaultAsync(di => di.Id == request.DishId, cancellationToken);
+                        .SingleOrDefaultAsync(di => di.Id == request.DishId);
 
                     if (dish == null)
                     {
@@ -65,7 +65,7 @@ namespace Application.CQRS.Dishes
 
                     try
                     {
-                        var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                        var result = await _context.SaveChangesAsync() > 0;
                         if (!result)
                         {
                             return Result<DishDeleteDTO>.Failure("Operacja nie powiodła się.");

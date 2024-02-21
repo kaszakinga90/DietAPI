@@ -32,7 +32,7 @@ namespace Application.CQRS.UserRoles
                 public async Task<Result<UserRoleCreateDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
                     var validationResult = await _userRoleValidate
-                        .ValidateAsync(request.UserRoleCreateDTO, cancellationToken);
+                        .ValidateAsync(request.UserRoleCreateDTO);
 
                     if (!validationResult.IsValid)
                     {
@@ -82,7 +82,7 @@ namespace Application.CQRS.UserRoles
                                      .Select(r => r.Name)
                                      .FirstOrDefault()
                             })
-                            .FirstOrDefaultAsync(cancellationToken);
+                            .FirstOrDefaultAsync();
 
                     return Result<UserRoleCreateDTO>.Success(userAfterAddedRole);
                 }

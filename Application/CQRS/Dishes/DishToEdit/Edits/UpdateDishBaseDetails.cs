@@ -28,7 +28,7 @@ namespace Application.CQRS.Dishes.DishToEdit.Edits
 
             public async Task<Result<DishDetailsGetEditDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var validationResult = await _validator.ValidateAsync(request.DishDetailsGetEditDto, cancellationToken);
+                var validationResult = await _validator.ValidateAsync(request.DishDetailsGetEditDto);
                 if (!validationResult.IsValid)
                 {
                     var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
@@ -59,7 +59,7 @@ namespace Application.CQRS.Dishes.DishToEdit.Edits
 
                 try
                 {
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    var result = await _context.SaveChangesAsync() > 0;
                     if (!result)
                     {
                         return Result<DishDetailsGetEditDTO>.Failure("Edycja dish base details nie powiodła się.");

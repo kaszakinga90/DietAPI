@@ -31,7 +31,7 @@ namespace Application.CQRS.Invitations
             public async Task<Result<InvitationPutDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var validationResult = await _validator
-                    .ValidateAsync(request.InvitationPutDTO, cancellationToken);
+                    .ValidateAsync(request.InvitationPutDTO);
 
                 if (!validationResult.IsValid)
                 {
@@ -40,7 +40,7 @@ namespace Application.CQRS.Invitations
                 }
 
                 var invitation = await _context.InvitationsDb
-                    .FindAsync(request.InvitationPutDTO.Id, cancellationToken);
+                    .FindAsync(request.InvitationPutDTO.Id);
 
                 if (invitation == null)
                 {
@@ -54,7 +54,7 @@ namespace Application.CQRS.Invitations
 
                 try
                 {
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    var result = await _context.SaveChangesAsync() > 0;
                     if (!result)
                     {
                         return Result<InvitationPutDTO>.Failure("Edycja zaproszenia nie powiodła się.");

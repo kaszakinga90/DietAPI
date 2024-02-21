@@ -31,7 +31,7 @@ namespace Application.CQRS.Invitations
             public async Task<Result<InvitationPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var validationResult = await _validator
-                    .ValidateAsync(request.InvitationPostDTO, cancellationToken);
+                    .ValidateAsync(request.InvitationPostDTO);
 
                 if (!validationResult.IsValid)
                 {
@@ -57,7 +57,7 @@ namespace Application.CQRS.Invitations
 
                 try
                 {
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    var result = await _context.SaveChangesAsync() > 0;
                     if (!result)
                     {
                         return Result<InvitationPostDTO>.Failure("Stworzenie zaproszenia nie powiodło się.");

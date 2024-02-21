@@ -34,7 +34,7 @@ namespace Application.CQRS.Dishes.DishToEdit.Edits
                 {
                     var existingFoodCatalogs = await _context.DishFoodCatalogsDb
                         .Where(i => i.DishId == request.DishId)
-                        .ToListAsync(cancellationToken);
+                        .ToListAsync();
 
                     var foodCatalogToDelete = existingFoodCatalogs.Where(i => !request.DishFoodCatalogsDetailsGetEditDto.Any(dto => dto.FoodCatalogId == i.FoodCatalogId)).ToList();
                     _context.DishFoodCatalogsDb.RemoveRange(foodCatalogToDelete);
@@ -43,7 +43,7 @@ namespace Application.CQRS.Dishes.DishToEdit.Edits
                     foreach (var dto in foodCatalogsToAdd)
                     {
                         var validationResult = await _validator
-                        .ValidateAsync(dto, cancellationToken);
+                        .ValidateAsync(dto);
 
                         if (!validationResult.IsValid)
                         {
@@ -58,7 +58,7 @@ namespace Application.CQRS.Dishes.DishToEdit.Edits
                         });
                     }
 
-                    await _context.SaveChangesAsync(cancellationToken);
+                    await _context.SaveChangesAsync();
 
                     return Result<List<DishFoodCatalogsDetailsGetEditDTO>>.Success(request.DishFoodCatalogsDetailsGetEditDto.ToList());
                 }

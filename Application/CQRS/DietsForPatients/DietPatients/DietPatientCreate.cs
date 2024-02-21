@@ -31,7 +31,7 @@ namespace Application.CQRS.DietsForPatients.DietPatients
             public async Task<Result<DietPatientPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var validationResult = await _validator
-                    .ValidateAsync(request.DietPatientPostDTO, cancellationToken);
+                    .ValidateAsync(request.DietPatientPostDTO);
 
                 if (!validationResult.IsValid)
                 {
@@ -52,7 +52,7 @@ namespace Application.CQRS.DietsForPatients.DietPatients
 
                 try
                 {
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    var result = await _context.SaveChangesAsync() > 0;
                     if (!result)
                     {
                         return Result<DietPatientPostDTO>.Failure("Operacja nie powiodła się.");

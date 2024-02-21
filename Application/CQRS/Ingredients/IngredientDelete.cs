@@ -29,7 +29,7 @@ namespace Application.CQRS.Ingredients
                 public async Task<Result<IngredientDeleteDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
                     var ingredient = await _context.IngredientsDb
-                        .SingleOrDefaultAsync(di => di.Id == request.IngredientId, cancellationToken);
+                        .SingleOrDefaultAsync(di => di.Id == request.IngredientId);
 
                     if (ingredient == null)
                     {

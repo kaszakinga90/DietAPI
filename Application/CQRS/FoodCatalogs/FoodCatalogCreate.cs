@@ -31,7 +31,7 @@ namespace Application.CQRS.FoodCatalogs
             public async Task<Result<FoodCatalogPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var validationResult = await _validator
-                    .ValidateAsync(request.FoodCatalogPostDTO, cancellationToken);
+                    .ValidateAsync(request.FoodCatalogPostDTO);
 
                 if (!validationResult.IsValid)
                 {
@@ -50,7 +50,7 @@ namespace Application.CQRS.FoodCatalogs
 
                 try
                 {
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    var result = await _context.SaveChangesAsync() > 0;
                     if (!result)
                     {
                         return Result<FoodCatalogPostDTO>.Failure("Operacja nie powiodła się.");

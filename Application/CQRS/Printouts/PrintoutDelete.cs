@@ -29,7 +29,7 @@ namespace Application.CQRS.Printouts
                 public async Task<Result<PrintoutDeleteDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
                     var printout = await _context.PrintoutsDb
-                        .SingleOrDefaultAsync(di => di.Id == request.PrintoutId, cancellationToken);
+                        .SingleOrDefaultAsync(di => di.Id == request.PrintoutId);
 
                     if (printout == null)
                     {
@@ -44,7 +44,7 @@ namespace Application.CQRS.Printouts
 
                     try
                     {
-                        var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                        var result = await _context.SaveChangesAsync() > 0;
                         if (!result)
                         {
                             return Result<PrintoutDeleteDTO>.Failure("Operacja nie powiodła się.");

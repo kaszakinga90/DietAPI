@@ -30,7 +30,7 @@ namespace Application.CQRS.Specializations
                 {
                     var dieticianSpecialization = await _context.DieticianSpecialization
                         .SingleOrDefaultAsync(di => di.DieticianId == request.DieticianId 
-                                            && di.SpecializationId == request.SpecializationId, cancellationToken);
+                                            && di.SpecializationId == request.SpecializationId);
 
                     if (dieticianSpecialization == null)
                     {
@@ -43,7 +43,7 @@ namespace Application.CQRS.Specializations
 
                     try
                     {
-                        var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                        var result = await _context.SaveChangesAsync() > 0;
                         if (!result)
                         {
                             return Result<DieticianSpecializationDeleteDTO>.Failure("Operacja nie powiodła się.");

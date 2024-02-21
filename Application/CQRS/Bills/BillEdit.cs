@@ -41,7 +41,7 @@ namespace Application.CQRS.Bills
 
                 try
                 {
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    var result = await _context.SaveChangesAsync() > 0;
                     if (!result)
                     {
                         return Result<SalesPutDTO>.Failure("Opłacenie rachunku nie powiodło się.");

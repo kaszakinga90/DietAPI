@@ -30,7 +30,7 @@ namespace Application.CQRS.ReportTemplates
             public async Task<Result<ReportTemplateDeleteDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var reportTemplate = await _context.ReportTemplatesDb
-                    .FirstOrDefaultAsync(i => i.Id == request.Id, cancellationToken);
+                    .FirstOrDefaultAsync(i => i.Id == request.Id);
 
                 if (reportTemplate == null)
                 {
@@ -43,7 +43,7 @@ namespace Application.CQRS.ReportTemplates
 
                 try
                 {
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    var result = await _context.SaveChangesAsync() > 0;
                     if (!result)
                     {
                         return Result<ReportTemplateDeleteDTO>.Failure("Usunięcie report template nie powiodło się.");

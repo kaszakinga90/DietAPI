@@ -30,7 +30,7 @@ namespace Application.CQRS.MealsTimesToXYAxiss
                 public async Task<Result<MealTimeToXYAxisEditDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
                     //var validationResult = await _validator
-                    //.ValidateAsync(request.MealTimeToXYAxisEditDTO, cancellationToken);
+                    //.ValidateAsync(request.MealTimeToXYAxisEditDTO);
 
                     //if (!validationResult.IsValid)
                     //{
@@ -39,7 +39,7 @@ namespace Application.CQRS.MealsTimesToXYAxiss
                     //}
 
                     var mealShedule = await _context.MealTimesDb
-                        .FindAsync(new object[] { request.MealTimeToXYAxisEditDTO.Id }, cancellationToken);
+                        .FindAsync(new object[] { request.MealTimeToXYAxisEditDTO.Id });
 
                     if (mealShedule == null)
                     {
@@ -50,7 +50,7 @@ namespace Application.CQRS.MealsTimesToXYAxiss
 
                     try
                     {
-                        var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                        var result = await _context.SaveChangesAsync() > 0;
                         if (!result)
                         {
                             return Result<MealTimeToXYAxisEditDTO>.Failure("Edycja posilku nie powiodła się.");

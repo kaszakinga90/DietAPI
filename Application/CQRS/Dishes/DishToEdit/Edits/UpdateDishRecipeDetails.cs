@@ -33,7 +33,7 @@ namespace Application.CQRS.Dishes.DishToEdit.Edits
 
                 foreach (var item in dtosRecipeStepsList)
                 {
-                    var validationResult = await _validator.ValidateAsync(item, cancellationToken);
+                    var validationResult = await _validator.ValidateAsync(item);
                     if (!validationResult.IsValid)
                     {
                         var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
@@ -49,7 +49,7 @@ namespace Application.CQRS.Dishes.DishToEdit.Edits
 
                 var existingRecipeSteps = await _context.RecipeStepsDb
                     .Where(rs => rs.RecipeId == dish.RecipeId)
-                    .ToListAsync(cancellationToken);
+                    .ToListAsync();
 
                 foreach (var dto in dtosRecipeStepsList)
                 {
@@ -72,12 +72,12 @@ namespace Application.CQRS.Dishes.DishToEdit.Edits
                 }
 
                 var stepIdsToRemove = existingRecipeSteps.Where(rs => !dtosRecipeStepsList.Select(dto => dto.Id).Contains(rs.Id)).Select(rs => rs.Id).ToList();
-                var stepsToRemove = await _context.RecipeStepsDb.Where(rs => stepIdsToRemove.Contains(rs.Id)).ToListAsync(cancellationToken);
+                var stepsToRemove = await _context.RecipeStepsDb.Where(rs => stepIdsToRemove.Contains(rs.Id)).ToListAsync();
                 _context.RecipeStepsDb.RemoveRange(stepsToRemove);
 
                 try
                 {
-                    await _context.SaveChangesAsync(cancellationToken);
+                    await _context.SaveChangesAsync();
                 }
                 catch (Exception ex)
                 {
@@ -96,7 +96,7 @@ namespace Application.CQRS.Dishes.DishToEdit.Edits
                             StepNumber = rs.StepNumber,
                             Description = rs.Description
                         })
-                        .ToListAsync(cancellationToken)
+                        .ToListAsync()
                 };
 
                 return Result<DishRecipeDetailsGetEditDTO>.Success(dishDto);

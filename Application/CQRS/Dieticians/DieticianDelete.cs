@@ -103,7 +103,7 @@ namespace Application.CQRS.Dieticians
                     
                     try
                     {
-                        var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                        var result = await _context.SaveChangesAsync() > 0;
                         if (!result)
                         {
                             return Result<DieticianDeleteDTO>.Failure("Usunięcie dietetyka nie powiodło się.");

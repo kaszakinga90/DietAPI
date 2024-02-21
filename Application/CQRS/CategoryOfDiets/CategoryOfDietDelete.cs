@@ -42,7 +42,7 @@ namespace Application.CQRS.CategoryOfDiets
 
                 try
                 {
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    var result = await _context.SaveChangesAsync() > 0;
                     if (!result)
                     {
                         return Result<CategoryOfDietDeleteDTO>.Failure("Usunięcie kategorii nie powiodło się.");

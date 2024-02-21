@@ -32,7 +32,7 @@ namespace Application.CQRS.Offices
                     var office = await _context.OfficesDb
                         .Include(o => o.Address)
                         .Include(o => o.DieticianOffices)
-                        .SingleOrDefaultAsync(di => di.Id == request.OfficeId && di.DieticianOffices.Any(d => d.DieticianId == request.DieticianId), cancellationToken);
+                        .SingleOrDefaultAsync(di => di.Id == request.OfficeId && di.DieticianOffices.Any(d => d.DieticianId == request.DieticianId));
 
                     if (office == null)
                     {
@@ -49,7 +49,7 @@ namespace Application.CQRS.Offices
 
                     try
                     {
-                        var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                        var result = await _context.SaveChangesAsync() > 0;
                         if (!result)
                         {
                             return Result<OfficeDeleteDTO>.Failure("Operacja nie powiodła się.");

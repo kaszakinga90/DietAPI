@@ -36,7 +36,7 @@ namespace Application.CQRS.Admins
             public async Task<Result<AdminEditDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var validationResult = await _validator
-                    .ValidateAsync(request.Admin, cancellationToken);
+                    .ValidateAsync(request.Admin);
 
                 if (!validationResult.IsValid)
                 {
@@ -45,7 +45,7 @@ namespace Application.CQRS.Admins
                 }
 
                 var admin = await _context.AdminsDb
-                    .FindAsync(new object[] { request.Admin.Id }, cancellationToken);
+                    .FindAsync(new object[] { request.Admin.Id });
 
                 if (admin == null)
                 {
@@ -74,7 +74,7 @@ namespace Application.CQRS.Admins
 
                 try
                 {
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    var result = await _context.SaveChangesAsync() > 0;
                     if (!result)
                     {
                         return Result<AdminEditDTO>.Failure("Edycja admina nie powiodła się.");

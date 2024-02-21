@@ -32,7 +32,7 @@ namespace Application.CQRS.Ingredients
             public async Task<Result<IngredientEditDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 //var validationResult = await _validator
-                //    .ValidateAsync(request.IngredientEditDTO, cancellationToken);
+                //    .ValidateAsync(request.IngredientEditDTO);
 
                 //if (!validationResult.IsValid)
                 //{
@@ -42,7 +42,7 @@ namespace Application.CQRS.Ingredients
 
                 var ingredient = await _context.IngridientsDb
                                     .Include(i => i.Nutrients)
-                                    .SingleOrDefaultAsync(i => i.Id == request.IngredientEditDTO.Id, cancellationToken);
+                                    .SingleOrDefaultAsync(i => i.Id == request.IngredientEditDTO.Id);
 
                 if (ingredient == null)
                 {
@@ -60,7 +60,7 @@ namespace Application.CQRS.Ingredients
 
                 try
                 {
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    var result = await _context.SaveChangesAsync() > 0;
                     if (!result)
                     {
                         return Result<IngredientEditDTO>.Failure("Edycja ingredient nie powiodła się.");

@@ -30,7 +30,7 @@ namespace Application.CQRS.Diets
 
                     var diet = await _context.DietsDb
                              .Where(fc => fc.Id == request.DietId)
-                             .SingleOrDefaultAsync(cancellationToken);
+                             .SingleOrDefaultAsync();
 
                     if (diet == null)
                     {
@@ -38,7 +38,7 @@ namespace Application.CQRS.Diets
                     }
 
                     var dietPatientEntry = await _context.DietPatientsDb
-                                            .FirstOrDefaultAsync(dp => dp.DietId == request.DietId, cancellationToken);
+                                            .FirstOrDefaultAsync(dp => dp.DietId == request.DietId);
 
                     if (dietPatientEntry != null)
                     {
@@ -47,7 +47,7 @@ namespace Application.CQRS.Diets
 
                     var mealTimeToXYAxisEntries = await _context.MealTimesDb
                         .Where(mt => mt.DietId == request.DietId)
-                        .ToListAsync(cancellationToken);
+                        .ToListAsync();
 
                     if (mealTimeToXYAxisEntries.Any())
                     {
@@ -57,7 +57,7 @@ namespace Application.CQRS.Diets
 
                     try
                     {
-                        var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                        var result = await _context.SaveChangesAsync() > 0;
                         if (!result)
                         {
                             return Result<DietDeleteDTO>.Failure("Operacja nie powiodła się.");

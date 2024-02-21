@@ -35,7 +35,7 @@ namespace Application.CQRS.Dishes.DishToEdit.Edits
                 //foreach (var item in request.DishIngredientsDetailsGetEditDto)
                 //{
                 //    var validationResult = await _validator
-                //    .ValidateAsync(item, cancellationToken);
+                //    .ValidateAsync(item);
 
                 //    if (!validationResult.IsValid)
                 //    {
@@ -48,7 +48,7 @@ namespace Application.CQRS.Dishes.DishToEdit.Edits
                 {
                     var existingIngredients = await _context.DishIngredientsDb
                         .Where(i => i.DishId == request.DishId)
-                        .ToListAsync(cancellationToken);
+                        .ToListAsync();
 
                     foreach (var existingIngredient in existingIngredients)
                     {
@@ -77,7 +77,7 @@ namespace Application.CQRS.Dishes.DishToEdit.Edits
                         });
                     }
 
-                    await _context.SaveChangesAsync(cancellationToken);
+                    await _context.SaveChangesAsync();
 
                     return Result<List<DishIngredientsDetailsGetEditDTO>>.Success(request.DishIngredientsDetailsGetEditDto.ToList());
                 }

@@ -32,7 +32,7 @@ namespace Application.CQRS.Dishes
             public async Task<Result<DishPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var validationResult = await _validator
-                    .ValidateAsync(request.DishPostDTO, cancellationToken);
+                    .ValidateAsync(request.DishPostDTO);
 
                 if (!validationResult.IsValid)
                 {

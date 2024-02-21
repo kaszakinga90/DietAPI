@@ -30,7 +30,7 @@ namespace Application.CQRS.Specializations
                 public async Task<Result<SpecializationPostDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
                     var validationResult = await _validator
-                    .ValidateAsync(request.SpecializationEditDTO, cancellationToken);
+                    .ValidateAsync(request.SpecializationEditDTO);
 
                     if (!validationResult.IsValid)
                     {
@@ -39,7 +39,7 @@ namespace Application.CQRS.Specializations
                     }
 
                     var specialization = await _context.SpecializationsDb
-                        .FindAsync(new object[] { request.SpecializationEditDTO.Id }, cancellationToken);
+                        .FindAsync(new object[] { request.SpecializationEditDTO.Id });
 
                     if (specialization == null)
                     {
@@ -50,7 +50,7 @@ namespace Application.CQRS.Specializations
 
                     try
                     {
-                        var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                        var result = await _context.SaveChangesAsync() > 0;
                         if (!result)
                         {
                             return Result<SpecializationPostDTO>.Failure("Edycja specjalizacji nie powiodła się.");

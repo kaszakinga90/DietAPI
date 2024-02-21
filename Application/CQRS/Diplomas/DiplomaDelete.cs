@@ -33,7 +33,7 @@ namespace Application.CQRS.Diplomas
                 public async Task<Result<DiplomaDeleteDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
                     var diploma = await _context.DiplomasDb
-                        .SingleOrDefaultAsync(di => di.Id == request.DiplomaId && di.DieticianId == request.DieticianId, cancellationToken);
+                        .SingleOrDefaultAsync(di => di.Id == request.DiplomaId && di.DieticianId == request.DieticianId);
 
                     if (diploma == null)
                     {
@@ -55,7 +55,7 @@ namespace Application.CQRS.Diplomas
 
                         try
                         {
-                            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                            var result = await _context.SaveChangesAsync() > 0;
                             if (!result)
                             {
                                 return Result<DiplomaDeleteDTO>.Failure("Operacja nie powiodła się.");

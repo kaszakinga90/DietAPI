@@ -7,7 +7,7 @@ using Application.DTOs.TestsResultsDTO;
 using System.Diagnostics;
 using Application.Validators.TestResults;
 
-namespace Application.CQRS.PatientCards
+namespace Application.CQRS.PatientCards.TestsResults
 {
     public class TestResultCreate
     {
@@ -32,7 +32,7 @@ namespace Application.CQRS.PatientCards
             public async Task<Result<TestResultPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var validationResult = await _validator
-                    .ValidateAsync(request.TestResultPostDTO, cancellationToken);
+                    .ValidateAsync(request.TestResultPostDTO);
 
                 if (!validationResult.IsValid)
                 {
@@ -45,7 +45,7 @@ namespace Application.CQRS.PatientCards
                     var singleTestResults = _mapper.Map<SingleTestResults>(request.TestResultPostDTO);
 
                     _context.SingleTestResultsDb.Add(singleTestResults);
-                    await _context.SaveChangesAsync(cancellationToken);
+                    await _context.SaveChangesAsync();
 
                     var testResult = new TestResult
                     {
@@ -55,7 +55,7 @@ namespace Application.CQRS.PatientCards
                     };
 
                     _context.TestResultsDb.Add(testResult);
-                    await _context.SaveChangesAsync(cancellationToken);
+                    await _context.SaveChangesAsync();
 
                     var resultDto = _mapper.Map<TestResultPostDTO>(singleTestResults);
                     return Result<TestResultPostDTO>.Success(resultDto);
