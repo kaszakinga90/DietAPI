@@ -27,7 +27,7 @@ namespace Application.CQRS.Admins
                 try
                 {
                     var adminMessagesList = _context.MessageToDb
-                    .Where(m => m.AdminId == request.AdminId)
+                    .Where(m => m.AdminId == request.AdminId&&m.AdminSended==false)
                     .Select(m => new MessageToDTO
                     {
                         Id = m.Id,
@@ -40,7 +40,10 @@ namespace Application.CQRS.Admins
                         PatientName = m.Patient.FirstName + " " + m.Patient.LastName,
                         dateAdded = m.dateAdded,
                         ReadDate = m.ReadDate,
-                        IsRead = m.IsRead
+                        IsRead = m.IsRead,
+                        PatientSended = m.PatientSended,
+                        DieticianSended = m.DieticianSended,
+                        AdminSended = m.AdminSended,
                     })
                     .AsQueryable();
 

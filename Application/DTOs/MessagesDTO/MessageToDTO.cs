@@ -13,5 +13,8 @@
     public bool IsActive { get; set; }
     public DateTime? ReadDate { get; set; }
     public DateTime dateAdded { get; set; } = DateTime.Now;
-   
+    public bool AdminSended { get; set; }
+    public bool PatientSended { get; set; }
+    public bool DieticianSended { get; set; }
+
 }

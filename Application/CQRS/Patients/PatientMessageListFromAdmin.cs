@@ -2,11 +2,16 @@
 using Application.FiltersExtensions.PatientMessages;
 using DietDB;
 using MediatR;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Application.CQRS.Patients
 {
-    public class PatientMessageList
+    public class PatientMessageListFromAdmin
     {
         public class Query : IRequest<Result<PagedList<MessageToDTO>>>
         {
@@ -28,7 +33,7 @@ namespace Application.CQRS.Patients
                 try
                 {
                     var patientMessagesList = _context.MessageToDb
-                    .Where(m => m.PatientId == request.PatientId && m.PatientSended == false)
+                    .Where(m => m.PatientId == request.PatientId && m.DieticianId == null)
                     .Select(m => new MessageToDTO
                     {
                         Id = m.Id,
@@ -41,10 +46,7 @@ namespace Application.CQRS.Patients
                         PatientName = m.Patient.FirstName + " " + m.Patient.LastName,
                         dateAdded = m.dateAdded,
                         ReadDate = m.ReadDate,
-                        IsRead = m.IsRead,
-                        PatientSended = m.PatientSended,
-                        DieticianSended = m.DieticianSended,
-                        AdminSended = m.AdminSended,
+                        IsRead = m.IsRead
                     })
                     .AsQueryable();
 

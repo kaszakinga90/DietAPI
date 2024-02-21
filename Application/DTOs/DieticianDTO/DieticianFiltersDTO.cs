@@ -4,5 +4,6 @@
     {
         public List<DateTime> DatesAdded { get; set; }
         public List<string> DieticianNames { get; set; }
+        public List<string> AdminNames { get; set; }
     }
 }
