@@ -14,9 +14,6 @@ namespace Application.Validators.Admin
 
             RuleFor(dto => dto.Password)
                 .NotEmpty().WithMessage("Pole Password nie może być puste.");
-
-            RuleFor(dto => dto.PictureUrl)
-                .NotEmpty().WithMessage("Pole PictureURL nie może być puste.");
         }
     }
 }
