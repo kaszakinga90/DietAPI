@@ -28,7 +28,7 @@ namespace Application.CQRS.ReportTemplates
                     .ToListAsync(cancellationToken);
 
                 if (reportTemplateFromDb.Count == 0 || reportTemplateFromDb == null) {
-                    return Result<List<ReportTemplateGetDTO>>.Failure("report templates not found.");
+                    return Result<List<ReportTemplateGetDTO>>.Failure("Nie znaleziono szablonu raportu.");
                 } 
                 else
                 {

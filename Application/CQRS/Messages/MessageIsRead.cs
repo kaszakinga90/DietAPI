@@ -1,16 +1,8 @@
 ﻿using Application.Core;
-using Application.DTOs.InvitationDTO;
 using Application.DTOs.MessagesDTO;
-using Application.Validators.Invitation;
 using AutoMapper;
 using DietDB;
 using MediatR;
-using ModelsDB.Functionality;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.CQRS.Messages
 {
@@ -25,13 +17,11 @@ namespace Application.CQRS.Messages
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
-            //private readonly InvitationCreateValidator _validator;
 
-            public Handler(DietContext context, IMapper mapper, InvitationCreateValidator validator)
+            public Handler(DietContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
-                //_validator = validator;
             }
 
             public async Task<Result<MessageIsReadPostDTO>> Handle(Command request, CancellationToken cancellationToken)
@@ -52,7 +42,6 @@ namespace Application.CQRS.Messages
 
                 return Result<MessageIsReadPostDTO>.Success(updatedMessageDto);
             }
-
         }
     }
 }

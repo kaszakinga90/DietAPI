@@ -34,7 +34,7 @@ namespace Application.CQRS.PatientCards.Surveys
 
                     if (survey == null)
                     {
-                        return Result<SurveyDeleteDTO>.Failure("Test Result not found.");
+                        return Result<SurveyDeleteDTO>.Failure("Nie znaleziono wywiadu.");
                     }
 
                     _mapper.Map(request.SurveyDeleteDTO, survey);
@@ -50,7 +50,7 @@ namespace Application.CQRS.PatientCards.Surveys
 
                         try
                         {
-                            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                            var result = await _context.SaveChangesAsync() > 0;
                             if (!result)
                             {
                                 return Result<SurveyDeleteDTO>.Failure("Operacja nie powiodła się.");

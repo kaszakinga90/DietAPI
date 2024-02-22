@@ -13,6 +13,5 @@
         public int? UnitId { get; set; }
         public int? GlycemicIndex { get; set; }
         public int DieticianId { get; set; }
-        //public List<IngredientNutrientDTO> NutrientsDTO { get; set; }
     }
 }

@@ -41,7 +41,7 @@ namespace Application.CQRS.DieticiansBusinessesCards
 
                         if (dietician == null)
                         {
-                            return Result<DieticianBusinessCardGetDTO>.Failure("DieticianBusinessCardGetDTO not found.");
+                            return Result<DieticianBusinessCardGetDTO>.Failure("DieticianBusinessCardGetDTO nie znaleziono.");
                         }
 
                         var dieticianBusinessCardDTO = _mapper.Map<DieticianBusinessCardGetDTO>(dietician);

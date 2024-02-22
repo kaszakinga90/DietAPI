@@ -36,7 +36,7 @@ namespace Application.Services
                         }
                         else
                         {
-                            return Result<IReport>.Failure($"Failed to get MeasurementHistory data. Reason: {mhdtoResult.Error}");
+                            return Result<IReport>.Failure($"Nie można pobrać danych historii pomiarów. Powód: {mhdtoResult.Error}");
                         }
                     }
 
@@ -51,7 +51,7 @@ namespace Application.Services
                         }
                         else
                         {
-                            return Result<IReport>.Failure($"Failed to get DietSales data. Reason: {dsdtoResult.Error}");
+                            return Result<IReport>.Failure($"Nie można pobrać danych sprzedaży. Powód: {dsdtoResult.Error}");
                         }
                     }
 
@@ -66,12 +66,12 @@ namespace Application.Services
                         }
                         else
                         {
-                            return Result<IReport>.Failure($"Failed to get Diet For Patient data. Reason: {dfpdtoResult.Error}");
+                            return Result<IReport>.Failure($"Nie można pobrać danych diety dla pacjenta do eksportu pdf. Powód: {dfpdtoResult.Error}");
                         }
                     }
 
                 default:
-                    throw new ArgumentException("Unsupported report type");
+                    throw new ArgumentException("Niewspierany typ raportu");
             }
         }
 

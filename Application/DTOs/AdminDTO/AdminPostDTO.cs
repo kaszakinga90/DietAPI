@@ -1,6 +1,4 @@
-﻿using ModelsDB;
-
-namespace Application.DTOs.AdminDTO
+﻿namespace Application.DTOs.AdminDTO
 {
     public class AdminPostDTO
     {

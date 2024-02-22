@@ -29,7 +29,7 @@ namespace Application.CQRS.ReportTemplates
 
                 if (reportTemplatePreview.Count == 0 || reportTemplatePreview == null)
                 {
-                    return Result<List<ReportTemplatePreviewDTO>>.Failure("report template previews not found.");
+                    return Result<List<ReportTemplatePreviewDTO>>.Failure("report template previews nie znaleziono.");
                 }
                 else
                 {

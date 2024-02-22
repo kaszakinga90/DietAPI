@@ -36,7 +36,7 @@ namespace Application.CQRS.Dieticians
             public async Task<Result<DieticianEditDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var validationResult = await _validator
-                    .ValidateAsync(request.DieticianEditDTO, cancellationToken);
+                    .ValidateAsync(request.DieticianEditDTO);
 
                 if (!validationResult.IsValid)
                 {
@@ -45,7 +45,7 @@ namespace Application.CQRS.Dieticians
                 }
 
                 var dietician = await _context.DieticiansDb
-                    .FindAsync(new object[] { request.DieticianEditDTO.Id }, cancellationToken);
+                    .FindAsync(new object[] { request.DieticianEditDTO.Id });
 
                 if (dietician == null)
                 {
@@ -73,7 +73,7 @@ namespace Application.CQRS.Dieticians
 
                 try
                 {
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    var result = await _context.SaveChangesAsync() > 0;
                     if (!result)
                     {
                         return Result<DieticianEditDTO>.Failure("Edycja dietetyka nie powiodła się.");

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     // TODO : sposób przedstawienia nagłówków autoryzacyjnych
-    [Authorize(Roles = "Admin, Dietetician")]
+    [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
     public class LogoController : BaseApiController
     {
         public LogoController(IMediator mediator) : base(mediator)
@@ -37,7 +37,6 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        
         [HttpDelete("delete/{dieticianId}")]
         public async Task<IActionResult> DeleteLogo(int dieticianId)
         {

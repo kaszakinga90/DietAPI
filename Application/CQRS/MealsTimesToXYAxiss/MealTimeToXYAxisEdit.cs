@@ -28,17 +28,17 @@ namespace Application.CQRS.MealsTimesToXYAxiss
 
                 public async Task<Result<MealTimeToXYAxisEditDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
-                    //var validationResult = await _validator
-                    //.ValidateAsync(request.MealTimeToXYAxisEditDTO, cancellationToken);
+                    var validationResult = await _validator
+                    .ValidateAsync(request.MealTimeToXYAxisEditDTO);
 
-                    //if (!validationResult.IsValid)
-                    //{
-                    //    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
-                    //    return Result<MealTimeToXYAxisEditDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
-                    //}
+                    if (!validationResult.IsValid)
+                    {
+                        var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                        return Result<MealTimeToXYAxisEditDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                    }
 
                     var mealShedule = await _context.MealTimesDb
-                        .FindAsync(new object[] { request.MealTimeToXYAxisEditDTO.Id }, cancellationToken);
+                        .FindAsync(new object[] { request.MealTimeToXYAxisEditDTO.Id });
 
                     if (mealShedule == null)
                     {
@@ -49,7 +49,7 @@ namespace Application.CQRS.MealsTimesToXYAxiss
 
                     try
                     {
-                        var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                        var result = await _context.SaveChangesAsync() > 0;
                         if (!result)
                         {
                             return Result<MealTimeToXYAxisEditDTO>.Failure("Edycja posilku nie powiodła się.");

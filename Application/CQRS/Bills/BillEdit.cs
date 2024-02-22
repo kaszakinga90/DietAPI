@@ -1,10 +1,9 @@
 ﻿using Application.Core;
 using Application.DTOs.BillDTO;
-using Application.DTOs.InvitationDTO;
+using Application.Validators.Bill;
 using AutoMapper;
 using DietDB;
 using MediatR;
-using ModelsDB.Functionality;
 using System.Diagnostics;
 
 namespace Application.CQRS.Bills
@@ -20,15 +19,26 @@ namespace Application.CQRS.Bills
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
+            private readonly BillUpdateValidator _validator;
 
-            public Handler(DietContext context, IMapper mapper)
+            public Handler(DietContext context, IMapper mapper, BillUpdateValidator validator)
             {
                 _context = context;
                 _mapper = mapper;
+                _validator = validator;
             }
 
             public async Task<Result<SalesPutDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
+                var validationResult = await _validator
+                    .ValidateAsync(request.SalesPutDTO);
+
+                if (!validationResult.IsValid)
+                {
+                    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                    return Result<SalesPutDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                }
+
                 var salesDto = request.SalesPutDTO;
 
                 var sales = await _context.SalesDb.FindAsync(salesDto.Id);
@@ -43,7 +53,7 @@ namespace Application.CQRS.Bills
 
                 try
                 {
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    var result = await _context.SaveChangesAsync() > 0;
                     if (!result)
                     {
                         return Result<SalesPutDTO>.Failure("Opłacenie rachunku nie powiodło się.");
@@ -55,33 +65,6 @@ namespace Application.CQRS.Bills
                     return Result<SalesPutDTO>.Failure("Wystąpił błąd podczas opłacania rachunku.");
                 }
                 return Result<SalesPutDTO>.Success(_mapper.Map<SalesPutDTO>(sales));
-
-                //var salesDto = request.DietSalesBillPutDTO;
-
-                //var sales = await _context.DietSalesBillsDb.FindAsync(salesDto.Id);
-
-                //if (sales == null)
-                //{
-                //    return Result<DietSalesBillPutDTO>.Failure("Nie znaleziono rachunku o podanym id.");
-                //}
-
-                //_mapper.Map(request.DietSalesBillPutDTO, sales);
-                //sales.Sales.IsPaid = true;
-
-                //try
-                //{
-                //    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
-                //    if (!result)
-                //    {
-                //        return Result<DietSalesBillPutDTO>.Failure("Opłacenie rachunku nie powiodło się.");
-                //    }
-                //}
-                //catch (Exception ex)
-                //{
-                //    Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
-                //    return Result<DietSalesBillPutDTO>.Failure("Wystąpił błąd podczas opłacania rachunku.");
-                //}
-                //return Result<DietSalesBillPutDTO>.Success(_mapper.Map<DietSalesBillPutDTO>(sales));
             }
         }
     }

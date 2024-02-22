@@ -1,6 +1,5 @@
 ﻿using Application.Core;
 using Application.CQRS.Admins;
-using Application.CQRS.CountryStates;
 using Application.CQRS.Messages;
 using Application.CQRS.Roles;
 using Application.CQRS.UserRoles;
@@ -13,6 +12,7 @@ using Application.FiltersExtensions.Admins;
 using Application.FiltersExtensions.Roles;
 using Application.FiltersExtensions.UserRoles;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -23,6 +23,7 @@ namespace API.Controllers
         {
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin")]
         [HttpGet("all")]
         public async Task<IActionResult> GetAdmins([FromQuery] AdminParams pagingParams)
         {
@@ -30,6 +31,7 @@ namespace API.Controllers
             return HandlePagedResult(query);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAdmin(int id)
         {
@@ -38,7 +40,7 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(query));
         }
 
-        //metoda tylko dla superadmina
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost("createAdmin")]
         public async Task<IActionResult> CreateAdmin(AdminPostDTO AdminPostDTO)
         {
@@ -51,6 +53,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> EditAdmin(int id, [FromForm] AdminEditDTO adminDTO, [FromForm] IFormFile file)
         {
@@ -69,6 +72,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin")]
         [HttpGet("messages/{adminId}")]
         public async Task<ActionResult<PagedList<MessageToDTO>>> GetMessagesForAdmin(int adminId, [FromQuery] PagingParams param)
         {
@@ -80,6 +84,7 @@ namespace API.Controllers
             return HandlePagedResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin")]
         [HttpPost("messageToDietician/{adminId}")]
         public async Task<IActionResult> MessageToDietetician(int adminId, MessageToDTO message)
         {
@@ -97,6 +102,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin")]
         [HttpPost("messageToPatient/{adminId}")]
         public async Task<IActionResult> MessageToPatient(int adminId, MessageToDTO message)
         {
@@ -114,7 +120,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        // metoda tylko dla superadmina
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost("rolesManage/create")]
         public async Task<IActionResult> CreateRole(RolePostDTO rolePostDTO)
         {
@@ -128,7 +134,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        // metoda tylko dla superadmina
+        [Authorize(Roles = "SuperAdmin")]
         [HttpGet("rolesManage/all")]
         public async Task<IActionResult> GetRoles([FromQuery] RoleParams pagingParams)
         {
@@ -136,7 +142,7 @@ namespace API.Controllers
             return HandlePagedResult(query);
         }
 
-        // metoda tylko dla superadmina
+        [Authorize(Roles = "SuperAdmin")]
         [HttpGet("rolesManage/noPagination/all")]
         public async Task<IActionResult> GetRolesNoPagination()
         {
@@ -144,7 +150,7 @@ namespace API.Controllers
             return HandleResult(query);
         }
 
-        // metoda tylko dla superadmina
+        [Authorize(Roles = "SuperAdmin")]
         [HttpGet("rolesManage/users/all")]
         public async Task<IActionResult> GetUsers([FromQuery] UserWithRoleParams pagingParams)
         {
@@ -152,15 +158,15 @@ namespace API.Controllers
             return HandlePagedResult(query);
         }
 
-        // metoda tylko dla superadmina
+        [Authorize(Roles = "SuperAdmin")]
         [HttpGet("rolesManage/userRoles/{userId}")]
         public async Task<IActionResult> GetRolesForUser(int userId)
         {
             var query = await _mediator.Send(new UserDetails.Query { UserId = userId } );
             return HandleResult(query);
         }
-        
-        // metoda tylko dla superadmina
+
+        [Authorize(Roles = "SuperAdmin")]
         [HttpDelete("rolesManage/userRoles/deleteRole/{userId}/{userRoleId}")]
         public async Task<IActionResult> RemoveUserRole(int userId, int userRoleId)
         {
@@ -174,7 +180,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        // metoda tylko dla superadmina
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost("rolesManage/userRoles/addRole")]
         public async Task<IActionResult> AddUserRole(UserRoleCreateDTO userRoleCreateDTO)
         {
@@ -187,12 +193,16 @@ namespace API.Controllers
             }
             return BadRequest(result.Error);
         }
+
+        [Authorize(Roles = "SuperAdmin")]
         [HttpGet("allnopagination")]
         public async Task<IActionResult> GetAdminsListNoPagination()
         {
             var result = await _mediator.Send(new AdminNoPaginationList.Query());
             return HandleResult(result);
         }
+
+        [Authorize(Roles = "SuperAdmin, Admin")]
         [HttpPost("message/isread")]
         public async Task<IActionResult> MessageIsRead(MessageIsReadPostDTO messageIsRead)
         {
@@ -204,7 +214,6 @@ namespace API.Controllers
             var result = await _mediator.Send(command);
 
             return Ok(result);
-            //    return HandleResult(await _mediator.Send(command));
         }
     }
 }

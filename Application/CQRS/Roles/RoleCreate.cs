@@ -32,7 +32,7 @@ namespace Application.CQRS.Roles
             public async Task<Result<RolePostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var validationResult = await _validator
-                    .ValidateAsync(request.RolePostDTO, cancellationToken);
+                    .ValidateAsync(request.RolePostDTO);
 
                 if (!validationResult.IsValid)
                 {
@@ -55,7 +55,7 @@ namespace Application.CQRS.Roles
 
                 try
                 {
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    var result = await _context.SaveChangesAsync() > 0;
 
                     if (!result)
                     {

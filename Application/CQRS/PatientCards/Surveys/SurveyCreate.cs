@@ -8,7 +8,7 @@ using ModelsDB;
 using ModelsDB.Functionality;
 using System.Diagnostics;
 
-namespace Application.CQRS.PatientCards
+namespace Application.CQRS.PatientCards.Surveys
 {
     public class SurveyCreate
     {
@@ -33,7 +33,7 @@ namespace Application.CQRS.PatientCards
             public async Task<Result<SurveyPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var validationResult = await _validator
-                    .ValidateAsync(request.surveyPostDTO, cancellationToken);
+                    .ValidateAsync(request.surveyPostDTO);
 
                 if (!validationResult.IsValid)
                 {
@@ -46,7 +46,7 @@ namespace Application.CQRS.PatientCards
                     var survey = _mapper.Map<Survey>(request.surveyPostDTO);
 
                     _context.SurveysDb.Add(survey);
-                    await _context.SaveChangesAsync(cancellationToken);
+                    await _context.SaveChangesAsync();
 
                     var surveyPatientCard = new PatientCardSurvey
                     {
@@ -56,7 +56,7 @@ namespace Application.CQRS.PatientCards
                     };
 
                     _context.PatientCardSurveysDb.Add(surveyPatientCard);
-                    await _context.SaveChangesAsync(cancellationToken);
+                    await _context.SaveChangesAsync();
 
                     var resultDto = _mapper.Map<SurveyPostDTO>(survey);
 

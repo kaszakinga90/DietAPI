@@ -3,7 +3,6 @@ using Application.DTOs.InvitationDTO;
 using Application.FiltersExtensions.Invitations;
 using DietDB;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace Application.CQRS.Invitations

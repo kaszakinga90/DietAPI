@@ -118,29 +118,37 @@ namespace DietDB.Migrations
                     b.HasData(
                         new
                         {
+
                             Id = "3c08e6c5-be83-49ad-900b-72d0277c03bb",
                             ConcurrencyStamp = "b649ba23-8ab5-47e3-b260-9008872fa5ae",
+
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
+
                             Id = "ad5c9fba-f1ee-420b-8e33-7f5e119034ab",
                             ConcurrencyStamp = "8547b37d-1526-48bd-ba27-59d4cfddf21d",
+
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
+
                             Id = "e80ce8c5-1d08-46d5-970a-7c6d5b071bb1",
                             ConcurrencyStamp = "280b502b-8cb6-498f-80e9-78dfbe994d1f",
+
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
+
                             Id = "6b1e1571-3e62-4329-87a1-76cf1c65166b",
                             ConcurrencyStamp = "31cf2cd2-466a-43cb-8d40-a80cdb221fa6",
+
                             Name = "Dietetician",
                             NormalizedName = "DIETETICIAN"
                         });

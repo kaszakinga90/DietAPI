@@ -45,7 +45,6 @@ using Application.DTOs.TestsResultsDTO;
 using Application.DTOs.UnitDTO;
 using AutoMapper;
 using DietDB;
-using Microsoft.EntityFrameworkCore;
 using ModelsDB;
 using ModelsDB.Functionality;
 
@@ -62,11 +61,6 @@ namespace Application.Core
 
         public MappingProfiles()
         {
-            //CreateMap<DietPatient, DietPatientPostDTO>()
-            //    .ForMember(dest => dest.DieticianName, opt => opt.MapFrom(src => _context.DieticiansDb.FirstOrDefault(d => d.Id == src.DieticianId).Email))
-            //    .ForMember(dest => dest.PatientName, opt => opt.MapFrom(src => _context.PatientsDb.FirstOrDefault(p => p.Id == src.DieticianId).Email))
-            //    .ForMember(dest => dest.DietName, opt => opt.MapFrom(src => _context.DietsDb.FirstOrDefault(d => d.Id == src.DietId).Name));
-
             CreateMap<DietSalesBill, DietSalesBillPostDTO>()
             .ReverseMap();
 
@@ -74,10 +68,6 @@ namespace Application.Core
                 .ReverseMap();
 
             CreateMap<DietSalesBill, DietSalesBillGetDTO>()
-    //            .ForMember(dest => dest.DieticianName, opt => opt.MapFrom(src =>
-    //_context.DieticiansDb.Where(d => d.Id == src.DieticianId)
-    //.Select(d => d.FirstName + " " + d.LastName)
-    //.FirstOrDefault()))
             .ReverseMap();
 
             CreateMap<Sales, SalesGetDTO>()
@@ -89,8 +79,6 @@ namespace Application.Core
             CreateMap<Sales, SalesPutDTO>()
                 .ReverseMap();
 
-
-
             CreateMap<DietPatient, DietPatientPostDTO>()
                 .ReverseMap();
 
@@ -98,24 +86,12 @@ namespace Application.Core
                 .ForMember(dest => dest.DieticianId, opt => opt.MapFrom(src => src.DieticianId))
                 .ForMember(dest => dest.PatientId, opt => opt.MapFrom(src => src.PatientId))
                 .ForMember(dest => dest.DietId, opt => opt.MapFrom(src => src.DietId));
-
-            //CreateMap<Dietician, DietPatientPostDTO>()
-            //.ForMember(dest => dest.DieticianName, opt => opt.MapFrom(src => src.Email));
-
-            //CreateMap<Patient, DietPatientPostDTO>()
-            //    .ForMember(dest => dest.PatientName, opt => opt.MapFrom(src => src.Email));
-
-            //CreateMap<Diet, DietPatientPostDTO>()
-            //    .ForMember(dest => dest.DietName, opt => opt.MapFrom(src => src.Name));
             
             CreateMap<Diet, DietDeleteDTO>()
                 .ReverseMap();
 
             CreateMap<Printout, PrintoutDeleteDTO>()
                    .ReverseMap();
-
-
-
 
             CreateMap<IngredientEditDTO, Ingredient>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.IngredientName))
@@ -188,8 +164,6 @@ namespace Application.Core
             CreateMap<Patient, PatientEditDataDTO>();
 
             CreateMap<Admin, AdminGetDTO>()
-                //.ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate.HasValue ? src.BirthDate.Value.Date : (DateTime?)null))
-                //.ForMember(dest => dest.Messages, opt => opt.MapFrom(src => src.MessageTo))
                 .ForMember(dest => dest.AdminName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName))
                 .ForMember(dest => dest.AddressDTO, opt => opt.MapFrom(src => src.Address))
                 .ReverseMap();
@@ -210,7 +184,6 @@ namespace Application.Core
             CreateMap<Dietician, DieticianDeleteDTO>()
                 .ForMember(dest => dest.AddressDeleteDTO, opt => opt.MapFrom(src => src.Address))
                 .ForMember(dest => dest.LogoDeleteDTO, opt => opt.MapFrom(src => src.Logo))
-                //.ForMember(dest => dest.DieticianSpecializationDeleteDTO, opt => opt.MapFrom(src => src.DieticianSpecializations.AsQueryable().Include(np => np.Specialization)))
                 .AfterMap((src, dest) =>
                 {
                     dest.DieticianSpecializationDeleteDTO = src.DieticianSpecializations
@@ -242,8 +215,6 @@ namespace Application.Core
 
             CreateMap<Patient, PatientDeleteDTO>()
                 .ForMember(dest => dest.AddressDeleteDTO, opt => opt.MapFrom(src => src.Address))
-                //.ForMember(dest => dest.NotesPatientDeleteDTO, opt => opt.MapFrom(src => src.NotePatients))
-                //.ForMember(dest => dest.NotesPatientDeleteDTO, opt => opt.MapFrom(src => src.NotePatients.AsQueryable().Include(np => np.Note)))
                 .ReverseMap();
 
             CreateMap<Address, AddressDeleteDTO>()
@@ -254,7 +225,6 @@ namespace Application.Core
 
             CreateMap<DieticianSpecialization, DieticianSpecializationDeleteDTO>()
                 .ForMember(dest => dest.isActive, opt => opt.MapFrom(src => src.isActive))
-                //.ForMember(dest => dest.DieticianId, opt => opt.MapFrom(src => src.DieticianId))
                 .ReverseMap();
 
             CreateMap<DieticianOffice, DieticianOfficeDeleteDTO>()
@@ -276,10 +246,6 @@ namespace Application.Core
 
             CreateMap<Role, RoleGetDTO>()
                 .ReverseMap();
-
-            //CreateMap<NotePatient, NotePatientDeleteDTO>()
-            //    .ForMember(dest => dest.isActive, opt => opt.MapFrom(src => src.isActive))
-            //    .ReverseMap();
 
             CreateMap<Dietician, DieticianGetDTO>()
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate.HasValue ? src.BirthDate.Value.Date : (DateTime?)null))
@@ -333,6 +299,13 @@ namespace Application.Core
                 .ForMember(dest => dest.Nutrients, opt => opt.Ignore())
                 .ForMember(dest => dest.DishIngredients, opt => opt.Ignore());
 
+            CreateMap<Ingredient, IngredientNutritionixDTO>()
+            .ForMember(dest => dest.MeasureId, opt => opt.MapFrom(src => src.MeasureId))
+            .ForMember(dest => dest.MeasureNameFromJSON, opt => opt.MapFrom(src => src.Measure.Symbol))
+            .ForMember(dest => dest.UnitId, opt => opt.MapFrom(src => src.UnitId))
+            .ForMember(dest => dest.GlycemicIndex, opt => opt.MapFrom(src => src.GlycemicIndex))
+            .ForMember(dest => dest.NutrientsDTO, opt => opt.MapFrom(src => src.Nutrients));
+
             CreateMap<NutrientDTO, Nutrient>()
             .ForMember(dest => dest.Unit, opt => opt.Ignore())
             .ForMember(dest => dest.Ingredients, opt => opt.Ignore());
@@ -347,8 +320,8 @@ namespace Application.Core
 
             CreateMap<Diploma, DiplomaGetDTO>();
             CreateMap<Specialization, SpecializationGetDTO>();
+
             CreateMap<DieticianSpecialization, DieteticianSpecializationPostDTO>()
-           //.ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
            .ForMember(dest => dest.DieticianId, opt => opt.MapFrom(src => src.DieticianId))
            .ForMember(dest => dest.SpecializationId, opt => opt.MapFrom(src => src.SpecializationId))
            .ForMember(dest => dest.SpecializationName, opt => opt.MapFrom(src => src.Specialization.SpecializationName));
@@ -376,8 +349,6 @@ namespace Application.Core
                 .ReverseMap();
 
             CreateMap<Ingredient, IngredientGetDTO>();
-
-            // -------------------------------------------------------------------- //
 
             CreateMap<DishPostDTO, Dish>()
                 .ForMember(dest => dest.Recipe, opt => opt.Ignore());
@@ -430,7 +401,6 @@ namespace Application.Core
             CreateMap<Logo, LogoGetDTO>()
                 .ReverseMap();
 
-
             CreateMap<Dietician, DieticianEditDataDTO>()
                 .ReverseMap();
 
@@ -473,7 +443,6 @@ namespace Application.Core
                       .ForMember(dest => dest.DieticianDiplomas, opt => opt.MapFrom(src => src.Diplomas))
                       .ForMember(dest => dest.DieticianSpecializations, opt => opt.MapFrom(src => src.DieticianSpecializations.Select(ds => ds.Specialization)));
 
-
             CreateMap<Office, OfficeGetDTO>()
                     .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                     .ForMember(dest => dest.OfficeName, opt => opt.MapFrom(src => src.OfficeName))
@@ -487,45 +456,6 @@ namespace Application.Core
 
             CreateMap<ReportTemplatePreview, ReportTemplatePreviewDTO>()
                 .ReverseMap();
-
-            // -------------------------------------------------------------------- //
-
-            //CreateMap<Diet, DietForPatientToDocumentDTO>()
-            //        .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-            //        .ForMember(dest => dest.PatientName, opt => opt.MapFrom(src => src.PatientEditDTO.FirstName + " " + src.PatientEditDTO.LastName))
-            //        .ForMember(dest => dest.DieticianName, opt => opt.MapFrom(src => src.DieticianEditDTO.FirstName + " " + src.DieticianEditDTO.LastName))
-            //        .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate))
-            //        .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDate))
-            //        .ForMember(dest => dest.numberOfMeals, opt => opt.MapFrom(src => src.numberOfMeals))
-            //        .ForMember(dest => dest.Period, opt => opt.MapFrom(src => (int)(src.EndDate - src.StartDate).TotalDays))
-            //        .ForMember(dest => dest.MealTimesToXYAxisDTO, opt => opt.MapFrom(src => src.MealTimesToXYAxis.Select(mt => new MealTimeToXYAxisToReportDTO
-            //        {
-            //            //UserId = mt.UserId,
-            //            //DietId = mt.DietId,
-            //            //DishId = mt.DishId,
-            //            Name = mt.Dish.Name,
-            //            MealTime = mt.MealTime.ToString()
-            //        }).ToList()))
-            //        .ForMember(dest => dest.DishesDTO, opt => opt.MapFrom(src => src.MealTimesToXYAxis.Select(mt => mt.Dish).Select(dish => new DishGetDTO
-            //        {
-            //            RecipeId = dish.Recipe.UserId,
-            //            Name = dish.Name,
-            //            Calories = dish.Calories,
-            //            ServingQuantity = dish.ServingQuantity,
-            //            MeasureId = dish.Measure.UserId,
-            //            Weight = dish.Weight,
-            //            UnitId = dish.Unit.UserId,
-            //            GlycemicIndex = dish.GlycemicIndex,
-            //            DishPhotoUrl = dish.DishPhotoUrl,
-            //            PreparingTime = dish.PreparingTime,
-            //            RecipeStepsDTO = dish.Recipe.Steps.Select(step => new RecipeStepGetDTO
-            //            {
-            //                UserId = step.UserId,
-            //                StepNumber = step.StepNumber,
-            //                Description = step.Description,
-            //                RecipeId = step.RecipeId
-            //            }).ToList()
-            //        }).ToList()));
 
             CreateMap<Diet, DietForPatientToDocumentDTO>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
@@ -566,12 +496,6 @@ namespace Application.Core
                         }).ToList(),
                     },
                 }).ToList()));
-
-            //CreateMap<DieticianPatient, DietsForPatientDTO>()
-            //    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Diet.Name))
-            //    .ForMember(dest => dest.DieticianName, opt => opt.MapFrom(src => $"{src.DieticianEditDTO.FirstName} {src.DieticianEditDTO.LastName}"))
-            //    .ForMember(dest => dest.Period, opt => opt.MapFrom(src => $"{src.Diet.StartDate.Date.ToShortDateString()} - {src.Diet.EndDate.Date.ToShortDateString()}"));
-
         }
     }
 }

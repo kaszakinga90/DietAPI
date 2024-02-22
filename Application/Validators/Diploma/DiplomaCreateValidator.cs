@@ -23,7 +23,7 @@ namespace Application.Validators.Diploma
 
             RuleFor(dto => dto.File)
                 .NotNull().WithMessage("Pole File nie może być null.")
-                .Must(isFileHasValidExtension).WithMessage("Plik musi być w formacie JPG lub PNG.");
+                .Must(isFileHasValidExtension).WithMessage("Plik musi być w formacie JPG, JPEG lub PNG.");
         }
 
         private bool isFileHasValidExtension(IFormFile file)

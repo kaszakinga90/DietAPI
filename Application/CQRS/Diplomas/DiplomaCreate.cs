@@ -36,7 +36,7 @@ namespace Application.CQRS.Diplomas
             public async Task<Result<DiplomaPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var validationResult = await _validator
-                    .ValidateAsync(request.DiplomaPostDTO, cancellationToken);
+                    .ValidateAsync(request.DiplomaPostDTO);
 
                 if (!validationResult.IsValid)
                 {

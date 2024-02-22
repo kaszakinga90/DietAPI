@@ -30,7 +30,6 @@ namespace Application.CQRS.Patients
                 {
                     var patientsList = _context.PatientsDb
                     .Include(a => a.Address)
-                    //.ThenInclude(a => a.CountryState)
                     .Select(a => new PatientGetDTO
                     {
                         Id = a.Id,
@@ -42,13 +41,7 @@ namespace Application.CQRS.Patients
                         BirthDate = a.BirthDate,
                         Address = new AddressesDTO
                         {
-                            //UserId = a.Address.UserId,
                             City = a.Address.City,
-                            //ZipCode = a.Address.ZipCode,
-                            //Country = a.Address.Country,
-                            //Street = a.Address.Street,
-                            //LocalNo = a.Address.LocalNo,
-                            //StateName = a.Address.CountryState.StateName
                         }
                     })
                     .AsQueryable();

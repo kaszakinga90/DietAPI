@@ -1,6 +1,4 @@
-﻿using Application.DTOs.DieticianDTO;
-
-namespace Application.FiltersExtensions.Patients
+﻿namespace Application.FiltersExtensions.Patients
 {
     public static class PatientExtensions
     {

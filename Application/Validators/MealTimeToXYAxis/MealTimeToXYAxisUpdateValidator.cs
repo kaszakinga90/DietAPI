@@ -21,13 +21,6 @@ namespace Application.Validators.MealTimeToXYAxis
                 .NotEmpty().WithMessage("Pole DishId nie może być puste.")
                 .NotNull().WithMessage("Pole DishId nie może przyjmować null.")
                 .GreaterThan(0).WithMessage("Pole DishId musi być liczbą całkowitą większą niż 1.");
-
-            //RuleFor(dto => dto.MealTime)
-            //    .Must(date => date.HasValue && date.Value.Year > 1900).WithMessage("Nieprawidłowa data urodzenia.");
-            // cyfra cyfra : cyfra cyfra (taki obowiązuje format)
-            // musi się zawierać pomiędzy startdate i enddate
         }
     }
 }
-
-//public DateTime MealTime { get; set; } // Data i godzina posiłku   - tutaj może być specyficzna logiak walidacji

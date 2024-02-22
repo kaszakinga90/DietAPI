@@ -1,6 +1,5 @@
 ﻿using Application.Core;
 using Application.DTOs.IngredientDTO;
-using Application.Services;
 using AutoMapper;
 using DietDB;
 using MediatR;
@@ -22,13 +21,11 @@ namespace Application.CQRS.Ingredients
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
-            private readonly ImageService _imageService;
 
-            public Handler(DietContext context, IMapper mapper, ImageService imageService)
+            public Handler(DietContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
-                _imageService = imageService;
             }
 
             public async Task<Result<IngredientDTO>> Handle(Command request, CancellationToken cancellationToken)
@@ -44,7 +41,7 @@ namespace Application.CQRS.Ingredients
 
                 try
                 {
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    var result = await _context.SaveChangesAsync() > 0;
                     if (!result)
                     {
                         return Result<IngredientDTO>.Failure("Operacja nie powiodła się.");

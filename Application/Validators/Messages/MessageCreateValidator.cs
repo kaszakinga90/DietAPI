@@ -4,7 +4,6 @@ namespace Application.Validators.Messages
 {
     public class MessageCreateValidator : AbstractValidator<MessageToDTO>
     {
-
         public MessageCreateValidator()
         {
             RuleFor(dto => dto.Title)
@@ -23,8 +22,8 @@ namespace Application.Validators.Messages
             RuleFor(dto => dto.AdminId)
                 .Null().When(adminId => adminId == null)
                     .WithMessage("Pole AdminId nie może mieć wartości, gdy jest puste.")
-                .GreaterThan(1).When(adminId => adminId != null)
-                    .WithMessage("Wartość pola AdminId musi być większa niż 1.");
+                .GreaterThan(0).When(adminId => adminId != null)
+                    .WithMessage("Wartość pola AdminId musi być większa niż 0.");
 
             RuleFor(dto => dto.DieticianId)
                 .Null().When(dieticianId => dieticianId == null)
@@ -34,9 +33,9 @@ namespace Application.Validators.Messages
 
             RuleFor(dto => dto.PatientId)
                 .Null().When(patientId => patientId == null)
-                    .WithMessage("Pole DieticianId nie może mieć wartości, gdy jest puste.")
+                    .WithMessage("Pole PatientId nie może mieć wartości, gdy jest puste.")
                 .GreaterThan(1).When(patientId => patientId != null)
-                    .WithMessage("Wartość pola DieticianId musi być większa niż 1.");
+                    .WithMessage("Wartość pola PatientId musi być większa niż 1.");
         }
     }
 }

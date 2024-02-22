@@ -13,9 +13,9 @@ namespace Application.Validators.Diet
                 .GreaterThan(1).WithMessage("Pole DieticianId musi być liczbą całkowitą większą niż 1.");
 
             RuleFor(dto => dto.PatientId)
-                .NotEmpty().WithMessage("Pole DieticianId nie może być puste.")
-                .NotNull().WithMessage("Pole DieticianId nie może przyjmować null.")
-                .GreaterThan(1).WithMessage("Pole DieticianId musi być liczbą całkowitą większą niż 1.");
+                .NotEmpty().WithMessage("Pole PatientId nie może być puste.")
+                .NotNull().WithMessage("Pole PatientId nie może przyjmować null.")
+                .GreaterThan(1).WithMessage("Pole PatientId musi być liczbą całkowitą większą niż 1.");
         }
     }
 }

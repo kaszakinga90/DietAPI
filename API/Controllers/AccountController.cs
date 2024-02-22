@@ -83,8 +83,6 @@ namespace API.Controllers
                     var messageEmail = new EmailMessage(new string[] { "testtesttest@test.com" }, "Test email", emailBody);
                     _emailService.SendEmail(messageEmail);
 
-                    //var message
-
                     return Ok(new { message = "Na twój email przyjdzie link. Potwierdź założenie konta klikając w niego." });
                 }
             }
@@ -204,7 +202,6 @@ namespace API.Controllers
         [HttpGet("currentUser")]
         public async Task<ActionResult<UserDTO>> GetCurrentUser()
         {
-            // Nazwa użytkownika jest przekazywana przez token JWT
             var userName = User.Identity.Name;
 
             var user = await _userManager.FindByNameAsync(userName);
@@ -259,6 +256,7 @@ namespace API.Controllers
             }
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpDelete("deleteDietician/{userId}")]
         public async Task<IActionResult> DeleteDietician(int id)
         {
@@ -266,6 +264,7 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
         [HttpDelete("deletePatient/{userId}")]
         public async Task<IActionResult> DeletePatient(int id)
         {
@@ -273,6 +272,7 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [HttpDelete("deleteAdmin/{userId}")]
         public async Task<IActionResult> DeleteAdmin(int id)
         {
@@ -280,7 +280,7 @@ namespace API.Controllers
             return HandleResult(await _mediator.Send(command));
         }
 
-        
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpPut("changePassword/{userId}")]
         public async Task<IActionResult> ChangePassword(int userId, PasswordEditDTO passwordEditDTO)
         {

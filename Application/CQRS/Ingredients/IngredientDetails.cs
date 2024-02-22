@@ -43,7 +43,7 @@ namespace Application.CQRS.Ingredients
 
                         if (ingredient == null)
                         {
-                            return Result<IngredientGetDTO>.Failure("Ingredient not found.");
+                            return Result<IngredientGetDTO>.Failure("Nie znaleziono składnika.");
                         }
 
                         return Result<IngredientGetDTO>.Success(ingredient);

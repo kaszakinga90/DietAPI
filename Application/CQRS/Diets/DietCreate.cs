@@ -31,7 +31,7 @@ public class DietCreate
         public async Task<Result<DietPostDTO>> Handle(Command request, CancellationToken cancellationToken)
         {
             var validationResult = await _validator
-                    .ValidateAsync(request.DietPostDTO, cancellationToken);
+                    .ValidateAsync(request.DietPostDTO);
 
             if (!validationResult.IsValid)
             {
@@ -47,7 +47,7 @@ public class DietCreate
                 var diet = _mapper.Map<Diet>(request.DietPostDTO);
 
                 _context.DietsDb.Add(diet);
-                await _context.SaveChangesAsync(cancellationToken);
+                await _context.SaveChangesAsync();
 
                 await AddMealSchedules(diet, mealTimesDtoList, cancellationToken);
 
@@ -92,7 +92,7 @@ public class DietCreate
                     }
                 }
 
-                await _context.SaveChangesAsync(cancellationToken);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {

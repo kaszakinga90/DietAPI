@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class BuggyController : BaseApiController
+    public class ErrorsController : BaseApiController
     {
-        public BuggyController(IMediator mediator) : base(mediator)
+        public ErrorsController(IMediator mediator) : base(mediator)
         {
         }
 

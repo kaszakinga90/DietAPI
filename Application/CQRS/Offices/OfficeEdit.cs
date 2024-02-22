@@ -29,7 +29,7 @@ namespace Application.CQRS.Offices
                 public async Task<Result<OfficeEditDTO>> Handle(Command request, CancellationToken cancellationToken)
                 {
                     var validationResult = await _validator
-                    .ValidateAsync(request.OfficeEditDTO, cancellationToken);
+                    .ValidateAsync(request.OfficeEditDTO);
 
                     if (!validationResult.IsValid)
                     {
@@ -38,7 +38,7 @@ namespace Application.CQRS.Offices
                     }
 
                     var office = await _context.OfficesDb
-                        .FindAsync(new object[] { request.OfficeEditDTO.Id }, cancellationToken);
+                        .FindAsync(new object[] { request.OfficeEditDTO.Id });
                     
                     if (office == null)
                     {
@@ -49,7 +49,7 @@ namespace Application.CQRS.Offices
 
                     try
                     {
-                        var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                        var result = await _context.SaveChangesAsync() > 0;
                         if (!result)
                         {
                             return Result<OfficeEditDTO>.Failure("Edycja biura nie powiodła się.");

@@ -55,7 +55,7 @@ namespace Application.CQRS.Admins
 
                     try
                     {
-                        var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                        var result = await _context.SaveChangesAsync() > 0;
                         if (!result)
                         {
                             return Result<AdminDeleteDTO>.Failure("Usunięcie admina nie powiodło się.");

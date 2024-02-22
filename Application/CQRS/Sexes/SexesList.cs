@@ -33,7 +33,7 @@ namespace Application.CQRS.Sexes
 
                     if (sexesListFromDb == null)
                     {
-                        return Result<List<SexGetDTO>>.Failure("No results");
+                        return Result<List<SexGetDTO>>.Failure("Brak wyników");
                     }
 
                     var sexesList = _mapper.Map<List<SexGetDTO>>(sexesListFromDb);

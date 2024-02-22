@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using ModelsDB;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ModelsDB;
 
 namespace Application.DTOs.DieticianDTO
 {

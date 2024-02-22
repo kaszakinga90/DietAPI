@@ -33,14 +33,6 @@ namespace Application.Validators.Dish
                     .WithMessage("Pole MeasureId nie może mieć wartości, gdy jest puste.")
                 .GreaterThan(0).When(measureId => measureId != null)
                     .WithMessage("Wartość pola MeasureId musi być większa niż 0.");
-
-            //RuleFor(dto => dto.Weight)
-            //    .Null().When(w => w == null)
-            //        .WithMessage("Pole Weight nie może mieć wartości, gdy jest puste.")
-            //    .GreaterThan(0).When(w => w != null)
-            //        .WithMessage("Wartość pola Weight musi być większa niż 0.");
-
-            ////public string PreparingTime { get; set; }    - TODO ?
         }
     }
 }

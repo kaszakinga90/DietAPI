@@ -78,7 +78,6 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        
         [HttpDelete("delete/{ingredientId}")]
         public async Task<IActionResult> DeleteIngredient(int ingredientId)
         {

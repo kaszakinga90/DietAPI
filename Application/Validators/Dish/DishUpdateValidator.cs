@@ -12,11 +12,6 @@ namespace Application.Validators.Dish
                 .NotNull().WithMessage("Pole Name nie może przyjmować null.")
                 .MinimumLength(3).WithMessage("Minimalna długość Name to 3.");
 
-            //RuleFor(dto => dto.DieteticianId)
-            //    .NotEmpty().WithMessage("Pole DieticianId nie może być puste.")
-            //    .NotNull().WithMessage("Pole DieticianId nie może przyjmować null.")
-            //    .GreaterThan(1).WithMessage("Pole DieticianId musi być liczbą całkowitą większą niż 1.");
-
             RuleFor(dto => dto.UnitId)
                 .NotEmpty().WithMessage("Pole UnitId nie może być puste.")
                 .NotNull().WithMessage("Pole UnitId nie może przyjmować null.")

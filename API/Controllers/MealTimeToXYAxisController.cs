@@ -1,5 +1,4 @@
-﻿using Application.Core;
-using Application.CQRS.MealsTimesToXYAxiss;
+﻿using Application.CQRS.MealsTimesToXYAxiss;
 using Application.DTOs.MealTimeToXYAxisDTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +17,6 @@ namespace API.Controllers
             var result = await _mediator.Send(new MealTimeToXYAxisDetails.Query { DietId = dietId });
             return HandleResult(result);
         }
-
 
         [HttpPut("edit/{id}")]
         public async Task<IActionResult> EditMealShedule(int id, MealTimeToXYAxisEditDTO meal)

@@ -1,5 +1,4 @@
 ﻿using Application.CQRS.Dishes;
-using Application.CQRS.Ingredients;
 using Application.DTOs.DishDTO;
 using Application.FiltersExtensions.Dishes;
 using Application.FiltersExtensions.DishesFoodCatalog;
@@ -27,6 +26,7 @@ namespace API.Controllers
             var result = await _mediator.Send(new AllDishListWithPaginationNoDIetician.Query { Params = pagingParams });
             return HandleResult(result);
         }
+
         //pobiera dania dostępne dla dietetyka (czyli z bazy wspólnej, gdzie DieticianID == NULL oraz te utworzone przez tego dietetyka) + paginacja
         [HttpGet("allDishesWithPagination/{dieticianId}")]
         public async Task<IActionResult> GetDishes(int dieticianId, [FromQuery] DishParams pagingParams)
@@ -34,12 +34,14 @@ namespace API.Controllers
             var result = await _mediator.Send(new DishesListWithPagination.Query { DieteticianId = dieticianId, Params = pagingParams });
             return HandleResult(result);
         }
+
         [HttpGet("dieticianDishesWithPagination/{dieticianId}")]
         public async Task<IActionResult> GetDishesOnlyDietician(int dieticianId, [FromQuery] DishParams pagingParams)
         {
             var result = await _mediator.Send(new DishListWithPaginationOnlyDietician.Query { DieteticianId = dieticianId, Params = pagingParams });
             return HandleResult(result);
         }
+
         [HttpGet("allfoodcatalogdishwithpagination/{foodCatalogId}")]
         public async Task<IActionResult> GetDishesFoodCatalogs(int foodCatalogId, [FromQuery] DishesFoodCatalogParams pagingParams)
         {
@@ -90,7 +92,6 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        
         [HttpDelete("delete/{dishId}")]
         public async Task<IActionResult> DeleteDish(int dishId)
         {

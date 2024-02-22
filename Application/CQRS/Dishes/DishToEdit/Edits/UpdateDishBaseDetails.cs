@@ -28,22 +28,19 @@ namespace Application.CQRS.Dishes.DishToEdit.Edits
 
             public async Task<Result<DishDetailsGetEditDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
-                // Walidacja danych wejściowych
-                var validationResult = await _validator.ValidateAsync(request.DishDetailsGetEditDto, cancellationToken);
+                var validationResult = await _validator.ValidateAsync(request.DishDetailsGetEditDto);
                 if (!validationResult.IsValid)
                 {
                     var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
                     return Result<DishDetailsGetEditDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
                 }
 
-                // Pobranie istniejącego dania z bazy danych
                 var dish = await _context.DishesDb.FindAsync(request.DishId);
                 if (dish == null)
                 {
                     return Result<DishDetailsGetEditDTO>.Failure("Dish o podanym ID nie zostało znalezione.");
                 }
 
-                // Aktualizacja tylko przesłanych pól
                 var req = request.DishDetailsGetEditDto;
                 if (req.Name != null)
                     dish.Name = req.Name;
@@ -62,8 +59,7 @@ namespace Application.CQRS.Dishes.DishToEdit.Edits
 
                 try
                 {
-                    // Zapisanie zmian w bazie danych
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    var result = await _context.SaveChangesAsync() > 0;
                     if (!result)
                     {
                         return Result<DishDetailsGetEditDTO>.Failure("Edycja dish base details nie powiodła się.");
@@ -75,7 +71,6 @@ namespace Application.CQRS.Dishes.DishToEdit.Edits
                     return Result<DishDetailsGetEditDTO>.Failure("Wystąpił błąd podczas edycji dish base details.");
                 }
 
-                // Przygotowanie DTO zaktualizowanego dania do zwrócenia
                 var dishDto = new DishDetailsGetEditDTO()
                 {
                     Id = dish.Id,

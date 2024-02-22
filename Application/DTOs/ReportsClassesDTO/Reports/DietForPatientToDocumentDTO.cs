@@ -11,9 +11,6 @@
         public int numberOfMeals { get; set; }
         public int Period { get; set; }
         public List<MealTimeToXYAxisToReportDTO> MealTimesToXYAxisDTO { get; set; }
-        //public List<DishGetDTO> DishesDTO { get; set; }
-
-        //liczba kalorii na cały dzień
 
     }
 }

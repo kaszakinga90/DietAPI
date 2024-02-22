@@ -32,7 +32,7 @@ namespace Application.CQRS.Patients
             public async Task<Result<MessageToDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var validationResult = await _validator
-                    .ValidateAsync(request.MessageDTO, cancellationToken);
+                    .ValidateAsync(request.MessageDTO);
 
                 if (!validationResult.IsValid)
                 {
@@ -60,7 +60,7 @@ namespace Application.CQRS.Patients
 
                 try
                 {
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                    var result = await _context.SaveChangesAsync() > 0;
                     if (!result)
                     {
                         return Result<MessageToDTO>.Failure("Operacja nie powiodła się.");

@@ -16,10 +16,6 @@ namespace Application.Validators.Specialization
                 .NotEmpty().WithMessage("Pole SpecializationId nie może być puste.")
                 .NotNull().WithMessage("Pole SpecializationId nie może przyjmować null.")
                 .GreaterThan(0).WithMessage("Pole SpecializationId musi być liczbą całkowitą większą niż 0.");
-
-            RuleFor(dto => dto.SpecializationName)
-                .NotEmpty().WithMessage("Pole SpecializationName nie może być puste.")
-                .NotNull().WithMessage("Pole SpecializationName nie może przyjmować null.");
         }
     }
 }

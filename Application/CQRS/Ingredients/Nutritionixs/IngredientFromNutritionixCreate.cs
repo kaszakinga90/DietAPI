@@ -1,6 +1,5 @@
 ﻿using Application.Core;
 using Application.DTOs.IngredientDTO.IngredientNutritionixDTO;
-using Application.DTOs.LogoDTO;
 using AutoMapper;
 using DietDB;
 using MediatR;
@@ -28,17 +27,12 @@ namespace Application.CQRS.Ingredients.Nutritionixs
             }
 
             public async Task<Result<IngredientNutritionixDTO>> Handle(Command request, CancellationToken cancellationToken)
-            {
-                
+            {             
                 var ingredient = _mapper.Map<Ingredient>(request.IngredientNutritionixDTO);
-                
-                _context.IngredientsDb.Add(ingredient);
-
-
-
+                try
+                {
+                    _context.IngredientsDb.Add(ingredient);
                 await _context.SaveChangesAsync();
-
-
 
                 if (request.IngredientNutritionixDTO.NutrientsDTO != null && request.IngredientNutritionixDTO.NutrientsDTO.Any())
                 {
@@ -60,17 +54,9 @@ namespace Application.CQRS.Ingredients.Nutritionixs
                             await _context.SaveChangesAsync();
                         }
                     }
-
                     await _context.SaveChangesAsync(cancellationToken);
                 }
-
-                try
-                {
-                    var result = await _context.SaveChangesAsync(cancellationToken) > 0;
-                    if (!result)
-                    {
-                        return Result<IngredientNutritionixDTO>.Failure("Dodanie składnika nie powiodło się.");
-                    }
+                    await _context.SaveChangesAsync(cancellationToken);
                 }
                 catch (Exception ex)
                 {
@@ -80,9 +66,6 @@ namespace Application.CQRS.Ingredients.Nutritionixs
                 return Result<IngredientNutritionixDTO>.Success(_mapper.Map<IngredientNutritionixDTO>(ingredient));
 
             }
-
         }
     }
 }
-
-// TODO : działa dobrze, ale wyświetla zły komunikat

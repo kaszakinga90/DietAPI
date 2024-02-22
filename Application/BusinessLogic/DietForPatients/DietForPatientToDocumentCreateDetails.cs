@@ -84,7 +84,7 @@ namespace Application.BusinessLogic.DietForPatients
 
                 if (dietForPatient == null)
                 {
-                    return Result<DietForPatientToDocumentDTO>.Failure("cannot create diet for patient to document.");
+                    return Result<DietForPatientToDocumentDTO>.Failure("Nie można utworzyć dokumentu z dietą.");
                 }
 
                 return Result<DietForPatientToDocumentDTO>.Success(dietForPatient);

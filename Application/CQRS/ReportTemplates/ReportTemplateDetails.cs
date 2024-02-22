@@ -33,7 +33,7 @@ namespace Application.CQRS.ReportTemplates
 
                     if (reportTemplate == null)
                     {
-                        return Result<ReportTemplateGetDTO>.Failure("report template not found.");
+                        return Result<ReportTemplateGetDTO>.Failure("Nie znaleziono szablonu raportu.");
                     }
 
                     return Result<ReportTemplateGetDTO>.Success(reportTemplate);
