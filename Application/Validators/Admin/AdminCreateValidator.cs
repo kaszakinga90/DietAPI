@@ -1,6 +1,5 @@
 ﻿using Application.DTOs.AdminDTO;
 using FluentValidation;
-using ModelsDB;
 
 namespace Application.Validators.Admin
 {

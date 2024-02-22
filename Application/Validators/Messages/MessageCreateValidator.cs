@@ -4,7 +4,6 @@ namespace Application.Validators.Messages
 {
     public class MessageCreateValidator : AbstractValidator<MessageToDTO>
     {
-
         public MessageCreateValidator()
         {
             RuleFor(dto => dto.Title)

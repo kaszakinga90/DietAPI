@@ -7,11 +7,15 @@ namespace Application.Validators.DishEditDetails
     {
         public DishIngredientDetailsUpdateValidator()
         {
-            RuleFor(dto => dto.IngredientName)
-                .NotEmpty().WithMessage("Pole IngredientName nie może być puste.")
-                .NotNull().WithMessage("Pole IngredientName nie może przyjmować null.")
-                .MinimumLength(3).WithMessage("Minimalna długość Name to 3.")
-                .When(dto => dto.IngredientName != null);
+            RuleFor(dto => dto.DishId)
+                .NotEmpty().WithMessage("Pole DishId nie może być puste.")
+                .NotNull().WithMessage("Pole DishId nie może przyjmować null.")
+                .GreaterThan(0).WithMessage("Pole DishId musi być liczbą całkowitą większą niż 0.");
+
+            RuleFor(dto => dto.IngredientId)
+                .NotEmpty().WithMessage("Pole IngredientId nie może być puste.")
+                .NotNull().WithMessage("Pole IngredientId nie może przyjmować null.")
+                .GreaterThan(0).WithMessage("Pole IngredientId musi być liczbą całkowitą większą niż 0.");
         }
     }
 }

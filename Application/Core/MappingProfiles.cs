@@ -299,6 +299,13 @@ namespace Application.Core
                 .ForMember(dest => dest.Nutrients, opt => opt.Ignore())
                 .ForMember(dest => dest.DishIngredients, opt => opt.Ignore());
 
+            CreateMap<Ingredient, IngredientNutritionixDTO>()
+            .ForMember(dest => dest.MeasureId, opt => opt.MapFrom(src => src.MeasureId))
+            .ForMember(dest => dest.MeasureNameFromJSON, opt => opt.MapFrom(src => src.Measure.Symbol))
+            .ForMember(dest => dest.UnitId, opt => opt.MapFrom(src => src.UnitId))
+            .ForMember(dest => dest.GlycemicIndex, opt => opt.MapFrom(src => src.GlycemicIndex))
+            .ForMember(dest => dest.NutrientsDTO, opt => opt.MapFrom(src => src.Nutrients));
+
             CreateMap<NutrientDTO, Nutrient>()
             .ForMember(dest => dest.Unit, opt => opt.Ignore())
             .ForMember(dest => dest.Ingredients, opt => opt.Ignore());

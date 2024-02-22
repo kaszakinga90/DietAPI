@@ -1,6 +1,7 @@
 ﻿using Application.CQRS.Bills;
 using Application.DTOs.BillDTO;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -11,6 +12,7 @@ namespace API.Controllers
         {  
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
         [HttpGet("allBillsForPatient/{patientId}")]
         public async Task<IActionResult> GetPatientsBills(int patientId)
         {
@@ -18,6 +20,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpGet("allBillsForDietician/{dieticianId}")]
         public async Task<IActionResult> GetDieticiansBills(int dieticianId)
         {
@@ -25,7 +28,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPost("create/addBill")]
         public async Task<IActionResult> AddBillForDiet(DietSalesBillPostDTO dietSalesBillPostDTO)
         {
@@ -38,6 +41,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("details/{billId}")]
         public async Task<IActionResult> GetBillDetails(int billId)
         {
@@ -45,6 +49,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
         [HttpPut("payTheBill")]
         public async Task<IActionResult> PayTheBill(SalesPutDTO salesPutDTO)
         {
@@ -58,5 +63,3 @@ namespace API.Controllers
         }
     }
 }
-
-// TODO : przy metodach post, put, dodać walidację

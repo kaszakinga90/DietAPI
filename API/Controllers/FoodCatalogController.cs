@@ -62,11 +62,8 @@ namespace API.Controllers
             }
             return BadRequest(result.Error);
         }
-
         
         // katalog dietetyka - deaktywuje jego katalog i dania z niego przenosi do katalogu Wszystkie (dedykowany katalog dla dietetyka tworzony wraz z rejestracją)
-
-        // TODO : na froncie musi być coś w stylu : ta akcja spowoduje przeniesienie wszystkich produktów do katalogu Wszystkie, czy na pewno?
         [HttpDelete("delete/{foodCatalogId}")]
         public async Task<IActionResult> DeleteDieticianFoodCatalog(int foodCatalogId)
         {
@@ -80,8 +77,6 @@ namespace API.Controllers
         }
 
         // katalog wspólny - deaktywuje katalog i dania z niego przenosi do katalogu Ogolny (id = 1) (katalog dostępny dla wszystkich/niemodyfikowalny)
-
-        // TODO : na froncie musi być coś w stylu : ta akcja spowoduje przeniesienie wszystkich produktów do katalogu Wszystkie, czy na pewno?
         [HttpDelete("deleteByAdmin/{foodCatalogId}")]
         public async Task<IActionResult> DeleteFoodCatalog(int foodCatalogId)
         {

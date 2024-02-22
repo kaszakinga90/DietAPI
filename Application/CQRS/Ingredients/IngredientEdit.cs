@@ -6,7 +6,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
-// TODO : validacja
 namespace Application.CQRS.Ingredients
 {
     public class IngredientEdit
@@ -31,14 +30,14 @@ namespace Application.CQRS.Ingredients
 
             public async Task<Result<IngredientEditDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
-                //var validationResult = await _validator
-                //    .ValidateAsync(request.IngredientEditDTO);
+                var validationResult = await _validator
+                    .ValidateAsync(request.IngredientEditDTO);
 
-                //if (!validationResult.IsValid)
-                //{
-                //    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
-                //    return Result<IngredientEditDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
-                //}
+                if (!validationResult.IsValid)
+                {
+                    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                    return Result<IngredientEditDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                }
 
                 var ingredient = await _context.IngridientsDb
                                     .Include(i => i.Nutrients)

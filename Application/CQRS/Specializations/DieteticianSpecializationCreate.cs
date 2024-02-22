@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using ModelsDB.Functionality;
 using System.Diagnostics;
 
-// TODO : validacja
 namespace Application.CQRS.Specializations
 {
     public class DieteticianSpecializationCreate
@@ -33,14 +32,24 @@ namespace Application.CQRS.Specializations
 
             public async Task<Result<DieteticianSpecializationPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
-                //var validationResult = await _validator
-                //    .ValidateAsync(request.DieteticianSpecializationPostDTOs);
+                var existingDS = await _context.DieticianSpecialization
+                    .FirstOrDefaultAsync(ds => ds.DieticianId == request.DieteticianSpecializationPostDTOs.DieticianId &&
+                                                ds.SpecializationId == request.DieteticianSpecializationPostDTOs.SpecializationId);
 
-                //if (!validationResult.IsValid)
-                //{
-                //    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
-                //    return Result<DieteticianSpecializationPostDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
-                //}
+                if (existingDS != null)
+                {
+                    return Result<DieteticianSpecializationPostDTO>.Failure("Ta pozycja istnieje już na twojej liście specjalizacji.");
+                }
+
+                var validationResult = await _validator
+                    .ValidateAsync(request.DieteticianSpecializationPostDTOs);
+
+
+                if (!validationResult.IsValid)
+                {
+                    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                    return Result<DieteticianSpecializationPostDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                }
 
                 var ds = _mapper.Map<DieticianSpecialization>(request.DieteticianSpecializationPostDTOs);
 
