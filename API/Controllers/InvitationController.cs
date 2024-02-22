@@ -28,6 +28,13 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [HttpGet("checkInvitation/{patientId}/{dieticianId}")]
+        public async Task<IActionResult> CheckInvitation(int patientId, int dieticianId)
+        {
+            var result = await _mediator.Send(new IsInvitationDetails.Query { PatientId = patientId, DieticianId = dieticianId });
+            return HandleResult(result);
+        }
+
         [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpGet("allForDietician/{dieticianId}")]
         public async Task<IActionResult> GetInvitationsForDietician(int dieticianId)
