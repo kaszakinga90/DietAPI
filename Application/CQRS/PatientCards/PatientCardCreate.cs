@@ -32,6 +32,17 @@ namespace Application.CQRS.PatientCards
 
             public async Task<Result<PatientCardPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
+                var pc = request.PatientCardPostDTO;
+
+                var patientCardFromDb = await _context.PatientCardsDb
+                          .Where(p => pc.DieticianId == p.DieticianId && pc.PatientId == p.PatientId)
+                          .FirstOrDefaultAsync();
+
+                if (patientCardFromDb != null)
+                {
+                    return Result<PatientCardPostDTO>.Failure("Karta danego pacjenta już istnieje");
+                }
+
                 var validationResult = await _validator
                     .ValidateAsync(request.PatientCardPostDTO);
 
@@ -41,7 +52,6 @@ namespace Application.CQRS.PatientCards
                     return Result<PatientCardPostDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
                 }
 
-                var pc = request.PatientCardPostDTO;
                 var parameters = new[]
                 {
                         new SqlParameter("@PatientId", pc.PatientId),

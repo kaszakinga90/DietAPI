@@ -1,5 +1,6 @@
 ﻿using Application.Core;
 using Application.DTOs.BillDTO;
+using Application.Validators.Bill;
 using AutoMapper;
 using DietDB;
 using MediatR;
@@ -18,15 +19,26 @@ namespace Application.CQRS.Bills
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
+            private readonly BillUpdateValidator _validator;
 
-            public Handler(DietContext context, IMapper mapper)
+            public Handler(DietContext context, IMapper mapper, BillUpdateValidator validator)
             {
                 _context = context;
                 _mapper = mapper;
+                _validator = validator;
             }
 
             public async Task<Result<SalesPutDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
+                var validationResult = await _validator
+                    .ValidateAsync(request.SalesPutDTO);
+
+                if (!validationResult.IsValid)
+                {
+                    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                    return Result<SalesPutDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                }
+
                 var salesDto = request.SalesPutDTO;
 
                 var sales = await _context.SalesDb.FindAsync(salesDto.Id);

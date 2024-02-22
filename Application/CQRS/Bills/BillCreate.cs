@@ -1,9 +1,10 @@
 ﻿using Application.Core;
 using Application.DTOs.BillDTO;
-using Application.Validators.FoodCatalog;
+using Application.Validators.Bill;
 using AutoMapper;
 using DietDB;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using ModelsDB.Functionality;
 using System.Diagnostics;
 
@@ -19,9 +20,9 @@ namespace Application.CQRS.Bills
         {
             private readonly DietContext _context;
             private readonly IMapper _mapper;
-            private readonly FoodCatalogDieticianCreateValidator _validator;
+            private readonly BillCreateValidator _validator;
 
-            public Hendler(DietContext context, IMapper mapper, FoodCatalogDieticianCreateValidator validator)
+            public Hendler(DietContext context, IMapper mapper, BillCreateValidator validator)
             {
                 _context = context;
                 _mapper = mapper;
@@ -30,14 +31,24 @@ namespace Application.CQRS.Bills
 
             public async Task<Result<DietSalesBillPostDTO>> Handle(Command request, CancellationToken cancellationToken)
             {
-                //var validationResult = await _validator
-                //    .ValidateAsync(request.DietSalesBillPostDTO);
+                var existingBill = await _context.DietSalesBillsDb
+                    .FirstOrDefaultAsync(ds => ds.DieticianId == request.DietSalesBillPostDTO.DieticianId &&
+                                         ds.PatientId == request.DietSalesBillPostDTO.PatientId &&
+                                         ds.Sales.DietId == request.DietSalesBillPostDTO.Sales.DietId);
 
-                //if (!validationResult.IsValid)
-                //{
-                //    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
-                //    return Result<DietSalesBillPostDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
-                //}
+                if (existingBill != null)
+                {
+                    return Result<DietSalesBillPostDTO>.Failure("Rachunek dla diety został już wystawiony!");
+                }
+
+                var validationResult = await _validator
+                    .ValidateAsync(request.DietSalesBillPostDTO);
+
+                if (!validationResult.IsValid)
+                {
+                    var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                    return Result<DietSalesBillPostDTO>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                }
 
                 var dietSales = _mapper.Map<DietSalesBill>(request.DietSalesBillPostDTO);
 
@@ -61,7 +72,7 @@ namespace Application.CQRS.Bills
                 catch (Exception ex)
                 {
                     Debug.WriteLine("Przyczyna niepowodzenia: " + ex);
-                    return Result<DietSalesBillPostDTO>.Failure("Wystąpił błąd podczas dodawania food catalog.");
+                    return Result<DietSalesBillPostDTO>.Failure("Wystąpił błąd podczas dodawania rachunku.");
                 }
 
                 return Result<DietSalesBillPostDTO>.Success(_mapper.Map<DietSalesBillPostDTO>(dietSales));

@@ -54,6 +54,8 @@ using Application.Validators.Ingredients;
 using Application.BusinessLogic.CalculatesAndStatistics;
 using Application.CQRS.Dishes.DishToEdit.Edits;
 using Application.Validators.DishEditDetails;
+using Application.Validators.Bill;
+using Application.Validators.Printout;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -215,6 +217,11 @@ builder.Services.AddTransient<DishBaseDetailsUpdateValidator>();
 builder.Services.AddTransient<DishIngredientDetailsUpdateValidator>();
 builder.Services.AddTransient<DishFoodCatalogDetailsUpdateValidator>();
 builder.Services.AddTransient<DishRecipeDetailsUpdateValidator>();
+builder.Services.AddTransient<BillCreateValidator>();
+builder.Services.AddTransient<BillUpdateValidator>();
+builder.Services.AddTransient<PrintoutCreateValidator>();
+builder.Services.AddTransient<PrintoutDocumentCreateValidator>();
+builder.Services.AddTransient<PrintoutByUserCreateValidator>();
 
 var emailSendConfiguration = builder.Configuration
     .GetSection("EmailSenderConfiguration")

@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using ModelsDB.Functionality;
 using System.Diagnostics;
 
-// TODO : validacja
 namespace Application.CQRS.Dishes.DishToEdit.Edits
 {
     public class UpdateDishIngredientsDetailsList
@@ -32,18 +31,18 @@ namespace Application.CQRS.Dishes.DishToEdit.Edits
 
             public async Task<Result<List<DishIngredientsDetailsGetEditDTO>>> Handle(Command request, CancellationToken cancellationToken)
             {
-                //foreach (var item in request.DishIngredientsDetailsGetEditDto)
-                //{
-                //    var validationResult = await _validator
-                //    .ValidateAsync(item);
+                foreach (var item in request.DishIngredientsDetailsGetEditDto)
+                {
+                    var validationResult = await _validator
+                    .ValidateAsync(item);
 
-                //    if (!validationResult.IsValid)
-                //    {
-                //        var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
-                //        return Result<List<DishIngredientsDetailsGetEditDTO>>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
-                //    }
-                //}
-                
+                    if (!validationResult.IsValid)
+                    {
+                        var errors = validationResult.Errors.Select(e => e.ErrorMessage.ToString()).ToList();
+                        return Result<List<DishIngredientsDetailsGetEditDTO>>.Failure("Wystąpiły błędy walidacji: \n" + string.Join("\n", errors));
+                    }
+                }
+
                 try
                 {
                     var existingIngredients = await _context.DishIngredientsDb

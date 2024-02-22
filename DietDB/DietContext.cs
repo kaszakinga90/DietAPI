@@ -337,7 +337,7 @@ namespace DietDB
         {
             // Konfiguracja dodatkowych opcji DbContext, np. logowania zapytań SQL.
             optionsBuilder.LogTo(item => Debug.WriteLine(item));
-            // TODO : do usunięcia w wersji produkcyjnej
+            // DONE : do usunięcia w wersji produkcyjnej
             optionsBuilder.ConfigureWarnings(w => w.Ignore(SqlServerEventId.SavepointsDisabledBecauseOfMARS));
             base.OnConfiguring(optionsBuilder);
         }
