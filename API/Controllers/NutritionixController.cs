@@ -3,6 +3,7 @@ using Application.CQRS.Ingredients.Nutritionixs;
 using Application.DTOs.IngredientDTO.IngredientNutritionixDTO;
 using DietDB;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB;
 using System.Diagnostics;
@@ -10,6 +11,7 @@ using System.Text.Json;
 
 namespace API.Controllers
 {
+    [Authorize(Roles = "SuperAdmin, Admin")]
     public class NutritionixController : BaseApiController
     {
         private readonly DietContext _context;

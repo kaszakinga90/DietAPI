@@ -1,6 +1,7 @@
 ﻿using Application.CQRS.Printouts;
 using Application.DTOs.PrintoutsDTO;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -12,8 +13,8 @@ namespace API.Controllers
         {
         }
 
-        // metoda tylko dla superadmina
         // dodawanie przez admina szablonu wydruku parametr.
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost("addPrintout")]
         public async Task<IActionResult> AddPrintout([FromForm] ParameterizedPrintoutPostDTO printout)
         {
@@ -34,6 +35,7 @@ namespace API.Controllers
         }
 
         // obróbka pliku word na podstawie dostarczonego przez nas szablonu.
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpPost("generatePrintoutDocument/byTemplate")]
         public async Task<IActionResult> GenerateDocument(PrintoutDocumentPostDTO printout)
         {
@@ -56,6 +58,7 @@ namespace API.Controllers
         }
 
         // obróbka pliku word na podstawie dostarczonego przez użytkownika pliku .
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpPost("generatePrintoutDocument/byUserTemplate")]
         public async Task<IActionResult> GenerateDocumentUploadFromUser([FromForm] PrintoutUploadByUserPostDTO printout)
         {
@@ -63,7 +66,8 @@ namespace API.Controllers
 
             return File(result.Value, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "filledTemplate.docx");
         }
-        
+
+        [Authorize(Roles = "SuperAdmin")]
         [HttpDelete("delete/{printoutId}")]
         public async Task<IActionResult> RemovePrintoutTemplate(int printoutId)
         {

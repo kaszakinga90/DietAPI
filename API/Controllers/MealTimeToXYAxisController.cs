@@ -1,6 +1,7 @@
 ﻿using Application.CQRS.MealsTimesToXYAxiss;
 using Application.DTOs.MealTimeToXYAxisDTO;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -18,6 +19,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPut("edit/{id}")]
         public async Task<IActionResult> EditMealShedule(int id, MealTimeToXYAxisEditDTO meal)
         {

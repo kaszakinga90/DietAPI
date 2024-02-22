@@ -1,6 +1,7 @@
 ﻿using Application.CQRS.Specializations;
 using Application.DTOs.SpecializationDTO;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -25,6 +26,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPost("create")]
         public async Task<IActionResult> AddDieticianSpecialization(DieteticianSpecializationPostDTO ds)
         {
@@ -37,7 +39,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        // tylko dla admina
+        [Authorize(Roles = "SuperAdmin, Admin")]
         [HttpPost("add")]
         public async Task<IActionResult> AddSpecialization(SpecializationPostDTO specializationPostDTO)
         {
@@ -50,6 +52,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin")]
         [HttpPut("editdata/{specializationId}")]
         public async Task<IActionResult> EditSpecialization(int specializationId, SpecializationPostDTO specializationDTO)
         {
@@ -64,6 +67,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin")]
         [HttpDelete("delete/{specializationId}")]
         public async Task<IActionResult> RemoveSpecializationByAdmin(int specializationId)
         {
@@ -76,6 +80,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpDelete("deleteFromDietician/{dieticianId}/{dieticianSpecializationId}")]
         public async Task<IActionResult> DeleteDieticianSpecialization(int dieticianId, int dieticianSpecializationId)
         {

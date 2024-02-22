@@ -3,6 +3,7 @@ using Application.DTOs.ReportTemplateDTO;
 using Application.Services;
 using DietDB;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using static Application.Services.ReportService;
@@ -35,6 +36,7 @@ namespace API.Controllers
         }
 
         // templateId - zakres 1-3 (wizualna część, OBOJĘTNE),   reportType, zakres 0-2, (2 dla szczegółowej diety)
+        //[Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("generate/{templateId}/{reportType}/{dieticianId}/{dietId}/{patientId}/{startDate}/{endDate}")]
         public async Task<IActionResult> GenerateReport(int templateId, ReportTypeEnum reportType, int? dieticianId = null, int? dietId = null, 
                                                         int? patientId = null, DateTime? startDate = null, DateTime? endDate = null)
@@ -73,6 +75,7 @@ namespace API.Controllers
             }
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin")]
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteReportTemplate(int id, ReportTemplateDeleteDTO reportTemplate)
         {

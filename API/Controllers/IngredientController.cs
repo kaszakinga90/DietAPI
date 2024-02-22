@@ -2,6 +2,7 @@
 using Application.DTOs.IngredientDTO;
 using Application.FiltersExtensions.Ingredients;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -19,6 +20,7 @@ namespace API.Controllers
             return HandlePagedResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpGet("onlydietician/{dieticianId}")]
         public async Task<IActionResult> GetDieticianIngredients(int dieticianId, [FromQuery] IngredientsParams param)
         {
@@ -47,6 +49,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPost("create")]
         public async Task<IActionResult> CreateIngredient([FromForm] IngredientDTO IngredientDTO, [FromForm] IFormFile file)
         {
@@ -63,7 +66,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPut("edit/{ingredientId}")]
         public async Task<IActionResult> EditIngredient(int ingredientId, IngredientEditDTO ingredientEditDTO)
         {
