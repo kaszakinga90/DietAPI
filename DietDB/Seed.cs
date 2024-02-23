@@ -34,7 +34,6 @@ namespace DietDB
                 await context.ReportTemplatesDb.AddRangeAsync(rt);
             }
             #endregion
-
             #region ReportTemplatePreview
             // Sprawdzanie i dodawanie testowych ReportTemplatePreviews
             if (!context.ReportTemplatePreviewsDb.Any())
@@ -43,14 +42,13 @@ namespace DietDB
                 {
                     new ReportTemplatePreview { UrlReportTemplate1 = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1708638934/wedia5nqtsx2bmnw1kaq.png", 
                                                 UrlReportTemplate2 = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1708638952/ou1i59z6n0hi4thaidtn.png", 
-                                                UrlReportTemplate3 = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705600711/cct5y7cxoacbtdh2sfx2.png",
-                                                UrlReportTemplate4 = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1708638968/cuaweieij1lvosl0xrmv.png"
+                                                UrlReportTemplate3 = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1708638968/cuaweieij1lvosl0xrmv.png",
+                                                UrlReportTemplate4 = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705600797/x4ckvnj5dr1wh1o3v653.png"
                     },
                 };
                 await context.ReportTemplatePreviewsDb.AddRangeAsync(rtp);
             }
             #endregion
-
             #region CountryState
             if (!context.CountryStatesDb.Any())
             {
@@ -380,7 +378,7 @@ namespace DietDB
                     AddressId = 3,
                     EmailConfirmed = true,
                     PublicId = "uamsvfuzxfdw64jetcpg",
-                    PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704441212/uamsvfuzxfdw64jetcpg.jpg",
+                    PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705234573/qc1pclrxojm3arwfkrif.jpg",
                     //PatientCardId = 1,
                 };
                 await userManager.CreateAsync(patient1, "Pa$$w0rd5555555554!");
@@ -418,7 +416,7 @@ namespace DietDB
                     AddressId = 5,
                     EmailConfirmed = true,
                     PublicId = "vg3nmqdvdho3pbwwhpkc",
-                    PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704441318/vg3nmqdvdho3pbwwhpkc.jpg",
+                    PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705234573/qc1pclrxojm3arwfkrif.jpg",
                     //PatientCardId = 3,
                 };
                 await userManager.CreateAsync(patient3, "Pa$$w0rd5555555554!");
@@ -438,7 +436,7 @@ namespace DietDB
                     AddressId = 6,
                     EmailConfirmed = true,
                     PublicId = "z2ljp7qhkuis0nwdpohf",
-                    PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704273249/z2ljp7qhkuis0nwdpohf.jpg",
+                    PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705234573/qc1pclrxojm3arwfkrif.jpg",
                     //RatingId = 1
                 };
                 await userManager.CreateAsync(dietician1, "Pa$$w0rd5555555554!");
@@ -476,7 +474,7 @@ namespace DietDB
                     AddressId = 10,
                     EmailConfirmed = true,
                     PublicId = "uq3skdkbnykebsuvewop",
-                    PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704273746/uq3skdkbnykebsuvewop.jpg",
+                    PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705234573/qc1pclrxojm3arwfkrif.jpg",
                     //RatingId = 5
                 };
                 await userManager.CreateAsync(dietician3, "Pa$$w0rd5555555554!");
@@ -821,8 +819,8 @@ namespace DietDB
                 {
                     new Diet { Name = "Dieta1", StartDate = new DateTime(2023, 12, 13), EndDate = new DateTime(2023, 12, 14), PatientId = 4, numberOfMeals = 4, DieteticianId = 7, isActive = true, dateAdded = DateTime.Now },
                     new Diet { Name = "Dieta2", StartDate = new DateTime(2023, 12, 10), EndDate = new DateTime(2023, 12, 11), PatientId = 5, numberOfMeals = 2, DieteticianId = 7, isActive = true, dateAdded = DateTime.Now },
-                    new Diet { Name = "Dieta3", StartDate = new DateTime(2023, 12, 14), EndDate = new DateTime(2023, 12, 24), PatientId = 5, numberOfMeals = 5, DieteticianId = 7, isActive = true, dateAdded = DateTime.Now },
-                    new Diet { Name = "Dieta4", StartDate = new DateTime(2023, 12, 15), EndDate = new DateTime(2023, 12, 31), PatientId = 6, numberOfMeals = 4, DieteticianId = 8, isActive = true, dateAdded = DateTime.Now },
+                    new Diet { Name = "Dieta3", StartDate = new DateTime(2023, 12, 14), EndDate = new DateTime(2023, 12, 18), PatientId = 5, numberOfMeals = 5, DieteticianId = 7, isActive = true, dateAdded = DateTime.Now },
+                    new Diet { Name = "Dieta4", StartDate = new DateTime(2023, 12, 15), EndDate = new DateTime(2023, 12, 17), PatientId = 6, numberOfMeals = 3, DieteticianId = 8, isActive = true, dateAdded = DateTime.Now },
                 };
                 await context.DietsDb.AddRangeAsync(diets);
             }
@@ -838,21 +836,21 @@ namespace DietDB
                             Description = "Specjalizacja w planowaniu diet i programów żywieniowych dla pacjentów szpitalnych, z uwzględnieniem różnych stanów zdrowia i chorób.",
                             DieticianId = 7,
                             PublicId = "purg0amnvsmjptath0hh",
-                            PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704272720/purg0amnvsmjptath0hh.jpg"
+                            PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705234573/qc1pclrxojm3arwfkrif.jpg"
                         },
                         new Diploma {
                             Title = "Certyfikowany Doradca Żywieniowy dla Sportowców",
                             Description = "Ekspertyza w tworzeniu planów żywieniowych dla sportowców, skupiająca się na optymalizacji wydajności i regeneracji po wysiłku.",
                             DieticianId = 7,
                             PublicId = "qmxrzg4siseewwslninx",
-                            PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704272763/qmxrzg4siseewwslninx.jpg"
+                            PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705234573/qc1pclrxojm3arwfkrif.jpg"
                         },
                         new Diploma {
                             Title = "Certyfikowany Ekspert Dietetyki Dziecięcej",
                             Description = "Specjalizacja w żywieniu dzieci i młodzieży, z uwzględnieniem ich specyficznych potrzeb rozwojowych i dietetycznych.",
                             DieticianId = 7,
                             PublicId = "uqfz3cwaoabbnxljdrpv",
-                            PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704272802/uqfz3cwaoabbnxljdrpv.jpg"
+                            PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705234573/qc1pclrxojm3arwfkrif.jpg"
                         },
                         new Diploma {
                             Title = "Certyfikat Specjalisty ds. Dietoterapii",
@@ -915,7 +913,7 @@ namespace DietDB
                             Description = "Skupienie na łączeniu wiedzy z różnych dziedzin zdrowia i żywienia w celu osiągnięcia ogólnego dobrostanu.",
                             DieticianId = 9,
                             PublicId = "iowl5ggpiuvvuhtcuelo",
-                            PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704273894/iowl5ggpiuvvuhtcuelo.jpg"
+                            PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704273865/oacmi5ncwo7kyisb5bee.jpg"
                         },
                     };
                 await context.DiplomasDb.AddRangeAsync(diplomas);
@@ -927,7 +925,7 @@ namespace DietDB
             {
                 var logos = new List<Logo>()
                     {
-                        new Logo { DieticianId = 7, PublicId = "tepj7s1sioxelh6tuilv", PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704272864/tepj7s1sioxelh6tuilv.jpg" },
+                        new Logo { DieticianId = 7, PublicId = "tepj7s1sioxelh6tuilv", PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704273911/wnkixwfsfn4o6ypfg8yx.jpg" },
                         new Logo { DieticianId = 8, PublicId = "wedqtab5lvwpc9odxaws", PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704273542/wedqtab5lvwpc9odxaws.jpg" },
                         new Logo { DieticianId = 9, PublicId = "wnkixwfsfn4o6ypfg8yx", PictureUrl = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1704273911/wnkixwfsfn4o6ypfg8yx.jpg" },
                     };
@@ -1042,12 +1040,57 @@ namespace DietDB
             {
                 var mealTimes = new List<MealTimeToXYAxis>()
                 {
-                    new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 12, 13), DietId = 2, DishId = 1 },
-                    new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 12, 13), DietId = 2, DishId = 2  },
-                    new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 12, 13), DietId = 2, DishId = 3  },
-                    new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 12, 14), DietId = 2, DishId = 2  },
-                    new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 12, 14), DietId = 2, DishId = 3  },
-                    new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 12, 14), DietId = 2, DishId = 1  }
+                    new MealTimeToXYAxis { MealId = 2, MealTime = new DateTime(2023, 12, 10, 8, 30, 0), DietId = 1, DishId = 1 },
+                    new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 12, 10, 13, 0, 0), DietId = 1, DishId = 2 },
+                    new MealTimeToXYAxis { MealId = 4, MealTime = new DateTime(2023, 12, 10, 18, 30, 0), DietId = 1, DishId = 3 },
+                    new MealTimeToXYAxis { MealId = 4, MealTime = new DateTime(2023, 12, 10, 18, 30, 0), DietId = 1, DishId = 3 },
+                    new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 12, 11, 8, 30, 0), DietId = 1, DishId = 1 },
+                    new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 12, 11, 13, 0, 0), DietId = 1, DishId = 2 },
+                    new MealTimeToXYAxis { MealId = 2, MealTime = new DateTime(2023, 12, 11, 18, 30, 0), DietId = 1, DishId = 3 },
+                    new MealTimeToXYAxis { MealId = 4, MealTime = new DateTime(2023, 12, 11, 18, 30, 0), DietId = 1, DishId = 3 },
+
+                    new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 12, 13, 8, 30, 0), DietId = 2, DishId = 1 },
+                    new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 12, 13, 13, 0, 0), DietId = 2, DishId = 2  },
+                    new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 12, 13, 18, 30, 0), DietId = 2, DishId = 3  },
+                    new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 12, 14, 8, 30, 0), DietId = 2, DishId = 2  },
+                    new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 12, 14, 13, 0, 0), DietId = 2, DishId = 3  },
+                    new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 12, 14, 18, 30, 0), DietId = 2, DishId = 1  },
+
+                     new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 12, 14, 8, 30, 0), DietId = 3, DishId = 1 },
+                     new MealTimeToXYAxis { MealId = 2, MealTime = new DateTime(2023, 12, 14, 11, 30, 0), DietId = 3, DishId = 2 },
+                     new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 12, 14, 14, 30, 0), DietId = 3, DishId = 3 },
+                     new MealTimeToXYAxis { MealId = 4, MealTime = new DateTime(2023, 12, 14, 17, 30, 0), DietId = 3, DishId = 1 },
+                     new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 12, 14, 20, 30, 0), DietId = 3, DishId = 2 },
+                     new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 12, 15, 8, 30, 0), DietId = 3, DishId = 3 },
+                     new MealTimeToXYAxis { MealId = 2, MealTime = new DateTime(2023, 12, 15, 11, 30, 0), DietId = 3, DishId = 1 },
+                     new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 12, 15, 14, 30, 0), DietId = 3, DishId = 2 },
+                     new MealTimeToXYAxis { MealId = 4, MealTime = new DateTime(2023, 12, 15, 17, 30, 0), DietId = 3, DishId = 3 },
+                     new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 12, 15, 20, 30, 0), DietId = 3, DishId = 1 },
+                     new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 12, 16, 8, 30, 0), DietId = 3, DishId = 2 },
+                     new MealTimeToXYAxis { MealId = 2, MealTime = new DateTime(2023, 12, 16, 11, 30, 0), DietId = 3, DishId = 3 },
+                     new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 12, 16, 14, 30, 0), DietId = 3, DishId = 1 },
+                     new MealTimeToXYAxis { MealId = 4, MealTime = new DateTime(2023, 12, 16, 17, 30, 0), DietId = 3, DishId = 2 },
+                     new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 12, 16, 20, 30, 0), DietId = 3, DishId = 3 },
+                     new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 12, 17, 8, 30, 0), DietId = 3, DishId = 1 },
+                     new MealTimeToXYAxis { MealId = 2, MealTime = new DateTime(2023, 12, 17, 11, 30, 0), DietId = 3, DishId = 2 },
+                     new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 12, 17, 14, 30, 0), DietId = 3, DishId = 3 },
+                     new MealTimeToXYAxis { MealId = 4, MealTime = new DateTime(2023, 12, 17, 17, 30, 0), DietId = 3, DishId = 1 },
+                     new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 12, 17, 20, 30, 0), DietId = 3, DishId = 2 },
+                     new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 12, 18, 8, 30, 0), DietId = 3, DishId = 3 },
+                     new MealTimeToXYAxis { MealId = 2, MealTime = new DateTime(2023, 12, 18, 11, 30, 0), DietId = 3, DishId = 1 },
+                     new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 12, 18, 14, 30, 0), DietId = 3, DishId = 2 },
+                     new MealTimeToXYAxis { MealId = 4, MealTime = new DateTime(2023, 12, 18, 17, 30, 0), DietId = 3, DishId = 3 },
+                     new MealTimeToXYAxis { MealId = 5, MealTime = new DateTime(2023, 12, 18, 20, 30, 0), DietId = 3, DishId = 1 },
+
+                     new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 12, 15, 8, 30, 0), DietId = 4, DishId = 1 },
+                     new MealTimeToXYAxis { MealId = 2, MealTime = new DateTime(2023, 12, 15, 12, 0, 0), DietId = 4, DishId = 2 },
+                     new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 12, 15, 18, 0, 0), DietId = 4, DishId = 3 },
+                     new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 12, 16, 9, 0, 0), DietId = 4, DishId = 1 },
+                     new MealTimeToXYAxis { MealId = 2, MealTime = new DateTime(2023, 12, 16, 12, 30, 0), DietId = 4, DishId = 2 },
+                     new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 12, 16, 17, 0, 0), DietId = 4, DishId = 3 },
+                     new MealTimeToXYAxis { MealId = 1, MealTime = new DateTime(2023, 12, 17, 8, 0, 0), DietId = 4, DishId = 1 },
+                     new MealTimeToXYAxis { MealId = 2, MealTime = new DateTime(2023, 12, 17, 13, 0, 0), DietId = 4, DishId = 2 },
+                     new MealTimeToXYAxis { MealId = 3, MealTime = new DateTime(2023, 12, 17, 18, 30, 0), DietId = 4, DishId = 3 }
                 };
                 await context.MealTimesDb.AddRangeAsync(mealTimes);
             }

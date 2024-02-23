@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Application.Services
 {
-    // Serwis do tworzenia raportów na podstawie różnych kryteriów.
+    // Serwis do tworzenia róznych typów raportów
     public class ReportService
     {
         private readonly IMediator _mediator;
@@ -31,6 +31,7 @@ namespace Application.Services
         {
             switch (reportType)
             {
+                // Poleecenie utworzenia raportu: Historia pomiarów pacjenta
                 case ReportTypeEnum.MeasurementsHistoryReport:
                     {
                         var mhdtoResult = await _mediator.Send(new MeasurementHistoryCreate.Command { 
@@ -51,6 +52,7 @@ namespace Application.Services
                         }
                     }
 
+                // Poleecenie utworzenia raportu: Opracowane diety wraz z ich rozliczeniem
                 case ReportTypeEnum.DietSalesReport:
                     {
                         var dsdtoResult = await _mediator.Send(new DietSalesCreateDetails.Command { DieticianId = (int)dietitianId });
@@ -66,6 +68,7 @@ namespace Application.Services
                         }
                     }
 
+                // Poleecenie utworzenia raportu: Dieta wraz z harmonogramem i przepisami
                 case ReportTypeEnum.DietForPatientToDocumentReport:
                     {
                         var dfpdtoResult = await _mediator.Send(new DietForPatientToDocumentCreateDetails.Command { DietId = (int)dietId });
@@ -86,7 +89,7 @@ namespace Application.Services
             }
         }
 
-        // Enum definiujący dostępne typy raportów.
+        // Określenie dostępnych typów raportów
         public enum ReportTypeEnum
         {
             MeasurementsHistoryReport,

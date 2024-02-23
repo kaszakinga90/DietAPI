@@ -1,15 +1,12 @@
-﻿using System.Linq;
-using Application.DTOs;
-
-namespace Application.FiltersExtensions.DieticianMessages
+﻿namespace Application.FiltersExtensions.DieticianMessages
 {
-    // Klasa rozszerzeń do zapytań IQueryable dla wiadomości dietetyka.
+    // Klasa z metodami do sortowania, wyszukiwania i filtrowania dla wiadomości dietetyków
     public static class DieticianMessagesExtensions
     {
         /// <summary>
-        /// Sortuje wiadomości dietetyka według określonego kryterium.
+        /// Sortowanie wiadomości po różnych kryteriach
         /// </summary>
-        /// <param name="query">Zapytanie do sortowania.</param>
+        /// <param name="query">Budowane zapytania</param>
         /// <param name="orderBy">Kryterium sortowania (np. 'name', 'dateAdded').</param>
         /// <returns>Posortowane IQueryable<MessageToDTO>.</returns>
         public static IQueryable<MessageToDTO> PatientSort(this IQueryable<MessageToDTO> query, string orderBy)
@@ -26,11 +23,11 @@ namespace Application.FiltersExtensions.DieticianMessages
         }
 
         /// <summary>
-        /// Filtruje wiadomości dietetyka według terminu wyszukiwania.
+        /// Wyszukiwanie pacjenta w opisie
         /// </summary>
-        /// <param name="query">Zapytanie do filtrowania.</param>
-        /// <param name="searchTerm">Termin do wyszukiwania.</param>
-        /// <returns>Filtrowane IQueryable<MessageToDTO>.</returns>
+        /// <param name="query">Budowane zapytanie</param>
+        /// <param name="searchTerm">wyszukiwane hasło</param>
+        /// <returns>Zbudowane IQueryable<MessageToDTO>.</returns>
         public static IQueryable<MessageToDTO> PatientSearch(this IQueryable<MessageToDTO> query, string searchTerm)
         {
             if (string.IsNullOrWhiteSpace(searchTerm)) return query;
@@ -39,11 +36,11 @@ namespace Application.FiltersExtensions.DieticianMessages
         }
 
         /// <summary>
-        /// Filtruje wiadomości dietetyka według nazwy pacjenta.
+        /// Filtrowanie wiadomości według nazw pacjentów
         /// </summary>
-        /// <param name="query">Zapytanie do filtrowania.</param>
-        /// <param name="patientName">Nazwa pacjenta.</param>
-        /// <returns>Filtrowane IQueryable<MessageToDTO>.</returns>
+        /// <param name="query">Budowane zapytanie</param>
+        /// <param name="patientName">Nazwa pacjenta</param>
+        /// <returns>Zbudowane IQueryable<MessageToDTO>.</returns>
         public static IQueryable<MessageToDTO> PatientFilter(this IQueryable<MessageToDTO> query, string patientName)
         {
             var patientNameList = new List<string>();
