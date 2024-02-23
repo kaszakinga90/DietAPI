@@ -34,7 +34,11 @@ namespace Application.BusinessLogic.DietSaleses
                         CreateTime = d.dateAdded,
                         PatientName = d.Patient.FirstName + " " + d.Patient.LastName,
                         
-                        Period = (int)(d.EndDate - d.StartDate).TotalDays
+                        Period = (int)(d.EndDate - d.StartDate).TotalDays,
+                        Price = _context.SalesDb
+                .Where(s => s.DietId == d.Id)
+                .Select(s => s.Price.ToString())
+                .FirstOrDefault() ?? "Brak rachunku"
                     })
                     .ToListAsync();
 
