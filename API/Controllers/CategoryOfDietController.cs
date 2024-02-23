@@ -1,11 +1,13 @@
 ﻿using Application.CQRS.CategoryOfDiets;
 using Application.DTOs.CategoryOfDietDTO;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB.Functionality;
 
 namespace API.Controllers
 {
+    [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
     public class CategoryOfDietController : BaseApiController
     {
         public CategoryOfDietController(IMediator mediator) : base(mediator)

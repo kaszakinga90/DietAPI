@@ -6,6 +6,7 @@ using Application.DTOs.DiplomaDTO;
 using Application.DTOs.MessagesDTO;
 using Application.FiltersExtensions.DieticianMessages;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static Application.CQRS.Dieticians.MessagesFilters;
 
@@ -32,6 +33,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPut("{dieticianId}")]
         public async Task<IActionResult> EditDietician(int dieticianId, [FromForm] DieticianEditDTO dieticianDto, [FromForm] IFormFile file)
         {
@@ -50,6 +52,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPut("editdata/{dieticianId}")]
         public async Task<IActionResult> EditDieticianData(int dieticianId, DieticianEditDataDTO dietician)
         {
@@ -67,6 +70,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpGet("messages/{dieticianId}")]
         public async Task<IActionResult> GetMessagesForDietician(int dieticianId, [FromQuery] DieticianMessagesParams param)
         {
@@ -92,6 +96,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPost("messageToAdmin/{dieticianId}")]
         public async Task<IActionResult> MessageToAdmin(int dieticianId, MessageToDTO message)
         {
@@ -109,6 +114,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPost("messageToPatient/{dieticianId}")]
         public async Task<IActionResult> MessageToPatient(int dieticianId, MessageToDTO message)
         {
@@ -125,6 +131,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPost("message/isread")]
         public async Task<IActionResult> MessageIsRead(MessageIsReadPostDTO messageIsRead)
         {
@@ -138,6 +145,7 @@ namespace API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPost("diploma")]
         public async Task<IActionResult> CreateDiploma([FromForm] DiplomaPostDTO diplomaDto, [FromForm] IFormFile file)
         {

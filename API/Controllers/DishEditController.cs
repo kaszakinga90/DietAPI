@@ -2,10 +2,12 @@
 using Application.CQRS.Dishes.DishToEdit.Gets;
 using Application.DTOs.DishDetailsToEditDTO;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
     public class DishEditController : BaseApiController
     {
         public DishEditController(IMediator mediator) : base(mediator)

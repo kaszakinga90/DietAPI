@@ -1,5 +1,6 @@
 ﻿using Application.CQRS.Diplomas;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -17,7 +18,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-       
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpDelete("delete/{dieticianId}/{diplomaId}")]
         public async Task<IActionResult> DeleteDiploma(int dieticianId, int diplomaId)
         {

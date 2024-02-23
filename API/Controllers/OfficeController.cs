@@ -3,6 +3,7 @@ using Application.DTOs;
 using Application.DTOs.OfficeDTO;
 using Application.Functionality;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -13,6 +14,7 @@ namespace API.Controllers
         {
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPost("addoffice")]
         public async Task<IActionResult> CreateOffice([FromBody] OfficeCreationDTO officeCreationDto)
         {
@@ -44,6 +46,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPut("edit/{officeId}")]
         public async Task<IActionResult> EditOfficeData(int officeId, OfficeEditDTO officeEdit)
         {
@@ -58,6 +61,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpDelete("delete/{dieticianId}/{officeId}")]
         public async Task<IActionResult> DeleteOffice(int dieticianId, int officeId)
         {

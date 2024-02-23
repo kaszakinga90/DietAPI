@@ -8,6 +8,7 @@ using Application.DTOs.Surveys;
 using Application.DTOs.TestsResultsDTO;
 using Application.FiltersExtensions.PatientsCards;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -19,6 +20,7 @@ namespace API.Controllers
         }
 
         // IMPORTANT : FROM SQL
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("{dieticianId}/{patientId}")]
         public async Task<IActionResult> GetPatientCardSP(int patientId, int dieticianId)
         {
@@ -27,6 +29,7 @@ namespace API.Controllers
         }
 
         // IMPORTANT : FROM SQL - tworzenie obiektu PatientCard za pomocą stored procedures
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPost("create/")]
         public async Task<IActionResult> CreatePatientCardSP(PatientCardPostDTO pc)
         {
@@ -49,6 +52,7 @@ namespace API.Controllers
             return HandlePagedResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("measurements/history/{patientId}/{dieticianId}")]
         public async Task<IActionResult> GetPatientMeasurementHistory(int patientId, int dieticianId)
         {
@@ -60,7 +64,6 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-     
         [HttpGet("filters")]
         public async Task<IActionResult> GetFiltersPatientCardForDietician()
         {
@@ -68,6 +71,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
         [HttpGet("listforpatient/{patientId}")]
         public async Task<IActionResult> GetAllForPatientsCards(int patientId, [FromQuery] PatientCardParams param)
         {
@@ -78,6 +82,7 @@ namespace API.Controllers
             return HandlePagedResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpGet("getallpatientsurveys/{dieticianId}/{patientCardId}")]
         public async Task<IActionResult> GetAllPatientSurveys(int dieticianId,int patientCardId)
         {
@@ -88,6 +93,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
         [HttpGet("getallpatientsurveysforpatient/{patientCardId}")]
         public async Task<IActionResult> GetAllPatientSurveysForPatient(int patientCardId)
         {
@@ -103,8 +109,9 @@ namespace API.Controllers
                 PatientCardId=patientCardId 
             });
             return HandleResult(result);
-        } 
+        }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
         [HttpGet("getallpatienttestresultsforpatient/{patientCardId}")]
         public async Task<IActionResult> GetAllPatientTestResultsForPatient(int patientCardId)
         {
@@ -112,6 +119,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPost("createsurvey")]
         public async Task<IActionResult> CreateSurvey(SurveyPostDTO surveyPostDTO)
         {
@@ -122,8 +130,9 @@ namespace API.Controllers
                 return Ok(new { data = result.Value, message = "Pomyślnie dodano wywiad." });
             }
             return BadRequest(result.Error);
-        } 
-        
+        }
+
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPost("createtestresult")]
         public async Task<IActionResult> CreateTestResult(TestResultPostDTO testResultPostDTO)
         {
@@ -136,6 +145,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
         [HttpGet("getallpatienttestresultsforpatientNopagination/{patientId}")]
         public async Task<IActionResult> GetAllPatientTestResultsForPatientNoPagination(int patientId)
         {
@@ -143,6 +153,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpDelete("delete/{testResultId}")]
         public async Task<IActionResult> DeleteTestResult(int testResultId)
         {
@@ -155,6 +166,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpDelete("survey/delete/{surveyId}")]
         public async Task<IActionResult> DeleteSurvey(int surveyId)
         {

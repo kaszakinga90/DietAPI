@@ -7,6 +7,7 @@ using MediatR;
 
 namespace Application.Services
 {
+    // Serwis do tworzenia raportów na podstawie różnych kryteriów.
     public class ReportService
     {
         private readonly IMediator _mediator;
@@ -15,6 +16,16 @@ namespace Application.Services
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Tworzy raport na podstawie określonego typu i parametrów.
+        /// </summary>
+        /// <param name="reportType">Typ raportu do utworzenia.</param>
+        /// <param name="dietitianId">Opcjonalne ID dietetyka.</param>
+        /// <param name="dietId">Opcjonalne ID diety.</param>
+        /// <param name="patientId">Opcjonalne ID pacjenta.</param>
+        /// <param name="startDate">Opcjonalna data początkowa.</param>
+        /// <param name="endDate">Opcjonalna data końcowa.</param>
+        /// <returns>Wynik zawierający utworzony raport lub informację o błędzie.</returns>
         public async Task<Result<IReport>> CreateReport(ReportTypeEnum reportType, int? dietitianId = null, int? dietId = null, 
                                                                         int? patientId = null, DateTime? startDate = null, DateTime? endDate = null)
         {
@@ -75,6 +86,7 @@ namespace Application.Services
             }
         }
 
+        // Enum definiujący dostępne typy raportów.
         public enum ReportTypeEnum
         {
             MeasurementsHistoryReport,

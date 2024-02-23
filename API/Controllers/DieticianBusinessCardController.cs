@@ -1,10 +1,12 @@
 ﻿using Application.CQRS.DieticiansBusinessesCards;
 using Application.FiltersExtensions.DieticianBussinesCards;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
     public class DieticianBusinessCardController : BaseApiController
     {
         public DieticianBusinessCardController(IMediator mediator) : base(mediator)

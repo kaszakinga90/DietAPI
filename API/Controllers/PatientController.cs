@@ -4,6 +4,7 @@ using Application.DTOs.MessagesDTO;
 using Application.DTOs.PatientDTO;
 using Application.FiltersExtensions.PatientMessages;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static Application.CQRS.Patients.MessagesFilters;
 
@@ -29,6 +30,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
         [HttpPut("{id}")]
         public async Task<IActionResult> EditPatient(int id, [FromForm] PatientEditDTO patientDTO, [FromForm] IFormFile file)
         {
@@ -47,6 +49,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
         [HttpPut("editdata/{patientId}")]
         public async Task<IActionResult> EditPatientData(int patientId, PatientEditDataDTO patient)
         {
@@ -64,6 +67,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
         [HttpGet("messages/{patientId}")]
         public async Task<IActionResult> GetMessagesForPatient(int patientId, [FromQuery] PatientMessagesParams param)
         {
@@ -76,6 +80,7 @@ namespace API.Controllers
             return HandlePagedResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
         [HttpGet("messagesnopagination/{patientId}")]
         public async Task<IActionResult> GetMessagesForPatientNoPagination(int patientId)
         {
@@ -97,6 +102,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
         [HttpPost("message/isread")]
         public async Task<IActionResult> MessageIsRead(MessageIsReadPostDTO messageIsRead)
         {
@@ -110,6 +116,7 @@ namespace API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
         [HttpPost("messageToDietician/{patientId}")]
         public async Task<IActionResult> MessageToDietetician(int patientId, MessageToDTO message)
         {
@@ -126,6 +133,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
         [HttpPost("messageToAdmin/{patientId}")]
         public async Task<IActionResult> MessageToAdmin(int patientId, MessageToDTO message)
         {
@@ -141,6 +149,7 @@ namespace API.Controllers
             }
             return BadRequest(result.Error);
         }
+
         [HttpGet("allnopagination")]
         public async Task<IActionResult> GetCountryStates()
         {

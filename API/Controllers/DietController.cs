@@ -5,6 +5,7 @@ using Application.DTOs.DietDTO;
 using Application.DTOs.DietPatientDTO;
 using Application.FiltersExtensions.Diets;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -22,6 +23,7 @@ namespace API.Controllers
             return HandlePagedResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPost("adddiet")]
         public async Task<IActionResult> CreateDiet(DietPostDTO diet)
         {
@@ -33,7 +35,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpGet("dieticianDiets/{dieticianId}")]
         public async Task<IActionResult> GetDietsForDietician(int dieticianId, [FromQuery] DietParams pagingParams)
         {
@@ -41,6 +43,7 @@ namespace API.Controllers
             return HandlePagedResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
         [HttpGet("patientDiets/{patientId}")]
         public async Task<IActionResult> GetDietsForPatient(int patientId, [FromQuery] DietParams pagingParams)
         {
@@ -48,6 +51,7 @@ namespace API.Controllers
             return HandlePagedResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         // to będzie w karcie pacjenta - diety dla danego pacjenta od danego dietetyka
         [HttpGet("pc/patientDiets/{patientId}/{dieticianId}")]
         public async Task<IActionResult> GetDietsForPatientFromDietician(int patientId, int dieticianId, [FromQuery] DietParams pagingParams)
@@ -56,13 +60,15 @@ namespace API.Controllers
             return HandlePagedResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("filters/{dieticianId}")]
         public async Task<ActionResult<DietFiltersDTO>> GetFilters(int dieticianId)
         {
             var result = await _mediator.Send(new DietFilters.Query { DieticianId = dieticianId });
             return HandleResult(result);
-        }  
-        
+        }
+
+        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
         [HttpGet("patientDietsNoPaginations/{patientId}")]
         public async Task<IActionResult> GetDietsForPatientNoPaginationList(int patientId)
         {
@@ -70,7 +76,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPost("publishDiet")]
         public async Task<IActionResult> PublishDietToPatient(DietPatientPostDTO dietPatientPostDTO)
         {
@@ -82,7 +88,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpDelete("deleteDiet/{dietId}")]
         public async Task<IActionResult> DeleteDiet(int dietId)
         {
@@ -95,7 +101,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("details/{dietId}")]
         public async Task<IActionResult> GetDietDetails(int dietId)
         {

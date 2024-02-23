@@ -3,6 +3,7 @@ using Application.CQRS.Ingredients.Nutritionixs;
 using Application.DTOs.IngredientDTO.IngredientNutritionixDTO;
 using DietDB;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ModelsDB;
 using System.Diagnostics;
@@ -10,15 +11,19 @@ using System.Text.Json;
 
 namespace API.Controllers
 {
+    // Kontroler zarządzający operacjami na danych żywieniowych z Nutritionix API.
+    [Authorize(Roles = "SuperAdmin, Admin")]
     public class NutritionixController : BaseApiController
     {
         private readonly DietContext _context;
 
+        // Konstruktor inicjalizujący kontroler z kontekstem bazy danych
         public NutritionixController(DietContext context, IMediator mediator) : base(mediator)
         {
             _context = context;
         }
 
+        // Metoda do pobierania informacji o produkcie z API Nutritionix.
         [HttpGet("ingredient/{productName}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -26,10 +31,12 @@ namespace API.Controllers
         {
             try
             {
+                // URL i klucze API Nutritionix.
                 string apiUrl = "https://trackapi.nutritionix.com/v2/search/instant";
                 string appIdNutritionix = "724e67dc";
                 string appKeyNutritionix = "774b737e8771633bb04f37ce0abf814b";
 
+                // Pobranie jednostek i miar z bazy danych.
                 var units = _context.UnitsDb.ToDictionary(u => u.Symbol, u => u.Id);
                 var measures = _context.MeasuresDb.ToDictionary(m => m.Symbol, m => m.Id);
 
@@ -39,10 +46,12 @@ namespace API.Controllers
                     client.DefaultRequestHeaders.Add("x-app-id", appIdNutritionix);
                     client.DefaultRequestHeaders.Add("x-app-key", appKeyNutritionix);
 
+                    // Wykonanie żądania do API Nutritionix.
                     HttpResponseMessage response = await client.GetAsync($"{apiUrl}?query={productName}&self=false&branded=true&branded_food_name_only=false&common=true&common_general=true&common_grocery=true&common_restaurant=true&locale=pl_PL&detailed=true&claims=false&taxonomy=false");
 
                     if (response.IsSuccessStatusCode)
                     {
+                        // Przetwarzanie odpowiedzi JSON.
                         using (Stream responseStream = await response.Content.ReadAsStreamAsync())
                         using (JsonDocument doc = await JsonDocument.ParseAsync(responseStream))
                         {
@@ -128,10 +137,12 @@ namespace API.Controllers
             return Ok(new List<IngredientNutritionixDTO>());
         }
 
+        // Metoda do tworzenia składnika na podstawie danych z Nutritionix.
         [HttpPost]
         public async Task<IActionResult> CreateIngredientFromNutritionix(IngredientNutritionixDTO Ingredient)
         {
-           var command = new IngredientFromNutritionixCreate.Command { IngredientNutritionixDTO = Ingredient };
+            // Przygotowanie i wysłanie komendy do utworzenia składnika.
+            var command = new IngredientFromNutritionixCreate.Command { IngredientNutritionixDTO = Ingredient };
             var result = await _mediator.Send(command);
             if (result.IsSucces)
             {
@@ -141,6 +152,7 @@ namespace API.Controllers
         }
     }
 
+    // Rozszerzenie do ładowania składników odżywczych w sposób leniwy.
     public static class IngredientDTOExtensions
     {
         public static void LoadNutrientsLazy(this IngredientNutritionixDTO ingredientDTO, JsonElement nutrientsArray, DietContext context)

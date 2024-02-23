@@ -6,14 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    // TODO : sposób przedstawienia nagłówków autoryzacyjnych
-    [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
     public class LogoController : BaseApiController
     {
         public LogoController(IMediator mediator) : base(mediator)
         {
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPost("logocreateorupdate")]
         public async Task<IActionResult> CreateLogo([FromForm] LogoPostDTO logoDto, [FromForm] IFormFile file)
         {
@@ -37,6 +36,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpDelete("delete/{dieticianId}")]
         public async Task<IActionResult> DeleteLogo(int dieticianId)
         {

@@ -3,6 +3,7 @@ using Application.DTOs.DishDTO;
 using Application.FiltersExtensions.Dishes;
 using Application.FiltersExtensions.DishesFoodCatalog;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -13,6 +14,7 @@ namespace API.Controllers
         {
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpGet("dieticianDish/{dieticianid}")]
         public async Task<IActionResult> GetDish(int dieticianid)
         {
@@ -20,6 +22,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("allDishNoDieticianWithPagination")]
         public async Task<IActionResult> GetDishesNoDieticianDish( [FromQuery] DishParams pagingParams)
         {
@@ -28,6 +31,7 @@ namespace API.Controllers
         }
 
         //pobiera dania dostępne dla dietetyka (czyli z bazy wspólnej, gdzie DieticianID == NULL oraz te utworzone przez tego dietetyka) + paginacja
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpGet("allDishesWithPagination/{dieticianId}")]
         public async Task<IActionResult> GetDishes(int dieticianId, [FromQuery] DishParams pagingParams)
         {
@@ -35,6 +39,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpGet("dieticianDishesWithPagination/{dieticianId}")]
         public async Task<IActionResult> GetDishesOnlyDietician(int dieticianId, [FromQuery] DishParams pagingParams)
         {
@@ -42,6 +47,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("allfoodcatalogdishwithpagination/{foodCatalogId}")]
         public async Task<IActionResult> GetDishesFoodCatalogs(int foodCatalogId, [FromQuery] DishesFoodCatalogParams pagingParams)
         {
@@ -50,6 +56,7 @@ namespace API.Controllers
         }
 
         //pobiera dania dostępne dla dietetyka (czyli z bazy wspólnej, gdzie DieticianID == NULL oraz te utworzone przez tego dietetyka) - bez paginacji
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpGet("allNoPagination/{dieticianId}")]
         public async Task<IActionResult> GetDishesNoPagination(int dieticianId)
         {
@@ -57,6 +64,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPost("create")]
         public async Task<IActionResult> CreateDish(DishPostDTO dishDto)
         {
@@ -76,6 +84,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPut("edit/{dishId}")]
         public async Task<IActionResult> EditDish(int dishId, DishEditDTO dishEditDTO)
         {
@@ -92,6 +101,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpDelete("delete/{dishId}")]
         public async Task<IActionResult> DeleteDish(int dishId)
         {

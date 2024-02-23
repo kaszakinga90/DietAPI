@@ -7,6 +7,6 @@
         public DateTime CreateTime { get; set; }
         public string PatientName { get; set; }
         public int Period { get; set; }
-
+        public string Price { get; set; }
     }
 }

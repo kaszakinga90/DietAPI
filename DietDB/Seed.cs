@@ -41,10 +41,10 @@ namespace DietDB
             {
                 var rtp = new List<ReportTemplatePreview>()
                 {
-                    new ReportTemplatePreview { UrlReportTemplate1 = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705600613/s8gyybsntm1lcycjkwpa.png", 
-                                                UrlReportTemplate2 = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705600668/rcofw17lkgv8hane2uh2.png", 
+                    new ReportTemplatePreview { UrlReportTemplate1 = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1708638934/wedia5nqtsx2bmnw1kaq.png", 
+                                                UrlReportTemplate2 = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1708638952/ou1i59z6n0hi4thaidtn.png", 
                                                 UrlReportTemplate3 = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705600711/cct5y7cxoacbtdh2sfx2.png",
-                                                UrlReportTemplate4 = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1705600797/x4ckvnj5dr1wh1o3v653.png"
+                                                UrlReportTemplate4 = "https://res.cloudinary.com/dqz9wmlcd/image/upload/v1708638968/cuaweieij1lvosl0xrmv.png"
                     },
                 };
                 await context.ReportTemplatePreviewsDb.AddRangeAsync(rtp);
