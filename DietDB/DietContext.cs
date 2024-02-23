@@ -11,7 +11,7 @@ using System.Diagnostics;
 namespace DietDB
 {
     /// <summary>
-    /// Reprezentuje kontekst bazy danych dla diet.
+    /// Reprezentuje kontekst bazy danych.
     /// </summary>
     public class DietContext : IdentityDbContext<User, Role, int>
     {
@@ -22,11 +22,12 @@ namespace DietDB
         public DietContext(DbContextOptions options) : base(options)
         {
         }
-        #region DbSet
-        /// <summary>
-        /// Pobiera lub ustawia kolekcję przykładów w bazie danych.
-        /// </summary>
 
+        #region DbSet
+
+        /// <summary>
+        /// Pobiera lub ustawia kolekcje w bazie danych.
+        /// </summary>
         public DbSet<Address> AddressesDb { get; set; }
         public DbSet<CategoryOfDiet> CategoryOfDietsDb { get; set; }
         public DbSet<Comment> CommentsDb { get; set; }
@@ -333,6 +334,7 @@ namespace DietDB
 
         }
         #endregion
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Konfiguracja dodatkowych opcji DbContext, np. logowania zapytań SQL.

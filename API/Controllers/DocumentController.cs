@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace API.Controllers
 {
-    // Kontroler zarządzający operacjami na dokumentach i szablonach wydruku.
+    // Kontroler zarządzający operacjami na wydrukach parametryzowanych.
     public class DocumentController : BaseApiController
     {
         public DocumentController(IMediator mediator) : base(mediator)
@@ -14,10 +14,10 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Dodaje nowy szablon wydruku. Dostępne tylko dla użytkowników z rolą SuperAdmin.
+        /// Dodanie nowego wydruku parametryzowanego.
         /// </summary>
-        /// <param name="printout">Dane szablonu wydruku.</param>
-        /// <returns>Wynik dodania szablonu.</returns>
+        /// <param name="printout">Dane zawarte w wydruku.</param>
+        /// <returns>Wynik dodania wydruku.</returns>
         [HttpPost("addPrintout")]
         public async Task<IActionResult> AddPrintout([FromForm] ParameterizedPrintoutPostDTO printout)
         {
@@ -31,9 +31,9 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Pobiera listę wszystkich szablonów wydruku.
+        /// Pobiera listę wszystkich szablonów wydruków parametryzowanych.
         /// </summary>
-        /// <returns>Lista szablonów wydruku.</returns>
+        /// <returns>Lista szablonów wydruków parametryzowanych.</returns>
         [HttpGet("all")]
         public async Task<IActionResult> GetPrintouts()
         {
@@ -42,10 +42,10 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Generuje dokument na podstawie szablonu. Dostępne dla różnych ról użytkowników.
+        /// Generuje dokument na podstawie szablonu wydruku parametryzowanego.
         /// </summary>
-        /// <param name="printout">Dane potrzebne do wygenerowania dokumentu.</param>
-        /// <returns>Wygenerowany dokument.</returns>
+        /// <param name="printout">Dane potrzebne do wygenerowania pliku.</param>
+        /// <returns>Wygenerowany plik.</returns>
         [HttpPost("generatePrintoutDocument/byTemplate")]
         public async Task<IActionResult> GenerateDocument(PrintoutDocumentPostDTO printout)
         {
@@ -68,9 +68,9 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Generuje dokument na podstawie szablonu dostarczonego przez użytkownika.
+        /// Generuje dokument na podstawie szablonu wydruku dostarczonego przez użytkownika.
         /// </summary>
-        /// <param name="printout">Dane i plik szablonu przesłany przez użytkownika.</param>
+        /// <param name="printout">Dane i plik dokumentu(wydruku) przesłany przez użytkownika.</param>
         /// <returns>Wygenerowany dokument.</returns>
         [HttpPost("generatePrintoutDocument/byUserTemplate")]
         public async Task<IActionResult> GenerateDocumentUploadFromUser([FromForm] PrintoutUploadByUserPostDTO printout)
@@ -81,10 +81,10 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Usuwa szablon wydruku. Dostępne tylko dla użytkowników z rolą SuperAdmin.
+        /// Usuwa szablon wydruku parametryzowanego.
         /// </summary>
         /// <param name="printoutId">Identyfikator szablonu do usunięcia.</param>
-        /// <returns>Wynik usunięcia szablonu.</returns>
+        /// <returns>Wynik usunięcia pliku.</returns>
         [HttpDelete("delete/{printoutId}")]
         public async Task<IActionResult> RemovePrintoutTemplate(int printoutId)
         {
