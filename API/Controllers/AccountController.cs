@@ -15,6 +15,9 @@ using ModelsDB;
 
 namespace API.Controllers
 {
+    /// <summary>
+    /// Kontroler do zarządzania kontami użytkowników, w tym logowanie, rejestracja i zarządzanie kontami.
+    /// </summary>
     public class AccountController : BaseApiController
     {
         private readonly UserManager<User> _userManager;
@@ -28,6 +31,11 @@ namespace API.Controllers
             _emailService = emailService;
         }
 
+        /// <summary>
+        /// Metoda do logowania użytkowników.
+        /// </summary>
+        /// <param name="loginDTO">Obiekt DTO zawierający dane logowania.</param>
+        /// <returns>Zwraca dane użytkownika i token JWT w przypadku sukcesu, lub komunikat o błędzie.</returns>
         [HttpPost("login")]
         public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDTO)
         {
@@ -49,6 +57,11 @@ namespace API.Controllers
             };
         }
 
+        /// <summary>
+        /// Metoda do rejestracji nowego pacjenta.
+        /// </summary>
+        /// <param name="registerDTO">Obiekt DTO z danymi do rejestracji pacjenta.</param>
+        /// <returns>Zwraca informację o sukcesie lub błędzie.</returns>
         // IMPORTANT : FROM SQL - trigger tworzący obiekt Adres 
         [AllowAnonymous]
         [HttpPost("registerPatient")]

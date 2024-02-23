@@ -10,17 +10,20 @@ using static Application.Services.ReportService;
 
 namespace API.Controllers
 {
+    // Kontroler odpowiedzialny za obsługę operacji związanych z raportami.
     public class ReportController : BaseApiController
     {
         private readonly DietContext _context;
         private readonly ReportService _reportService;
 
+        // Konstruktor inicjalizujący kontroler z kontekstem bazy danych i serwisem raportów.
         public ReportController(DietContext context, ReportService reportService, IMediator mediator) : base(mediator)
         {
             _context = context;
             _reportService = reportService;
         }
 
+        // Metoda do pobierania listy szablonów raportów.
         [HttpGet("reportTemplates")]
         public async Task<IActionResult> GetReportTemplates()
         {
@@ -28,6 +31,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        // Metoda do pobierania podglądu szablonów raportów.
         [HttpGet("reportTemplates/reportTemplatePreview")]
         public async Task<IActionResult> GetReportTemplatesPreview()
         {
@@ -35,10 +39,10 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        // templateId - zakres 1-3 (wizualna część, OBOJĘTNE),   reportType, zakres 0-2, (2 dla szczegółowej diety)
-        //[Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
+        // Metoda do generowania raportu na podstawie podanych parametrów.
+        // Parametry obejmują ID szablonu, typ raportu oraz opcjonalne ID dietetyka, diety, pacjenta oraz daty rozpoczęcia i zakończenia.
         [HttpGet("generate/{templateId}/{reportType}/{dieticianId}/{dietId}/{patientId}/{startDate}/{endDate}")]
-        public async Task<IActionResult> GenerateReport(int templateId, ReportTypeEnum reportType, int? dieticianId = null, int? dietId = null, 
+        public async Task<IActionResult> GenerateReport(int templateId, ReportTypeEnum reportType, int? dieticianId = null, int? dietId = null,
                                                         int? patientId = null, DateTime? startDate = null, DateTime? endDate = null)
         {
             var template = _context.ReportTemplatesDb.Find(templateId);
@@ -55,7 +59,7 @@ namespace API.Controllers
                 if (reportServiceResult.IsSucces)
                 {
                     var reportService = reportServiceResult.Value;
-                    var reportContent =  reportService.GenerateReport();
+                    var reportContent = reportService.GenerateReport();
 
                     return Ok(reportContent);
                 }
@@ -75,6 +79,7 @@ namespace API.Controllers
             }
         }
 
+        // Metoda do usuwania szablonu raportu.
         [Authorize(Roles = "SuperAdmin, Admin")]
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteReportTemplate(int id, ReportTemplateDeleteDTO reportTemplate)

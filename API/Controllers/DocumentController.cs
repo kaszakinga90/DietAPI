@@ -1,20 +1,23 @@
 ﻿using Application.CQRS.Printouts;
 using Application.DTOs.PrintoutsDTO;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace API.Controllers
 {
+    // Kontroler zarządzający operacjami na dokumentach i szablonach wydruku.
     public class DocumentController : BaseApiController
     {
         public DocumentController(IMediator mediator) : base(mediator)
         {
         }
 
-        // dodawanie przez admina szablonu wydruku parametr.
-        [Authorize(Roles = "SuperAdmin")]
+        /// <summary>
+        /// Dodaje nowy szablon wydruku. Dostępne tylko dla użytkowników z rolą SuperAdmin.
+        /// </summary>
+        /// <param name="printout">Dane szablonu wydruku.</param>
+        /// <returns>Wynik dodania szablonu.</returns>
         [HttpPost("addPrintout")]
         public async Task<IActionResult> AddPrintout([FromForm] ParameterizedPrintoutPostDTO printout)
         {
@@ -27,6 +30,10 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
+        /// <summary>
+        /// Pobiera listę wszystkich szablonów wydruku.
+        /// </summary>
+        /// <returns>Lista szablonów wydruku.</returns>
         [HttpGet("all")]
         public async Task<IActionResult> GetPrintouts()
         {
@@ -34,8 +41,11 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        // obróbka pliku word na podstawie dostarczonego przez nas szablonu.
-        [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
+        /// <summary>
+        /// Generuje dokument na podstawie szablonu. Dostępne dla różnych ról użytkowników.
+        /// </summary>
+        /// <param name="printout">Dane potrzebne do wygenerowania dokumentu.</param>
+        /// <returns>Wygenerowany dokument.</returns>
         [HttpPost("generatePrintoutDocument/byTemplate")]
         public async Task<IActionResult> GenerateDocument(PrintoutDocumentPostDTO printout)
         {
@@ -57,8 +67,11 @@ namespace API.Controllers
             return File(fileBytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", fileName);
         }
 
-        // obróbka pliku word na podstawie dostarczonego przez użytkownika pliku .
-        [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
+        /// <summary>
+        /// Generuje dokument na podstawie szablonu dostarczonego przez użytkownika.
+        /// </summary>
+        /// <param name="printout">Dane i plik szablonu przesłany przez użytkownika.</param>
+        /// <returns>Wygenerowany dokument.</returns>
         [HttpPost("generatePrintoutDocument/byUserTemplate")]
         public async Task<IActionResult> GenerateDocumentUploadFromUser([FromForm] PrintoutUploadByUserPostDTO printout)
         {
@@ -67,7 +80,11 @@ namespace API.Controllers
             return File(result.Value, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "filledTemplate.docx");
         }
 
-        [Authorize(Roles = "SuperAdmin")]
+        /// <summary>
+        /// Usuwa szablon wydruku. Dostępne tylko dla użytkowników z rolą SuperAdmin.
+        /// </summary>
+        /// <param name="printoutId">Identyfikator szablonu do usunięcia.</param>
+        /// <returns>Wynik usunięcia szablonu.</returns>
         [HttpDelete("delete/{printoutId}")]
         public async Task<IActionResult> RemovePrintoutTemplate(int printoutId)
         {

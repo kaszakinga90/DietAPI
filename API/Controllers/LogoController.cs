@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    // TODO : sposób przedstawienia nagłówków autoryzacyjnych
     public class LogoController : BaseApiController
     {
         public LogoController(IMediator mediator) : base(mediator)
