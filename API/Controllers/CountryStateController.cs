@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
+    //[Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
     public class CountryStateController : BaseApiController
     {
         public CountryStateController(IMediator mediator) : base(mediator)

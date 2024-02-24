@@ -35,7 +35,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("allForDietician/{dieticianId}")]
         public async Task<IActionResult> GetInvitationsForDietician(int dieticianId)
         {
@@ -43,7 +43,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("allForDieticianpagination/{dieticianId}")]
 
         public async Task<IActionResult> GetInvitationsForDieticianPagination([FromQuery] InvitationParams pagingParams, int dieticianId)

@@ -71,7 +71,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("listforpatient/{patientId}")]
         public async Task<IActionResult> GetAllForPatientsCards(int patientId, [FromQuery] PatientCardParams param)
         {
@@ -145,7 +145,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician,  Patient")]
         [HttpGet("getallpatienttestresultsforpatientNopagination/{patientId}")]
         public async Task<IActionResult> GetAllPatientTestResultsForPatientNoPagination(int patientId)
         {

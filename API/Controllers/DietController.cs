@@ -35,7 +35,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("dieticianDiets/{dieticianId}")]
         public async Task<IActionResult> GetDietsForDietician(int dieticianId, [FromQuery] DietParams pagingParams)
         {
@@ -43,7 +43,7 @@ namespace API.Controllers
             return HandlePagedResult(result);
         }
 
-        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("patientDiets/{patientId}")]
         public async Task<IActionResult> GetDietsForPatient(int patientId, [FromQuery] DietParams pagingParams)
         {
@@ -68,7 +68,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("patientDietsNoPaginations/{patientId}")]
         public async Task<IActionResult> GetDietsForPatientNoPaginationList(int patientId)
         {
