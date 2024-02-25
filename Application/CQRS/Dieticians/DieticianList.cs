@@ -30,6 +30,7 @@ namespace Application.CQRS.Dieticians
                 try
                 {
                     var dieticiansList = _context.DieticiansDb
+                    .Where(a => a.isActive)
                     .Include(a => a.Address)
                     .Select(a => new DieticianGetDTO
                     {

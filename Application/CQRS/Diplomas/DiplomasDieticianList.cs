@@ -27,7 +27,7 @@ namespace Application.CQRS.Diplomas
                     try
                     {
                         var diplomaList = await _context.DiplomasDb
-                        .Where(m => m.DieticianId == request.DieticianId)
+                        .Where(m => m.DieticianId == request.DieticianId && m.isActive)
                         .Select(m => new DiplomaGetDTO
                         {
                             Id = m.Id,

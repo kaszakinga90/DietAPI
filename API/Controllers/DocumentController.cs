@@ -48,28 +48,7 @@ namespace API.Controllers
         /// Generuje dokument na podstawie szablonu wydruku parametryzowanego
         /// </summary>
         /// <param name="printout">Dane potrzebne do wygenerowania pliku</param>
-        /// <returns>Wygenerowany DOKUMENT</returns>
-        //[HttpPost("generatePrintoutDocument/byTemplate")]
-        //public async Task<IActionResult> GenerateDocument(PrintoutDocumentPostDTO printout)
-        //{
-        //    Console.WriteLine($"Otrzymano zapytanie z PrintoutDocumentPostDTO: {JsonConvert.SerializeObject(printout)}");
-
-        //    var result = await _mediator.Send(new PrintoutDocumentCreate.Command { Data = printout });
-
-        //    string filePath = result.Value;
-
-        //    if (!System.IO.File.Exists(filePath))
-        //    {
-        //        return NotFound("Wygenerowany plik nie został znaleziony.");
-        //    }
-
-        //    byte[] fileBytes = await System.IO.File.ReadAllBytesAsync(filePath);
-
-        //    var fileName = Path.GetFileName(filePath);
-
-        //    return File(fileBytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", fileName);
-        //}
-
+        /// <returns>Wygenerowany dokument</returns>
         [HttpPost("generatePrintoutDocument/byTemplate")]
         public async Task<IActionResult> GenerateDocument(PrintoutDocumentPostDTO printout)
         {
@@ -84,9 +63,6 @@ namespace API.Controllers
                 return BadRequest(result.Error);
             }
         }
-
-
-
 
         /// <summary>
         /// Generuje dokument na podstawie szablonu wydruku dostarczonego przez użytkownika

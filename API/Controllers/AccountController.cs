@@ -93,6 +93,7 @@ namespace API.Controllers
                 {
                     var confirmationLink = $"http://localhost:3000/registerConfirm?userId={user.Id}&token={emailConfirmationToken}";
                     var emailBody = $"Potwierdź swoje konto, klikając <a href='{confirmationLink}'>tutaj</a>";
+                    // TODO : tu można zmienić nadawcę wiadomości email
                     var messageEmail = new EmailMessage(new string[] { "testtesttest@test.com" }, "Test email", emailBody);
                     _emailService.SendEmail(messageEmail);
 
@@ -149,6 +150,7 @@ namespace API.Controllers
                 {
                     var confirmationLink = $"http://localhost:3000/registerConfirm?userId={user.Id}&token={emailConfirmationToken}";
                     var emailBody = $"Potwierdź swoje konto, klikając <a href='{confirmationLink}'>tutaj</a>";
+                    // TODO : tu można zmienić nadawcę wiadomości email
                     var message = new EmailMessage(new string[] { "testtesttest@test.com" }, "Test email", emailBody);
                     _emailService.SendEmail(message);
                 }
@@ -195,6 +197,7 @@ namespace API.Controllers
                 {
                     var confirmationLink = $"http://localhost:3000/registerConfirm?userId={user.Id}&token={emailConfirmationToken}";
                     var emailBody = $"Potwierdź swoje konto, klikając <a href='{confirmationLink}'>tutaj</a>";
+                    // TODO : tu można zmienić nadawcę wiadomości email
                     var message = new EmailMessage(new string[] { "testtesttest@test.com" }, "Test email", emailBody);
                     _emailService.SendEmail(message);
                 }

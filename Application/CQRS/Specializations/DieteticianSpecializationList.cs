@@ -26,7 +26,7 @@ namespace Application.CQRS.Specializations
                     try
                     {
                         var dieticianSpecializationsList = await _context.DieticianSpecialization
-                        .Where(m => m.DieticianId == request.DieticianId)
+                        .Where(m => m.DieticianId == request.DieticianId && m.isActive)
                         .Select(m => new DieteticianSpecializationGetDTO
                         {
                             DieticianId = m.DieticianId,

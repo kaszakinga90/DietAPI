@@ -25,6 +25,7 @@ namespace Application.CQRS.CountryStates
                 try
                 {
                     var stateList = await _context.CountryStatesDb
+                          .Where(m => m.isActive)
                           .Select(m => new CountryStateGetDTO
                           {
                               Id = m.Id,

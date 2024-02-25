@@ -20,7 +20,7 @@ namespace API.Controllers
         }
 
         // IMPORTANT : FROM SQL
-        [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
+        //[Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("{dieticianId}/{patientId}")]
         public async Task<IActionResult> GetPatientCardSP(int patientId, int dieticianId)
         {
@@ -52,7 +52,7 @@ namespace API.Controllers
             return HandlePagedResult(result);
         }
 
-        [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
+        //[Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("measurements/history/{patientId}/{dieticianId}")]
         public async Task<IActionResult> GetPatientMeasurementHistory(int patientId, int dieticianId)
         {
@@ -71,7 +71,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
+        //[Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("listforpatient/{patientId}")]
         public async Task<IActionResult> GetAllForPatientsCards(int patientId, [FromQuery] PatientCardParams param)
         {
@@ -82,7 +82,7 @@ namespace API.Controllers
             return HandlePagedResult(result);
         }
 
-        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
+        //[Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("getallpatientsurveys/{dieticianId}/{patientCardId}")]
         public async Task<IActionResult> GetAllPatientSurveys(int dieticianId,int patientCardId)
         {
@@ -93,7 +93,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
+        //[Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("getallpatientsurveysforpatient/{patientCardId}")]
         public async Task<IActionResult> GetAllPatientSurveysForPatient(int patientCardId)
         {
@@ -111,7 +111,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
+        //[Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("getallpatienttestresultsforpatient/{patientCardId}")]
         public async Task<IActionResult> GetAllPatientTestResultsForPatient(int patientCardId)
         {
@@ -145,7 +145,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        [Authorize(Roles = "SuperAdmin, Admin, Dietetician,  Patient")]
+        //[Authorize(Roles = "SuperAdmin, Admin, Dietetician,  Patient")]
         [HttpGet("getallpatienttestresultsforpatientNopagination/{patientId}")]
         public async Task<IActionResult> GetAllPatientTestResultsForPatientNoPagination(int patientId)
         {

@@ -27,7 +27,7 @@ namespace Application.CQRS.Admins
                 try
                 {
                     var adminMessagesList = _context.MessageToDb
-                    .Where(m => m.AdminId == request.AdminId&&m.AdminSended==false)
+                    .Where(m => m.AdminId == request.AdminId && m.AdminSended==false)
                     .Select(m => new MessageToDTO
                     {
                         Id = m.Id,

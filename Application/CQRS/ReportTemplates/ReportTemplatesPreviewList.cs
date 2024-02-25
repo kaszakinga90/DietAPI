@@ -25,6 +25,7 @@ namespace Application.CQRS.ReportTemplates
             public async Task<Result<List<ReportTemplatePreviewDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var reportTemplatePreview = await _context.ReportTemplatePreviewsDb
+                    .Where(r => r.isActive)
                     .ToListAsync(cancellationToken);
 
                 if (reportTemplatePreview.Count == 0 || reportTemplatePreview == null)

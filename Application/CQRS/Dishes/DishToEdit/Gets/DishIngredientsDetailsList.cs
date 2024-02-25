@@ -30,7 +30,7 @@ namespace Application.CQRS.Dishes.DishToEdit.Gets
                     var dishIngredientsList = await _context.DishIngredientsDb
                         .Include(i => i.Ingredient)
                             .ThenInclude(i => i.Measure)
-                        .Where(d => d.DishId == request.DishId)
+                        .Where(d => d.DishId == request.DishId && d.isActive)
                         .Select(d => new DishIngredientsDetailsGetEditDTO
                         {
                             Id = 0,

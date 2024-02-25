@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using ModelsDB.Functionality;
 using System.Diagnostics;
+using System.Text;
 using Xceed.Words.NET;
 
 namespace Application.CQRS.Printouts
@@ -63,7 +64,12 @@ namespace Application.CQRS.Printouts
                     file.CopyTo(stream);
                     using (var document = DocX.Load(stream))
                     {
-                        return document.Text;
+                        StringBuilder textBuilder = new StringBuilder();
+                        foreach (var paragraph in document.Paragraphs)
+                        {
+                            textBuilder.AppendLine(paragraph.Text);
+                        }
+                        return textBuilder.ToString();
                     }
                 }
             }
