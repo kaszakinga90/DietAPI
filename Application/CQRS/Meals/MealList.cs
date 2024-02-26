@@ -25,12 +25,13 @@ namespace Application.CQRS.Meals
                     try
                     {
                         var mealsList = await _context.MealsDb
-                        .Select(m => new MealGetDTO
-                        {
-                            Id = m.Id,
-                            Name = m.Name,
-                        })
-                        .ToListAsync(cancellationToken);
+                            .Where(m => m.isActive)
+                            .Select(m => new MealGetDTO
+                            {
+                                Id = m.Id,
+                                Name = m.Name,
+                            })
+                            .ToListAsync(cancellationToken);
 
                         return Result<List<MealGetDTO>>.Success(mealsList);
                     }

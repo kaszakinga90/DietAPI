@@ -29,7 +29,7 @@ namespace Application.CQRS.PatientCards
                 try
                 {
                     var patientCardList = _context.PatientCardsDb
-                    .Where(m => m.PatientId == request.PatientId)
+                    .Where(m => m.PatientId == request.PatientId && m.isActive)
                     .Select(m => new PatientCardGetDTO
                     {
                         Id = m.Id,

@@ -46,7 +46,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
+        //[Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPut("edit/{officeId}")]
         public async Task<IActionResult> EditOfficeData(int officeId, OfficeEditDTO officeEdit)
         {

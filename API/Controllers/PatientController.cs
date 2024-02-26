@@ -67,7 +67,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
+        //[Authorize(Roles = "SuperAdmin, Admin, Patient")]
         [HttpGet("messages/{patientId}")]
         public async Task<IActionResult> GetMessagesForPatient(int patientId, [FromQuery] PatientMessagesParams param)
         {
@@ -80,7 +80,7 @@ namespace API.Controllers
             return HandlePagedResult(result);
         }
 
-        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
+        //[Authorize(Roles = "SuperAdmin, Admin, Patient")]
         [HttpGet("messagesnopagination/{patientId}")]
         public async Task<IActionResult> GetMessagesForPatientNoPagination(int patientId)
         {
@@ -102,7 +102,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
+        //[Authorize(Roles = "SuperAdmin, Admin, Patient")]
         [HttpPost("message/isread")]
         public async Task<IActionResult> MessageIsRead(MessageIsReadPostDTO messageIsRead)
         {
@@ -116,7 +116,7 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
+        [Authorize(Roles = "SuperAdmin, Admin, Patient, Dietetician")]
         [HttpPost("messageToDietician/{patientId}")]
         public async Task<IActionResult> MessageToDietetician(int patientId, MessageToDTO message)
         {

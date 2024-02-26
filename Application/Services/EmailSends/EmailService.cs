@@ -4,7 +4,9 @@ using System.Diagnostics;
 
 namespace Application.Services.EmailSends
 {
-    // Serwis służący do wysyłania wiadomości e-mail
+    /// <summary>
+    /// Serwis służący do wysyłania wiadomości e-mail
+    /// </summary>
     public class EmailService : IEmailSender
     {
         private readonly EmailSenderConfiguration _emailConfig;
@@ -22,8 +24,12 @@ namespace Application.Services.EmailSends
             Send(emailMessage);
         }
 
-        // Prywatna metoda do tworzenia obiektu MimeMessage na podstawie danych wiadomości
-        // Metoda do utworzenia wiadomości i jej treści
+        /// <summary>
+        /// Prywatna metoda do tworzenia obiektu MimeMessage na podstawie danych wiadomości
+        /// Metoda do utworzenia wiadomości i jej treści
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
         private MimeMessage CreateEmailMessage(EmailMessage message)
         {
             var emailMessage = new MimeMessage();
@@ -37,7 +43,10 @@ namespace Application.Services.EmailSends
             return emailMessage;
         }
 
-        // Metoda do wysłania wiadomości e-mail wykorzystująca w tym celu klienta SMTP
+        /// <summary>
+        /// Metoda do wysłania wiadomości e-mail wykorzystująca w tym celu klienta SMTP
+        /// </summary>
+        /// <param name="mailMessage"></param>
         private void Send(MimeMessage mailMessage)
         {
             using (var client = new SmtpClient())

@@ -194,7 +194,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        [Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("allnopagination")]
         public async Task<IActionResult> GetAdminsListNoPagination()
         {

@@ -28,7 +28,7 @@ namespace Application.CQRS.Dishes
                 try
                 {
                     var dishesList = _context.DishesDb
-                    .Where(d => d.DieticianId == null)
+                    .Where(d => d.DieticianId == null && d.isActive)
                     .Select(d => new DishGetDTO
                     {
                         Id = d.Id,

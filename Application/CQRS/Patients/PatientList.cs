@@ -29,22 +29,23 @@ namespace Application.CQRS.Patients
                 try
                 {
                     var patientsList = _context.PatientsDb
-                    .Include(a => a.Address)
-                    .Select(a => new PatientGetDTO
-                    {
-                        Id = a.Id,
-                        FirstName = a.FirstName,
-                        LastName = a.LastName,
-                        PatientName = a.FirstName + " " + a.LastName,
-                        Email = a.Email,
-                        PhoneNumber = a.PhoneNumber,
-                        BirthDate = a.BirthDate,
-                        Address = new AddressesDTO
+                        .Where(a => a.isActive)
+                        .Include(a => a.Address)
+                        .Select(a => new PatientGetDTO
                         {
-                            City = a.Address.City,
-                        }
-                    })
-                    .AsQueryable();
+                            Id = a.Id,
+                            FirstName = a.FirstName,
+                            LastName = a.LastName,
+                            PatientName = a.FirstName + " " + a.LastName,
+                            Email = a.Email,
+                            PhoneNumber = a.PhoneNumber,
+                            BirthDate = a.BirthDate,
+                            Address = new AddressesDTO
+                            {
+                                City = a.Address.City,
+                            }
+                        })
+                        .AsQueryable();
 
                     patientsList = patientsList.PatientSearch(request.Params.SearchTerm);
                     patientsList = patientsList.PatientSort(request.Params.OrderBy);

@@ -30,7 +30,7 @@ namespace Application.CQRS.Bills
                     {
                         var billsList = await _context.DietSalesBillsDb
                             .Include(b => b.Sales)
-                            .Where(b => b.DieticianId == request.DieticianId)
+                            .Where(b => b.DieticianId == request.DieticianId && b.Sales.isActive)
                             .ToListAsync(cancellationToken);
 
                         var billsListDto = new List<DietSalesBillGetDTO>();

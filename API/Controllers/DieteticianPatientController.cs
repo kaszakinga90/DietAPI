@@ -11,7 +11,7 @@ namespace API.Controllers
         {
         }
 
-        [Authorize(Roles = "SuperAdmin, Admin, Patient")]
+        //[Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("patient/{patientId}")]
         public async Task<IActionResult> GetDieteticianPatient(int patientId)
         {
@@ -19,7 +19,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
+        //[Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("dietician/{dieticianId}")]
         public async Task<IActionResult> GetPatientFromDietician(int dieticianId)
         {

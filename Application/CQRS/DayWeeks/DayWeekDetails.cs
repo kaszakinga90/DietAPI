@@ -31,6 +31,7 @@ namespace Application.CQRS.DayWeekDTOs
                 try
                 {
                     var dayWeek = await _context.DayWeeksDb
+                    .Where(x => x.isActive)
                     .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
                     if (dayWeek == null)

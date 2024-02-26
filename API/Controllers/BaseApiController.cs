@@ -6,31 +6,31 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     /// <summary>
-    /// Bazowy kontroler dla wszystkich kontrolerów API.
-    /// Zapewnia wspólne zależności i metody pomocnicze.
+    /// Kontroler podstawowy, z którego dziedziczą wszystkie inne kontrolery
+    /// Zapewnia wspólną obsługę metod
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class BaseApiController : ControllerBase
     {
-        // Mediator do obsługi wzorca CQRS.
+        // Mediator do obsługi wzorca CQRS
         protected readonly IMediator _mediator;
-
+         
         /// <summary>
-        /// Konstruktor inicjalizujący mediator.
+        /// Inicjalizacja mediatora
         /// </summary>
-        /// <param name="mediator">Instancja mediatora do obsługi zapytań i komend.</param>
+        /// <param name="mediator">Instancja mediatora słuząca do obsługi zapytań i komend</param>
         public BaseApiController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         /// <summary>
-        /// Metoda pomocnicza do obsługi wyników zapytań.
+        /// Metoda pomocnicza do obsługi wyników zapytań
         /// </summary>
-        /// <typeparam name="T">Typ zwracany przez Result.</typeparam>
-        /// <param name="result">Obiekt wynikowy zapytania.</param>
-        /// <returns>ActionResult zależny od stanu wyniku.</returns>
+        /// <typeparam name="T">Typ zwracany przez Result</typeparam>
+        /// <param name="result">Obiekt wynikowy zapytania</param>
+        /// <returns>ActionResult, który zalezy od stanu wyniku</returns>
         protected ActionResult HandleResult<T>(Result<T> result)
         {
             if (result == null) return NotFound();
@@ -42,11 +42,11 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Metoda pomocnicza do obsługi stronnicowanych wyników zapytań.
+        /// Metoda pomocnicza do obsługi wyników zapytań
         /// </summary>
-        /// <typeparam name="T">Typ zwracany przez Result w PagedList.</typeparam>
-        /// <param name="result">Obiekt wynikowy zapytania stronnicowanego.</param>
-        /// <returns>ActionResult zależny od stanu wyniku oraz nagłówki paginacji.</returns>
+        /// <typeparam name="T">Typ zwracany przez Result w PagedList</typeparam>
+        /// <param name="result">Obiekt wynikowy zapytania</param>
+        /// <returns>ActionResult, który zalezy od stanu wyniku wraz z nagłówkami paginacji</returns>
         protected ActionResult HandlePagedResult<T>(Result<PagedList<T>> result)
         {
             if (result == null) return NotFound();

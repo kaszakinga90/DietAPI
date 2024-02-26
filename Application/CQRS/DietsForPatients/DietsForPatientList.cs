@@ -29,7 +29,7 @@ namespace Application.CQRS.DietsForPatients
                 try
                 {
                     var dietIds = await _context.DietPatientsDb
-                        .Where(dp => dp.PatientId == request.PatientId)
+                        .Where(dp => dp.PatientId == request.PatientId && dp.isActive)
                         .Select(dp => dp.DietId)
                         .ToListAsync();
 

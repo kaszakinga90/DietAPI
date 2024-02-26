@@ -25,13 +25,14 @@ namespace Application.CQRS.Measures
                 try
                 {
                     var measureList = await _context.MeasuresDb
-                    .Select(m => new MeasureGetDTO
-                    {
-                        Id = m.Id,
-                        Symbol = m.Symbol,
-                        Description = m.Description,
-                    })
-                    .ToListAsync(cancellationToken);
+                        .Where(m => m.isActive)
+                        .Select(m => new MeasureGetDTO
+                        {
+                            Id = m.Id,
+                            Symbol = m.Symbol,
+                            Description = m.Description,
+                        })
+                        .ToListAsync(cancellationToken);
 
                     return Result<List<MeasureGetDTO>>.Success(measureList);
                 }

@@ -25,6 +25,7 @@ namespace Application.CQRS.Dieticians
                 try
                 {
                     var stateList = await _context.DieticiansDb
+                          .Where(m => m.isActive)
                           .Select(m => new DieticianGetDTO
                           {
                               Id = m.Id,

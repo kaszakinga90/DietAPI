@@ -2,11 +2,14 @@
 using Application.DTOs.PrintoutsDTO;
 using DietDB;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Xceed.Words.NET;
 
 namespace Application.CQRS.Printouts
 {
-    // Klasa służąca do tworzenia pliku wydruku parametryzowanego z dokumentu, który dostarczył użytkownik
+    /// <summary>
+    /// Klasa służąca do tworzenia pliku wydruku parametryzowanego z dokumentu, który dostarczył użytkownik
+    /// </summary>
     public class PrintoutByUserTemplateCreate : IRequest<Result<byte[]>>
     {
         public class Command : IRequest<Result<byte[]>>
@@ -23,10 +26,15 @@ namespace Application.CQRS.Printouts
                 _context = context;
             }
 
-            // Obsługa żądania utworzenia pliku
+            /// <summary>
+            /// Obsługa żądania utworzenia pliku
+            /// </summary>
             public async Task<Result<byte[]>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var user = await _context.Users.FindAsync(request.Data.DieticianId);
+                var user = await _context.DieticiansDb
+                    .Include(u => u.Address)
+                    .FirstOrDefaultAsync(u => u.Id == request.Data.DieticianId);
+
                 if (user == null)
                 {
                     return Result<byte[]>.Failure("Użytkownik nie został znaleziony.");
@@ -44,6 +52,13 @@ namespace Application.CQRS.Printouts
                         // Zamiana znaczników na informacje
                         doc.ReplaceText("{FirstName}", user.FirstName ?? string.Empty);
                         doc.ReplaceText("{LastName}", user.LastName ?? string.Empty);
+                        doc.ReplaceText("{Email}", user.Email ?? string.Empty);
+                        doc.ReplaceText("{PhoneNumber}", user.PhoneNumber ?? string.Empty);
+                        doc.ReplaceText("{City}", user.Address.City ?? string.Empty);
+                        doc.ReplaceText("{Street}", user.Address.Street ?? string.Empty);
+                        doc.ReplaceText("{LocalNo}", user.Address.LocalNo ?? string.Empty);
+                        doc.ReplaceText("{ZipCode}", user.Address.ZipCode ?? string.Empty);
+                        doc.ReplaceText("{Country}", user.Address.Country ?? string.Empty);
 
                         // Zapisanie przekształconego pliku do nowego strumienia
                         using (var output = new MemoryStream())

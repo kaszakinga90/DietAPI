@@ -23,15 +23,16 @@ namespace Application.CQRS.Patients
             {
                 try
                 {
-                    var stateList = await _context.PatientsDb
-                          .Select(m => new PatientGetDTO
-                          {
-                              Id = m.Id,
-                              PatientName = m.FirstName+" "+m.LastName,
-                          })
-                          .ToListAsync(cancellationToken);
+                    var patientList = await _context.PatientsDb
+                        .Where(m => m.isActive)
+                        .Select(m => new PatientGetDTO
+                        {
+                            Id = m.Id,
+                            PatientName = m.FirstName + " " + m.LastName,
+                        })
+                        .ToListAsync(cancellationToken);
 
-                    return Result<List<PatientGetDTO>>.Success(stateList);
+                    return Result<List<PatientGetDTO>>.Success(patientList);
                 }
                 catch (Exception ex)
                 {

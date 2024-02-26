@@ -8,7 +8,9 @@ using Application.Validators.Diet;
 using Application.Core;
 using System.Diagnostics;
 
-// Klasa służąca do tworzenia nowej diety
+/// <summary>
+/// Klasa służąca do tworzenia nowej diety
+/// </summary>
 public class DietCreate
 {
     // Klasa reprezentująca komendę do stworzenia nowej diety
@@ -17,7 +19,9 @@ public class DietCreate
         public DietPostDTO DietPostDTO { get; set; }
     }
 
-    // Handler obsługujący logikę tworzenia nowej diety.
+    /// <summary>
+    /// Handler obsługujący logikę tworzenia nowej diety
+    /// </summary>
     public class Handler : IRequestHandler<Command, Result<DietPostDTO>>
     {
         private readonly DietContext _context;
@@ -32,7 +36,9 @@ public class DietCreate
             _validator = validator;
         }
 
-        // Metoda realizująca logikę tworzenia nowej diety
+        /// <summary>
+        /// Metoda realizująca logikę tworzenia nowej diety
+        /// </summary>
         public async Task<Result<DietPostDTO>> Handle(Command request, CancellationToken cancellationToken)
         {
             // sprawdzenie poprawności danych, które przyszły w request
@@ -67,7 +73,9 @@ public class DietCreate
             }
         }
 
-        // Metoda obsługująca dodanie posiłków do harmonogramu diety
+        /// <summary>
+        /// Metoda obsługująca dodanie posiłków do harmonogramu diety
+        /// </summary>
         private async Task AddMealSchedules(Diet diet, List<MealTimeToXYAxisPostDTO> mealTimesDto, CancellationToken cancellationToken)
         {
             try

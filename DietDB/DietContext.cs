@@ -11,12 +11,12 @@ using System.Diagnostics;
 namespace DietDB
 {
     /// <summary>
-    /// Reprezentuje kontekst bazy danych.
+    /// Reprezentuje kontekst bazy danych
     /// </summary>
     public class DietContext : IdentityDbContext<User, Role, int>
     {
         /// <summary>
-        /// Inicjalizuje nową instancję klasy <see cref="DietContext"/> z określonymi opcjami.
+        /// Inicjalizuje nową instancję klasy <see cref="DietContext"/> z określonymi opcjami
         /// </summary>
         /// <param name="options">Opcje dla kontekstu bazy danych.</param>
         public DietContext(DbContextOptions options) : base(options)
@@ -26,7 +26,7 @@ namespace DietDB
         #region DbSet
 
         /// <summary>
-        /// Pobiera lub ustawia kolekcje w bazie danych.
+        /// Pobiera lub ustawia kolekcje w bazie danych
         /// </summary>
         public DbSet<Address> AddressesDb { get; set; }
         public DbSet<CategoryOfDiet> CategoryOfDietsDb { get; set; }
@@ -335,9 +335,12 @@ namespace DietDB
         }
         #endregion
 
+        /// <summary>
+        /// Konfiguracja dodatkowych opcji DbContext, np. logowania zapytań SQL
+        /// </summary>
+        /// <param name="optionsBuilder">opcje</param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // Konfiguracja dodatkowych opcji DbContext, np. logowania zapytań SQL.
             optionsBuilder.LogTo(item => Debug.WriteLine(item));
             // DONE : do usunięcia w wersji produkcyjnej
             optionsBuilder.ConfigureWarnings(w => w.Ignore(SqlServerEventId.SavepointsDisabledBecauseOfMARS));

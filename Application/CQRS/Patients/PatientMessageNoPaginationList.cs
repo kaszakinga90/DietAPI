@@ -26,7 +26,7 @@ namespace Application.CQRS.Patients
                     try
                     {
                         var patientMessagelist = await _context.MessageToDb
-                        .Where(m => m.PatientId == request.PatientId && m.AdminId == null)
+                        .Where(m => m.PatientId == request.PatientId && m.AdminId == null && m.isActive)
                         .Select(m => new MessageToDTO
                         {
                             Id = m.Id,

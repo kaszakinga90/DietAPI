@@ -29,7 +29,7 @@ namespace Application.CQRS.DietsForPatients
                 try
                 {
                     var dietsList = _context.DietsDb
-                    .Where(d => d.DieteticianId == request.DieticianId)
+                    .Where(d => d.DieteticianId == request.DieticianId && d.isActive)
                     .Include(d => d.Patient)
                     .Select(d => new DietGetDTO
                     {

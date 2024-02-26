@@ -25,12 +25,13 @@ namespace Application.CQRS.DayWeeks
                 try
                 {
                     var dayWeeksList = await _context.DayWeeksDb
-                    .Select(m => new DayWeekGetDTO
-                    {
-                        Id = m.Id,
-                        Day = m.Day,
-                    })
-                    .ToListAsync(cancellationToken);
+                        .Where(m => m.isActive)
+                         .Select(m => new DayWeekGetDTO
+                         {
+                             Id = m.Id,
+                             Day = m.Day,
+                         })
+                         .ToListAsync(cancellationToken);
 
                     return Result<List<DayWeekGetDTO>>.Success(dayWeeksList);
                 }

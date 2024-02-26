@@ -28,7 +28,7 @@ namespace Application.CQRS.Patients
                 try
                 {
                     var patientMessagesList = _context.MessageToDb
-                    .Where(m => m.PatientId == request.PatientId && m.PatientSended == false)
+                    .Where(m => m.PatientId == request.PatientId && m.PatientSended == false && m.isActive)
                     .Select(m => new MessageToDTO
                     {
                         Id = m.Id,

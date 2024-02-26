@@ -1,6 +1,8 @@
 ﻿namespace Application.FiltersExtensions.DieticianMessages
 {
-    // Klasa z metodami do sortowania, wyszukiwania i filtrowania dla wiadomości dietetyków
+    /// <summary>
+    /// Klasa z metodami do sortowania, wyszukiwania i filtrowania dla wiadomości dietetyków
+    /// </summary>
     public static class DieticianMessagesExtensions
     {
         /// <summary>

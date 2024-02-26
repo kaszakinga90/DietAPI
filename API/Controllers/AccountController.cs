@@ -16,7 +16,7 @@ using ModelsDB;
 namespace API.Controllers
 {
     /// <summary>
-    /// Kontroler do zarządzania kontami użytkowników, w tym logowanie, rejestracja i zarządzanie kontami.
+    /// Kontroler do zarządzania kontami użytkowników, w tym logowanie, rejestracja i zarządzanie kontami
     /// </summary>
     public class AccountController : BaseApiController
     {
@@ -32,10 +32,10 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Metoda do logowania użytkowników.
+        /// Metoda do logowania użytkowników
         /// </summary>
-        /// <param name="loginDTO">Obiekt DTO zawierający dane logowania.</param>
-        /// <returns>Zwraca dane użytkownika i token JWT w przypadku sukcesu, lub komunikat o błędzie.</returns>
+        /// <param name="loginDTO">Obiekt z danymi logowania</param>
+        /// <returns>Zwraca dane użytkownika i token JWT, jeśli operacja się powiedzie lub komunikat o błędzie w wyniku niepowodzenia</returns>
         [HttpPost("login")]
         public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDTO)
         {
@@ -58,10 +58,10 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Metoda do rejestracji nowego pacjenta.
+        /// Metoda do rejestracji nowego pacjenta
         /// </summary>
-        /// <param name="registerDTO">Obiekt DTO z danymi do rejestracji pacjenta.</param>
-        /// <returns>Zwraca informację o sukcesie lub błędzie.</returns>
+        /// <param name="registerDTO">Obiekt zawierający dane rejestracji pacjenta</param>
+        /// <returns>Komunikat zwrotny o błędzie lub sukcesie</returns>
         // IMPORTANT : FROM SQL - trigger tworzący obiekt Adres 
         [AllowAnonymous]
         [HttpPost("registerPatient")]
@@ -93,6 +93,7 @@ namespace API.Controllers
                 {
                     var confirmationLink = $"http://localhost:3000/registerConfirm?userId={user.Id}&token={emailConfirmationToken}";
                     var emailBody = $"Potwierdź swoje konto, klikając <a href='{confirmationLink}'>tutaj</a>";
+                    // TODO : tu można zmienić nadawcę wiadomości email
                     var messageEmail = new EmailMessage(new string[] { "testtesttest@test.com" }, "Test email", emailBody);
                     _emailService.SendEmail(messageEmail);
 
@@ -149,6 +150,7 @@ namespace API.Controllers
                 {
                     var confirmationLink = $"http://localhost:3000/registerConfirm?userId={user.Id}&token={emailConfirmationToken}";
                     var emailBody = $"Potwierdź swoje konto, klikając <a href='{confirmationLink}'>tutaj</a>";
+                    // TODO : tu można zmienić nadawcę wiadomości email
                     var message = new EmailMessage(new string[] { "testtesttest@test.com" }, "Test email", emailBody);
                     _emailService.SendEmail(message);
                 }
@@ -195,6 +197,7 @@ namespace API.Controllers
                 {
                     var confirmationLink = $"http://localhost:3000/registerConfirm?userId={user.Id}&token={emailConfirmationToken}";
                     var emailBody = $"Potwierdź swoje konto, klikając <a href='{confirmationLink}'>tutaj</a>";
+                    // TODO : tu można zmienić nadawcę wiadomości email
                     var message = new EmailMessage(new string[] { "testtesttest@test.com" }, "Test email", emailBody);
                     _emailService.SendEmail(message);
                 }

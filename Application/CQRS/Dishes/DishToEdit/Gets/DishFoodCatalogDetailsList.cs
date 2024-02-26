@@ -29,7 +29,7 @@ namespace Application.CQRS.Dishes.DishToEdit.Gets
                 {
                     var dishFoodCatalogList = await _context.DishFoodCatalogsDb
                         .Include(d => d.FoodCatalog)
-                        .Where(d => d.DishId == request.DishId)
+                        .Where(d => d.DishId == request.DishId && d.isActive)
                     .Select(d => new DishFoodCatalogsDetailsGetEditDTO
                     {
                         Id = d.Id,

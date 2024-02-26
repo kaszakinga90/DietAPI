@@ -31,6 +31,7 @@ namespace Application.CQRS.DieticiansBusinessesCards
                 try
                 {
                     var businessCardsList = await _context.DieticiansDb
+                        .Where(d => d.isActive)
                         .Include(d => d.DieticianOffices)
                             .ThenInclude(o => o.Office)
                                 .ThenInclude(a => a.Address)

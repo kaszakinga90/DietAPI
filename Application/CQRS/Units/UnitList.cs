@@ -25,13 +25,14 @@ namespace Application.CQRS.Units
                 try
                 {
                     var unitList = await _context.UnitsDb
-                    .Select(m => new UnitGetDTO
-                    {
-                        Id = m.Id,
-                        Symbol = m.Symbol,
-                        Description = m.Description,
-                    })
-                    .ToListAsync(cancellationToken);
+                        .Where(m => m.isActive)
+                        .Select(m => new UnitGetDTO
+                        {
+                            Id = m.Id,
+                            Symbol = m.Symbol,
+                            Description = m.Description,
+                        })
+                        .ToListAsync(cancellationToken);
 
                     return Result<List<UnitGetDTO>>.Success(unitList);
                 }

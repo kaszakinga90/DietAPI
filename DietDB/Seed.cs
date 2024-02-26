@@ -5,6 +5,10 @@ using ModelsDB.Functionality;
 
 namespace DietDB
 {
+    /// <summary>
+    /// Klasa ładująca przykładowe dane do bazy danych
+    /// Ładuje również trigger, procedurę składowaną i widok
+    /// </summary>
     public class Seed
     {
         public static async Task SeedData(DietContext context, UserManager<User> userManager)

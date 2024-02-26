@@ -30,7 +30,7 @@ namespace Application.CQRS.Dishes
                 try
                 {
                     var dishesFoodCatalogsList = _context.DishFoodCatalogsDb
-                    .Where(d => d.FoodCatalogId==request.FoodCatalogId)
+                    .Where(d => d.FoodCatalogId == request.FoodCatalogId && d.isActive)
                     .Select(d => new DishFoodCatalogGetDTO
                     {
                         Id = d.Id,

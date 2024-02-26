@@ -25,6 +25,7 @@ namespace Application.CQRS.Admins
                 try
                 {
                     var AdminList = await _context.AdminsDb
+                          .Where(m => m.isActive)
                           .Select(m => new AdminGetDTO
                           {
                               Id = m.Id,

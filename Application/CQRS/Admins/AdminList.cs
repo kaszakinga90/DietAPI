@@ -30,6 +30,7 @@ namespace Application.CQRS.Admins
                 try
                 {
                     var adminsList = _context.AdminsDb
+                    .Where(m => m.isActive)
                     .Include(a => a.Address)
                     .Select(a => new AdminGetDTO
                     {

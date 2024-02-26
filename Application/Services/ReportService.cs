@@ -7,7 +7,9 @@ using MediatR;
 
 namespace Application.Services
 {
-    // Serwis do tworzenia róznych typów raportów
+    /// <summary>
+    /// Serwis do tworzenia róznych typów raportów
+    /// </summary>
     public class ReportService
     {
         private readonly IMediator _mediator;
@@ -89,7 +91,9 @@ namespace Application.Services
             }
         }
 
-        // Określenie dostępnych typów raportów
+        /// <summary>
+        /// Określenie dostępnych typów raportów
+        /// </summary>
         public enum ReportTypeEnum
         {
             MeasurementsHistoryReport,

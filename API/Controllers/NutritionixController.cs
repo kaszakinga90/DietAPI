@@ -32,6 +32,10 @@ namespace API.Controllers
             {
                 // Dane dostępowe do API Nutritionix.
                 string apiUrl = "https://trackapi.nutritionix.com/v2/search/instant";
+
+                // TODO : tu należy wpisać dane dostępowe do zewnętrznego API Nutritionix
+                //string appIdNutritionix = "xxxxxxx";
+                //string appKeyNutritionix = "xxxxxxxx";
                 string appIdNutritionix = "724e67dc";
                 string appKeyNutritionix = "774b737e8771633bb04f37ce0abf814b";
 
