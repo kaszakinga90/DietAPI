@@ -91,6 +91,7 @@ namespace Application.CQRS.Diets
                                 {
                                     IngredientName = di.Ingredient?.Name,
                                     Quantity = di.Quantity,
+                                    UnitName = di.Unit.Symbol,
                                 }).ToList(),
 
                                 RecipeStepsDTO = mealTimeToXYAxis.Dish?.Recipe?.Steps?.Select(step => new RecipeStepToDietDetailsGetDTO
