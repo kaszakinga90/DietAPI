@@ -20,7 +20,6 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        //[Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("allForPatient/{patientId}")]
         public async Task<IActionResult> GetInvitationsForPatient(int patientId)
         {
@@ -35,7 +34,6 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        //[Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("allForDietician/{dieticianId}")]
         public async Task<IActionResult> GetInvitationsForDietician(int dieticianId)
         {
@@ -43,7 +41,6 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        //[Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpGet("allForDieticianpagination/{dieticianId}")]
 
         public async Task<IActionResult> GetInvitationsForDieticianPagination([FromQuery] InvitationParams pagingParams, int dieticianId)
@@ -59,7 +56,6 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        //[Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
         [HttpPost("send")]
         public async Task<IActionResult> InvitationMessageToDietetician(InvitationPostDTO invitationPostDto)
         {
@@ -72,7 +68,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        //[Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPut("confirm/{invitationId}")]
         public async Task<IActionResult> AcceptInvitation(int invitationId, InvitationPutDTO invitationPutDTO)
         {
@@ -89,7 +85,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        //[Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
+        [Authorize(Roles = "SuperAdmin, Admin, Dietetician")]
         [HttpPut("decline/{invitationId}")]
         public async Task<IActionResult> DeclineInvitation(int invitationId, InvitationPutDTO invitationPutDTO)
         {
@@ -106,7 +102,6 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        //[Authorize(Roles = "SuperAdmin, Admin, Patient")]
         [HttpPut("resend/{invitationId}")]
         public async Task<IActionResult> ResendInvitation(int invitationId, InvitationPutDTO invitationPutDTO)
         {

@@ -11,6 +11,8 @@ namespace Application.BusinessLogic.DietSaleses
         public class Command : IRequest<Result<List<DietSalesDTO>>>
         {
             public int DieticianId { get; set; }
+            public DateTime StartDate { get; set; }
+            public DateTime EndDate { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Result<List<DietSalesDTO>>>
@@ -24,8 +26,11 @@ namespace Application.BusinessLogic.DietSaleses
 
             public async Task<Result<List<DietSalesDTO>>> Handle(Command request, CancellationToken cancellationToken)
             {
+                //var startDate = DateTime.Parse(request.StartDate);
+                //var endDate = DateTime.Parse(request.EndDate);
+
                 var dietSales = await _context.DietsDb
-                    .Where(m => m.DieteticianId == request.DieticianId)
+                    .Where(m => m.DieteticianId == request.DieticianId && (m.dateAdded >= request.StartDate && m.dateAdded <= request.EndDate))
                     .Include(diet => diet.Patient)
                     .Select(d => new DietSalesDTO
                     {

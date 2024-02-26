@@ -1,11 +1,9 @@
 ﻿using Application.CQRS.CountryStates;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    //[Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
     public class CountryStateController : BaseApiController
     {
         public CountryStateController(IMediator mediator) : base(mediator)

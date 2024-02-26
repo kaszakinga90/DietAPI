@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    //[Authorize(Roles = "SuperAdmin, Admin, Dietetician, Patient")]
     public class DieticianBusinessCardController : BaseApiController
     {
         public DieticianBusinessCardController(IMediator mediator) : base(mediator)
