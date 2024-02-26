@@ -46,11 +46,15 @@ namespace API.Controllers
             if (!user.EmailConfirmed)
                 return Unauthorized("Email nie został potwierdzony.");
 
+            var token = await _tokenService.GenerateToken(user);
+            Console.WriteLine("Token from api is: ", token.ToString());
+
+
             return new UserDTO
             {
                 Id = user.Id,
                 Email = user.Email,
-                Token = await _tokenService.GenerateToken(user),
+                Token = token,
                 IsPatient = user.isPatient,
                 IsDietician = user.isDietician,
                 IsAdmin = user.isAdmin
