@@ -57,7 +57,10 @@ namespace Application.Services
                 // Poleecenie utworzenia raportu: Opracowane diety wraz z ich rozliczeniem
                 case ReportTypeEnum.DietSalesReport:
                     {
-                        var dsdtoResult = await _mediator.Send(new DietSalesCreateDetails.Command { DieticianId = (int)dietitianId });
+                        var dsdtoResult = await _mediator.Send(new DietSalesCreateDetails.Command { DieticianId = (int)dietitianId,
+                            StartDate = (DateTime)startDate,
+                            EndDate = (DateTime)endDate
+                        });
 
                         if (dsdtoResult.IsSucces)
                         {
