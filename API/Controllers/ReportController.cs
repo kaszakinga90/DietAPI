@@ -27,6 +27,9 @@ namespace API.Controllers
         public async Task<IActionResult> GenerateReport(int templateId, ReportTypeEnum reportType, int? dieticianId = null, int? dietId = null,
                                                         int? patientId = null, DateTime? startDate = null, DateTime? endDate = null)
         {
+            
+
+
             var template = _context.ReportTemplatesDb.Find(templateId);
 
             if (template == null)
@@ -39,6 +42,9 @@ namespace API.Controllers
                 // Właściwe tworzenie raportu
                 var reportServiceResult = await _reportService.CreateReport(reportType, dieticianId, dietId, patientId, startDate, endDate);
 
+                var sd = startDate;
+                var ed = endDate;
+
                 if (reportServiceResult.IsSucces)
                 {
                     var reportService = reportServiceResult.Value;
@@ -48,6 +54,7 @@ namespace API.Controllers
                 }
                 else
                 {
+                    Console.WriteLine($"Raport nie mógł zostać wygenerowany. Powód: {reportServiceResult.Error}");
                     return BadRequest($"Raport nie mógł zostać wygenerowany. Powód: {reportServiceResult.Error}");
                 }
             }
